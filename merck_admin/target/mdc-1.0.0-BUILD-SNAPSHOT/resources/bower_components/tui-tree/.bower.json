@@ -1,0 +1,42 @@
+{
+  "name": "tui-tree",
+  "authors": [
+    "NHN. FE dev lab.<dl_javascript@nhn.com>"
+  ],
+  "main": [
+    "dist/tui-tree.js",
+    "dist/tui-tree.css"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "examples",
+    "src",
+    "test",
+    "jsdoc.conf.json",
+    "karma.conf.js",
+    "webpack.config.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "tui-code-snippet": "^1.5.0",
+    "tui-context-menu": "^2.1.1"
+  },
+  "devDependencies": {
+    "jquery": "^1.11.0"
+  },
+  "homepage": "https://github.com/nhnent/tui.tree",
+  "version": "3.5.3",
+  "_release": "3.5.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v3.5.3",
+    "commit": "910b7485aecbfc2f5718f921d51abcf62e2f2ed0"
+  },
+  "_source": "https://github.com/nhnent/tui.tree.git",
+  "_target": "^3.5.3",
+  "_originalSource": "tui-tree",
+  "_direct": true
+}

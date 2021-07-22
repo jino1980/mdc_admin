@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardVO">
+
+    <select id="countAll" resultType="int">
+        SELECT count(1) FROM board
+    </select>
+
+    <select id="findOneById" parameterType="int" resultType="com.merck.catalog.admin.vo.BoardVO">
+        SELECT * FROM board where id = #{value}
+    </select>
+
+    <select id="findAllByPageVO" parameterType="com.merck.catalog.admin.vo.PageVO" resultType="com.merck.catalog.admin.vo.BoardVO">
+        SELECT *
+		FROM board 
+		ORDER BY id DESC
+		LIMIT #{startContent}, #{perPage};
+    </select>
+    
+    <insert id="insert" parameterType="com.merck.catalog.admin.vo.BoardVO">
+    	INSERT INTO board
+    	(board_content, password, writer, insDate)
+    	VALUES (#{board_content}, #{password}, #{writer}, now())
+    </insert>
+    
+    <update id="update" parameterType="com.merck.catalog.admin.vo.BoardVO">
+    	UPDATE board
+    	SET
+    	    board_content = #{board_content},
+    	    password = #{password},
+    	    writer = #{writer},
+    	    insDate = now()
+    	WHERE id = #{id}
+    </update>
+    
+    <delete id="delete" parameterType="int">
+    	DELETE FROM board WHERE id = #{value}
+    </delete>
+    
+    <select id="checkPassword" parameterType="com.merck.catalog.admin.vo.BoardVO" resultType="int">
+        SELECT count(1) FROM board
+        WHERE id = #{id}
+        AND password = #{password}
+    </select>
+    
+</mapper>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang='ko'>
+
+<head>
+    <!--[if lt IE 9]>
+	    <script src="../resource/js/html5shiv.js"></script>
+	<![endif]-->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width" />
+
+    <script src="../resource/js/jquery-3.3.1.js"></script>
+    <script src="../bower_components/js-cookie/src/js.cookie.js"></script>
+    <script src="../bower_components/underscore/underscore.js"></script>
+    <script src="../bower_components/backbone/backbone.js"></script>
+    <script src="../bower_components/tui-code-snippet/dist/tui-code-snippet.js"></script>
+    <script src="../bower_components/tui-dom/dist/tui-dom.js"></script>
+    <script src="../bower_components/tui-pagination/dist/tui-pagination.js"></script>
+    <script src="../bower_components/tui-time-picker/dist/tui-time-picker.js"></script>
+    <script src="../bower_components/tui-date-picker/dist/tui-date-picker.js"></script>
+    <script src="../bower_components/tui-auto-complete/dist/tui-auto-complete.js"></script>
+    <script src="../bower_components/tui-floating-layer/dist/tui-floating-layer.js"></script>
+    <script src="../bower_components/tui-file-uploader/dist/tui-file-uploader.js"></script>
+    <script src="../bower_components/tui-tree/dist/tui-tree.js"></script>
+    <script src="../bower_components/tui-context-menu/dist/tui-context-menu.js"></script>
+    <script src="../bower_components/tui-grid/dist/tui-grid.js"></script>
+    <script src="../bower_components/vanilla-Notify-master/dist/vanilla-notify.js"></script>
+    <script src="../resource/js/fileUtil.js"></script>
+    <script src="../resource/js/ui_common.js"></script>
+
+    <link href="../bower_components/tui-grid/dist/tui-grid.css" rel="stylesheet" />
+    <link href="../bower_components/tui-pagination/dist/tui-pagination.css" rel="stylesheet" />
+    <link href="../bower_components/tui-time-picker/dist/tui-time-picker.css" rel="stylesheet" />
+    <link href="../bower_components/tui-date-picker/dist/tui-date-picker.css" rel="stylesheet" />
+    <link href="../bower_components/tui-floating-layer/dist/tui-floating-layer.css" rel="stylesheet" />
+    <link href="../bower_components/tui-file-uploader/dist/tui-file-uploader.css" rel="stylesheet" />
+    <link href="../bower_components/tui-tree/dist/tui-tree.css" rel="stylesheet" />
+    <link href="../bower_components/tui-context-menu/dist/tui-context-menu.css" rel="stylesheet" />
+    <link href="../bower_components/vanilla-Notify-master/dist/vanilla-notify.css" rel="stylesheet" />
+    <link href="../resource/css/content.css" rel="stylesheet" />
+
+    <title>관리자</title>
+</head>
+
+<body>
+    <!-- wrap -->
+    <div class="wrap">
+
+        <!-- lnb_wrap -->
+        <div class="lnb_wrap">
+            <div class="logo"><img src="../resource/images/logo_main.svg" alt="MDC"></div>
+            <div class="lnb_con">
+                <div class="lnb_title">관리자 메뉴</div>
+                <ul class="lnb_menu">
+                    <li><a href="#">카탈로그 관리</a>
+                        <ul class="lnb_menu_depth">
+                            <li><a href="#">카탈로그 목록</a></li>
+                            <li><a href="#">카탈로그 등록</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="on">알림 관리</a>
+                        <ul class="lnb_menu_depth">
+                            <li><a href="#">공지사항</a></li>
+                            <li><a href="#" class="on">푸시 관리</a></li>
+                            <li><a href="#">팝업 관리</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">환경설정</a>
+                        <ul class="lnb_menu_depth">
+                            <li><a href="#">카테고리 관리</a></li>
+                            <li><a href="#">문의 담당자 관리</a></li>
+                            <li><a href="#">도움말 관리</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- // lnb_wrap -->
+
+        <!-- content_wrap -->
+        <div class="content_wrap">
+
+            <!-- header -->
+            <div class="header">
+
+                <div class="info">
+                    <span class="logout"><button type="button" title="로그아웃"></button></span>
+                </div>
+                <ul class="gnb_menu">
+                    <li>
+                        <a href="#" class="on" class="sel">푸시 등록</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- // header -->
+
+            <!-- content -->
+
+            <div class="content">
+                <!-- 작성폼 -->
+                <div class="tb_create">
+                    <table>
+                        <caption>등록</caption>
+                        <colgroup>
+                            <col width="160">
+                            <col>
+                            <col width="160">
+                            <col>
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th scope="row">
+                                    제목
+                                </th>
+                                <td colspan="3">
+                                    <input type="text" name="" id="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    카테고리
+                                </th>
+                                <td colspan="3">
+									<ul class="inputbox">
+										<li>
+											<input type="checkbox" id="checkbox01_1" name="checkbox01"><label
+												for="checkbox01_1">전체</label>
+										</li>
+										<li>
+											<input type="checkbox" id="checkbox01_2" name="checkbox01"><label
+												for="checkbox01_2">생명과학</label>
+										</li>
+										<li>
+											<input type="checkbox" id="checkbox01_3" name="checkbox01"><label
+												for="checkbox01_3">화학</label>
+										</li>
+										<li>
+											<input type="checkbox" id="checkbox01_4" name="checkbox01"><label
+												for="checkbox01_4">재료과학</label>
+										</li>
+										<li>
+											<input type="checkbox" id="checkbox01_5" name="checkbox01"><label
+												for="checkbox01_5">QA/QC</label>
+										</li>
+										<li>
+											<input type="checkbox" id="checkbox01_6" name="checkbox01"><label
+												for="checkbox01_6">기타</label>
+										</li>
+									</ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    간략내용
+                                </th>
+                                <td colspan="3">
+                                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    카탈로그 경로
+                                </th>
+                                <td>
+                                    <input type="text" name="" id="">
+                                </td>
+                                <th scope="row">
+                                    발행일
+                                </th>
+                                <td>
+                                    <button class="tb_btn state" disabled>현재</button><button class="tb_btn state">예약</button>
+                                    <div class="datepicker_box">
+                                        <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+                                            <input type="text" id="datepicker-input1" aria-label="Date-Time">
+                                            <span class="tui-ico-date"></span>
+                                        </div>
+                                        <div id="wrapper1" style="margin-top: -1px;"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- // 작성폼 -->
+
+
+                <!-- 페이징 + 버튼 -->
+                <div class="paging_box">
+                    <div class="btn_box">
+                        <button type="button" class="btn btn_default">임시저장</button>
+                        <button type="button" class="btn btn_default">등록</button>
+                    </div>
+                </div>
+                <!-- // 페이징 + 버튼 -->
+
+            </div>
+            <!-- // content -->
+
+        </div>
+        <!-- // content_wrap -->
+    </div>
+    <!-- // wrap -->
+
+    <script>
+        var datepicker1 = new tui.DatePicker('#wrapper1', {
+            date: new Date(),
+            timepicker: true,
+            input: {
+                element: '#datepicker-input1',
+                format: 'yyyy-MM-dd HH:mm A'
+            }
+        });
+
+        fileUtil.init();
+    </script>
+</body>
+
+</html>

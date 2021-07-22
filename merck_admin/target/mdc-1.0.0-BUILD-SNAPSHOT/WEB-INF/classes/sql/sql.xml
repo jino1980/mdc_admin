@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sql">
+  
+    <select id="zoro" resultType="com.merck.catalog.admin.vo.HomeVO">
+        SELECT * FROM zoro
+    </select>
+    
+    <select id="getUser" parameterType="java.lang.String" resultType="com.merck.catalog.admin.vo.UserVO">
+        SELECT id, name, password FROM zoro WHERE name = #{username}
+    </select>
+    
+    <select id="getUserCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM zoro WHERE name = #{username}
+    </select>
+    
+    <insert id="insertUser" parameterType="com.merck.catalog.admin.vo.UserVO">
+    	insert into zoro
+    	(name, password)
+    	values(#{name}, #{password})
+    </insert>
+    
+    <insert id="insertAuth" parameterType="com.merck.catalog.admin.vo.UserVO">
+    	insert into authorities
+    	(name, authority)
+    	values(#{name}, #{authority})
+    </insert>
+    
+</mapper>

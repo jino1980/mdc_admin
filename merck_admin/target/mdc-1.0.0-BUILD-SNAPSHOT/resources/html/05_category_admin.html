@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang='ko'>
+
+<head>
+    <!--[if lt IE 9]>
+	    <script src="../resource/js/html5shiv.js"></script>
+	<![endif]-->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width" />
+
+    <script src="../resource/js/jquery-3.3.1.js"></script>
+    <script src="../bower_components/js-cookie/src/js.cookie.js"></script>
+    <script src="../bower_components/underscore/underscore.js"></script>
+    <script src="../bower_components/backbone/backbone.js"></script>
+    <script src="../bower_components/tui-code-snippet/dist/tui-code-snippet.js"></script>
+    <script src="../bower_components/tui-dom/dist/tui-dom.js"></script>
+    <script src="../bower_components/tui-pagination/dist/tui-pagination.js"></script>
+    <script src="../bower_components/tui-time-picker/dist/tui-time-picker.js"></script>
+    <script src="../bower_components/tui-date-picker/dist/tui-date-picker.js"></script>
+    <script src="../bower_components/tui-auto-complete/dist/tui-auto-complete.js"></script>
+    <script src="../bower_components/tui-floating-layer/dist/tui-floating-layer.js"></script>
+    <script src="../bower_components/tui-file-uploader/dist/tui-file-uploader.js"></script>
+    <script src="https://uicdn.toast.com/tui.context-menu/v2.1.9/tui-context-menu.min.js"></script>
+    <script src="../bower_components/tui-tree/dist/tui-tree.js"></script>
+    <script src="../bower_components/tui-context-menu/dist/tui-context-menu.js"></script>
+    <script src="../bower_components/tui-grid/dist/tui-grid.js"></script>
+    <script src="../bower_components/vanilla-Notify-master/dist/vanilla-notify.js"></script>
+    <script src="../resource/js/fileUtil.js"></script>
+    <script src="../resource/js/ui_common.js"></script>
+
+    <link href="../bower_components/tui-grid/dist/tui-grid.css" rel="stylesheet" />
+    <link href="../bower_components/tui-pagination/dist/tui-pagination.css" rel="stylesheet" />
+    <link href="../bower_components/tui-time-picker/dist/tui-time-picker.css" rel="stylesheet" />
+    <link href="../bower_components/tui-date-picker/dist/tui-date-picker.css" rel="stylesheet" />
+    <link href="../bower_components/tui-floating-layer/dist/tui-floating-layer.css" rel="stylesheet" />
+    <link href="../bower_components/tui-file-uploader/dist/tui-file-uploader.css" rel="stylesheet" />
+    <link href="../bower_components/tui-tree/dist/tui-tree.css" rel="stylesheet" />
+    <link href="../bower_components/tui-context-menu/dist/tui-context-menu.css" rel="stylesheet" />
+    <link href="../bower_components/vanilla-Notify-master/dist/vanilla-notify.css" rel="stylesheet" />
+
+    <link href="../resource/css/content.css" rel="stylesheet" />
+
+    <title>관리자</title>
+</head>
+
+<body>
+    <!-- wrap -->
+    <div class="wrap">
+
+        <!-- lnb_wrap -->
+        <div class="lnb_wrap">
+            <div class="logo"><img src="../resource/images/logo_main.svg" alt="MDC"></div>
+            <div class="lnb_con">
+                <div class="lnb_title">관리자 메뉴</div>
+                <ul class="lnb_menu">
+                    <li><a href="#">카탈로그 관리</a>
+                        <ul class="lnb_menu_depth">
+                            <li><a href="#">카탈로그 목록</a></li>
+                            <li><a href="#">카탈로그 등록</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">알림 관리</a>
+                        <ul class="lnb_menu_depth">
+                            <li><a href="#">공지사항</a></li>
+                            <li><a href="#">푸시 관리</a></li>
+                            <li><a href="#">팝업 관리</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="on">환경설정</a>
+                        <ul class="lnb_menu_depth">
+                            <li><a href="#" class="on">카테고리 관리</a></li>
+                            <li><a href="#">문의 담당자 관리</a></li>
+                            <li><a href="#">도움말 관리</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- // lnb_wrap -->
+
+        <!-- content_wrap -->
+        <div class="content_wrap">
+
+            <!-- header -->
+            <div class="header">
+
+                <div class="info">
+                    <span class="logout"><button type="button" title="로그아웃"></button></span>
+                </div>
+                <ul class="gnb_menu">
+                    <li>
+                        <a href="#" class="on" class="sel">카테고리 관리</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- // header -->
+
+            <!-- content -->
+
+            <div class="content">
+                <!-- 카테고리 리스트 -->
+                <div id="tree" class="tui-tree-wrap"></div>
+                <!-- // 카테고리 리스트 -->
+                <!-- 페이징 + 버튼 -->
+                <div class="paging_box">
+                    <div class="btn_box">
+                        <button type="button" class="btn btn_default" id="addChildBtn">추가</button>
+                        <button type="button" class="btn btn_default">저장</button>
+                    </div>
+                </div>
+                <!-- // 페이징 + 버튼 -->
+
+            </div>
+            <!-- // content -->
+
+        </div>
+        <!-- // content_wrap -->
+    </div>
+    <!-- // wrap -->
+
+
+    <script>
+        var util = {
+            addEventListener: function (element, eventName, handler) {
+                if (element.addEventListener) {
+                    element.addEventListener(eventName, handler, false);
+                } else {
+                    element.attachEvent('on' + eventName, handler);
+                }
+            }
+        };
+
+        var data = [{
+                text: '생명과학'
+            },
+            {
+                text: '화학'
+            },
+            {
+                text: '재료과학'
+            }
+        ];
+
+        var movedValue = document.getElementById('movedValue');
+
+        var tree = new tui.Tree('tree', {
+            data: data,
+            nodeDefaultState: 'opened'
+        }).enableFeature('Draggable', {
+            helperClassName: 'tui-tree-drop',
+            lineClassName: 'tui-tree-line',
+            isSortable: true
+        }).enableFeature('Editable', {
+            dataKey: 'text'
+        }).enableFeature('ContextMenu', {
+            menuData: [{
+                title: '삭제'
+            }]
+        })
+
+        tree.on('beforeOpenContextMenu', function (nodeId) {
+            var menuData = [{
+                title: '삭제'
+            }];
+            tree.changeContextMenu(menuData); // change menu api
+        });
+
+
+        tree.on('move', function (eventData) {
+            var msg;
+
+            msg = 'nodeId: ' + eventData.nodeId + '\n';
+            msg += 'originalParentId: ' + eventData.originalParentId + '\n';
+            msg += 'newParentId: ' + eventData.newParentId + '\n';
+            msg += 'index: ' + eventData.index + '\n';
+
+            movedValue.value = msg;
+        });
+
+        var addBtn = document.getElementById('addChildBtn');
+        var removeBtn = document.getElementById('removeChildBtn');
+        var rootNodeId = tree.getRootNodeId();
+
+        util.addEventListener(addBtn, 'click', function () {
+            tree.add({
+                text: '새 카테고리'
+            }, rootNodeId);
+        });
+    </script>
+</body>
+
+</html>
