@@ -2726,3 +2726,112 @@ input[type=file] {
 	display: inline;
 	color: #cc0000;
 }
+
+.help_list ul {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -10px
+}
+
+.help_list ul li {
+	display: inline-flex;
+	flex-direction: column;
+	margin: 10px;
+	position: relative;
+}
+
+.help_list ul li a img {
+	vertical-align: top;
+}
+
+.help_list ul li .btn_box {
+	display: none;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 46px;
+	background: rgba(0, 0, 0, .2);
+}
+
+.help_list ul li:hover .btn_box {
+	display: block;
+}
+
+.prev_btn {
+	position: absolute;
+	top: 50%;
+	left: 10px;
+	width: 32px;
+	height: 32px;
+	margin-top: -16px;
+	background: url(../images/controls.png) no-repeat;
+	background-position: 0 -32px;
+}
+
+.prev_btn:hover {
+	position: absolute;
+	top: 50%;
+	left: 10px;
+	width: 32px;
+	height: 32px;
+	margin-top: -16px;
+	background: url(../images/controls.png) no-repeat;
+	background-position: 0 0;
+}
+
+.next_btn {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	width: 32px;
+	height: 32px;
+	margin-top: -16px;
+	background: url(../images/controls.png) no-repeat;
+	background-position: -43px -32px;
+}
+
+.next_btn:hover {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	width: 32px;
+	height: 32px;
+	margin-top: -16px;
+	background: url(../images/controls.png) no-repeat;
+	background-position: -43px 0;
+}
+
+.help_list .add_file button {
+	width: 150px;
+	height: 200px;
+	display: block;
+	border: 1px solid #ddd;
+	position: relative;
+}
+
+.help_list .add_file button::before {
+	content: '';
+	display: block;
+	width: 2px;
+	height: 30px;
+	background: #aaa;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -15px;
+	margin-left: -1px;
+}
+
+.help_list .add_file button::after {
+	content: '';
+	display: block;
+	width: 30px;
+	height: 2px;
+	background: #aaa;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -1px;
+	margin-left: -15px;
+}

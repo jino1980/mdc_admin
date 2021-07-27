@@ -74,6 +74,8 @@ $(document).on("click", ".popup_open", function(){
 	$("#" + layerName).find(".popup_wrap").css({"margin-top": - (popSizeH / 2)});
 });
 
+
+
 // layerPopup close
 $(document).on("click", ".popup_close", function(){
 	var focus = $(this).parents(".layer_popup").attr("id");
@@ -88,3 +90,31 @@ $(document).on("click", ".popup_close", function(){
 // layerPopup focus
 $(document).on("focusin", ".ed", function(){$(".st").focus();});
 $(document).on("focusin", ".st", function(){$(".pop_head").focus();});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//null 처리
+function nvl(text,chgStr){
+	if(text == null || text == undefined || text == NaN){
+		return chgStr;
+	}else{
+		return text;
+	}
+};
+function isNull(_val) {
+	if (new String(_val).valueOf() == "undefined") {
+		return true;
+	}
+	if (_val == null) {
+		return true;
+	}
+	if (("x" + _val == "xNaN") && (new String(_val.length).valueOf() == "undefined")) {
+		return true;
+	}
+	if (_val.length == 0) {
+		return true;
+	}
+
+	return false;
+};
+

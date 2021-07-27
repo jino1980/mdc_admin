@@ -57,7 +57,7 @@ ol, ul, li {list-style: none outside none;}
 a {text-decoration:none; color:#000;}
 a:hover, a:visited {text-decoration:none;}
 button {cursor:pointer;border:none;}
-img {border:0 none;}
+img {border:0 none; vertical-align: top;}
 form input, form select, form label, form img {vertical-align: middle;}
 fieldset {border: 0 none;}
 fieldset legend{}

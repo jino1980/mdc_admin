@@ -42,4 +42,5 @@ function switchContent(bodyName){
     $('#bodyTile').children().remove();
     $('#bodyTile').load(bodyName);
 }
+
 </script>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+  <context id="context1" >
+    <jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver" 
+     connectionURL="jdbc:sqlserver://wdtest01.iptime.org:9433;databaseName=PIPATEST"
+     userId="sa"
+     password="wisedigm!@" />
+    <javaModelGenerator targetPackage="com.mybatis.gen.model" targetProject="mdc_admin" />
+    <sqlMapGenerator targetPackage="com.mybatis.gen.entity.xml" targetProject="mdc_admin" />
+    <javaClientGenerator targetPackage="com.mybatis.gen.entity.mapper" targetProject="mdc_admin" type="XMLMAPPER" />
+    <table schema="PIPATEST" tableName="TB_*" />
+  </context>
+</generatorConfiguration>

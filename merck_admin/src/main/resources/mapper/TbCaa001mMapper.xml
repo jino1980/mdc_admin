@@ -80,8 +80,8 @@
       IMG_FILE_GRP_ID = #{imgFileGrpId,jdbcType=VARCHAR},
       CATLG_FILE_GRP_ID = #{catlgFileGrpId,jdbcType=VARCHAR},
       USE_YN = #{useYn,jdbcType=VARCHAR},
-      REGIST_USR_ID = #{registUsrId,jdbcType=VARCHAR},
-      REGIST_DT = #{registDt,jdbcType=TIMESTAMP},
+      --REGIST_USR_ID = #{registUsrId,jdbcType=VARCHAR},
+      --REGIST_DT = #{registDt,jdbcType=TIMESTAMP},
       UPDT_ID = #{updtId,jdbcType=VARCHAR},
       UPDT_DT = #{updtDt,jdbcType=TIMESTAMP}
     where CATLG_ID = #{catlgId,jdbcType=VARCHAR}

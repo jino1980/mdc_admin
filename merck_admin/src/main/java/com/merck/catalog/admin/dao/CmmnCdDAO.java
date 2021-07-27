@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.merck.catalog.admin.vo.PageVO;
 import com.merck.catalog.admin.vo.TbSaa001m;
 
 
@@ -55,6 +56,41 @@ import com.merck.catalog.admin.vo.TbSaa001m;
 		public int updateByPrimaryKey(TbSaa001m record) {
 			// TODO Auto-generated method stub
 			return sqlSession.update(NAMESPACE + ".updateByPrimaryKey", record);
+		}
+
+
+		@Override
+		public int countAll() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+
+		@Override
+		public TbSaa001m findOneById(int Id) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
+		@Override
+		public List<TbSaa001m> findAllByPageVO(PageVO vo) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
+		@Override
+		public int update(TbSaa001m obj) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+
+		@Override
+		public int delete(int Id) {
+			// TODO Auto-generated method stub
+			return 0;
 		}
 
 	}

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.merck.catalog.admin.dao.Catalog">
+
+    <select id="countAll" resultType="int">
+        SELECT count(1) FROM TB_CAA001M A
+        WHERE 1=1
+        AND A.DEL_YN = 'N'
+    </select>
+
+
+    <select id="selectCatalogList" parameterType="HashMap" resultType="paramMap">
+    <![CDATA[
+    	SELECT ROW_NUMBER() OVER(ORDER BY A.CATLG_ID DESC) AS RN
+					, A.CATLG_ID /* 카달로그ID varchar10 */
+					, A.CATLG_NM /* 카달로그명 nvarchar1000 */
+					, REPLACE(A.CATGR_ID_GRP,'^',',') AS CATGR_ID_GRP /* 카테고리ID그룹 varchar100 */
+					, A.LANG_SE_CD /* 언어구분 varchar2 */
+					, A.VER_INFO /* 버전정보 nvarchar100 */
+					, REPLACE(A.KEYWD_VAL_GRP,'^',',') AS KEYWD_VAL_GRP /* 키워드값그룹 varchar1000 */
+					, A.ISSUE_DTE /* 발행일 varchar8 */
+					, A.SIMPL_CN /* 간략내용 nvarchar3000 */
+					, A.DETL_CN /* 상세내용 nvarchar3000 */
+					, A.TEL_MANG_USR_ID /* 전화문의담당자ID varchar10 */
+					, A.EMAIL_MANG_USR_ID /* 이메일문의담당자ID varchar10 */
+					, A.DOWNLD_CNT /* 다운로드수 numeric10 */
+					, A.LIKE_CNT /* 종아요수 numeric10 */
+					, A.IMG_FILE_GRP_ID /* 이미지파일그룹ID varchar8 */
+					, A.CATLG_FILE_GRP_ID /* 카달로그파일그룹ID varchar8 */
+					, A.USE_YN /* 사용여부 varchar1 */
+					, A.REGIST_USR_ID /* 등록자ID varchar10 */
+					, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */
+					, A.UPDT_USR_ID /* 수정자ID varchar10 */
+					, A.UPDT_DT /* 수정일시 datetime2 */
+				FROM TB_CAA001M A 
+				WHERE 1=1
+				]]>
+				<choose>
+					<when test="catlgId !=null and catlgId !='' ">
+				  AND A.CATLG_ID = #{catlgId}					
+					</when>
+					<otherwise>
+					<if test="catgrIdGrpArr!=null and catgrIdGrpArr.length!=0"> 
+				  AND <foreach collection="catgrIdGrpArr" item="catgrId" index="index" open="(" separator="OR" close=")">
+				        A.CATGR_ID_GRP LIKE CONCAT('%^', N'${catgrId}' , '%' )
+					  </foreach>
+					 </if>
+				  AND  FORMAT( A.UPDT_DT , 'yyyyMMdd' ) BETWEEN #{beginDte} AND #{endDte}
+				  AND A.DETL_CN LIKE CONCAT('%', #{detlCn}, '%' )					
+				order by A.${sortId} DESC 
+					</otherwise>
+				</choose>
+    </select>
+    
+    
+    <select id="selectCatalogList_bakup" parameterType="HashMap" resultType="paramMap">
+    <![CDATA[
+    	WITH TA AS
+		(
+		    SELECT 1 lv
+		    UNION ALL
+		    SELECT lv + 1 FROM TA WHERE lv + 1 <= 200
+		) ,
+		MAIN AS(
+		SELECT ROW_NUMBER() OVER(ORDER BY A.CATLG_ID DESC) AS RN
+					, A.CATLG_ID /* 카달로그ID varchar10 */
+					, A.CATLG_NM /* 카달로그명 nvarchar1000 */
+					, REPLACE(A.CATGR_ID_GRP,'^',',') AS CATGR_ID_GRP /* 카테고리ID그룹 varchar100 */
+					, A.LANG_SE_CD /* 언어구분 varchar2 */
+					, A.VER_INFO /* 버전정보 nvarchar100 */
+					, REPLACE(A.KEYWD_VAL_GRP,'^',',') AS KEYWD_VAL_GRP /* 키워드값그룹 varchar1000 */
+					, A.ISSUE_DTE /* 발행일 varchar8 */
+					, A.SIMPL_CN /* 간략내용 nvarchar3000 */
+					, A.DETL_CN /* 상세내용 nvarchar3000 */
+					, A.TEL_MANG_USR_ID /* 전화문의담당자ID varchar10 */
+					, A.EMAIL_MANG_USR_ID /* 이메일문의담당자ID varchar10 */
+					, A.DOWNLD_CNT /* 다운로드수 numeric10 */
+					, A.LIKE_CNT /* 종아요수 numeric10 */
+					, A.IMG_FILE_GRP_ID /* 이미지파일그룹ID varchar8 */
+					, A.CATLG_FILE_GRP_ID /* 카달로그파일그룹ID varchar8 */
+					, A.USE_YN /* 사용여부 varchar1 */
+					, A.REGIST_USR_ID /* 등록자ID varchar10 */
+					, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */
+					, A.UPDT_USR_ID /* 수정자ID varchar10 */
+					, A.UPDT_DT /* 수정일시 datetime2 */
+				FROM TB_CAA001M A 
+				WHERE 1=1
+				]]>
+				<choose>
+					<when test="catlgId !=null and catlgId !='' ">
+				  AND A.CATLG_ID = #{catlgId}					
+					</when>
+					<otherwise>
+					<if test="catgrIdGrpArr!=null and catgrIdGrpArr.length!=0"> 
+				  AND <foreach collection="catgrIdGrpArr" item="catgrId" index="index" open="(" separator="OR" close=")">
+				        A.CATGR_ID_GRP LIKE CONCAT('%^', N'${catgrId}' , '%' )
+					  </foreach>
+					 </if>
+				  AND  FORMAT( A.UPDT_DT , 'yyyyMMdd' ) BETWEEN #{beginDte} AND #{endDte}
+				  AND A.DETL_CN LIKE CONCAT('%', #{detlCn}, '%' )					
+					</otherwise>
+				</choose>
+				<![CDATA[
+		)
+		select a.rn-1+ta.lv rn
+		     , A.CATLG_ID /* 카달로그ID varchar10 */
+				, CONCAT(ta.lv,N'번째복사', A.CATLG_NM) CATLG_NM /* 카달로그명 nvarchar1000 */
+				, REPLACE(A.CATGR_ID_GRP,'^',',') AS CATGR_ID_GRP /* 카테고리ID그룹 varchar100 */
+				, A.LANG_SE_CD /* 언어구분 varchar2 */
+				, A.VER_INFO /* 버전정보 nvarchar100 */
+				, REPLACE(A.KEYWD_VAL_GRP,'^',',') AS KEYWD_VAL_GRP /* 키워드값그룹 varchar1000 */
+				, A.ISSUE_DTE /* 발행일 varchar8 */
+				, A.SIMPL_CN /* 간략내용 nvarchar3000 */
+				, A.DETL_CN /* 상세내용 nvarchar3000 */
+				, A.TEL_MANG_USR_ID /* 전화문의담당자ID varchar10 */
+				, A.EMAIL_MANG_USR_ID /* 이메일문의담당자ID varchar10 */
+				, A.DOWNLD_CNT /* 다운로드수 numeric10 */
+				, A.LIKE_CNT /* 종아요수 numeric10 */
+				, A.IMG_FILE_GRP_ID /* 이미지파일그룹ID varchar8 */
+				, A.CATLG_FILE_GRP_ID /* 카달로그파일그룹ID varchar8 */
+		from main a , TA 
+		]]>
+		
+		order by A.${sortId} DESC  option(maxrecursion 0) 
+	
+    </select>
+</mapper>
