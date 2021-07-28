@@ -22,6 +22,7 @@
 		var CONTEXT_PATH = "${CONTEXT_PATH}";
 		var RESOURCES_PATH = "${RESOURCES_PATH}";
 		var gvSessionParams;
+		
 	</script>
 	<script src="${RESOURCES_PATH}/resource/js/jquery-3.3.1.js"></script>
 	<script src="${RESOURCES_PATH}/bower_components/js-cookie/src/js.cookie.js"></script>
@@ -42,7 +43,8 @@
 	<script src="${RESOURCES_PATH}/resource/js/ui_common.js"></script>
 	<script src="${RESOURCES_PATH}/resource/js/jquery.serialize-object.js"></script>
 	<script src="${RESOURCES_PATH}/resource/js/jquery-impromptu.min.js"></script>
-
+	<script src="${RESOURCES_PATH}/resource/js/toastr.min.js"></script>
+	
 	<link href="${RESOURCES_PATH}/bower_components/tui-grid/dist/tui-grid.css" rel="stylesheet" />
 	<link href="${RESOURCES_PATH}/bower_components/tui-pagination/dist/tui-pagination.css" rel="stylesheet" />
 	<link href="${RESOURCES_PATH}/bower_components/tui-time-picker/dist/tui-time-picker.css" rel="stylesheet" />
@@ -54,7 +56,7 @@
 	<link href="${RESOURCES_PATH}/bower_components/vanilla-Notify-master/dist/vanilla-notify.css" rel="stylesheet" />
 	<link href="${RESOURCES_PATH}/resource/css/content.css" rel="stylesheet" />
 	<link href="${RESOURCES_PATH}/resource/css/jquery-impromptu.min.css" rel="stylesheet" />
-	
+	<link href="${RESOURCES_PATH}/resource/css/toastr.min.css" rel="stylesheet" />
 
 	<title>MDC Admin</title>
   </head>

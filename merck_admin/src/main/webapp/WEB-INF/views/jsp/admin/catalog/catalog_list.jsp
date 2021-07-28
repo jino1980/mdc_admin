@@ -122,7 +122,7 @@
 				<!-- // 검색 -->
 				
 				<div class="btn_box alright">
-					<button type="button" class="btn btn_default" onClick="selectListCall()">검색</button>
+					<button type="button" class="btn btn_default" onClick="javascript:fnSelectListCall()">검색</button>
 				</div>
 
 				<!-- 타이틀 -->
@@ -196,17 +196,13 @@
 					data: gridData,
 					scrollX: false,
 					scrollY: true,
+					rowHeaders: ['rowNum'],
 					header: {
 						height: 35
 					},
 					minRowHeight: 25,
 					bodyHeight: 435,
-					columns: [{
-							title: 'No.',
-							align: 'center',
-							name: 'rn',
-							width: 80
-						},
+					columns: [
 						{
 							title: '카테고리',
 							align: 'left',
@@ -244,7 +240,7 @@
 							formatter: function(value, rowData) {
 								var btnCy = 'blue';
 								value = '수정';
-								return '<button type="button" id="'+rowData.catlgId+rowData.rn+'" class="tb_btn '+ btnCy +'" onClick="modify(this);">' + value + '</button>';
+								return '<button type="button" id="'+rowData.catlgId+'" class="tb_btn '+ btnCy +'" onClick="javascript:fnModify(this);">' + value + '</button>';
 							}
 						},
 						{
@@ -255,7 +251,7 @@
 							formatter: function(value, rowData) {
 								var btnCy = 'red';
 								value = '삭제';
-								return '<button type="button" id="'+rowData.catlgId+rowData.rn+'" class="tb_btn '+ btnCy +'" onClick="del(this);">' + value + '</button>';
+								return '<button type="button" id="'+rowData.catlgId+'" class="tb_btn '+ btnCy +'" onClick="javascript:fnDel(this);">' + value + '</button>';
 							}
 						}
 					]
@@ -305,7 +301,7 @@
 				
 				// 조회호출
 				var lvParams;
-				function selectListCall() {
+				function fnSelectListCall() {
 					
 					var beginDte =nvl($("#datepicker-input1").val(),'');
 					var endDte =nvl($("#datepicker-input2").val(),'');
@@ -353,6 +349,7 @@
 					  	    	//data = JSON.stringify(data);
 					  	    	console.log(JSON.stringify(rs));
 					  	    	$("#totCnt").html(rs.length);
+					  	    	toastr["info"](rs.length+"건 조회 되었습니다.","조회완료.");	
 					  	    	grid.setData(rs);
 					  	    	
 					  	    },
@@ -364,7 +361,7 @@
 				}
 				
 				//수정
-				function modify(obj){
+				function fnModify(obj){
 					console.log( obj.id );
 					
 					switchContent("/admin/catalog/viewCatalog/"+obj.id);
@@ -394,11 +391,13 @@
 				}
 				
 				//삭제
-				function del(obj){
+				function fnDel(obj){
 					
-					$.prompt(" ", {
-						title : "삭제 하시겠습니까?" ,
+					$.prompt("<h2>삭제하시겠습니까?</h2>", {
+						focus : 1,
 						buttons: { "네": true, "아니오": false },
+						top : "40%",
+						promptspeed : "fast",
 						submit: function(e,v,m,f){
 							// use e.preventDefault() to prevent closing when needed or return false.
 							//e.preventDefault();
@@ -421,8 +420,8 @@
 							  	    	console.log(JSON.stringify(rs));					    	
 							  	    	//grid.setData(rs);
 							  	    	var rsCnt = JSON.stringify(rs);
-							  	    	alert("["+rsCnt+"]건 삭제 되었습니다.");
-							  	    	
+							  	    	toastr["success"](rsCnt+"건 삭제 되었습니다.","삭제완료.");
+							  	    	fnSelectListCall();
 							  	    },
 							  	    error: function (xhr, status, error) {
 							  	    	alert("error=>>"+error);
@@ -433,5 +432,9 @@
 						}
 					});
 				}
+				
+				toastr.options = {
+						  "positionClass": "toast-bottom-right"
+						};
 				
 			</script>

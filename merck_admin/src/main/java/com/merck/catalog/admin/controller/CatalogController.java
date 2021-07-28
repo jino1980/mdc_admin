@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.merck.catalog.admin.service.CatalogService;
-import com.merck.catalog.common.SoftLabHumUtils;
 
 @Controller
 @RequestMapping("/admin/catalog/*")
@@ -44,7 +43,7 @@ public class CatalogController {
 	}
 	
 	@RequestMapping (value = "viewCatalog/{catlgId}", method = {RequestMethod.GET})
-	public String viewCatalog(@PathVariable String catlgId) {
+	public ModelAndView viewCatalog(@PathVariable String catlgId) {
 	    logger.info("viewCatalog catlgId=>>"+catlgId);
 	    
 	    HashMap paramMap = new HashMap();
@@ -53,16 +52,33 @@ public class CatalogController {
 	    List<Map<String, Object>> list = service.selectCatalogList(paramMap);
 	    
 	    ModelAndView mav = new ModelAndView();
-	    //mav.setViewName("/admin/catalog/catalog_write");
-	    String rtnStr = "";
-	    if(list.size() > 0) rtnStr = SoftLabHumUtils.converMapToJson(list.get(0));
-		mav.addObject("calalogMap", rtnStr);
-		
-		return "/admin/catalog/catalog_write";
+	    mav.setViewName("/admin/catalog/catalog_write");
+	    //String rtnStr = "";
+	    //if(list.size() > 0) rtnStr = SoftLabHumUtils.converMapToJson(list.get(0));
+		mav.addObject("catalogList", list);
+		return mav;
+		//return new ModelAndView("/admin/catalog/catalog_write", "catalogList", null );
+	}
+	
+	@RequestMapping(value = "saveCatalog", method = {RequestMethod.GET, RequestMethod.POST})
+	public @ResponseBody int saveCatalog(@RequestBody HashMap<String, Object> paramMap) {
+	    logger.info("saveCatalog =>>"+paramMap);
+	    String catlgId = (String)paramMap.get("catlgId");
+	    
+	    int saveCnt = 0;
+	    paramMap.put("registUsrId", "SOFTLAB");
+	    paramMap.put("updtUsrId", "SOFTLAB");
+	    
+	    if( !"".equals(catlgId)) {
+	    	saveCnt = service.updateCatalog(paramMap);
+	    }else {
+	    	saveCnt = service.insertCatalog(paramMap);
+	    }
+		return saveCnt;
 	}
 	
 	@RequestMapping(value = "deleteCatalog", method = {RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody int deleteOne(@RequestBody HashMap<String, Object> paramMap) {
+	public @ResponseBody int deleteCatalog(@RequestBody HashMap<String, Object> paramMap) {
 	    logger.info("deleteCatalog =>>"+paramMap);
 	    
 	    int delCnt = service.deleteCatalog(paramMap);

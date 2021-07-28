@@ -14,10 +14,10 @@
     	SELECT ROW_NUMBER() OVER(ORDER BY A.CATLG_ID DESC) AS RN
 					, A.CATLG_ID /* 카달로그ID varchar10 */
 					, A.CATLG_NM /* 카달로그명 nvarchar1000 */
-					, REPLACE(A.CATGR_ID_GRP,'^',',') AS CATGR_ID_GRP /* 카테고리ID그룹 varchar100 */
+					, A.CATGR_ID_GRP AS CATGR_ID_GRP /* 카테고리ID그룹 varchar100 */
 					, A.LANG_SE_CD /* 언어구분 varchar2 */
 					, A.VER_INFO /* 버전정보 nvarchar100 */
-					, REPLACE(A.KEYWD_VAL_GRP,'^',',') AS KEYWD_VAL_GRP /* 키워드값그룹 varchar1000 */
+					, A.KEYWD_VAL_GRP AS KEYWD_VAL_GRP /* 키워드값그룹 varchar1000 */
 					, A.ISSUE_DTE /* 발행일 varchar8 */
 					, A.SIMPL_CN /* 간략내용 nvarchar3000 */
 					, A.DETL_CN /* 상세내용 nvarchar3000 */
@@ -42,11 +42,11 @@
 					<otherwise>
 					<if test="catgrIdGrpArr!=null and catgrIdGrpArr.length!=0"> 
 				  AND <foreach collection="catgrIdGrpArr" item="catgrId" index="index" open="(" separator="OR" close=")">
-				        A.CATGR_ID_GRP LIKE CONCAT('%^', N'${catgrId}' , '%' )
+				        A.CATGR_ID_GRP LIKE CONCAT('%,', N'${catgrId}' , '%' )
 					  </foreach>
 					 </if>
 				  AND  FORMAT( A.UPDT_DT , 'yyyyMMdd' ) BETWEEN #{beginDte} AND #{endDte}
-				  AND A.DETL_CN LIKE CONCAT('%', #{detlCn}, '%' )					
+				  AND A.CATLG_NM LIKE CONCAT('%', N'${detlCn}', '%' )					
 				order by A.${sortId} DESC 
 					</otherwise>
 				</choose>

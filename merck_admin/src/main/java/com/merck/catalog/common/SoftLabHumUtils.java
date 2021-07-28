@@ -2,8 +2,10 @@ package com.merck.catalog.common;
 
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -63,4 +65,19 @@ public class SoftLabHumUtils {
         return "";
 		
 	}
+	
+	public static Map<String, Object> converVoToMap(Object vo){
+		
+		Map<String, Object> rtnMap = null;
+		try {
+			rtnMap = BeanUtils.describe(vo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("converting failed! converVoToMap vo =>: {"+vo.toString()+"}", e);
+		}
+        return rtnMap;       
+		
+	}
+	
+	
 }
