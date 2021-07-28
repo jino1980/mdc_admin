@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-  <context id="context1" >
-    <jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver" 
-     connectionURL="jdbc:sqlserver://wdtest01.iptime.org:9433;databaseName=PIPATEST"
-     userId="sa"
-     password="wisedigm!@" />
-    <javaModelGenerator targetPackage="com.mybatis.gen.model" targetProject="mdc_admin" />
-    <sqlMapGenerator targetPackage="com.mybatis.gen.entity.xml" targetProject="mdc_admin" />
-    <javaClientGenerator targetPackage="com.mybatis.gen.entity.mapper" targetProject="mdc_admin" type="XMLMAPPER" />
-    <table schema="PIPATEST" tableName="TB_*" />
-  </context>
+	<context id="simple" targetRuntime="MyBatis3simple">
+		<jdbcConnection
+			connectionURL="jdbc:sqlserver://wdtest01.iptime.org:9433;databaseName=PIPATEST"
+			driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver" password="wisedigm!@"
+			userId="sa" />
+
+		<javaModelGenerator
+			targetPackage="com.mybatis.gen.model"
+			targetProject="mdc_admin">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator 
+			targetPackage="com.mybatis.gen.mapper.xml"
+			targetProject="mdc_admin" />
+
+		<javaClientGenerator
+			targetPackage="com.mybatis.gen.mapper.entity" 
+			targetProject="mdc_admin"
+			type="XMLMAPPER" />
+
+		<table tableName="TB_CAA001M" />
+	    <table tableName="TB_CAB001M" />
+	    <table tableName="TB_CAB002D" />
+	    <table tableName="TB_CAB003D" />
+	    <table tableName="TB_CAB004D" />
+	    <table tableName="TB_CAC001D" />
+	    <table tableName="TB_CBB001M" />
+	    <table tableName="TB_SAA001M" />
+	    <table tableName="TB_SAA002D" />
+	    <table tableName="TB_SAF001D" />
+	    <table tableName="TB_SAF002D" />
+	    <table tableName="TB_SAF003D" />
+	    <table tableName="TB_SAU001M" />
+	    <table tableName="TB_SAU002D" />
+	    <table tableName="TB_SAU002M" />
+	</context>
 </generatorConfiguration>

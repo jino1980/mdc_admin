@@ -47,16 +47,18 @@
       LANG_SE_CD, VER_INFO, KEYWD_VAL_GRP, 
       ISSUE_DTE, SIMPL_CN, DETL_CN, 
       TEL_MANG_USR_ID, EMAIL_MANG_USR_ID, DOWNLD_CNT, 
-      LIKE_CNT, IMG_FILE_GRP_ID, CATLG_FILE_GRP_ID, 
+      LIKE_CNT, 
       USE_YN, REGIST_USR_ID, REGIST_DT, 
-      UPDT_ID, UPDT_DT)
-    values (#{catlgId,jdbcType=VARCHAR}, #{catlgNm,jdbcType=NVARCHAR}, #{catgrIdGrp,jdbcType=VARCHAR}, 
+      UPDT_USR_ID, UPDT_DT)
+    values (
+		( SELECT CONCAT( 'CATLG' , REPLICATE('0', 5-LEN(CONVERT(int,  replace(MAX(A.CATLG_ID),'CATLG','') )+1)) , CONVERT(int,  replace(MAX(A.CATLG_ID),'CATLG','') )+1 ) AS NEW_ID  FROM TB_CAA001M A )
+	  , #{catlgNm,jdbcType=NVARCHAR}, #{catgrIdGrp,jdbcType=VARCHAR}, 
       #{langSeCd,jdbcType=VARCHAR}, #{verInfo,jdbcType=NVARCHAR}, #{keywdValGrp,jdbcType=VARCHAR}, 
       #{issueDte,jdbcType=VARCHAR}, #{simplCn,jdbcType=NVARCHAR}, #{detlCn,jdbcType=NVARCHAR}, 
-      #{telMangUsrId,jdbcType=VARCHAR}, #{emailMangUsrId,jdbcType=VARCHAR}, #{downldCnt,jdbcType=NUMERIC}, 
-      #{likeCnt,jdbcType=NUMERIC}, #{imgFileGrpId,jdbcType=VARCHAR}, #{catlgFileGrpId,jdbcType=VARCHAR}, 
-      #{useYn,jdbcType=VARCHAR}, #{registUsrId,jdbcType=VARCHAR}, #{registDt,jdbcType=TIMESTAMP}, 
-      #{updtId,jdbcType=VARCHAR}, #{updtDt,jdbcType=TIMESTAMP})
+      #{telMangUsrId,jdbcType=VARCHAR}, #{emailMangUsrId,jdbcType=VARCHAR}, 0, 
+      0, 
+      'Y', #{registUsrId,jdbcType=VARCHAR}, getDate() , 
+      #{updtUsrId,jdbcType=VARCHAR}, getDate())
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.merck.catalog.admin.vo.TbCaa001m">
     <!--
@@ -79,11 +81,9 @@
       LIKE_CNT = #{likeCnt,jdbcType=NUMERIC},
       IMG_FILE_GRP_ID = #{imgFileGrpId,jdbcType=VARCHAR},
       CATLG_FILE_GRP_ID = #{catlgFileGrpId,jdbcType=VARCHAR},
-      USE_YN = #{useYn,jdbcType=VARCHAR},
-      --REGIST_USR_ID = #{registUsrId,jdbcType=VARCHAR},
-      --REGIST_DT = #{registDt,jdbcType=TIMESTAMP},
-      UPDT_ID = #{updtId,jdbcType=VARCHAR},
-      UPDT_DT = #{updtDt,jdbcType=TIMESTAMP}
+      USE_YN = 'Y',
+      UPDT_USR_ID = #{updtUsrId,jdbcType=VARCHAR},
+      UPDT_DT = getDate()
     where CATLG_ID = #{catlgId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
