@@ -118,3 +118,48 @@ function isNull(_val) {
 	return false;
 };
 
+
+/* required class 속성 NULL 체크 */
+function nullCheckAll() {
+    var rtn = true;
+    var temp = $(".required");
+    $(".required").each(function(){
+        var tempElement = $("#"+this.id);
+        var tempType = tempElement.prop("type");
+        if (tempType == "text" || tempType == "password") {
+            if ( tempElement.val() == null || tempElement.val() == "" ) {
+                toastr["warning"](tempElement.attr("title")+"을(를) 입력해주세요.");
+                tempElement.focus();
+                rtn = false;
+                return rtn;
+            }
+        } else if (tempType == "select-one") {
+            if ( tempElement.val() == null || tempElement.val() == "" ) {
+                toastr["warning"](tempElement.attr("title")+"을(를) 선택해주세요.");
+                tempElement.focus();
+                rtn = false;
+                return rtn;
+            }
+        } else if (tempType == "checkbox") {
+            if ( !tempElement.is(":checked") ) {
+                toastr["warning"](tempElement.attr("title")+"을(를) 체크해주세요.");
+                tempElement.focus();
+                rtn = false;
+                return rtn;
+            }
+        } else if (tempType == "radio") {
+            if ( !tempElement.is(":checked") ) {
+                toastr["warning"](tempElement.attr("title")+"을(를) 선택해주세요.");
+                tempElement.focus();
+                rtn = false;
+                return rtn;
+
+            }
+
+        }
+
+    });
+
+    return rtn;
+
+}

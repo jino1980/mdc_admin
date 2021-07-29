@@ -19,17 +19,25 @@ public class CatalogDAO extends CommonDaoImpl<TbCaa001m>{
         return sqlSession.selectList(NAMESPACE+"selectCatalogList", map);
     }
 	
-	public int insertCatalog(HashMap<String,Object> map) {
+	public String insertCatalog(HashMap<String,Object> map) {
 		TbCaa001m vo = SoftLabHumUtils.convertMapToVo(map, TbCaa001m.class);
-        return sqlSession.insert(TBCAA001M_NAMESPACE+"insert", vo);
+		
+		
+		Map newIdMap = sqlSession.selectOne(NAMESPACE+"selectCatalogNewId", vo);
+		String newId = (String)newIdMap.get("newId");
+		vo.setCatlgId(newId);
+		
+		sqlSession.insert(TBCAA001M_NAMESPACE+"insert", vo);
+		
+        return newId;
     }
 	public int updateCatalog(HashMap<String,Object> map) {
 		TbCaa001m vo = SoftLabHumUtils.convertMapToVo(map, TbCaa001m.class);
-		return sqlSession.insert(TBCAA001M_NAMESPACE+"updateByPrimaryKey", vo);
+		return sqlSession.update(TBCAA001M_NAMESPACE+"updateByPrimaryKey", vo);
 	}
 	public int deleteCatalog(HashMap<String,Object> map) {
 		TbCaa001m vo = SoftLabHumUtils.convertMapToVo(map, TbCaa001m.class);
-		return sqlSession.insert(TBCAA001M_NAMESPACE+"deleteByPrimaryKey", vo);
+		return sqlSession.delete(TBCAA001M_NAMESPACE+"deleteByPrimaryKey", vo);
 	}
 	
 	

@@ -6,14 +6,14 @@
 <%@page import="java.util.*"%>
 <%
 	
-	System.out.println("#### CATALOG_WRITE JSP...");
+	//System.out.println("#### CATALOG_WRITE JSP...");
 
    List<Map<String,Object>> catalogList = new ArrayList();
    List<Map<String,Object>> paramList = (List<Map<String,Object>>)request.getAttribute("catalogList");
    if( null == paramList || paramList.size() == 0 ) {
 	   TbCaa001m vo = new TbCaa001m();
 	   catalogList.add(0, SoftLabHumUtils.converVoToMap(vo));
-	   System.out.println("#### SoftLabHumUtils.converVoToMap(vo)=>>>"+SoftLabHumUtils.converVoToMap(vo));
+	   //System.out.println("#### SoftLabHumUtils.converVoToMap(vo)=>>>"+SoftLabHumUtils.converVoToMap(vo));
 	   
 	   request.setAttribute("catalogList", catalogList);
 	   
@@ -59,6 +59,7 @@
             
             <form:form commandName="catalogForm" action="#">
             <input type="hidden" id="catlgId" name="catlgId"  value="${catalog.catlgId}"/>
+            
             
             <div class="content">
                 <!-- 작성폼 -->
@@ -195,7 +196,7 @@
                                 <td colspan="3">
                                     <ul class="inputbox">
                                         <li>
-                                            <input type="checkbox" id="checkbox01_1" name="catgrIdGrp" onClick="chkValidCate(this);" value="" <c:if test="${empty catalog.catgrIdGrp}">checked</c:if>><label
+                                            <input type="checkbox" id="checkbox01_1" name="catgrIdGrp" onchange="chkValidCate(this);" value="" <c:if test="${empty catalog.catgrIdGrp}">checked</c:if>><label
                                                 for="checkbox01_1">전체</label>
                                         </li>
                                         <li>
@@ -250,7 +251,7 @@
                                    		String keywdValGrpHTML = "";
                                    		String tagArrObj = "";
                                    		for(int i=1; i<keywdValGrpArr.length; i++){ 
-                                   			keywdValGrpHTML += "<li style='float:left;'>"+keywdValGrpArr[i]+"<span class='del-btn' idx='"+(i-1)+"'> X&nbsp;&nbsp;&nbsp;&nbsp</span></li>";
+                                   			keywdValGrpHTML += "<li style='float:left;'>"+keywdValGrpArr[i]+"<span class='del-btn' idx='"+(i)+"'> X&nbsp;&nbsp;&nbsp;&nbsp</span></li>";
                                    			tagArrObj += (i==1?"":",")+ i+":'"+keywdValGrpArr[i]+"'";
                                    		}
                                    		
@@ -269,7 +270,7 @@
 							             <ul id="tag-list">${keywdValGrpHTML}</ul></br>
 							                        
 							            <div class="form-group">
-							            	<input type="text" id="tag" size="7" placeholder="엔터로 해시태그를 등록해주세요." style="width: 300px;"/>
+							            	<input type="text" id="tag" size="7" placeholder="엔터로 키워드를 등록해주세요." style="width: 300px;"/>
 							           </div>
 							           
 									</div>
@@ -305,11 +306,11 @@
                                 <td>
                                     <ul class="inputbox">
                                         <li>
-                                            <input type="radio" id="radio01_1" name="langSeCd" <c:if test="${catalog.langSeCd eq 'KO'}">checked</c:if>><label
+                                            <input type="radio" id="langSeCd" name="langSeCd" value="KR" checked <c:if test="${catalog.langSeCd eq 'KR'}">checked</c:if>><label
                                                 for="radio01_1">한국어</label>
                                         </li>
                                         <li>
-                                            <input type="radio" id="radio01_2" name="langSeCd" <c:if test="${catalog.langSeCd eq 'EN'}">checked</c:if>><label
+                                            <input type="radio" id="langSeCd" name="langSeCd" value="EN" <c:if test="${catalog.langSeCd eq 'EN'}">checked</c:if>><label
                                                 for="radio01_2">영어</label>
                                         </li>
                                     </ul>
@@ -320,18 +321,18 @@
                                     전화문의
                                 </th>
                                 <td>
-                                    <select name="telMangUsr" id="telMangUsr">
-                                        <option value="0">--선택하세요--</option>
-                                        <option <c:if test="${catalog.telMangUsrId eq 'M0001'}">selected</c:if> value="">씨그마알드리치 (031-329-9000)</option>
+                                    <select name="telMangUsrId" id="telMangUsrId">
+                                        <option value="">--선택하세요--</option>
+                                        <option <c:if test="${catalog.telMangUsrId eq 'M0001'}">selected</c:if> value="M0001">씨그마알드리치 (031-329-9000)</option>
                                     </select>
                                 </td>
                                 <th>
                                     이메일문의
                                 </th>
                                 <td>
-                                    <select name="emailMangUsr" id="emailMangUsr">
-                                    	<option value="0">--선택하세요--</option>
-                                        <option <c:if test="${catalog.emailMangUsrId eq 'M0001'}">selected</c:if> value="">씨그마알드리치 (sakr@naver.com)</option>
+                                    <select name="emailMangUsrId" id="emailMangUsrId">
+                                    	<option value="">--선택하세요--</option>
+                                        <option <c:if test="${catalog.emailMangUsrId eq 'F0001'}">selected</c:if> value="F0001">씨그마알드리치 (sakr@naver.com)</option>
                                     </select>
                                 </td>
                             </tr>
@@ -383,6 +384,8 @@
 				
 				var tag = {${tagArrObj}};
 		        var counter = ${keywdValGrpCnt};
+				console.log("#tag=>>"+tag);
+				console.log("#counter=>>"+counter);
 				
 		        $("#tag").on("keypress", function (e) {
 		            var self = $(this);
@@ -402,7 +405,7 @@
 		                
 		                    // 해시태그가 중복되었는지 확인
 		                    if (result.length == 0) { 
-		                        $("#tag-list").append("<li style='float:left;'>"+tagValue+"<span class='del-btn' idx='"+counter+"'> X&nbsp;&nbsp;&nbsp;&nbsp</span></li>");
+		                        $("#tag-list").append("<li style='float:left;'>"+tagValue+"<span class='del-btn' idx='"+(++counter)+"'> X&nbsp;&nbsp;&nbsp;&nbsp</span></li>");
 		                        addTag(tagValue);
 		                        self.val("");
 		                    } else {
@@ -424,7 +427,8 @@
 		        // 입력한 값을 태그로 생성한다.
 		        function addTag (value) {
 		            tag[counter] = value;
-		            counter++; // del-btn 의 고유 id 가 된다.
+		            console.log("#addTag=>> tag["+counter+"] = '"+value+"'");
+		            //++counter; // del-btn 의 고유 id 가 된다.
 		        }
 
 		        // tag 안에 있는 값을 array type 으로 만들어서 넘긴다.
@@ -438,15 +442,18 @@
 				//$("input:checkbox[id='checkbox01_1']").prop("checked", true);				
 				function chkValidCate(obj){
 					if( obj.id=="checkbox01_1" && obj.checked ){
+						//console.log("전체 체크");
 						$("input:checkbox[id='checkbox01_2']").prop("checked", false);
 						$("input:checkbox[id='checkbox01_3']").prop("checked", false);
 						$("input:checkbox[id='checkbox01_4']").prop("checked", false);
 						$("input:checkbox[id='checkbox01_5']").prop("checked", false);
 						$("input:checkbox[id='checkbox01_6']").prop("checked", false);
 					}else if( obj.id!="checkbox01_1" && obj.checked ){
+						//console.log("카테고리 체크");
 						$("input:checkbox[id='checkbox01_1']").prop("checked", false);
 					}else{
-						$("input:checkbox[id='checkbox01_1']").prop("checked", true);
+						//console.log("그외 체크");
+						$("input:checkbox[id='"+obj.id+"']").prop("checked", false).trigger('change');
 					}
 				}
 		        
@@ -516,11 +523,14 @@
 					
 					var keyWdArr = "";
 					for(var x=1; x<=counter; x++){
-						keyWdArr += ","+tag[x];
+						if( nvl(tag[x],'') != '' ) keyWdArr += ","+tag[x];
 					}
 					formData.keywdValGrp = keyWdArr;
-					alert(formData.keywdValGrp);
+					//alert(formData.keywdValGrp);
 					console.log("## formJson=>>"+JSON.stringify(formData));
+					
+					// 필수체크
+					nullCheckAll();
 					
 					$.prompt("<h2>저장 하시겠습니까?</h2>", {
 						focus : 1,
@@ -554,10 +564,11 @@
 							        contentType: "application/json",
 							  	    success: function(rs) {
 							  	    	//data = JSON.stringify(data);
-							  	    	console.log(JSON.stringify(rs));					    	
-							  	    	//grid.setData(rs);
-							  	    	var rsCnt = JSON.stringify(rs);
-							  	    	toastr["success"](rsCnt+"건 저장 되었습니다.","저장완료.");
+							  	    	console.log("### saveCatalog=>>"+rs);					    	
+							  	    	//grid.setData(rs);							  	    	
+							  	    	toastr["success"]("1건 저장 되었습니다.","저장완료.");
+							  	    	
+							  	    	if( nvl($("#catlgId").val(),'') == '' ) switchContent('/admin/catalog/viewCatalog/'+rs);
 							  	    	
 							  	    },
 							  	    error: function (xhr, status, error) {

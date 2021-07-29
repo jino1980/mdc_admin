@@ -3,14 +3,21 @@
 <mapper namespace="com.merck.catalog.admin.dao.Catalog">
 
     <select id="countAll" resultType="int">
+    	/* com.merck.catalog.admin.dao.Catalog.countAll */
         SELECT count(1) FROM TB_CAA001M A
         WHERE 1=1
         AND A.DEL_YN = 'N'
     </select>
 
+	<select id="selectCatalogNewId" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.Catalog.selectCatalogNewId */
+		SELECT CONCAT( 'CATLG' , REPLICATE('0', 5-LEN(CONVERT(int,  replace(MAX(A.CATLG_ID),'CATLG','') )+1)) , CONVERT(int,  replace(MAX(A.CATLG_ID),'CATLG','') )+1 ) AS NEW_ID  
+		FROM TB_CAA001M A
+	</select>
 
     <select id="selectCatalogList" parameterType="HashMap" resultType="paramMap">
     <![CDATA[
+    	/* com.merck.catalog.admin.dao.Catalog.selectCatalogList */
     	SELECT ROW_NUMBER() OVER(ORDER BY A.CATLG_ID DESC) AS RN
 					, A.CATLG_ID /* 카달로그ID varchar10 */
 					, A.CATLG_NM /* 카달로그명 nvarchar1000 */

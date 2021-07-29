@@ -61,20 +61,22 @@ public class CatalogController {
 	}
 	
 	@RequestMapping(value = "saveCatalog", method = {RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody int saveCatalog(@RequestBody HashMap<String, Object> paramMap) {
+	public @ResponseBody String saveCatalog(@RequestBody HashMap<String, Object> paramMap) {
 	    logger.info("saveCatalog =>>"+paramMap);
 	    String catlgId = (String)paramMap.get("catlgId");
 	    
 	    int saveCnt = 0;
+	    String newCatalogId = "";
+	    
 	    paramMap.put("registUsrId", "SOFTLAB");
 	    paramMap.put("updtUsrId", "SOFTLAB");
 	    
 	    if( !"".equals(catlgId)) {
 	    	saveCnt = service.updateCatalog(paramMap);
 	    }else {
-	    	saveCnt = service.insertCatalog(paramMap);
+	    	newCatalogId = service.insertCatalog(paramMap);
 	    }
-		return saveCnt;
+		return newCatalogId;
 	}
 	
 	@RequestMapping(value = "deleteCatalog", method = {RequestMethod.GET, RequestMethod.POST})

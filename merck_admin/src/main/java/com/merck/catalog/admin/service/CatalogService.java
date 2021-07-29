@@ -26,7 +26,7 @@ public class CatalogService extends CommonServiceImpl<TbCaa001m> {
 	        return dao.selectCatalogList(map);
 	    }
 	    
-	    public int insertCatalog(HashMap<String,Object> map) {
+	    public String insertCatalog(HashMap<String,Object> map) {
 	        return dao.insertCatalog(map);
 	    }
 	    

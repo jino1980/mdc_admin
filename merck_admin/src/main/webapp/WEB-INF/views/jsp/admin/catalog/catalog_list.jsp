@@ -149,6 +149,10 @@
 			<!-- // content -->
 			
 			<script>
+				$(document).ready(function(){
+					fnSelectListCall();
+				});
+			
 				var beginDate = new Date();
 				beginDate.setDate(beginDate.getDate() - 7);
 				

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.merck.catalog.admin.dao.AttachFilesCommon">
+
+    <select id="countAll" resultType="int">
+    	/* com.merck.catalog.admin.dao.AttachFilesCommon.countAll */
+        SELECT count(1) FROM TB_SAF001D A -- SAF001D_첨부파일상세
+        WHERE 1=1
+        AND A.BOARD_ID = #{boardId}	
+        AND A.DEL_YN = 'N'
+    </select>
+
+	<select id="selectNewBoardId" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.AttachFilesCommon.countAll */
+		SELECT CONCAT( #{taskSeCd} , REPLICATE('0', 8-LEN(CONVERT(int,  replace(MAX(A.BOARD_ID),#{taskSeCd},'') )+1)) , CONVERT(int,  replace(MAX(A.BOARD_ID),#{taskSeCd},'') )+1 ) AS NEW_ID    
+		FROM ${boardTableNm} A
+		WHERE 1=1
+        AND A.BOARD_ID = #{boardId}	
+	</select>
+	<select id="selectNewPostId" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.AttachFilesCommon.countAll */
+		SELECT CONCAT( REPLICATE('0', 10-LEN(CONVERT(int,  MAX(A.POST_ID) )+1)) , CONVERT(int,  MAX(A.POST_ID) )+1 ) AS NEW_ID     
+		FROM ${boardDtlTableNm} A
+		WHERE 1=1
+        AND A.BOARD_ID = #{boardId}	
+	</select>
+	<select id="selectNewMangRegNo" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.AttachFilesCommon.selectNewMangRegNo */
+		SELECT CONCAT( REPLICATE('0', 5-LEN(CONVERT(int,  MAX(A.MANG_REG_NO) )+1)) , CONVERT(int,  MAX(A.MANG_REG_NO) )+1 ) AS NEW_ID
+		FROM TB_CAB004D A
+		WHERE 1=1
+        AND A.BOARD_ID = #{boardId}	
+	</select>
+	<select id="selectNewPushRegNo" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.AttachFilesCommon.selectNewPushRegNo */
+		SELECT CONCAT( REPLICATE('0', 3-LEN(CONVERT(int,  MAX(A.PUSH_REG_NO) )+1)) , CONVERT(int,  MAX(A.PUSH_REG_NO) )+1 ) AS NEW_ID
+		FROM TB_CAC001D A
+		WHERE 1=1
+        AND A.BOARD_ID = #{boardId}	
+        AND A.POST_ID = #{postId}	
+	</select>
+
+    <select id="selectTaskBoardList" parameterType="HashMap" resultType="paramMap">
+    <![CDATA[
+    	/* com.merck.catalog.admin.dao.AttachFilesCommon.selectTaskBoardList */
+		select 
+		  A.BOARD_ID /* 게시판ID varchar12 */
+		, A.POST_ID /* 게시글ID varchar10 */
+		, A.TITLE /* 제목 nvarchar1000 */
+		, A.CN /* 내용 nvarchar3000 */
+		, A.PASSWD /* 비밀번호 varchar5 */
+		, A.TASK_SE_CD /* 업무구분코드 varchar5 */
+		, A.CATGR_ID_GRP /* 카테고리ID그룹 nvarchar100 */
+		, A.CATLG_ID /* 카달로그ID varchar10 */
+		, A.IMG_FILE_GRP_ID /* 이미지파일그룹ID varchar8 */
+		, A.ATTCH_FILE_GRP_ID /* 첨부파일그룹ID varchar8 */
+		, A.HIDDN_YN /* 공개여부 varchar1 */
+		, A.REPLY_YN /* 댓글여부 varchar1 */
+		, A.DEL_YN /* 삭제여부 varchar1 */
+		, A.USE_YN /* 사용여부 varchar1 */
+		, A.REGIST_USR_ID /* 등록자ID varchar10 */
+		
+		, b.CATLG_URL /* 카탈로그경로 nvarchar100 */
+		, b.PUSH_BEGIN_DT /* 발행시작일자 varchar12 */	
+		, b.PUSH_END_DT /* 발행종료일자 varchar12 */	
+		
+		, A.REGIST_USR_ID
+		, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */
+		, A.UPDT_USR_ID /* 수정자ID varchar10 */
+		, convert(varchar, A.UPDT_DT, 102)  AS UPDT_DT /* 수정일시 datetime2 */
+		
+		from TB_CAB002D a
+		   , TB_CAC001D b
+		where 1=1
+		and a.BOARD_ID = #{boardId}	
+		and a.BOARD_ID = b.BOARD_ID
+		and a.POST_ID = b.POST_ID
+				]]>
+		<if test="pushRegNo !=null and pushRegNo !='' "> 
+		and b.PUSH_REG_NO = #{pushRegNo}
+		</if>
+		<if test="registBeginDt !=null and registBeginDt !='' "> 
+        AND  FORMAT( A.REGIST_DT , 'yyyyMMdd' ) BETWEEN #{registBeginDt} AND #{registEndDt}
+		</if>
+		<if test="pushBeginDt !=null and pushBeginDt !='' ">
+		AND  B.PUSH_BEGIN_DT BETWEEN #{pushBeginDt} AND #{pushEndDt} 
+		</if>
+		AND A.TITLE LIKE CONCAT('%', N'${title}', '%' )
+		AND A.CN LIKE CONCAT('%', N'${cn}', '%' )					
+    </select>
+    
+</mapper>

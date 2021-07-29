@@ -51,7 +51,7 @@
       USE_YN, REGIST_USR_ID, REGIST_DT, 
       UPDT_USR_ID, UPDT_DT)
     values (
-		( SELECT CONCAT( 'CATLG' , REPLICATE('0', 5-LEN(CONVERT(int,  replace(MAX(A.CATLG_ID),'CATLG','') )+1)) , CONVERT(int,  replace(MAX(A.CATLG_ID),'CATLG','') )+1 ) AS NEW_ID  FROM TB_CAA001M A )
+		#{catlgId,jdbcType=VARCHAR}
 	  , #{catlgNm,jdbcType=NVARCHAR}, #{catgrIdGrp,jdbcType=VARCHAR}, 
       #{langSeCd,jdbcType=VARCHAR}, #{verInfo,jdbcType=NVARCHAR}, #{keywdValGrp,jdbcType=VARCHAR}, 
       #{issueDte,jdbcType=VARCHAR}, #{simplCn,jdbcType=NVARCHAR}, #{detlCn,jdbcType=NVARCHAR}, 
@@ -77,8 +77,6 @@
       DETL_CN = #{detlCn,jdbcType=NVARCHAR},
       TEL_MANG_USR_ID = #{telMangUsrId,jdbcType=VARCHAR},
       EMAIL_MANG_USR_ID = #{emailMangUsrId,jdbcType=VARCHAR},
-      DOWNLD_CNT = #{downldCnt,jdbcType=NUMERIC},
-      LIKE_CNT = #{likeCnt,jdbcType=NUMERIC},
       IMG_FILE_GRP_ID = #{imgFileGrpId,jdbcType=VARCHAR},
       CATLG_FILE_GRP_ID = #{catlgFileGrpId,jdbcType=VARCHAR},
       USE_YN = 'Y',
