@@ -57,6 +57,8 @@
 	<link href="${RESOURCES_PATH}/resource/css/content.css" rel="stylesheet" />
 	<link href="${RESOURCES_PATH}/resource/css/jquery-impromptu.min.css" rel="stylesheet" />
 	<link href="${RESOURCES_PATH}/resource/css/toastr.min.css" rel="stylesheet" />
+	
+	<link href="${RESOURCES_PATH}/resource/css/softlabHumStyle.css" rel="stylesheet" />
 
 	<title>MDC Admin</title>
   </head>
@@ -68,6 +70,7 @@
 		  
   			<tiles:insertAttribute name="left"/>
 	  		<!-- content_wrap -->
+	  			<div id="div_load_image" style="position:absolute; top:50%; left:50%;width:0px;height:0px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; text-align:center"> <img src="${RESOURCES_PATH}/resource/images/bx_loader.gif" style="width:30px; height:30px;"></div>
 	  		<div id="bodyTile" class="content_wrap">
 	  			<tiles:insertAttribute name="content"/>
 	  		</div>

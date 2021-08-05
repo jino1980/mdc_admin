@@ -35,6 +35,14 @@ public class CatalogDAO extends CommonDaoImpl<TbCaa001m>{
 		TbCaa001m vo = SoftLabHumUtils.convertMapToVo(map, TbCaa001m.class);
 		return sqlSession.update(TBCAA001M_NAMESPACE+"updateByPrimaryKey", vo);
 	}
+	public int updateForImgGrp(HashMap<String,Object> map) {
+		TbCaa001m vo = SoftLabHumUtils.convertMapToVo(map, TbCaa001m.class);
+		return sqlSession.update(TBCAA001M_NAMESPACE+"updateForImgGrp", vo);
+	}
+	public int updateForCtalgGrp(HashMap<String,Object> map) {
+		TbCaa001m vo = SoftLabHumUtils.convertMapToVo(map, TbCaa001m.class);
+		return sqlSession.update(TBCAA001M_NAMESPACE+"updateForCtalgGrp", vo);
+	}
 	public int deleteCatalog(HashMap<String,Object> map) {
 		TbCaa001m vo = SoftLabHumUtils.convertMapToVo(map, TbCaa001m.class);
 		return sqlSession.delete(TBCAA001M_NAMESPACE+"deleteByPrimaryKey", vo);

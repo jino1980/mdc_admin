@@ -1,3 +1,9 @@
+<%@page import="org.springframework.context.ApplicationContext"%>
+<%@page import="org.springframework.context.support.ClassPathXmlApplicationContext"%>
+<%@page import="org.apache.catalina.Context"%>
+<%@page import="org.springframework.web.context.*"%>
+<%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@page import="com.merck.catalog.admin.service.CmmnCdService"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
@@ -39,7 +45,8 @@
 							<tr>
 								<th scope="row">카테고리</th>
 								<td>
-									<ul class="inputbox">
+									<ul class="inputbox" id="categoryUl">
+										
 										<li>
 											<input type="checkbox" id="checkbox01_1" name="checkbox01" onClick="chkValidCate(this);" value="ALL"><label
 												for="checkbox01_1">전체</label>
@@ -64,6 +71,7 @@
 											<input type="checkbox" id="checkbox01_6" name="checkbox01" onClick="chkValidCate(this);" value="기타"><label
 												for="checkbox01_6">기타</label>
 										</li>
+										
 									</ul>
 								</td>
 							</tr>
@@ -150,9 +158,56 @@
 			
 			<script>
 				$(document).ready(function(){
-					fnSelectListCall();
+					
+					fnGetCategory();
+					
 				});
-			
+				
+				function fnGetCategory(){
+					
+					var categoryUlObj = $('#categoryUl');
+					    categoryUlObj.html("");
+					
+					var lvParams = {
+						        "cmmnCdId" : "CATE01"
+						      , "taskSe" : "CATE"
+						     };
+					var htmlTemp= '<li>'
+								+'<input type="checkbox" id="checkbox01_1" name="checkbox01" onClick="chkValidCate(this);" checked value="ALL">'
+								+'<label for="checkbox01_1">전체</label>'
+								+'</li>';
+						
+						$("#div_load_image").show();
+					  	$.ajax({
+					  	    url: "/admin/cmmnCd/selectCmmnCdListRest",
+					  	    type: "post",
+					  	    data: JSON.stringify(lvParams),
+					        contentType: "application/json",
+					  	    success: function(rs) {
+					  	    	//data = JSON.stringify(data);
+					  	    	//console.log(JSON.stringify(rs));
+					  	    	
+					  	    	$.each(rs , function(idx, val) {
+									console.log(idx + " " + val.cmmnCdNm);
+									//console.log("### rs.cmmmnCdNm=>>"+rs.cmmmnCdNm);
+					  	    		htmlTemp += '<li>'
+											+'<input type="checkbox" id="checkbox01_'+(idx+2)+'" name="checkbox01" onClick="chkValidCate(this);" value="'+val.cmmnCdNm+'">'
+											+'<label for="checkbox01_'+(idx+2)+'">'+val.cmmnCdNm+'</label>'
+											+'</li>';
+								});
+					  	    	console.log("#### htmlTemp=>>>"+ htmlTemp);
+					  	    	categoryUlObj.html(htmlTemp);
+					  	    	fnSelectListCall();
+					  	    	
+					  	    },
+					  	    error: function (xhr, status, error) {
+					  	    	$("#div_load_image").hide();
+					  	    	alert("error=>>"+error);
+					  	    }
+					  	  });
+					    
+				}
+				
 				var beginDate = new Date();
 				beginDate.setDate(beginDate.getDate() - 7);
 				
@@ -200,12 +255,12 @@
 					data: gridData,
 					scrollX: false,
 					scrollY: true,
-					rowHeaders: ['rowNum'],
-					header: {
-						height: 35
-					},
-					minRowHeight: 25,
-					bodyHeight: 435,
+		            rowHeaders: ['rowNum'],
+		            header: {
+		                height: 35
+		            },
+		            minRowHeight: 30,
+		            bodyHeight: 455,
 					columns: [
 						{
 							title: '카테고리',
@@ -222,18 +277,24 @@
 							title: '날짜',
 							align: 'center',
 							name: 'regDte',
+							sortingType: 'desc',
+		                    sortable: true,
 							width: 100
 						},
 						{
 							title: '다운로드 수',
 							align: 'center',
 							name: 'downldCnt',
+							sortingType: 'desc',
+		                    sortable: true,
 							width: 100
 						},
 						{
 							title: '좋아요 수',
 							align: 'center',
 							name: 'likeCnt',
+							sortingType: 'desc',
+		                    sortable: true,
 							width: 100
 						},
 						{
@@ -277,18 +338,20 @@
 				}); */
 				
 				// 카테고리 체크
-				$("input:checkbox[id='checkbox01_1']").prop("checked", true);				
 				function chkValidCate(obj){
 					if( obj.id=="checkbox01_1" && obj.checked ){
+						//console.log("전체 체크");
 						$("input:checkbox[id='checkbox01_2']").prop("checked", false);
 						$("input:checkbox[id='checkbox01_3']").prop("checked", false);
 						$("input:checkbox[id='checkbox01_4']").prop("checked", false);
 						$("input:checkbox[id='checkbox01_5']").prop("checked", false);
 						$("input:checkbox[id='checkbox01_6']").prop("checked", false);
 					}else if( obj.id!="checkbox01_1" && obj.checked ){
+						//console.log("카테고리 체크");
 						$("input:checkbox[id='checkbox01_1']").prop("checked", false);
 					}else{
-						$("input:checkbox[id='checkbox01_1']").prop("checked", true);
+						//console.log("그외 체크");
+						$("input:checkbox[id='"+obj.id+"']").prop("checked", false).trigger('change');
 					}
 				}
 				
@@ -343,7 +406,7 @@
 							     };
 					   
 					
-					  
+					 	 $("#div_load_image").show();
 					  	$.ajax({
 					  	    url: "/admin/catalog/selectCatalogList",
 					  	    type: "post",
@@ -355,9 +418,10 @@
 					  	    	$("#totCnt").html(rs.length);
 					  	    	toastr["info"](rs.length+"건 조회 되었습니다.","조회완료.");	
 					  	    	grid.setData(rs);
-					  	    	
+					  	    	$("#div_load_image").hide();
 					  	    },
 					  	    error: function (xhr, status, error) {
+					  	    	$("#div_load_image").hide();
 					  	    	alert("error=>>"+error);
 					  	    }
 					  	  });
@@ -376,6 +440,7 @@
 					console.log( JSON.stringify(lvParams) );
 					//alert( "작업중:::"+JSON.stringify(lvParams));
 					
+					$("#div_load_image").show();
 					$.ajax({
 				  	    url: "/admin/catalog/viewCatalog",
 				  	    type: "post",
@@ -386,9 +451,11 @@
 				  	    	console.log(JSON.stringify(rs));					    	
 				  	    	//var rsCnt = JSON.stringify(rs);
 				  	    	//alert("["+rsCnt"]건 삭제 되었습니다.");
+				  	    	$("#div_load_image").hide();
 				  	    	
 				  	    },
 				  	    error: function (xhr, status, error) {
+				  	    	$("#div_load_image").hide();
 				  	    	alert("error=>>"+error);
 				  	    }
 				  	  });
@@ -413,7 +480,7 @@
 								gvSessionParams = lvParams;
 								
 								console.log( JSON.stringify(lvParams) );
-													
+								$("#div_load_image").show();
 								$.ajax({
 							  	    url: "/admin/catalog/deleteCatalog",
 							  	    type: "post",
@@ -428,6 +495,7 @@
 							  	    	fnSelectListCall();
 							  	    },
 							  	    error: function (xhr, status, error) {
+							  	    	$("#div_load_image").hide();
 							  	    	alert("error=>>"+error);
 							  	    }
 							  	  });
@@ -439,6 +507,7 @@
 				
 				toastr.options = {
 						  "positionClass": "toast-bottom-right"
+					     ,"timeOut": "1500"
 						};
 				
 			</script>

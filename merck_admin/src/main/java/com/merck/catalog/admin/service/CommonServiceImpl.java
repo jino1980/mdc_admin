@@ -36,19 +36,19 @@ public class CommonServiceImpl<T> implements CommonService<T> {
     }
     
     @Override
-    @Transactional
+    
     public int insert(T vo) {
         return commonDao.insert(vo);
     }
     
     @Override
-    @Transactional
+    
     public int update(T vo) {
         return commonDao.update(vo);
     }
     
     @Override
-    @Transactional
+    
     public int delete(int Id) {
         return commonDao.delete(Id);
     }

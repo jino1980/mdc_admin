@@ -1,8 +1,10 @@
 package com.merck.catalog.admin.dao;
 
-import com.mybatis.gen.model.TbSaf003d;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
+import com.merck.catalog.admin.vo.TbSaf003d;
 
 public interface TbSaf003dMapper {
     /**

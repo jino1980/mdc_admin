@@ -1,8 +1,10 @@
 package com.merck.catalog.admin.dao;
 
-import com.mybatis.gen.model.TbCbb001m;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
+import com.merck.catalog.admin.vo.TbCbb001m;
 
 public interface TbCbb001mMapper {
     /**

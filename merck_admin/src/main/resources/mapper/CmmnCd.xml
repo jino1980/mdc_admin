@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.merck.catalog.admin.dao.CmmnCdDAO">
+
+    <select id="countAll" resultType="int">
+    	/* com.merck.catalog.admin.dao.CmmnCd.countAll */
+        SELECT count(1) FROM TB_SAA002D A -- SAF001D_첨부파일상세
+        WHERE 1=1
+        AND A.CMMN_CD_ID = #{cmmnCdId}	
+        AND A.USE_YN = 'Y'
+    </select>
+
+	<select id="selectNewCmmnCd" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.CmmnCd.selectNewCmmnCd */
+		SELECT CASE WHEN ISNULL(MAX(A.CMMN_CD),'') = '' THEN CONCAT(#{cmmnCdId} , '0001') 
+		            ELSE CONCAT( #{cmmnCdId} , REPLICATE('0', 4-LEN(CONVERT(int, REPLACE(MAX(A.CMMN_CD),#{cmmnCdId},'') )+1)) , CONVERT(int, REPLACE(MAX(A.CMMN_CD),#{cmmnCdId},'') )+1 )
+				END AS NEW_ID      
+		FROM TB_SAA002D A
+		WHERE 1=1
+        AND A.CMMN_CD_ID = #{cmmnCdId}
+	</select>
+	
+	<select id="selectCmmnCdChkForUpdate" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.CmmnCd.selectCmmnCdChkForUpdate */
+		<![CDATA[
+		SELECT CASE WHEN A.CMMN_CD_NM <> #{cmmnCdNm}
+					THEN 'U'
+		            ELSE 'N'
+				END AS IS_UPDATE      
+		FROM TB_SAA002D A
+		WHERE 1=1
+        AND A.CMMN_CD_ID = #{cmmnCdId}
+        AND A.CMMN_CD = #{cmmnCd}
+        ]]>
+	</select>
+	
+	<select id="selectCmmnCdChkForUsing" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.CmmnCd.selectCmmnCdChkForUsing */
+		<![CDATA[
+		SELECT 'CTA' AS TASK_SE_CD , COUNT(A.CATLG_ID) AS CNT  , CASE WHEN COUNT(A.CATLG_ID) > 0 THEN 'Y' ELSE 'N' END AS IS_USING
+		FROM TB_CAA001M A
+		WHERE 1=1
+		AND A.CATGR_ID_GRP LIKE CONCAT( '%' , N',${cmmnCdNm}' , '%' )
+		AND A.USE_YN = 'Y'
+		UNION ALL
+		SELECT A.TASK_SE_CD , COUNT(A.POST_ID) AS CNT   , CASE WHEN COUNT(A.POST_ID) > 0 THEN 'Y' ELSE 'N' END AS IS_USING
+		FROM TB_CAB002D A
+		WHERE 1=1
+		AND A.CATGR_ID_GRP LIKE CONCAT( '%' , N',${cmmnCdNm}' , '%' )
+		AND A.DEL_YN = 'N'
+		AND A.USE_YN = 'Y'
+		GROUP BY A.TASK_SE_CD 
+        ]]>
+	</select>
+
+    <select id="selectCmmnCdList" parameterType="HashMap" resultType="paramMap">
+    <![CDATA[
+    	/* com.merck.catalog.admin.dao.CmmnCd.selectCmmnCdList */
+		SELECT
+		  CMMN_CD_ID /* 공통코드ID varchar6 */
+		, CMMN_CD /* 공통코드 varchar10 */
+		, CMMN_CD_ID_NM /* 공통코드ID명 nvarchar500 */
+		, CMMN_CD_NM /* 공통코드명 nvarchar500 */
+		, CMMN_CD_ABBR_NM /* 공통코드약어명 nvarchar500 */
+		, CMMN_CD_SN /* 공통코드순번 numeric */
+		, CMMN_SORT_SN /* 공통코드정렬순번 numeric */
+		, MANG_ITEM_PARM_01 /* 관리항목식별01 nvarchar1000 */
+		, MANG_ITEM_VAL_01 /* 관리항목값01 nvarchar1000 */
+		, MANG_ITEM_PARM_02 /* 관리항목식별02 nvarchar1000 */
+		, MANG_ITEM_VAL_02 /* 관리항목값02 nvarchar1000 */
+		, MANG_ITEM_PARM_03 /* 관리항목식별03 nvarchar1000 */
+		, MANG_ITEM_VAL_03 /* 관리항목값03 nvarchar1000 */
+		, USE_YN /* 사용여부 varchar1 */
+		FROM TB_SAA002D A
+		WHERE 1=1
+		AND A.CMMN_CD_ID = #{cmmnCdId}
+				]]>
+		<if test="cmmnCd !=null and cmmnCd !='' "> 
+		AND A.CMMN_CD = #{cmmnCd}
+		</if>
+		<if test="useYn !=null and useYn !='' "> 
+		AND A.USE_YN = #{useYn}
+		</if>
+		<if test="cmmnCdNm !=null and cmmnCdNm !='' "> 
+		AND A.CMMN_CD_NM LIKE CONCAT( '%' , N'${cmmnCdNm}' , '%' )
+		</if>
+		ORDER BY CMMN_SORT_SN ASC		
+    </select>
+    
+    
+    <delete id="deleteByCategoryList" parameterType="HashMap">
+    	/* com.merck.catalog.admin.dao.CmmnCd.deleteByCategoryList */
+	    delete from TB_SAA002D
+	    WHERE 1=1
+		AND CMMN_CD_ID = #{cmmnCdId}
+		AND CMMN_CD NOT IN
+							<foreach collection="notInCmmnCdArr" item="cmmnCd" index="index" open="(" separator="," close=")">
+						     #{cmmnCd}
+							</foreach>
+	</delete>
+</mapper>

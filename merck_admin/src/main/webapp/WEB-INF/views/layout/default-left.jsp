@@ -13,22 +13,22 @@
 					<li><a href="#" class="on">카탈로그 관리</a>
 						<ul class="lnb_menu_depth">
 							<li><a href="#" onClick="switchContent('/admin/catalog/catalog_list');" class="on">카탈로그 목록</a></li>
-							<li><a href="#" onClick="switchContent('/admin/catalog/catalog_write');">카탈로그 등록</a></li>
+							<li><a href="#" onClick="switchContent('/admin/catalog/viewCatalog/CATA');">카탈로그 등록</a></li>
 						</ul>
 					</li>
 					<li><a href="#">알림 관리</a>
 						<ul class="lnb_menu_depth">
-							<li><a href="#" onClick="switchContent('/admin/alert/notice_list');">공지사항</a></li>
+							<li><a href="#" onClick="switchContent('/admin/alert/notc_list');">공지사항</a></li>
 							<li><a href="#" onClick="switchContent('/admin/alert/push_list');">푸시 관리</a></li>
-							<li><a href="#" onClick="switchContent('/admin/alert/popup_list');">팝업 관리</a></li>
+							<li><a href="#" onClick="switchContent('/admin/alert/popp_list');">팝업 관리</a></li>
 						</ul>
 					</li>
 					<li>
 						<a href="#">환경설정</a>
 						<ul class="lnb_menu_depth">
-							<li><a href="#" onClick="switchContent('/admin/env/catalog_list');">카테고리 관리</a></li>
-							<li><a href="#" onClick="switchContent('/admin/env/manager_admin');">문의 담당자 관리</a></li>
-							<li><a href="#" onClick="switchContent('/admin/env/help');">도움말 관리</a></li>
+							<li><a href="#" onClick="switchContent('/admin/cmmnCd/selectCmmnCdList/CATE/CATE01/Y');">카테고리 관리</a></li>
+							<li><a href="#" onClick="switchContent('/admin/env/qnam_regist');">문의 담당자 관리</a></li>
+							<li><a href="#" onClick="switchContent('/admin/env/help_regist');">도움말 관리</a></li>
 						</ul>
 					</li>
 				</ul>

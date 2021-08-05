@@ -41,25 +41,25 @@
 							<tr>
 								<th scope="row">발송일</th>
 								<td>
-									<div class="datepicker_box">
-										<div class="tui-datepicker-input tui-datetime-input tui-has-focus">
-											<input type="text" id="datepicker-input1" aria-label="Date-Time">
-											<span class="tui-ico-date"></span>
-										</div>
-										<div id="wrapper1" style="margin-top: -1px;"></div>
-									</div>
+								<div class="datepicker_box">
+									<div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+					                <input type="text" id="pushBeginDt" name="pushBeginDt" aria-label="Date-Time">
+					                <span class="tui-ico-date"></span>
+					              </div>
+					              <div id="wrapper1" style="margin-top: -1px;"></div>
+					            </div>
 									~
-									<div class="datepicker_box">
-										<div class="tui-datepicker-input tui-datetime-input tui-has-focus">
-											<input type="text" id="datepicker-input2" aria-label="Date-Time">
-											<span class="tui-ico-date"></span>
-										</div>
-										<div id="wrapper2" style="margin-top: -1px;"></div>
-									</div>
+								<div class="datepicker_box">
+									<div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+					                <input type="text" id="pushEndDt" name="pushEndDt" aria-label="Date-Time">
+					                <span class="tui-ico-date"></span>
+					              </div>
+					              <div id="wrapper2" style="margin-top: -1px;"></div>
+					            </div>
 								</td>
                                 <th scope="row">검색내용</th>
                                 <td>
-                                    <input type="text" class="w350">
+                                    <input type="text" id="title" name="title" class="w350">
                                 </td>
 							</tr>
 						</tbody>
@@ -68,12 +68,12 @@
 				<!-- // 검색 -->
 				
 				<div class="btn_box alright">
-					<button type="button" class="btn btn_default">검색</button>
+					<button type="button" name="cn" class="btn btn_default" onClick="javascript:fnSelectListCall();">검색</button>
 				</div>
 
 				<!-- 타이틀 -->
 				<div class="title_box">
-					<h2 class="h2">총 <span>12,345</span>건</h2>
+					<h2 class="h2">총 <span id="totCnt"></span>건</h2>
 				</div>
 				<!-- // 타이틀 -->
 
@@ -85,9 +85,9 @@
 
 				<!-- 페이징 + 버튼 -->
 				<div class="paging_box">
-					<div id="pagination1" class="tui-pagination paging"></div>
+					<!-- <div id="pagination1" class="tui-pagination paging"></div> -->
                     <div class="btn_box">
-                        <button type="button" class="btn btn_default">글쓰기</button>
+                        <button type="button" class="btn btn_default" onClick="javascript:switchContent('/admin/board/viewBoardCommon/PUSH00000001/PUSH');">글쓰기</button>
                     </div>
 				</div>
 				<!-- // 페이징 + 버튼 -->
@@ -98,23 +98,29 @@
 			<!-- // content -->
 
 	<script>
-		var datepicker1 = new tui.DatePicker('#wrapper1', {
-			date: new Date(),
-            timepicker: true,
-			input: {
-				element: '#datepicker-input1',
-				format: 'yyyy-MM-dd HH:mm A'
-			}
-		});
-
-		var datepicker2 = new tui.DatePicker('#wrapper2', {
-			date: new Date(),
-            timepicker: true,
-			input: {
-				element: '#datepicker-input2',
-				format: 'yyyy-MM-dd HH:mm A'
-			}
-		});
+	$(document).ready(function(){
+		fnSelectListCall();
+	});
+	
+			var today = new Date();
+			var datepicker1 = new tui.DatePicker('#wrapper1', {
+		        date: new Date(today.getFullYear(), today.getMonth()-1, today.getDate()),
+		        input: {
+		          element: '#pushBeginDt',
+		          format: 'yyyy-MM-dd HH:mm A'
+		        },
+		        timePicker: true
+		      });
+	
+			var datepicker2 = new tui.DatePicker('#wrapper2', {
+		        date:  new Date(today.getFullYear(), today.getMonth(), today.getDate()+7),
+		        input: {
+		          element: '#pushEndDt',
+		          format: 'yyyy-MM-dd HH:mm A'
+		        },
+		        timePicker: true
+		      });
+	    
 
 		// 목록
 		var Grid = tui.Grid;
@@ -123,39 +129,39 @@
 				noData: '검색 결과가 없습니다'
 			}
 		});
-
-        var grid = new tui.Grid({
-            el: $('#grid'),
+		
+		var grid = new tui.Grid({
+			el: $('#grid'),
             data: gridData,
             scrollX: false,
-            scrollY: false,
+            scrollY: true,
+            rowHeaders: ['rowNum'],
             header: {
                 height: 35
             },
             minRowHeight: 30,
-            bodyHeight: 340,
-            columns: [{
-                    title: 'No.',
-                    align: 'center',
-                    name: 'type01',
-                    width: 80
-                },
+            bodyHeight: 455,
+            columns: [
                 {
-                    title: '푸시 내용',
+                    title: '푸시 제목',
                     align: 'left',
-                    name: 'type02',
+                    name: 'titleSimple',
                 },
                 {
                     title: '등록일',
                     align: 'center',
-                    name: 'type03',
+                    name: 'regDte',
+                    sortingType: 'desc',
+                    sortable: true,
                     width: 100
                 },
                 {
                     title: '발송일',
                     align: 'center',
-                    name: 'type04',
-                    width: 100
+                    name: 'pushBeginDate',
+                    sortingType: 'desc',
+                    sortable: true,
+                    width: 150
                 },
                 {
                     title: '수정',
@@ -163,9 +169,9 @@
                     name: 'type05',
                     width: 80,
                     formatter: function (value, rowData) {
-                        var btnCy = rowData.btnClass1;
-                        return '<button type="button" class="tb_btn ' + btnCy + '">' + value +
-                            '</button>';
+                        var btnCy = 'blue';
+						value = '수정';
+						return '<button type="button" id="'+rowData.postId+'" class="tb_btn '+ btnCy +'" onClick=fnModify(this,"'+rowData.pushRegNo+'") >' + value + '</button>';
                     }
                 },
                 {
@@ -174,32 +180,113 @@
                     name: 'type06',
                     width: 80,
                     formatter: function (value, rowData) {
-                        var btnCy = rowData.btnClass2;
-                        return '<button type="button" class="tb_btn ' + btnCy + '">' + value +
-                            '</button>';
+                    	var btnCy = 'red';
+						value = '삭제';
+						return '<button type="button" id="'+rowData.postId+'" class="tb_btn '+ btnCy +'" onClick=fnDel(this,"'+rowData.pushRegNo+'") >' + value + '</button>';
                     }
                 }
             ]
         });
+		
+		var gridData = null;
+		grid.setData(gridData);
 
-        var gridData = [{
-            type01: '1',
-            type02: '새로운 버전 업데이트 안내',
-            type03: '2021.06.21',
-            type04: '2021.06.21',
-            btnClass1: 'blue',
-            type05: '수정',
-            btnClass2: 'red',
-            type06: '삭제'
-        }];
-        grid.setData(gridData);
+        
+        var boardId = "PUSH00000001"; // 공지사항
+        var taskSe = "PUSH";
 
-		// 페이징
-		var Pagination = tui.Pagination;
-
-		var pagination1 = new tui.Pagination('pagination1', {
-			totalItems: 500,
-			itemsPerPage: 10,
-			visiblePages: 10
-		});
+     	// 조회호출
+		var lvParams;
+		function fnSelectListCall() {
+			
+			
+			var title =nvl($("#title").val(),'');
+			var pushBeginDt =nvl($("#pushBeginDt").val(),'');
+			var pushEndDt =nvl($("#pushEndDt").val(),'');
+			
+			  lvParams = {
+					        "boardId" : boardId
+					      , "taskSe": taskSe
+					      , "title" : title
+					      , "pushBeginDt" : (((((pushBeginDt.replace(/-/gi,"")).replace(/:/gi,"")).replace(/ /gi,"")).replace('PM',"")).replace('AM',""))
+					      , "pushEndDt" : (((((pushEndDt.replace(/-/gi,"")).replace(/:/gi,"")).replace(/ /gi,"")).replace('PM',"")).replace('AM',""))
+					     };
+			   
+			console.log("## lvParams=>"+JSON.stringify(lvParams));
+				$("#div_load_image").show();
+			  	$.ajax({
+			  	    url: "/admin/board/selectBoardCommonList",
+			  	    type: "post",
+			  	    data: JSON.stringify(lvParams),
+			        contentType: "application/json",
+			  	    success: function(rs) {
+			  	    	//data = JSON.stringify(data);
+			  	    	console.log(JSON.stringify(rs));
+			  	    	$("#totCnt").html(rs.length);
+			  	    	toastr["info"](rs.length+"건 조회 되었습니다.","조회완료.");	
+			  	    	grid.setData(rs);
+			  	    	$("#div_load_image").hide();
+			  	    },
+			  	    error: function (xhr, status, error) {
+			  	    	$("#div_load_image").hide();
+			  	    	alert("error=>>"+error);
+			  	    }
+			  	  });
+			  
+		}
+		
+		//수정
+		function fnModify(obj){
+			console.log( obj.id );
+			switchContent("/admin/board/viewBoardCommon/"+boardId+"/"+obj.id );
+		}
+		
+		//삭제
+		function fnDel(obj,pushRegNo){
+			
+			$.prompt("<h2>삭제하시겠습니까?</h2>", {
+				focus : 1,
+				buttons: { "네": true, "아니오": false },
+				top : "40%",
+				promptspeed : "fast",
+				submit: function(e,v,m,f){
+					// use e.preventDefault() to prevent closing when needed or return false.
+					//e.preventDefault();
+					console.log("Value clicked was: "+ v);
+					if( v ){
+						
+						lvParams.boardId = boardId;
+						lvParams.postId = obj.id;
+						lvParams.pushRegNo = pushRegNo;
+						gvSessionParams = lvParams;
+						
+						console.log( JSON.stringify(lvParams) );
+											
+						$.ajax({
+					  	    url: "/admin/board/deleteBoardCommon/"+boardId+"/"+obj.id,
+					  	    type: "post",
+					  	    data: JSON.stringify(lvParams),
+					        contentType: "application/json",
+					  	    success: function(rs) {
+					  	    	//data = JSON.stringify(data);
+					  	    	console.log(JSON.stringify(rs));					    	
+					  	    	//grid.setData(rs);
+					  	    	var rsCnt = JSON.stringify(rs);
+					  	    	toastr["success"](rsCnt+"건 삭제 되었습니다.","삭제완료.");
+					  	    	fnSelectListCall();
+					  	    },
+					  	    error: function (xhr, status, error) {
+					  	    	alert("error=>>"+error);
+					  	    }
+					  	  });
+						
+					}
+				}
+			});
+		}
+		
+		toastr.options = {
+				  "positionClass": "toast-bottom-right",
+				  "timeOut": "1500"
+				};
 	</script>

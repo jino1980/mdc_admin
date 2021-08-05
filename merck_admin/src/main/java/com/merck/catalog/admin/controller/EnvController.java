@@ -12,16 +12,22 @@ public class EnvController {
 
 	private static final Logger logger = LoggerFactory.getLogger(EnvController.class);
 	
-	@RequestMapping(value = "catalog_list", method = {RequestMethod.GET, RequestMethod.POST})
-	public String list() {
-	    logger.info("category_admin page");
-		return "/admin/env/category_admin";
+	@RequestMapping(value = "cate_regist", method = {RequestMethod.GET, RequestMethod.POST})
+	public String cate_regist() {
+	    logger.info("cate_regist page");
+		return "/admin/env/cate_regist";
 	}
 	
-	@RequestMapping(value = "manager_admin", method = {RequestMethod.GET, RequestMethod.POST})
-	public String write() {
-		logger.info("manager_admin page");
-		return "/admin/env/manager_admin";
+	@RequestMapping(value = "qnam_regist", method = {RequestMethod.GET, RequestMethod.POST})
+	public String qnam_regist() {
+		logger.info("qnam_regist page");
+		return "/admin/env/qnam_regist";
+	}
+	
+	@RequestMapping(value = "help_regist", method = {RequestMethod.GET, RequestMethod.POST})
+	public String help_regist() {
+		logger.info("help_regist page");
+		return "/admin/env/help_regist";
 	}
 	
 }

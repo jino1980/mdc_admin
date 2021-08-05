@@ -1,7 +1,8 @@
 package com.merck.catalog.admin.dao;
 
-import com.mybatis.gen.model.TbSau002m;
 import java.util.List;
+
+import com.merck.catalog.admin.vo.TbSau002m;
 
 public interface TbSau002mMapper {
     /**

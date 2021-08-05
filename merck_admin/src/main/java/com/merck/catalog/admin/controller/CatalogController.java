@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.merck.catalog.admin.service.BoardCommonService;
 import com.merck.catalog.admin.service.CatalogService;
+import com.merck.catalog.admin.service.CmmnCdService;
 
 @Controller
 @RequestMapping("/admin/catalog/*")
@@ -26,6 +28,11 @@ public class CatalogController {
 	
 	@Autowired
     private CatalogService service;
+	
+	@Autowired
+	private CmmnCdService cmmnCdSerivce;
+	@Autowired
+	private BoardCommonService boardCommService;
 	
 	@RequestMapping(value = "selectCatalogList", method = {RequestMethod.GET, RequestMethod.POST})
 	public @ResponseBody List<Map<String, Object>> list(@RequestBody HashMap<String, Object> paramMap) {
@@ -48,14 +55,30 @@ public class CatalogController {
 	    
 	    HashMap paramMap = new HashMap();
 	    paramMap.put("catlgId", catlgId);
+	    paramMap.put("cmmnCdId", "CATE01");
 	    
 	    List<Map<String, Object>> list = service.selectCatalogList(paramMap);
+	    
+	    // 카테고리 목록
+	    List<Map<String, Object>> categoryCmmnCdList = cmmnCdSerivce.selectCmmnCdList(paramMap);
+	    // 이미지 목록
+	    paramMap.put("taskSe","CATA");
+	    List<Map<String, Object>> imgGrpList = boardCommService.selectImgGrpList(paramMap);
+	    // 카달로그 목록
+	    List<Map<String, Object>> catalogGrpList = boardCommService.selectCatalogGrpList(paramMap);
+	    // 문의담당자 목록
+	    List<Map<String, Object>> qnaManagerList = boardCommService.selectQnamList(paramMap);
 	    
 	    ModelAndView mav = new ModelAndView();
 	    mav.setViewName("/admin/catalog/catalog_write");
 	    //String rtnStr = "";
 	    //if(list.size() > 0) rtnStr = SoftLabHumUtils.converMapToJson(list.get(0));
 		mav.addObject("catalogList", list);
+		mav.addObject("categoryCmmnCdList", categoryCmmnCdList);
+		mav.addObject("qnaManagerList", qnaManagerList);
+		mav.addObject("imgGrpList", imgGrpList);
+		mav.addObject("catalogGrpList", catalogGrpList);
+		
 		return mav;
 		//return new ModelAndView("/admin/catalog/catalog_write", "catalogList", null );
 	}
@@ -73,6 +96,7 @@ public class CatalogController {
 	    
 	    if( !"".equals(catlgId)) {
 	    	saveCnt = service.updateCatalog(paramMap);
+	    	newCatalogId = catlgId;
 	    }else {
 	    	newCatalogId = service.insertCatalog(paramMap);
 	    }

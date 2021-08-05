@@ -1,7 +1,8 @@
 package com.merck.catalog.admin.dao;
 
-import com.mybatis.gen.model.TbCab001m;
 import java.util.List;
+
+import com.merck.catalog.admin.vo.TbCab001m;
 
 public interface TbCab001mMapper {
     /**

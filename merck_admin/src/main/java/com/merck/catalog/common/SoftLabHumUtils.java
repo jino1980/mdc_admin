@@ -79,5 +79,26 @@ public class SoftLabHumUtils {
 		
 	}
 	
+	public static String nvl(Object o){
+		if( null == o ) {
+			return "";
+		}else {
+			return new String((String) o);
+		}
+	}
+	public static String nvl(Object o,String rtnStr){
+		if( null == o ) {
+			return rtnStr;
+		}else {
+			return new String((String) o);
+		}
+	}
+	public static boolean isNull(Object o){
+		if( null == o || ( o instanceof String && "".equals( nvl(o)) )) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	
 }

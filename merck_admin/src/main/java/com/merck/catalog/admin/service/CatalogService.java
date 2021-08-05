@@ -26,13 +26,24 @@ public class CatalogService extends CommonServiceImpl<TbCaa001m> {
 	        return dao.selectCatalogList(map);
 	    }
 	    
+	    
 	    public String insertCatalog(HashMap<String,Object> map) {
 	        return dao.insertCatalog(map);
 	    }
 	    
+	    
 	    public int updateCatalog(HashMap<String,Object> map) {
 	        return dao.updateCatalog(map);
 	    }
+	    
+	    public int updateForImgGrp(HashMap<String,Object> map) {
+	    	return dao.updateForImgGrp(map);
+	    }
+	    
+	    public int updateForCtalgGrp(HashMap<String,Object> map) {
+	    	return dao.updateForCtalgGrp(map);
+	    }
+	    
 	    
 	    public int deleteCatalog(HashMap<String,Object> map) {
 	        return dao.deleteCatalog(map);

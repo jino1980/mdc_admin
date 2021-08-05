@@ -239,7 +239,7 @@ button {
 }
 
 .table_cell {
-	display: table-cell !impo0.rtant;
+	display: table-cell !important;
 	vertical-align: middle;
 }
 
@@ -726,6 +726,12 @@ button:disabled {
 	border: 1px solid #666;
 	color: #fff;
 	background: #666;
+}
+
+.tb_btn.disabled {
+	/*pointer-events: none;*/	
+	cursor: normal;
+	opacity: 0.8;
 }
 
 .tb_btn.red {

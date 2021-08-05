@@ -1,5780 +1,7560 @@
 /*!
- * tui-date-picker.js
- * @version 3.2.1
- * @author NHNEnt FE Development Lab <dl_javascript@nhnent.com>
+ * TOAST UI Date Picker
+ * @version 4.2.2
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("jquery"), require("tui-code-snippet"), require("tui-time-picker"));
+		module.exports = factory(require("tui-time-picker"));
 	else if(typeof define === 'function' && define.amd)
-		define(["jquery", "tui-code-snippet", "tui-time-picker"], factory);
+		define(["tui-time-picker"], factory);
 	else if(typeof exports === 'object')
-		exports["DatePicker"] = factory(require("jquery"), require("tui-code-snippet"), require("tui-time-picker"));
+		exports["DatePicker"] = factory(require("tui-time-picker"));
 	else
-		root["tui"] = root["tui"] || {}, root["tui"]["DatePicker"] = factory(root["$"], (root["tui"] && root["tui"]["util"]), (root["tui"] && root["tui"]["TimePicker"]));
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__) {
+		root["tui"] = root["tui"] || {}, root["tui"]["DatePicker"] = factory(root["tui"]["TimePicker"]);
+})(window, function(__WEBPACK_EXTERNAL_MODULE__43__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
-
+/******/ 		module.l = true;
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "dist";
-
+/******/
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 34);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview The entry file of DatePicker components
-	 * @author NHN Ent. FE Development Team
-	 */
+"use strict";
+/**
+ * @fileoverview
+ * This module provides a function to make a constructor
+ * that can inherit from the other constructors like the CLASS easily.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var DatePicker = __webpack_require__(1);
-	var DateRangePicker = __webpack_require__(49);
-	var Calendar = __webpack_require__(5);
 
-	__webpack_require__(50);
+var inherit = __webpack_require__(35);
+var extend = __webpack_require__(7);
 
-	/**
-	 * Create a calendar component
-	 * @static
-	 * @param {HTMLElement|jQuery|string} wrapperElement - Wrapper element or selector
-	 *     @param {Object} [options] - Options for initialize
-	 *     @param {string} [options.language = 'en'] - Calendar language - {@link Calendar.localeTexts}
-	 *     @param {boolean} [options.showToday] - If true, shows today
-	 *     @param {boolean} [options.showJumpButtons] - If true, shows jump buttons (next,prev-year in 'date'-Calendar)
-	 *     @param {Date} [options.date = new Date()] - Initial date
-	 *     @param {string} [options.type = 'date'] - Calendar types - 'date', 'month', 'year'
-	 *     @param {Boolean} [options.usageStatistics=true|false] send hostname to google analytics [default value is true]
-	 * @returns {Calendar} Instance of Calendar
-	 * @example
-	 * var DatePicker = tui.DatePicker; // or require('tui-date-picker');
-	 * var calendar = DatePicker.createCalendar('#calendar-wrapper', {
-	 *    language: 'en',
-	 *    showToday: true,
-	 *    showJumpButtons: false,
-	 *    date: new Date(),
-	 *    type: 'date'
-	 * });
-	 */
-	DatePicker.createCalendar = function(wrapperElement, options) {
-	    return new Calendar(wrapperElement, options);
-	};
+/**
+ * @module defineClass
+ */
 
-	/**
-	 * Create a calendar component
-	 * @static
-	 * @param {object} options - Date-Range picker options
-	 *     @param {object} options.startpicker - Startpicker options
-	 *     @param {Element|jQuery|string} options.startpicker.input - Startpicker input element
-	 *     @param {Element|jQuery|string} options.startpicker.container - Startpicker container element
-	 *     @param {object} options.endpicker - Endpicker options
-	 *     @param {Element|jQuery|string} options.endpicker.input - Endpicker input element
-	 *     @param {Element|jQuery|string} options.endpicker.container - Endpicker container element
-	 *     @param {string} options.format - Input date-string format
-	 *     @param {string} [options.type = 'date'] - DatePicker type - ('date' | 'month' | 'year')
-	 *     @param {string} [options.language='en'] - Language key
-	 *     @param {object|boolean} [options.timePicker] - {@link TimePicker} option
-	 *     @param {object} [options.calendar] - {@link Calendar} option
-	 *     @param {Array.<Array.<Date|number>>} [options.selectableRanges] - Selectable ranges
-	 *     @param {boolean} [options.showAlways = false] - Whether the datepicker shows always
-	 *     @param {boolean} [options.autoClose = true] - Close after click a date
-	 *     @param {Boolean} [options.usageStatistics=true|false] send hostname to google analytics [default value is true]
-	 * @returns {DateRangePicker} Instance of DateRangePicker
-	 * @example
-	 * var DatePicker = tui.DatePicker; // or require('tui-date-picker');
-	 * var rangepicker = DatePicker.createRangePicker({
-	 *     startpicker: {
-	 *         input: '#start-input',
-	 *         container: '#start-container'
-	 *     },
-	 *     endpicker: {
-	 *         input: '#end-input',
-	 *         container: '#end-container'
-	 *     },
-	 *     type: 'date',
-	 *     format: 'yyyy-MM-dd'
-	 *     selectableRanges: [
-	 *         [new Date(2017, 3, 1), new Date(2017, 5, 1)],
-	 *         [new Date(2017, 6, 3), new Date(2017, 10, 5)]
-	 *     ]
-	 * });
-	 */
-	DatePicker.createRangePicker = function(options) {
-	    return new DateRangePicker(options);
-	};
+/**
+ * Help a constructor to be defined and to inherit from the other constructors
+ * @param {*} [parent] Parent constructor
+ * @param {Object} props Members of constructor
+ *  @param {Function} props.init Initialization method
+ *  @param {Object} [props.static] Static members of constructor
+ * @returns {*} Constructor
+ * @memberof module:defineClass
+ * @example
+ * var defineClass = require('tui-code-snippet/defineClass/defineClass'); // node, commonjs
+ *
+ * //-- #2. Use property --//
+ * var Parent = defineClass({
+ *     init: function() { // constuructor
+ *         this.name = 'made by def';
+ *     },
+ *     method: function() {
+ *         // ...
+ *     },
+ *     static: {
+ *         staticMethod: function() {
+ *              // ...
+ *         }
+ *     }
+ * });
+ *
+ * var Child = defineClass(Parent, {
+ *     childMethod: function() {}
+ * });
+ *
+ * Parent.staticMethod();
+ *
+ * var parentInstance = new Parent();
+ * console.log(parentInstance.name); //made by def
+ * parentInstance.staticMethod(); // Error
+ *
+ * var childInstance = new Child();
+ * childInstance.method();
+ * childInstance.childMethod();
+ */
+function defineClass(parent, props) {
+  var obj;
 
-	module.exports = DatePicker;
+  if (!props) {
+    props = parent;
+    parent = null;
+  }
+
+  obj = props.init || function() {};
+
+  if (parent) {
+    inherit(obj, parent);
+  }
+
+  if (props.hasOwnProperty('static')) {
+    extend(obj, props['static']);
+    delete props['static'];
+  }
+
+  extend(obj.prototype, props);
+
+  return obj;
+}
+
+module.exports = defineClass;
 
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview DatePicker component
-	 * @author NHN ent FE dev Lab <dl_javascript@nhnent.com>
-	 */
-
-	'use strict';
-
-	var $ = __webpack_require__(2);
-	var snippet = __webpack_require__(3);
-	var TimePicker = __webpack_require__(4);
-
-	var Calendar = __webpack_require__(5);
-	var RangeModel = __webpack_require__(43);
-	var constants = __webpack_require__(31);
-	var localeTexts = __webpack_require__(27);
-	var dateUtil = __webpack_require__(30);
-	var setTouchClickEvent = __webpack_require__(45);
-	var tmpl = __webpack_require__(46);
-	var DatePickerInput = __webpack_require__(48);
-
-	var DEFAULT_LANGUAGE_TYPE = constants.DEFAULT_LANGUAGE_TYPE;
-	var TYPE_DATE = constants.TYPE_DATE;
-	var TYPE_MONTH = constants.TYPE_MONTH;
-	var TYPE_YEAR = constants.TYPE_YEAR;
-	var CLASS_NAME_NEXT_YEAR_BTN = constants.CLASS_NAME_NEXT_YEAR_BTN;
-	var CLASS_NAME_NEXT_MONTH_BTN = constants.CLASS_NAME_NEXT_MONTH_BTN;
-	var CLASS_NAME_PREV_YEAR_BTN = constants.CLASS_NAME_PREV_YEAR_BTN;
-	var CLASS_NAME_PREV_MONTH_BTN = constants.CLASS_NAME_PREV_MONTH_BTN;
-	var CLASS_NAME_SELECTED = constants.CLASS_NAME_SELECTED;
-
-	var CLASS_NAME_SELECTABLE = 'tui-is-selectable';
-	var CLASS_NAME_BLOCKED = 'tui-is-blocked';
-	var CLASS_NAME_CHECKED = 'tui-is-checked';
-	var CLASS_NAME_SELECTOR_BUTTON = 'tui-datepicker-selector-button';
-	var CLASS_NAME_TODAY = 'tui-calendar-today';
-
-	var SELECTOR_BODY = '.tui-datepicker-body';
-	var SELECTOR_FOOTER = '.tui-datepicker-footer';
-	var SELECTOR_DATE_ICO = '.tui-ico-date';
-
-	/**
-	 * Merge default option
-	 * @ignore
-	 * @param {object} option - DatePicker option
-	 * @returns {object}
-	 */
-	var mergeDefaultOption = function(option) {
-	    option = snippet.extend({
-	        language: DEFAULT_LANGUAGE_TYPE,
-	        calendar: {},
-	        input: {
-	            element: null,
-	            format: null
-	        },
-	        timepicker: null,
-	        date: null,
-	        showAlways: false,
-	        type: TYPE_DATE,
-	        selectableRanges: null,
-	        openers: [],
-	        autoClose: true,
-	        usageStatistics: true
-	    }, option);
-
-	    option.selectableRanges = option.selectableRanges || [[constants.MIN_DATE, constants.MAX_DATE]];
-
-	    if (!snippet.isObject(option.calendar)) {
-	        throw new Error('Calendar option must be an object');
-	    }
-	    if (!snippet.isObject(option.input)) {
-	        throw new Error('Input option must be an object');
-	    }
-	    if (!snippet.isArray(option.selectableRanges)) {
-	        throw new Error('Selectable-ranges must be a 2d-array');
-	    }
-
-	    option.localeText = localeTexts[option.language];
-
-	    // override calendar option
-	    option.calendar.language = option.language;
-	    option.calendar.type = option.type;
-
-	    return option;
-	};
-
-	/**
-	 * @class
-	 * @param {HTMLElement|jQuery|string} container - Container element of datepicker
-	 * @param {Object} [options] - Options
-	 *      @param {Date|number} [options.date] - Initial date. Default - null for no initial date
-	 *      @param {string} [options.type = 'date'] - DatePicker type - ('date' | 'month' | 'year')
-	 *      @param {string} [options.language='en'] - Language key
-	 *      @param {object|boolean} [options.timePicker] -
-	 *                              [TimePicker]{@link https://nhnent.github.io/tui.time-picker/latest} options
-	 *      @param {object} [options.calendar] - {@link Calendar} options
-	 *      @param {object} [options.input] - Input option
-	 *      @param {HTMLElement|string|jQuery} [options.input.element] - Input element
-	 *      @param {string} [options.input.format = 'yyyy-mm-dd'] - Date string format
-	 *      @param {Array.<Array.<Date|number>>} [options.selectableRanges = 1900/1/1 ~ 2999/12/31]
-	 *                                                                      - Selectable date ranges.
-	 *      @param {Array} [options.openers = []] - Opener button list (example - icon, button, etc.)
-	 *      @param {boolean} [options.showAlways = false] - Whether the datepicker shows always
-	 *      @param {boolean} [options.autoClose = true] - Close after click a date
-	 *      @param {Boolean} [options.usageStatistics=true|false] send hostname to google analytics [default value is true]
-	 * @example
-	 * var DatePicker = tui.DatePicker; // or require('tui-date-picker');
-	 *
-	 * var range1 = [new Date(2015, 2, 1), new Date(2015, 3, 1)];
-	 * var range2 = [1465570800000, 1481266182155]; // timestamps
-	 *
-	 * var picker1 = new DatePicker('#datepicker-container1', {
-	 *     showAlways: true
-	 * });
-	 *
-	 * var picker2 = new DatePicker('#datepicker-container2', {
-	 *    showAlways: true,
-	 *    timepicker: true
-	 * });
-	 *
-	 * var picker3 = new DatePicker('#datepicker-container3', {
-	 *     // There are two supporting types by default - 'en' and 'ko'.
-	 *     // See "{@link DatePicker.localeTexts}"
-	 *     language: 'ko',
-	 *     calendar: {
-	 *         showToday: true
-	 *     },
-	 *     timepicker: {
-	 *         showMeridiem: true,
-	 *         defaultHour: 13,
-	 *         defaultMinute: 24
-	 *     },
-	 *     input: {
-	 *         element: '#datepicker-input',
-	 *         format: 'yyyy�� MM�� dd�� hh:mm A'
-	 *     }
-	 *     type: 'date',
-	 *     date: new Date(2015, 0, 1) // or timestamp. (default: null-(no initial date))
-	 *     selectableRanges: [range1, range2],
-	 *     openers: ['#opener']
-	 * });
-	 */
-	var DatePicker = snippet.defineClass(/** @lends DatePicker.prototype */{
-	    static: {
-	        /**
-	         * Locale text data
-	         * @type {object}
-	         * @memberof DatePicker
-	         * @static
-	         * @example
-	         * var DatePicker = tui.DatePicker; // or require('tui-date-picker');
-	         *
-	         * DatePicker.localeTexts['customKey'] = {
-	         *     titles: {
-	         *         // days
-	         *         DD: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-	         *         // daysShort
-	         *         D: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fir', 'Sat'],
-	         *         // months
-	         *         MMMM: [
-	         *             'January', 'February', 'March', 'April', 'May', 'June',
-	         *             'July', 'August', 'September', 'October', 'November', 'December'
-	         *         ],
-	         *         // monthsShort
-	         *         MMM: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-	         *     },
-	         *     titleFormat: 'MMM yyyy',
-	         *     todayFormat: 'D, MMMM dd, yyyy',
-	         *     date: 'Date',
-	         *     time: 'Time'
-	         * };
-	         *
-	         * var datepicker = new tui.DatePicker('#datepicker-container', {
-	         *     language: 'customKey'
-	         * });
-	         */
-	        localeTexts: localeTexts
-	    },
-	    init: function(container, options) {
-	        options = mergeDefaultOption(options);
-
-	        /**
-	         * Language type
-	         * @type {string}
-	         * @private
-	         */
-	        this._language = options.language;
-
-	        /**
-	         * DatePicker container
-	         * @type {jQuery}
-	         * @private
-	         */
-	        this._$container = $(container);
-
-	        /**
-	         * DatePicker element
-	         * @type {jQuery}
-	         * @private
-	         */
-	        this._$element = $(tmpl(options)).appendTo(this._$container);
-
-	        /**
-	         * Calendar instance
-	         * @type {Calendar}
-	         * @private
-	         */
-	        this._calendar = new Calendar(this._$element.find(SELECTOR_BODY), snippet.extend(options.calendar, {
-	            usageStatistics: options.usageStatistics
-	        }));
-
-	        /**
-	         * TimePicker instance
-	         * @type {TimePicker}
-	         * @private
-	         */
-	        this._timepicker = null;
-
-	        /**
-	         * DatePicker input
-	         * @type {DatePickerInput}
-	         * @private
-	         */
-	        this._datepickerInput = null;
-
-	        /**
-	         * Object having date values
-	         * @type {Date}
-	         * @private
-	         */
-	        this._date = null;
-
-	        /**
-	         * Selectable date-ranges model
-	         * @type {RangeModel}
-	         * @private
-	         */
-	        this._rangeModel = null;
-
-	        /**
-	         * openers - opener list
-	         * @type {Array}
-	         * @private
-	         */
-	        this._openers = [];
-
-	        /**
-	         * State of picker enable
-	         * @type {boolean}
-	         * @private
-	         */
-	        this._isEnabled = true;
-
-	        /**
-	         * ID of instance
-	         * @private
-	         * @type {number}
-	         */
-	        this._id = 'tui-datepicker-' + snippet.stamp(this);
-
-	        /**
-	         * DatePicker type
-	         * @type {TYPE_DATE|TYPE_MONTH|TYPE_YEAR}
-	         * @private
-	         */
-	        this._type = options.type;
-
-	        /**
-	         * Show always or not
-	         * @type {boolean}
-	         */
-	        this.showAlways = options.showAlways;
-
-	        /**
-	         * Close after select a date
-	         * @type {boolean}
-	         */
-	        this.autoClose = options.autoClose;
-
-	        this._initializeDatePicker(options);
-	    },
-
-	    /**
-	     * Initialize method
-	     * @param {Object} option - user option
-	     * @private
-	     */
-	    _initializeDatePicker: function(option) {
-	        this.setRanges(option.selectableRanges);
-	        this._setEvents(option);
-	        this._initTimePicker(option.timepicker);
-	        this.setInput(option.input.element);
-	        this.setDateFormat(option.input.format);
-	        this.setDate(option.date);
-
-	        snippet.forEach(option.openers, this.addOpener, this);
-	        if (!this.showAlways) {
-	            this._$element.hide();
-	        }
-
-	        if (this.getType() === TYPE_DATE) {
-	            this._$element.find(SELECTOR_BODY).addClass('tui-datepicker-type-date');
-	        }
-	    },
-
-	    /**
-	     * Set events
-	     * @param {object} option - Constructor option
-	     * @private
-	     */
-	    _setEvents: function(option) {
-	        setTouchClickEvent(this._$element, $.proxy(this._onClickDate, this), {
-	            selector: '.' + CLASS_NAME_SELECTABLE,
-	            namespace: this._id
-	        });
-
-	        setTouchClickEvent(this._$element, $.proxy(this._onClickCalendarTitle, this), {
-	            selector: '.tui-calendar-title',
-	            namespace: this._id
-	        });
-
-	        if (option.timepicker && option.timepicker.layoutType === 'tab') {
-	            setTouchClickEvent(this._$element, $.proxy(this._onClickSelectorButton, this), {
-	                selector: '.' + CLASS_NAME_SELECTOR_BUTTON,
-	                namespace: this._id
-	            });
-	        }
-
-	        this._calendar.on('draw', this._onDrawCalendar, this);
-	    },
-
-	    /**
-	     * Off datepicker's events
-	     * @param {string|jQuery|Element} el - Element
-	     * @private
-	     */
-	    _offDatePickerEvents: function(el) {
-	        $(el).off('.' + this._id);
-	    },
-
-	    /**
-	     * Set TimePicker instance
-	     * @param {object|boolean} opTimePicker - TimePicker instance
-	     * @private
-	     */
-	    _initTimePicker: function(opTimePicker) {
-	        var layoutType;
-	        if (!opTimePicker) {
-	            return;
-	        }
-
-	        layoutType = opTimePicker.layoutType || '';
-	        if (layoutType.toLowerCase() === 'tab') {
-	            this._timepicker = new TimePicker(this._$element.find(SELECTOR_BODY), opTimePicker);
-	            this._timepicker.hide();
-	        } else {
-	            this._timepicker = new TimePicker(this._$element.find(SELECTOR_FOOTER), opTimePicker);
-	        }
-
-	        this._timepicker.on('change', function(ev) {
-	            var prevDate;
-	            if (this._date) {
-	                prevDate = new Date(this._date);
-	                this.setDate(prevDate.setHours(ev.hour, ev.minute));
-	            }
-	        }, this);
-	    },
-
-	    /**
-	     * Calendar-header click handler
-	     * @private
-	     */
-	    _onClickCalendarTitle: function() {
-	        this.drawUpperCalendar(this._date);
-	    },
-
-	    /**
-	     * Selector button click handler
-	     * @param {jQuery.Event} ev - Event object
-	     * @private
-	     */
-	    _onClickSelectorButton: function(ev) {
-	        var btnSelector = '.' + CLASS_NAME_SELECTOR_BUTTON;
-	        var $selectedBtn = $(ev.target).closest(btnSelector);
-	        var isDate = !!$selectedBtn.find(SELECTOR_DATE_ICO).length;
-
-	        if (isDate) {
-	            this._calendar.show();
-	            this._timepicker.hide();
-	        } else {
-	            this._calendar.hide();
-	            this._timepicker.show();
-	        }
-	        this._$element.find(btnSelector).removeClass(CLASS_NAME_CHECKED);
-	        $selectedBtn.addClass(CLASS_NAME_CHECKED);
-	    },
-
-	    /**
-	     * Returns whether the element is opener
-	     * @param {string|jQuery|HTMLElement} element - Element
-	     * @returns {boolean}
-	     * @private
-	     */
-	    _isOpener: function(element) {
-	        var el = $(element)[0];
-
-	        return snippet.inArray(el, this._openers) > -1;
-	    },
-
-	    /**
-	     * add/remove today-class-name to date element
-	     * @param {jQuery} $el - date element
-	     * @private
-	     */
-	    _setTodayClassName: function($el) {
-	        var timestamp, isToday;
-
-	        if (this.getCalendarType() !== TYPE_DATE) {
-	            return;
-	        }
-
-	        timestamp = $el.data('timestamp');
-	        isToday = timestamp === new Date().setHours(0, 0, 0, 0);
-
-	        if (isToday) {
-	            $el.addClass(CLASS_NAME_TODAY);
-	        } else {
-	            $el.removeClass(CLASS_NAME_TODAY);
-	        }
-	    },
-
-	    /**
-	     * add/remove selectable-class-name to date element
-	     * @param {jQuery} $el - date element
-	     * @private
-	     */
-	    _setSelectableClassName: function($el) {
-	        var elDate = new Date($el.data('timestamp'));
-
-	        if (this._isSelectableOnCalendar(elDate)) {
-	            $el.addClass(CLASS_NAME_SELECTABLE)
-	                .removeClass(CLASS_NAME_BLOCKED);
-	        } else {
-	            $el.addClass(CLASS_NAME_BLOCKED)
-	                .removeClass(CLASS_NAME_SELECTABLE);
-	        }
-	    },
-
-	    /**
-	     * add/remove selected-class-name to date element
-	     * @param {jQuery} $el - date element
-	     * @private
-	     */
-	    _setSelectedClassName: function($el) {
-	        var elDate = new Date($el.data('timestamp'));
-
-	        if (this._isSelectedOnCalendar(elDate)) {
-	            $el.addClass(CLASS_NAME_SELECTED);
-	        } else {
-	            $el.removeClass(CLASS_NAME_SELECTED);
-	        }
-	    },
-
-	    /**
-	     * Returns whether the date is selectable on calendar
-	     * @param {Date} date - Date instance
-	     * @returns {boolean}
-	     * @private
-	     */
-	    _isSelectableOnCalendar: function(date) {
-	        var type = this.getCalendarType();
-	        var start = dateUtil.cloneWithStartOf(date, type).getTime();
-	        var end = dateUtil.cloneWithEndOf(date, type).getTime();
-
-	        return this._rangeModel.hasOverlap(start, end);
-	    },
-
-	    /**
-	     * Returns whether the date is selected on calendar
-	     * @param {Date} date - Date instance
-	     * @returns {boolean}
-	     * @private
-	     */
-	    _isSelectedOnCalendar: function(date) {
-	        var curDate = this.getDate();
-	        var calendarType = this.getCalendarType();
-
-	        return curDate && dateUtil.isSame(curDate, date, calendarType);
-	    },
-
-	    /**
-	     * Set value a date-string of current this instance to input element
-	     * @private
-	     */
-	    _syncToInput: function() {
-	        if (!this._date) {
-	            return;
-	        }
-
-	        this._datepickerInput.setDate(this._date);
-	    },
-
-	    /**
-	     * Set date from input value
-	     * @param {boolean} [shouldRollback = false] - Should rollback from unselectable or error
-	     * @private
-	     */
-	    _syncFromInput: function(shouldRollback) {
-	        var isFailed = false;
-	        var date;
-
-	        try {
-	            date = this._datepickerInput.getDate();
-
-	            if (this.isSelectable(date)) {
-	                if (this._timepicker) {
-	                    this._timepicker.setTime(date.getHours(), date.getMinutes());
-	                }
-	                this.setDate(date);
-	            } else {
-	                isFailed = true;
-	            }
-	        } catch (err) {
-	            /**
-	             * Parsing error from input-text
-	             * @event DatePicker#error
-	             * @example
-	             *
-	             * datepicker.on('error', function(err) {
-	             *     console.error(err.message);
-	             * });
-	             */
-	            this.fire('error', {
-	                type: 'ParsingError',
-	                message: err.message
-	            });
-	            isFailed = true;
-	        } finally {
-	            if (isFailed) {
-	                if (shouldRollback) {
-	                    this._syncToInput();
-	                } else {
-	                    this.setNull();
-	                }
-	            }
-	        }
-	    },
-
-	    /**
-	     * Event handler for mousedown of document<br>
-	     * - When click the out of layer, close the layer
-	     * @param {Event} ev - Event object
-	     * @private
-	     */
-	    _onMousedownDocument: function(ev) {
-	        var evTarget = ev.target;
-	        var isContains = $.contains(this._$element[0], evTarget);
-	        var isInput = this._datepickerInput.is(evTarget);
-	        var isInOpener = !!$(evTarget).closest(this._openers).length;
-	        var shouldClose = !(this.showAlways || isInput || isContains || isInOpener);
-
-	        if (shouldClose) {
-	            this.close();
-	        }
-	    },
-
-	    /**
-	     * Event handler for click of calendar<br>
-	     * - Update date form event-target
-	     * @param {Event} ev - event object
-	     * @private
-	     */
-	    _onClickDate: function(ev) {
-	        var timestamp = $(ev.target).data('timestamp');
-	        var newDate = new Date(timestamp);
-	        var timepicker = this._timepicker;
-	        var prevDate = this._date;
-	        var calendarType = this.getCalendarType();
-	        var pickerType = this.getType();
-
-	        if (calendarType !== pickerType) {
-	            this.drawLowerCalendar(newDate);
-	        } else {
-	            if (timepicker) {
-	                newDate.setHours(timepicker.getHour(), timepicker.getMinute());
-	            } else if (prevDate) {
-	                newDate.setHours(prevDate.getHours(), prevDate.getMinutes());
-	            }
-	            this.setDate(newDate);
-
-	            if (!this.showAlways && this.autoClose) {
-	                this.close();
-	            }
-	        }
-	    },
-
-	    /**
-	     * Event handler for 'draw'-custom event of calendar
-	     * @param {Object} eventData - custom event data
-	     * @see {Calendar.draw}
-	     * @private
-	     */
-	    _onDrawCalendar: function(eventData) {
-	        var $dateElements = eventData.$dateElements;
-	        var self = this;
-
-	        $dateElements.each(function(idx, el) {
-	            var $el = $(el);
-	            self._setTodayClassName($el);
-	            self._setSelectableClassName($el);
-	            self._setSelectedClassName($el);
-	        });
-	        this._setDisplayHeadButtons();
-
-	        /**
-	         * Fires after calendar drawing
-	         * @event DatePicker#draw
-	         * @param {Object} event - See {@link Calendar#event:draw}
-	         * @param {Date} event.date - Calendar date
-	         * @param {string} event.type - Calendar type
-	         * @param {jQuery} event.$dateElements - Calendar date elements
-	         */
-	        this.fire('draw', eventData);
-	    },
-
-	    /**
-	     * Hide useless buttons (next, next-year, prev, prev-year)
-	     * @see Don't save buttons reference. The buttons are rerendered every "calendar.darw".
-	     * @private
-	     */
-	    _setDisplayHeadButtons: function() {
-	        var nextYearDate = this._calendar.getNextYearDate();
-	        var prevYearDate = this._calendar.getPrevYearDate();
-	        var maxTimestamp = this._rangeModel.getMaximumValue();
-	        var minTimestamp = this._rangeModel.getMinimumValue();
-	        var $nextYearBtn = this._$element.find('.' + CLASS_NAME_NEXT_YEAR_BTN);
-	        var $prevYearBtn = this._$element.find('.' + CLASS_NAME_PREV_YEAR_BTN);
-	        var nextMonthDate, prevMonthDate, $nextMonBtn, $prevMonBtn;
-
-	        if (this.getCalendarType() === TYPE_DATE) {
-	            nextMonthDate = dateUtil.cloneWithStartOf(this._calendar.getNextDate(), TYPE_MONTH);
-	            prevMonthDate = dateUtil.cloneWithEndOf(this._calendar.getPrevDate(), TYPE_MONTH);
-
-	            $nextMonBtn = this._$element.find('.' + CLASS_NAME_NEXT_MONTH_BTN);
-	            $prevMonBtn = this._$element.find('.' + CLASS_NAME_PREV_MONTH_BTN);
-
-	            this._setDisplay($nextMonBtn, nextMonthDate.getTime() <= maxTimestamp);
-	            this._setDisplay($prevMonBtn, prevMonthDate.getTime() >= minTimestamp);
-
-	            prevYearDate.setDate(1);
-	            nextYearDate.setDate(1);
-	        } else {
-	            prevYearDate.setMonth(12, 0);
-	            nextYearDate.setMonth(0, 1);
-	        }
-
-	        this._setDisplay($nextYearBtn, nextYearDate.getTime() <= maxTimestamp);
-	        this._setDisplay($prevYearBtn, prevYearDate.getTime() >= minTimestamp);
-	    },
-
-	    /**
-	     * Set display show/hide by condition
-	     * @param {jQuery} $el - jQuery Element
-	     * @param {boolean} shouldShow - Condition
-	     * @private
-	     */
-	    _setDisplay: function($el, shouldShow) {
-	        if (shouldShow) {
-	            $el.show();
-	        } else {
-	            $el.hide();
-	        }
-	    },
-
-	    /**
-	     * Input change handler
-	     * @private
-	     * @throws {Error}
-	     */
-	    _onChangeInput: function() {
-	        this._syncFromInput(true);
-	    },
-
-	    /**
-	     * Returns whether the date is changed
-	     * @param {Date} date - Date
-	     * @returns {boolean}
-	     * @private
-	     */
-	    _isChanged: function(date) {
-	        var prevDate = this.getDate();
-
-	        return !prevDate || (date.getTime() !== prevDate.getTime());
-	    },
-
-	    /**
-	     * Refresh datepicker
-	     * @private
-	     */
-	    _refreshFromRanges: function() {
-	        if (!this.isSelectable(this._date)) {
-	            this.setNull();
-	        } else {
-	            this._calendar.draw(); // view update
-	        }
-	    },
-
-	    /**
-	     * Returns current calendar type
-	     * @returns {'date'|'month'|'year'}
-	     */
-	    getCalendarType: function() {
-	        return this._calendar.getType();
-	    },
-
-	    /**
-	     * Returns datepicker type
-	     * @returns {'date'|'month'|'year'}
-	     */
-	    getType: function() {
-	        return this._type;
-	    },
-
-	    /**
-	     * Whether the date is selectable
-	     * @param {Date} date - Date instance
-	     * @returns {boolean}
-	     */
-	    isSelectable: function(date) {
-	        var type = this.getType();
-	        var start, end;
-
-	        if (!dateUtil.isValidDate(date)) {
-	            return false;
-	        }
-	        start = dateUtil.cloneWithStartOf(date, type).getTime();
-	        end = dateUtil.cloneWithEndOf(date, type).getTime();
-
-	        return this._rangeModel.hasOverlap(start, end);
-	    },
-
-	    /**
-	     * Returns whether the date is selected
-	     * @param {Date} date - Date instance
-	     * @returns {boolean}
-	     */
-	    isSelected: function(date) {
-	        return dateUtil.isValidDate(date) && dateUtil.isSame(this._date, date, this.getType());
-	    },
-
-	    /**
-	     * Set selectable ranges (prev ranges will be removed)
-	     * @param {Array.<Array<Date|number>>} ranges - (2d-array) Selectable ranges
-	     * @example
-	     *
-	     * datepicker.setRanges([
-	     *     [new Date(2017, 0, 1), new Date(2018, 0, 2)],
-	     *     [new Date(2015, 2, 3), new Date(2016, 4, 2)]
-	     * ]);
-	     */
-	    setRanges: function(ranges) {
-	        ranges = snippet.map(ranges, function(range) {
-	            var start = new Date(range[0]).getTime();
-	            var end = new Date(range[1]).getTime();
-
-	            return [start, end];
-	        });
-
-	        this._rangeModel = new RangeModel(ranges);
-	        this._refreshFromRanges();
-	    },
-
-	    /**
-	     * Add a range
-	     * @param {Date|number} start - startDate
-	     * @param {Date|number} end - endDate
-	     * @example
-	     * var start = new Date(2015, 1, 3);
-	     * var end = new Date(2015, 2, 6);
-	     *
-	     * datepicker.addRange(start, end);
-	     */
-	    addRange: function(start, end) {
-	        start = new Date(start).getTime();
-	        end = new Date(end).getTime();
-
-	        this._rangeModel.add(start, end);
-	        this._refreshFromRanges();
-	    },
-
-	    /**
-	     * Remove a range
-	     * @param {Date|number} start - startDate
-	     * @param {Date|number} end - endDate
-	     * @param {null|'date'|'month'|'year'} type - Range type, If falsy -> Use strict timestamp;
-	     * @example
-	     * var start = new Date(2015, 1, 3);
-	     * var end = new Date(2015, 2, 6);
-	     *
-	     * datepicker.removeRange(start, end);
-	     */
-	    removeRange: function(start, end, type) {
-	        start = new Date(start);
-	        end = new Date(end);
-
-	        if (type) {
-	            // @todo Consider time-range on timepicker
-	            start = dateUtil.cloneWithStartOf(start, type);
-	            end = dateUtil.cloneWithEndOf(end, type);
-	        }
-
-	        this._rangeModel.exclude(start.getTime(), end.getTime());
-	        this._refreshFromRanges();
-	    },
-
-	    /**
-	     * Add opener
-	     * @param {HTMLElement|jQuery|string} opener - element or selector
-	     */
-	    addOpener: function(opener) {
-	        if (!this._isOpener(opener)) {
-	            this._openers.push($(opener)[0]);
-	            setTouchClickEvent(opener, $.proxy(this.toggle, this), {
-	                namespace: this._id
-	            });
-	        }
-	    },
-
-	    /**
-	     * Remove opener
-	     * @param {HTMLElement|jQuery|string} opener - element or selector
-	     */
-	    removeOpener: function(opener) {
-	        var $opener = $(opener);
-	        var index = snippet.inArray($opener[0], this._openers);
-
-	        if (index > -1) {
-	            this._offDatePickerEvents(opener);
-	            this._openers.splice(index, 1);
-	        }
-	    },
-
-	    /**
-	     * Remove all openers
-	     */
-	    removeAllOpeners: function() {
-	        this._offDatePickerEvents(this._openers);
-	        this._openers = [];
-	    },
-
-	    /**
-	     * Open datepicker
-	     * @example
-	     * datepicker.open();
-	     */
-	    open: function() {
-	        var docEvTypes;
-	        if (this.isOpened() || !this._isEnabled) {
-	            return;
-	        }
-
-	        this._calendar.draw({
-	            date: this._date,
-	            type: this._type
-	        });
-	        this._$element.show();
-
-	        if (!this.showAlways) {
-	            docEvTypes = 'touchstart.' + this._id + ' mousedown.' + this._id;
-	            $(document).on(docEvTypes, $.proxy(this._onMousedownDocument, this));
-	        }
-
-	        /**
-	         * @event DatePicker#open
-	         * @example
-	         * datepicker.on('open', function() {
-	         *     alert('open');
-	         * });
-	         */
-	        this.fire('open');
-	    },
-
-	    /**
-	     * Raise calendar type
-	     *  - DATE --> MONTH --> YEAR
-	     * @param {Date} date - Date
-	     */
-	    drawUpperCalendar: function(date) {
-	        var calendarType = this.getCalendarType();
-
-	        if (calendarType === TYPE_DATE) {
-	            this._calendar.draw({
-	                date: date,
-	                type: TYPE_MONTH
-	            });
-	        } else if (calendarType === TYPE_MONTH) {
-	            this._calendar.draw({
-	                date: date,
-	                type: TYPE_YEAR
-	            });
-	        }
-	    },
-
-	    /**
-	     * Lower calendar type
-	     *  - YEAR --> MONTH --> DATE
-	     * @param {Date} date - Date
-	     */
-	    drawLowerCalendar: function(date) {
-	        var calendarType = this.getCalendarType();
-	        var pickerType = this.getType();
-	        var isLast = calendarType === pickerType;
-
-	        if (isLast) {
-	            return;
-	        }
-
-	        if (calendarType === TYPE_MONTH) {
-	            this._calendar.draw({
-	                date: date,
-	                type: TYPE_DATE
-	            });
-	        } else if (calendarType === TYPE_YEAR) {
-	            this._calendar.draw({
-	                date: date,
-	                type: TYPE_MONTH
-	            });
-	        }
-	    },
-
-	    /**
-	     * Close datepicker
-	     * @exmaple
-	     * datepicker.close();
-	     */
-	    close: function() {
-	        if (!this.isOpened()) {
-	            return;
-	        }
-	        this._offDatePickerEvents(document);
-	        this._$element.hide();
-
-	        /**
-	         * Close event - DatePicker
-	         * @event DatePicker#close
-	         * @example
-	         * datepicker.on('close', function() {
-	         *     alert('close');
-	         * });
-	         */
-	        this.fire('close');
-	    },
-
-	    /**
-	     * Toggle: open-close
-	     * @example
-	     * datepicker.toggle();
-	     */
-	    toggle: function() {
-	        var isOpened = this.isOpened();
-
-	        if (isOpened) {
-	            this.close();
-	        } else {
-	            this.open();
-	        }
-	    },
-
-	    /**
-	     * Returns date object
-	     * @returns {?Date} - Date
-	     * @example
-	     * // 2015-04-13
-	     * datepicker.getDate(); // new Date(2015, 3, 13)
-	     */
-	    getDate: function() {
-	        if (!this._date) {
-	            return null;
-	        }
-
-	        return new Date(this._date);
-	    },
-
-	    /**
-	     * Set date and then fire 'update' custom event
-	     * @param {Date|number} date - Date instance or timestamp
-	     * @example
-	     * datepicker.setDate(new Date()); // Set today
-	     */
-	    setDate: function(date) { // eslint-disable-line complexity
-	        var isValidInput, newDate, shouldUpdate;
-
-	        if (date === null) {
-	            this.setNull();
-
-	            return;
-	        }
-
-	        isValidInput = snippet.isNumber(date) || snippet.isDate(date);
-	        newDate = new Date(date);
-	        shouldUpdate = isValidInput && this._isChanged(newDate) && this.isSelectable(newDate);
-
-	        if (shouldUpdate) {
-	            newDate = new Date(date);
-	            this._date = newDate;
-	            this._calendar.draw({date: newDate});
-	            if (this._timepicker) {
-	                this._timepicker.setTime(newDate.getHours(), newDate.getMinutes());
-	            }
-	            this._syncToInput();
-
-	            /**
-	             * Change event
-	             * @event DatePicker#change
-	             * @example
-	             *
-	             * datepicker.on('change', function() {
-	             *     var newDate = datepicker.getDate();
-	             *
-	             *     console.log(newDate);
-	             * });
-	             */
-	            this.fire('change');
-	        }
-	    },
-
-	    /**
-	     * Set null date
-	     */
-	    setNull: function() {
-	        var calendarDate = this._calendar.getDate();
-	        var isChagned = this._date !== null;
-
-	        this._date = null;
-
-	        if (this._datepickerInput) {
-	            this._datepickerInput.clearText();
-	        }
-	        if (this._timepicker) {
-	            this._timepicker.setTime(0, 0);
-	        }
-
-	        // View update
-	        if (!this.isSelectable(calendarDate)) {
-	            this._calendar.draw({
-	                date: new Date(this._rangeModel.getMinimumValue())
-	            });
-	        } else {
-	            this._calendar.draw();
-	        }
-
-	        if (isChagned) {
-	            this.fire('change');
-	        }
-	    },
-
-	    /**
-	     * Set or update date-form
-	     * @param {String} [format] - date-format
-	     * @example
-	     * datepicker.setDateFormat('yyyy-MM-dd');
-	     * datepicker.setDateFormat('MM-dd, yyyy');
-	     * datepicker.setDateFormat('y/M/d');
-	     * datepicker.setDateFormat('yy/MM/dd');
-	     */
-	    setDateFormat: function(format) {
-	        this._datepickerInput.setFormat(format);
-	        this._syncToInput();
-	    },
-
-	    /**
-	     * Return whether the datepicker is opened or not
-	     * @returns {boolean}
-	     * @example
-	     * datepicker.close();
-	     * datepicker.isOpened(); // false
-	     *
-	     * datepicker.open();
-	     * datepicker.isOpened(); // true
-	     */
-	    isOpened: function() {
-	        return this._$element.css('display') !== 'none';
-	    },
-
-	    /**
-	     * Returns timepicker instance
-	     * @returns {?TimePicker} - TimePicker instance
-	     * @example
-	     * var timepicker = this.getTimePicker();
-	     */
-	    getTimePicker: function() {
-	        return this._timepicker;
-	    },
-
-	    /**
-	     * Returns calendar instance
-	     * @returns {Calendar}
-	     */
-	    getCalendar: function() {
-	        return this._calendar;
-	    },
-
-	    /**
-	     * Returns locale text object
-	     * @returns {object}
-	     */
-	    getLocaleText: function() {
-	        return localeTexts[this._language] || localeTexts[DEFAULT_LANGUAGE_TYPE];
-	    },
-
-	    /**
-	     * Set input element
-	     * @param {string|jQuery|HTMLElement} element - Input element
-	     * @param {object} [options] - Input option
-	     * @param {string} [options.format = prevInput.format] - Input text format
-	     * @param {boolean} [options.syncFromInput = false] - Set date from input value
-	     */
-	    setInput: function(element, options) {
-	        var prev = this._datepickerInput;
-	        var localeText = this.getLocaleText();
-	        var prevFormat;
-	        options = options || {};
-
-	        if (prev) {
-	            prevFormat = prev.getFormat();
-	            prev.destroy();
-	        }
-
-	        this._datepickerInput = new DatePickerInput(element, {
-	            format: options.format || prevFormat,
-	            id: this._id,
-	            localeText: localeText
-	        });
-
-	        this._datepickerInput.on({
-	            change: this._onChangeInput,
-	            click: this.open
-	        }, this);
-
-	        if (options.syncFromInput) {
-	            this._syncFromInput();
-	        } else {
-	            this._syncToInput();
-	        }
-	    },
-
-	    /**
-	     * Enable
-	     * @example
-	     * datepicker.disable();
-	     * datepicker.enable();
-	     */
-	    enable: function() {
-	        if (this._isEnabled) {
-	            return;
-	        }
-	        this._isEnabled = true;
-	        this._datepickerInput.enable();
-
-	        snippet.forEach(this._openers, function(opener) {
-	            $(opener).removeAttr('disabled');
-	            setTouchClickEvent(opener, $.proxy(this.toggle, this), {
-	                namespace: this._id
-	            });
-	        }, this);
-	    },
-
-	    /**
-	     * Disable
-	     * @example
-	     * datepicker.enable();
-	     * datepicker.disable();
-	     */
-	    disable: function() {
-	        if (!this._isEnabled) {
-	            return;
-	        }
-
-	        this._isEnabled = false;
-	        this.close();
-	        this._datepickerInput.disable();
-
-	        this._offDatePickerEvents(this._openers);
-	        snippet.forEach(this._openers, function(opener) {
-	            $(opener).attr('disabled', true);
-	        }, this);
-	    },
-
-	    /**
-	     * Returns whether the datepicker is disabled
-	     * @returns {boolean}
-	     */
-	    isDisabled: function() {
-	        // @todo this._isEnabled --> this._isDisabled
-	        return !this._isEnabled;
-	    },
-
-	    /**
-	     * Add datepicker css class
-	     * @param {string} className - Class name
-	     */
-	    addCssClass: function(className) {
-	        this._$element.addClass(className);
-	    },
-
-	    /**
-	     * Remove datepicker css class
-	     * @param {string} className - Class name
-	     */
-	    removeCssClass: function(className) {
-	        this._$element.removeClass(className);
-	    },
-
-	    /**
-	     * Returns date elements(jQuery) on calendar
-	     * @returns {jQuery}
-	     */
-	    getDateElements: function() {
-	        return this._calendar.getDateElements();
-	    },
-
-	    /**
-	     * Returns the first overlapped range from the point or range
-	     * @param {Date|number} startDate - Start date to find overlapped range
-	     * @param {Date|number} endDate - End date to find overlapped range
-	     * @returns {Array.<Date>} - [startDate, endDate]
-	     */
-	    findOverlappedRange: function(startDate, endDate) {
-	        var startTimestamp = new Date(startDate).getTime();
-	        var endTimestamp = new Date(endDate).getTime();
-	        var overlappedRange = this._rangeModel.findOverlappedRange(startTimestamp, endTimestamp);
-
-	        return [new Date(overlappedRange[0]), new Date(overlappedRange[1])];
-	    },
-
-	    /**
-	     * Change language
-	     * @param {string} language - Language
-	     * @see {@link DatePicker.localeTexts}
-	     */
-	    changeLanguage: function(language) {
-	        this._language = language;
-	        this._calendar.changeLanguage(this._language);
-	        this._datepickerInput.changeLocaleTitles(this.getLocaleText().titles);
-	        this.setDateFormat(this._datepickerInput.getFormat());
-
-	        if (this._timepicker) {
-	            this._timepicker.changeLanguage(this._language);
-	        }
-	    },
-
-	    /**
-	     * Destroy
-	     */
-	    destroy: function() {
-	        this._offDatePickerEvents(document);
-	        this._calendar.destroy();
-	        if (this._timepicker) {
-	            this._timepicker.destroy();
-	        }
-	        if (this._datepickerInput) {
-	            this._datepickerInput.destroy();
-	        }
-	        this._$element.remove();
-	        this.removeAllOpeners();
-
-	        this._calendar
-	            = this._timepicker
-	            = this._datepickerInput
-	            = this._$container
-	            = this._$element
-	            = this._date
-	            = this._rangeModel
-	            = this._openers
-	            = this._isEnabled
-	            = this._id
-	            = null;
-	    }
-	});
-
-	snippet.CustomEvents.mixin(DatePicker);
-	module.exports = DatePicker;
+"use strict";
+/**
+ * @fileoverview Constants of date-picker
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+module.exports = {
+  TYPE_DATE: 'date',
+  TYPE_MONTH: 'month',
+  TYPE_YEAR: 'year',
+  TYPE_HOUR: 'hour',
+  TYPE_MINUTE: 'minute',
+  TYPE_MERIDIEM: 'meridiem',
+  MIN_DATE: new Date(1900, 0, 1),
+  MAX_DATE: new Date(2999, 11, 31),
+
+  DEFAULT_LANGUAGE_TYPE: 'en',
+
+  CLASS_NAME_SELECTED: 'tui-is-selected',
+
+  CLASS_NAME_PREV_MONTH_BTN: 'tui-calendar-btn-prev-month',
+  CLASS_NAME_PREV_YEAR_BTN: 'tui-calendar-btn-prev-year',
+  CLASS_NAME_NEXT_YEAR_BTN: 'tui-calendar-btn-next-year',
+  CLASS_NAME_NEXT_MONTH_BTN: 'tui-calendar-btn-next-month',
+
+  DEFAULT_WEEK_START_DAY: 'Sun',
+  WEEK_START_DAY_MAP: {
+    sun: 0,
+    mon: 1,
+    tue: 2,
+    wed: 3,
+    thu: 4,
+    fri: 5,
+    sat: 6
+  }
+};
 
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+"use strict";
+/**
+ * @fileoverview Execute the provided callback once for each element present in the array(or Array-like object) in ascending order.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+/**
+ * Execute the provided callback once for each element present
+ * in the array(or Array-like object) in ascending order.
+ * If the callback function returns false, the loop will be stopped.
+ * Callback function(iteratee) is invoked with three arguments:
+ *  1) The value of the element
+ *  2) The index of the element
+ *  3) The array(or Array-like object) being traversed
+ * @param {Array|Arguments|NodeList} arr The array(or Array-like object) that will be traversed
+ * @param {function} iteratee Callback function
+ * @param {Object} [context] Context(this) of callback function
+ * @memberof module:collection
+ * @example
+ * var forEachArray = require('tui-code-snippet/collection/forEachArray'); // node, commonjs
+ *
+ * var sum = 0;
+ *
+ * forEachArray([1,2,3], function(value){
+ *     sum += value;
+ * });
+ * alert(sum); // 6
+ */
+function forEachArray(arr, iteratee, context) {
+  var index = 0;
+  var len = arr.length;
+
+  context = context || null;
+
+  for (; index < len; index += 1) {
+    if (iteratee.call(context, arr[index], index, arr) === false) {
+      break;
+    }
+  }
+}
+
+module.exports = forEachArray;
+
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
+"use strict";
+/* eslint-disable complexity */
+/**
+ * @fileoverview Returns the first index at which a given element can be found in the array.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+var isArray = __webpack_require__(6);
+
+/**
+ * @module array
+ */
+
+/**
+ * Returns the first index at which a given element can be found in the array
+ * from start index(default 0), or -1 if it is not present.
+ * It compares searchElement to elements of the Array using strict equality
+ * (the same method used by the ===, or triple-equals, operator).
+ * @param {*} searchElement Element to locate in the array
+ * @param {Array} array Array that will be traversed.
+ * @param {number} startIndex Start index in array for searching (default 0)
+ * @returns {number} the First index at which a given element, or -1 if it is not present
+ * @memberof module:array
+ * @example
+ * var inArray = require('tui-code-snippet/array/inArray'); // node, commonjs
+ *
+ * var arr = ['one', 'two', 'three', 'four'];
+ * var idx1 = inArray('one', arr, 3); // -1
+ * var idx2 = inArray('one', arr); // 0
+ */
+function inArray(searchElement, array, startIndex) {
+  var i;
+  var length;
+  startIndex = startIndex || 0;
+
+  if (!isArray(array)) {
+    return -1;
+  }
+
+  if (Array.prototype.indexOf) {
+    return Array.prototype.indexOf.call(array, searchElement, startIndex);
+  }
+
+  length = array.length;
+  for (i = startIndex; startIndex >= 0 && i < length; i += 1) {
+    if (array[i] === searchElement) {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
+module.exports = inArray;
+
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+"use strict";
+/**
+ * @fileoverview Utils for Datepicker component
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+var forEachArray = __webpack_require__(2);
+var isHTMLNode = __webpack_require__(46);
+var sendHostname = __webpack_require__(47);
+
+var currentId = 0;
+
+var utils = {
+  /**
+   * Get a target element
+   * @param {Event} ev Event object
+   * @returns {HTMLElement} An event target element
+   */
+  getTarget: function(ev) {
+    return ev.target || ev.srcElement;
+  },
+
+  /**
+   * Return the same element with an element or a matched element searched by a selector.
+   * @param {HTMLElement|string} param HTMLElement or selector
+   * @returns {HTMLElement} A matched element
+   */
+  getElement: function(param) {
+    return isHTMLNode(param) ? param : document.querySelector(param);
+  },
+
+  /**
+   * Get a selector of the element.
+   * @param {HTMLElement} elem An element
+   * @returns {string}
+   */
+  getSelector: function(elem) {
+    var selector = '';
+    if (elem.id) {
+      selector = '#' + elem.id;
+    } else if (elem.className) {
+      selector = '.' + elem.className.split(' ')[0];
+    }
+
+    return selector;
+  },
+
+  /**
+   * Create an unique id.
+   * @returns {number}
+   */
+  generateId: function() {
+    currentId += 1;
+
+    return currentId;
+  },
+
+  /**
+   * Create a new array with all elements that pass the test implemented by the provided function.
+   * @param {Array} arr - Array that will be traversed
+   * @param {function} iteratee - iteratee callback function
+   * @returns {Array}
+   */
+  filter: function(arr, iteratee) {
+    var result = [];
+
+    forEachArray(arr, function(item) {
+      if (iteratee(item)) {
+        result.push(item);
+      }
+    });
+
+    return result;
+  },
+
+  /**
+   * Send hostname for GA
+   * @ignore
+   */
+  sendHostName: function() {
+    sendHostname('date-picker', 'UA-129987462-1');
+  }
+};
+
+module.exports = utils;
+
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Calendar component
-	 * @author NHN Ent. FE dev Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Utils for DatePicker component
+ * @author NHN. FE dev Lab. <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var $ = __webpack_require__(2);
-	var snippet = __webpack_require__(3);
 
-	var tmpl = __webpack_require__(6);
-	var Header = __webpack_require__(26);
-	var Body = __webpack_require__(32);
-	var localeTexts = __webpack_require__(27);
-	var constants = __webpack_require__(31);
-	var dateUtil = __webpack_require__(30);
+var isDate = __webpack_require__(28);
+var isNumber = __webpack_require__(15);
 
-	var DEFAULT_LANGUAGE_TYPE = constants.DEFAULT_LANGUAGE_TYPE;
+var constants = __webpack_require__(1);
 
-	var TYPE_DATE = constants.TYPE_DATE;
-	var TYPE_MONTH = constants.TYPE_MONTH;
-	var TYPE_YEAR = constants.TYPE_YEAR;
+var TYPE_DATE = constants.TYPE_DATE;
+var TYPE_MONTH = constants.TYPE_MONTH;
+var TYPE_YEAR = constants.TYPE_YEAR;
 
-	var CLASS_NAME_PREV_MONTH_BTN = constants.CLASS_NAME_PREV_MONTH_BTN;
-	var CLASS_NAME_PREV_YEAR_BTN = constants.CLASS_NAME_PREV_YEAR_BTN;
-	var CLASS_NAME_NEXT_YEAR_BTN = constants.CLASS_NAME_NEXT_YEAR_BTN;
-	var CLASS_NAME_NEXT_MONTH_BTN = constants.CLASS_NAME_NEXT_MONTH_BTN;
+/**
+ * Utils of calendar
+ * @namespace dateUtil
+ * @ignore
+ */
+var utils = {
+  /**
+   * Get weeks count by paramenter
+   * @param {number} year A year
+   * @param {number} month A month
+   * @returns {number} Weeks count (4~6)
+   **/
+  getWeeksCount: function(year, month) {
+    var firstDay = utils.getFirstDay(year, month),
+      lastDate = utils.getLastDayInMonth(year, month);
 
-	var CLASS_NAME_CALENDAR_MONTH = 'tui-calendar-month';
-	var CLASS_NAME_CALENDAR_YEAR = 'tui-calendar-year';
+    return Math.ceil((firstDay + lastDate) / 7);
+  },
 
-	var HEADER_SELECTOR = '.tui-calendar-header';
-	var BODY_SELECTOR = '.tui-calendar-body';
+  /**
+   * @param {Date} date - Date instance
+   * @returns {boolean}
+   */
+  isValidDate: function(date) {
+    return isDate(date) && !isNaN(date.getTime());
+  },
 
-	var util = snippet;
-	/**
-	 * Calendar class
-	 * @constructor
-	 * @param {HTMLElement|jQuery|string} wrapperElement - Wrapper element or selector
-	 * @param {Object} [options] - Options for initialize
-	 *     @param {string} [options.language = 'en'] - Calendar language - {@link Calendar.localeTexts}
-	 *     @param {boolean} [options.showToday] - If true, shows today
-	 *     @param {boolean} [options.showJumpButtons] - If true, shows jump buttons (next,prev-year in 'date'-Calendar)
-	 *     @param {Date} [options.date = new Date()] - Initial date
-	 *     @param {string} [options.type = 'date'] - Calendar types - 'date', 'month', 'year'
-	 *     @param {Boolean} [options.usageStatistics=true|false] send hostname to google analytics [default value is true]
-	 * @example
-	 * var DatePicker = tui.DatePicker; // or require('tui-date-picker');
-	 * var calendar = DatePicker.createCalendar('#calendar-wrapper', {
-	 *     language: 'en', // There are two supporting types by default - 'en' and 'ko'.
-	 *     showToday: true,
-	 *     showJumpButtons: false,
-	 *     date: new Date(),
-	 *     type: 'date'
-	 * });
-	 *
-	 * calendar.on('draw', function(event) {
-	 *     console.log(event.date);
-	 *     console.log(event.type);
-	 *     event.dateElements.each(function() {
-	 *         var $el = $(this);
-	 *         var date = new Date($el.data('timestamp'));
-	 *         console.log(date);
-	 *     });
-	 * });
-	 */
-	var Calendar = util.defineClass(/** @lends Calendar.prototype */ {
-	    static: {
-	        /**
-	         * Locale text data
-	         * @type {object}
-	         * @memberof Calendar
-	         * @static
-	         * @example
-	         * var DatePicker = tui.DatePicker; // or require('tui-date-picker');
-	         *
-	         * DatePicker.localeTexts['customKey'] = {
-	         *     titles: {
-	         *         // days
-	         *         DD: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-	         *         // daysShort
-	         *         D: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fir', 'Sat'],
-	         *         // months
-	         *         MMMM: [
-	         *             'January', 'February', 'March', 'April', 'May', 'June',
-	         *             'July', 'August', 'September', 'October', 'November', 'December'
-	         *         ],
-	         *         // monthsShort
-	         *         MMM: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-	         *     },
-	         *     titleFormat: 'MMM yyyy',
-	         *     todayFormat: 'D, MMMM dd, yyyy'
-	         * };
-	         *
-	         * var calendar = DatePicker.createCalendar('#calendar-wrapper', {
-	         *     language: 'customKey',
-	         * });
-	         */
-	        localeTexts: localeTexts
-	    },
-	    init: function(container, options) {
-	        options = snippet.extend({
-	            language: DEFAULT_LANGUAGE_TYPE,
-	            showToday: true,
-	            showJumpButtons: false,
-	            date: new Date(),
-	            type: TYPE_DATE,
-	            usageStatistics: true
-	        }, options);
+  /**
+   * Get which day is first by parameters that include year and month information.
+   * @param {number} year A year
+   * @param {number} month A month
+   * @returns {number} (0~6)
+   */
+  getFirstDay: function(year, month) {
+    return new Date(year, month - 1, 1).getDay();
+  },
 
-	        /**
-	         * Container element
-	         * @type {jQuery}
-	         * @private
-	         */
-	        this._$container = $(container);
+  /**
+   * Get timestamp of the first day.
+   * @param {number} year A year
+   * @param {number} month A month
+   * @returns {number} timestamp
+   */
+  getFirstDayTimestamp: function(year, month) {
+    return new Date(year, month, 1).getTime();
+  },
 
-	        /**
-	         * Wrapper element
-	         * @type {jQuery}
-	         * @private
-	         */
-	        this._$element = $(tmpl(options)).appendTo(this._$container);
+  /**
+   * Get last date by parameters that include year and month information.
+   * @param {number} year A year
+   * @param {number} month A month
+   * @returns {number} (1~31)
+   */
+  getLastDayInMonth: function(year, month) {
+    return new Date(year, month, 0).getDate();
+  },
 
-	        /**
-	         * Date
-	         * @type {Date}
-	         * @private
-	         */
-	        this._date = null;
+  /**
+   * Chagne number 0~9 to '00~09'
+   * @param {number} number number
+   * @returns {string}
+   * @example
+   *  dateUtil.prependLeadingZero(0); //  '00'
+   *  dateUtil.prependLeadingZero(9); //  '09'
+   *  dateUtil.prependLeadingZero(12); //  '12'
+   */
+  prependLeadingZero: function(number) {
+    var prefix = '';
 
-	        /**
-	         * Layer type
-	         * @type {string}
-	         * @private
-	         */
-	        this._type = null;
+    if (number < 10) {
+      prefix = '0';
+    }
 
-	        /**
-	         * Header box
-	         * @type {Header}
-	         * @private
-	         */
-	        this._header = null;
+    return prefix + number;
+  },
 
-	        /**
-	         * Body box
-	         * @type {Body}
-	         * @private
-	         */
-	        this._body = null;
+  /**
+   * Get meridiem hour
+   * @param {number} hour - Original hour
+   * @returns {number} Converted meridiem hour
+   */
+  getMeridiemHour: function(hour) {
+    hour %= 12;
 
-	        this._initHeader(options);
-	        this._initBody(options);
-	        this.draw({
-	            date: options.date,
-	            type: options.type
-	        });
+    if (hour === 0) {
+      hour = 12;
+    }
 
-	        if (options.usageStatistics) {
-	            snippet.sendHostname('date-picker', 'UA-129987462-1');
-	        }
-	    },
+    return hour;
+  },
 
-	    /**
-	     * Initialize header
-	     * @param {object} options - Header options
-	     * @private
-	     */
-	    _initHeader: function(options) {
-	        var $headerContainer = this._$element.find(HEADER_SELECTOR);
+  /**
+   * Returns number or default
+   * @param {*} any - Any value
+   * @param {number} defaultNumber - Default number
+   * @throws Will throw an error if the defaultNumber is invalid.
+   * @returns {number}
+   */
+  getSafeNumber: function(any, defaultNumber) {
+    if (isNaN(defaultNumber) || !isNumber(defaultNumber)) {
+      throw Error('The defaultNumber must be a valid number.');
+    }
+    if (isNaN(any)) {
+      return defaultNumber;
+    }
 
-	        this._header = new Header($headerContainer, options);
-	        this._header.on('click', function(ev) {
-	            var $target = $(ev.target);
-	            if ($target.hasClass(CLASS_NAME_PREV_MONTH_BTN)) {
-	                this.drawPrev();
-	            } else if ($target.hasClass(CLASS_NAME_PREV_YEAR_BTN)) {
-	                this._onClickPrevYear();
-	            } else if ($target.hasClass(CLASS_NAME_NEXT_MONTH_BTN)) {
-	                this.drawNext();
-	            } else if ($target.hasClass(CLASS_NAME_NEXT_YEAR_BTN)) {
-	                this._onClickNextYear();
-	            }
-	        }, this);
-	    },
+    return Number(any);
+  },
 
-	    /**
-	     * Initialize body
-	     * @param {object} options - Body options
-	     * @private
-	     */
-	    _initBody: function(options) {
-	        var $bodyContainer = this._$element.find(BODY_SELECTOR);
+  /**
+   * Return date of the week
+   * @param {number} year - Year
+   * @param {number} month - Month
+   * @param {number} weekNumber - Week number (0~5)
+   * @param {number} dayNumber - Day number (0: sunday, 1: monday, ....)
+   * @returns {number}
+   */
+  getDateOfWeek: function(year, month, weekNumber, dayNumber) {
+    var firstDayOfMonth = new Date(year, month - 1).getDay();
+    var dateOffset = firstDayOfMonth - dayNumber - 1;
 
-	        this._body = new Body($bodyContainer, options);
-	    },
+    return new Date(year, month - 1, weekNumber * 7 - dateOffset);
+  },
 
-	    /**
-	     * clickHandler - prev year button
-	     * @private
-	     */
-	    _onClickPrevYear: function() {
-	        if (this.getType() === TYPE_DATE) {
-	            this.draw({
-	                date: this._getRelativeDate(-12)
-	            });
-	        } else {
-	            this.drawPrev();
-	        }
-	    },
+  /**
+   * Returns range arr
+   * @param {number} start - Start value
+   * @param {number} end - End value
+   * @returns {Array}
+   */
+  getRangeArr: function(start, end) {
+    var arr = [];
+    var i;
 
-	    /**
-	     * clickHandler - next year button
-	     * @private
-	     */
-	    _onClickNextYear: function() {
-	        if (this.getType() === TYPE_DATE) {
-	            this.draw({
-	                date: this._getRelativeDate(12)
-	            });
-	        } else {
-	            this.drawNext();
-	        }
-	    },
+    if (start > end) {
+      for (i = end; i >= start; i -= 1) {
+        arr.push(i);
+      }
+    } else {
+      for (i = start; i <= end; i += 1) {
+        arr.push(i);
+      }
+    }
 
-	    /**
-	     * Returns whether the layer type is valid
-	     * @param {string} type - Layer type to check
-	     * @returns {boolean}
-	     * @private
-	     */
-	    _isValidType: function(type) {
-	        return (
-	            type === TYPE_DATE
-	            || type === TYPE_MONTH
-	            || type === TYPE_YEAR
-	        );
-	    },
+    return arr;
+  },
 
-	    /**
-	     * @param {Date} date - Date to draw
-	     * @param {string} type - Layer type to draw
-	     * @returns {boolean}
-	     * @private
-	     */
-	    _shouldUpdate: function(date, type) {
-	        var prevDate = this._date;
+  /**
+   * Returns cloned date with the start of a unit of time
+   * @param {Date|number} date - Original date
+   * @param {string} [type = TYPE_DATE] - Unit type
+   * @throws {Error}
+   * @returns {Date}
+   */
+  cloneWithStartOf: function(date, type) {
+    type = type || TYPE_DATE;
+    date = new Date(date);
 
-	        if (!dateUtil.isValidDate(date)) {
-	            throw new Error('Invalid date');
-	        }
+    // Does not consider time-level yet.
+    date.setHours(0, 0, 0, 0);
 
-	        if (!this._isValidType(type)) {
-	            throw new Error('Invalid layer type');
-	        }
+    switch (type) {
+      case TYPE_DATE:
+        break;
+      case TYPE_MONTH:
+        date.setDate(1);
+        break;
+      case TYPE_YEAR:
+        date.setMonth(0, 1);
+        break;
+      default:
+        throw Error('Unsupported type: ' + type);
+    }
 
-	        return (
-	            !prevDate
-	            || prevDate.getFullYear() !== date.getFullYear()
-	            || prevDate.getMonth() !== date.getMonth()
-	            || this.getType() !== type
-	        );
-	    },
+    return date;
+  },
 
-	    /**
-	     * Render header & body elements
-	     * @private
-	     */
-	    _render: function() {
-	        var date = this._date;
-	        var type = this.getType();
+  /**
+   * Returns cloned date with the end of a unit of time
+   * @param {Date|number} date - Original date
+   * @param {string} [type = TYPE_DATE] - Unit type
+   * @throws {Error}
+   * @returns {Date}
+   */
+  cloneWithEndOf: function(date, type) {
+    type = type || TYPE_DATE;
+    date = new Date(date);
 
-	        this._header.render(date, type);
-	        this._body.render(date, type);
-	        this._$element.removeClass([CLASS_NAME_CALENDAR_MONTH, CLASS_NAME_CALENDAR_YEAR].join(' '));
+    // Does not consider time-level yet.
+    date.setHours(23, 59, 59, 999);
 
-	        switch (type) {
-	            case TYPE_MONTH:
-	                this._$element.addClass(CLASS_NAME_CALENDAR_MONTH);
-	                break;
-	            case TYPE_YEAR:
-	                this._$element.addClass(CLASS_NAME_CALENDAR_YEAR);
-	                break;
-	            default: break;
-	        }
-	    },
+    switch (type) {
+      case TYPE_DATE:
+        break;
+      case TYPE_MONTH:
+        date.setMonth(date.getMonth() + 1, 0);
+        break;
+      case TYPE_YEAR:
+        date.setMonth(11, 31);
+        break;
+      default:
+        throw Error('Unsupported type: ' + type);
+    }
 
-	    /**
-	     * Returns relative date
-	     * @param {number} step - Month step
-	     * @returns {Date}
-	     * @private
-	     */
-	    _getRelativeDate: function(step) {
-	        var prev = this._date;
+    return date;
+  },
 
-	        return new Date(prev.getFullYear(), prev.getMonth() + step);
-	    },
+  /**
+   * Compare two dates
+   * @param {Date|number} dateA - Date
+   * @param {Date|number} dateB - Date
+   * @param {string} [cmpLevel] - Comparing level
+   * @returns {number}
+   */
+  compare: function(dateA, dateB, cmpLevel) {
+    var aTimestamp, bTimestamp;
 
-	    /**
-	     * Draw calendar
-	     * @param {?object} options - Draw options
-	     * @example
-	     *
-	     * calendar.draw();
-	     * calendar.draw({
-	     *     date: new Date()
-	     * });
-	     * calendar.draw({
-	     *     type: 'month'
-	     * });
-	     * calendar.draw({
-	     *     type: 'month',
-	     *     date: new Date()
-	     * });
-	     */
-	    draw: function(options) {
-	        var date, type;
+    if (!(utils.isValidDate(dateA) && utils.isValidDate(dateB))) {
+      return NaN;
+    }
 
-	        options = options || {};
-	        date = options.date || this._date;
-	        type = (options.type || this.getType()).toLowerCase();
+    if (!cmpLevel) {
+      aTimestamp = dateA.getTime();
+      bTimestamp = dateB.getTime();
+    } else {
+      aTimestamp = utils.cloneWithStartOf(dateA, cmpLevel).getTime();
+      bTimestamp = utils.cloneWithStartOf(dateB, cmpLevel).getTime();
+    }
 
-	        if (this._shouldUpdate(date, type)) {
-	            this._date = date;
-	            this._type = type;
-	            this._render();
-	        }
+    if (aTimestamp > bTimestamp) {
+      return 1;
+    }
 
-	        /**
-	         * @event Calendar#draw
-	         * @param {object} event
-	         * @param {Date} event.date - Calendar date
-	         * @param {string} event.type - Calendar type
-	         * @param {jQuery} event.$dateElements - Calendar date elements
-	         */
-	        this.fire('draw', {
-	            date: this._date,
-	            type: type,
-	            $dateElements: this._body.getDateElements()
-	        });
-	    },
+    return aTimestamp === bTimestamp ? 0 : -1;
+  },
 
-	    /**
-	     * Show calendar
-	     */
-	    show: function() {
-	        this._$element.show();
-	    },
+  /**
+   * Returns whether two dates are same
+   * @param {Date|number} dateA - Date
+   * @param {Date|number} dateB - Date
+   * @param {string} [cmpLevel] - Comparing level
+   * @returns {boolean}
+   */
+  isSame: function(dateA, dateB, cmpLevel) {
+    return utils.compare(dateA, dateB, cmpLevel) === 0;
+  },
 
-	    /**
-	     * Hide calendar
-	     */
-	    hide: function() {
-	        this._$element.hide();
-	    },
+  /**
+   * Returns whether the target is in range
+   * @param {Date|number} start - Range start
+   * @param {Date|number} end - Range end
+   * @param {Date|number} target - Target
+   * @param {string} [cmpLevel = TYPE_DATE] - Comparing level
+   * @returns {boolean}
+   */
+  inRange: function(start, end, target, cmpLevel) {
+    return utils.compare(start, target, cmpLevel) < 1 && utils.compare(end, target, cmpLevel) > -1;
+  }
+};
 
-	    /**
-	     * Draw next page
-	     * @example
-	     *
-	     * calendar.drawNext();
-	     */
-	    drawNext: function() {
-	        this.draw({
-	            date: this.getNextDate()
-	        });
-	    },
-
-	    /**
-	     * Draw previous page
-	     *
-	     * @example
-	     *
-	     * calendar.drawPrev();
-	     */
-	    drawPrev: function() {
-	        this.draw({
-	            date: this.getPrevDate()
-	        });
-	    },
-
-	    /**
-	     * Returns next date
-	     * @returns {Date}
-	     */
-	    getNextDate: function() {
-	        if (this.getType() === TYPE_DATE) {
-	            return this._getRelativeDate(1);
-	        }
-
-	        return this.getNextYearDate();
-	    },
-
-	    /**
-	     * Returns prev date
-	     * @returns {Date}
-	     */
-	    getPrevDate: function() {
-	        if (this.getType() === TYPE_DATE) {
-	            return this._getRelativeDate(-1);
-	        }
-
-	        return this.getPrevYearDate();
-	    },
-
-	    /**
-	     * Returns next year date
-	     * @returns {Date}
-	     */
-	    getNextYearDate: function() {
-	        switch (this.getType()) {
-	            case TYPE_DATE:
-	            case TYPE_MONTH:
-	                return this._getRelativeDate(12); // 12 months = 1 year
-	            case TYPE_YEAR:
-	                return this._getRelativeDate(108); // 108 months = 9 years = 12 * 9
-	            default:
-	                throw new Error('Unknown layer type');
-	        }
-	    },
-
-	    /**
-	     * Returns prev year date
-	     * @returns {Date}
-	     */
-	    getPrevYearDate: function() {
-	        switch (this.getType()) {
-	            case TYPE_DATE:
-	            case TYPE_MONTH:
-	                return this._getRelativeDate(-12); // 12 months = 1 year
-	            case TYPE_YEAR:
-	                return this._getRelativeDate(-108); // 108 months = 9 years = 12 * 9
-	            default:
-	                throw new Error('Unknown layer type');
-	        }
-	    },
-
-	    /**
-	     * Change language
-	     * @param {string} language - Language
-	     * @see {@link Calendar.localeTexts}
-	     */
-	    changeLanguage: function(language) {
-	        this._header.changeLanguage(language);
-	        this._body.changeLanguage(language);
-	        this._render();
-	    },
-
-	    /**
-	     * Returns rendered date
-	     * @returns {Date}
-	     */
-	    getDate: function() {
-	        return new Date(this._date);
-	    },
-
-	    /**
-	     * Returns rendered layer type
-	     * @returns {'date'|'month'|'year'}
-	     */
-	    getType: function() {
-	        return this._type;
-	    },
-
-	    /**
-	     * Returns date elements(jQuery) on body
-	     * @returns {jQuery}
-	     */
-	    getDateElements: function() {
-	        return this._body.getDateElements();
-	    },
-
-	    /**
-	     * Add calendar css class
-	     * @param {string} className - Class name
-	     */
-	    addCssClass: function(className) {
-	        this._$element.addClass(className);
-	    },
-
-	    /**
-	     * Remove calendar css class
-	     * @param {string} className - Class name
-	     */
-	    removeCssClass: function(className) {
-	        this._$element.removeClass(className);
-	    },
-
-	    /**
-	     * Destroy calendar
-	     */
-	    destroy: function() {
-	        this._header.destroy();
-	        this._body.destroy();
-	        this._$element.remove();
-
-	        this._type = this._date = this._$container = this._$element = this._header = this._body = null;
-	    }
-	});
-
-	util.CustomEvents.mixin(Calendar);
-	module.exports = Calendar;
+module.exports = utils;
 
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(7);
-	function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
-	module.exports = (Handlebars["default"] || Handlebars).template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-	    return "<div class=\"tui-calendar\">\n    <div class=\"tui-calendar-header\"></div>\n    <div class=\"tui-calendar-body\"></div>\n</div>\n";
-	},"useData":true});
+"use strict";
+/**
+ * @fileoverview Check whether the given variable is an instance of Array or not.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+/**
+ * Check whether the given variable is an instance of Array or not.
+ * If the given variable is an instance of Array, return true.
+ * @param {*} obj - Target for checking
+ * @returns {boolean} Is array instance?
+ * @memberof module:type
+ */
+function isArray(obj) {
+  return obj instanceof Array;
+}
+
+module.exports = isArray;
+
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	// Create a simple path alias to allow browserify to resolve
-	// the runtime on a supported path.
-	module.exports = __webpack_require__(8)['default'];
+"use strict";
+/**
+ * @fileoverview Extend the target object from other objects.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+/**
+ * @module object
+ */
+
+/**
+ * Extend the target object from other objects.
+ * @param {object} target - Object that will be extended
+ * @param {...object} objects - Objects as sources
+ * @returns {object} Extended object
+ * @memberof module:object
+ */
+function extend(target, objects) { // eslint-disable-line no-unused-vars
+  var hasOwnProp = Object.prototype.hasOwnProperty;
+  var source, prop, i, len;
+
+  for (i = 1, len = arguments.length; i < len; i += 1) {
+    source = arguments[i];
+    for (prop in source) {
+      if (hasOwnProp.call(source, prop)) {
+        target[prop] = source[prop];
+      }
+    }
+  }
+
+  return target;
+}
+
+module.exports = extend;
 
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview This module provides some functions for custom events. And it is implemented in the observer design pattern.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
-	// istanbul ignore next
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	// istanbul ignore next
+var extend = __webpack_require__(7);
+var isExisty = __webpack_require__(37);
+var isString = __webpack_require__(13);
+var isObject = __webpack_require__(22);
+var isArray = __webpack_require__(6);
+var isFunction = __webpack_require__(39);
+var forEach = __webpack_require__(9);
 
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+var R_EVENTNAME_SPLIT = /\s+/g;
 
-	var _handlebarsBase = __webpack_require__(9);
+/**
+ * @class
+ * @example
+ * // node, commonjs
+ * var CustomEvents = require('tui-code-snippet/customEvents/customEvents');
+ */
+function CustomEvents() {
+  /**
+     * @type {HandlerItem[]}
+     */
+  this.events = null;
 
-	var base = _interopRequireWildcard(_handlebarsBase);
+  /**
+     * only for checking specific context event was binded
+     * @type {object[]}
+     */
+  this.contexts = null;
+}
 
-	// Each of these augment the Handlebars object. No need to setup here.
-	// (This is done to easily share code between commonjs and browse envs)
+/**
+ * Mixin custom events feature to specific constructor
+ * @param {function} func - constructor
+ * @example
+ * var CustomEvents = require('tui-code-snippet/customEvents/customEvents'); // node, commonjs
+ *
+ * var model;
+ * function Model() {
+ *     this.name = '';
+ * }
+ * CustomEvents.mixin(Model);
+ *
+ * model = new Model();
+ * model.on('change', function() { this.name = 'model'; }, this);
+ * model.fire('change');
+ * alert(model.name); // 'model';
+ */
+CustomEvents.mixin = function(func) {
+  extend(func.prototype, CustomEvents.prototype);
+};
 
-	var _handlebarsSafeString = __webpack_require__(23);
+/**
+ * Get HandlerItem object
+ * @param {function} handler - handler function
+ * @param {object} [context] - context for handler
+ * @returns {HandlerItem} HandlerItem object
+ * @private
+ */
+CustomEvents.prototype._getHandlerItem = function(handler, context) {
+  var item = {handler: handler};
 
-	var _handlebarsSafeString2 = _interopRequireDefault(_handlebarsSafeString);
+  if (context) {
+    item.context = context;
+  }
 
-	var _handlebarsException = __webpack_require__(11);
+  return item;
+};
 
-	var _handlebarsException2 = _interopRequireDefault(_handlebarsException);
+/**
+ * Get event object safely
+ * @param {string} [eventName] - create sub event map if not exist.
+ * @returns {(object|array)} event object. if you supplied `eventName`
+ *  parameter then make new array and return it
+ * @private
+ */
+CustomEvents.prototype._safeEvent = function(eventName) {
+  var events = this.events;
+  var byName;
 
-	var _handlebarsUtils = __webpack_require__(10);
+  if (!events) {
+    events = this.events = {};
+  }
 
-	var Utils = _interopRequireWildcard(_handlebarsUtils);
+  if (eventName) {
+    byName = events[eventName];
 
-	var _handlebarsRuntime = __webpack_require__(24);
+    if (!byName) {
+      byName = [];
+      events[eventName] = byName;
+    }
 
-	var runtime = _interopRequireWildcard(_handlebarsRuntime);
+    events = byName;
+  }
 
-	var _handlebarsNoConflict = __webpack_require__(25);
+  return events;
+};
 
-	var _handlebarsNoConflict2 = _interopRequireDefault(_handlebarsNoConflict);
+/**
+ * Get context array safely
+ * @returns {array} context array
+ * @private
+ */
+CustomEvents.prototype._safeContext = function() {
+  var context = this.contexts;
 
-	// For compatibility and usage outside of module systems, make the Handlebars object a namespace
-	function create() {
-	  var hb = new base.HandlebarsEnvironment();
+  if (!context) {
+    context = this.contexts = [];
+  }
 
-	  Utils.extend(hb, base);
-	  hb.SafeString = _handlebarsSafeString2['default'];
-	  hb.Exception = _handlebarsException2['default'];
-	  hb.Utils = Utils;
-	  hb.escapeExpression = Utils.escapeExpression;
+  return context;
+};
 
-	  hb.VM = runtime;
-	  hb.template = function (spec) {
-	    return runtime.template(spec, hb);
-	  };
+/**
+ * Get index of context
+ * @param {object} ctx - context that used for bind custom event
+ * @returns {number} index of context
+ * @private
+ */
+CustomEvents.prototype._indexOfContext = function(ctx) {
+  var context = this._safeContext();
+  var index = 0;
 
-	  return hb;
-	}
+  while (context[index]) {
+    if (ctx === context[index][0]) {
+      return index;
+    }
 
-	var inst = create();
-	inst.create = create;
+    index += 1;
+  }
 
-	_handlebarsNoConflict2['default'](inst);
+  return -1;
+};
 
-	inst['default'] = inst;
+/**
+ * Memorize supplied context for recognize supplied object is context or
+ *  name: handler pair object when off()
+ * @param {object} ctx - context object to memorize
+ * @private
+ */
+CustomEvents.prototype._memorizeContext = function(ctx) {
+  var context, index;
 
-	exports['default'] = inst;
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2xpYi9oYW5kbGViYXJzLnJ1bnRpbWUuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7OEJBQXNCLG1CQUFtQjs7SUFBN0IsSUFBSTs7Ozs7b0NBSU8sMEJBQTBCOzs7O21DQUMzQix3QkFBd0I7Ozs7K0JBQ3ZCLG9CQUFvQjs7SUFBL0IsS0FBSzs7aUNBQ1Esc0JBQXNCOztJQUFuQyxPQUFPOztvQ0FFSSwwQkFBMEI7Ozs7O0FBR2pELFNBQVMsTUFBTSxHQUFHO0FBQ2hCLE1BQUksRUFBRSxHQUFHLElBQUksSUFBSSxDQUFDLHFCQUFxQixFQUFFLENBQUM7O0FBRTFDLE9BQUssQ0FBQyxNQUFNLENBQUMsRUFBRSxFQUFFLElBQUksQ0FBQyxDQUFDO0FBQ3ZCLElBQUUsQ0FBQyxVQUFVLG9DQUFhLENBQUM7QUFDM0IsSUFBRSxDQUFDLFNBQVMsbUNBQVksQ0FBQztBQUN6QixJQUFFLENBQUMsS0FBSyxHQUFHLEtBQUssQ0FBQztBQUNqQixJQUFFLENBQUMsZ0JBQWdCLEdBQUcsS0FBSyxDQUFDLGdCQUFnQixDQUFDOztBQUU3QyxJQUFFLENBQUMsRUFBRSxHQUFHLE9BQU8sQ0FBQztBQUNoQixJQUFFLENBQUMsUUFBUSxHQUFHLFVBQVMsSUFBSSxFQUFFO0FBQzNCLFdBQU8sT0FBTyxDQUFDLFFBQVEsQ0FBQyxJQUFJLEVBQUUsRUFBRSxDQUFDLENBQUM7R0FDbkMsQ0FBQzs7QUFFRixTQUFPLEVBQUUsQ0FBQztDQUNYOztBQUVELElBQUksSUFBSSxHQUFHLE1BQU0sRUFBRSxDQUFDO0FBQ3BCLElBQUksQ0FBQyxNQUFNLEdBQUcsTUFBTSxDQUFDOztBQUVyQixrQ0FBVyxJQUFJLENBQUMsQ0FBQzs7QUFFakIsSUFBSSxDQUFDLFNBQVMsQ0FBQyxHQUFHLElBQUksQ0FBQzs7cUJBRVIsSUFBSSIsImZpbGUiOiJoYW5kbGViYXJzLnJ1bnRpbWUuanMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgKiBhcyBiYXNlIGZyb20gJy4vaGFuZGxlYmFycy9iYXNlJztcblxuLy8gRWFjaCBvZiB0aGVzZSBhdWdtZW50IHRoZSBIYW5kbGViYXJzIG9iamVjdC4gTm8gbmVlZCB0byBzZXR1cCBoZXJlLlxuLy8gKFRoaXMgaXMgZG9uZSB0byBlYXNpbHkgc2hhcmUgY29kZSBiZXR3ZWVuIGNvbW1vbmpzIGFuZCBicm93c2UgZW52cylcbmltcG9ydCBTYWZlU3RyaW5nIGZyb20gJy4vaGFuZGxlYmFycy9zYWZlLXN0cmluZyc7XG5pbXBvcnQgRXhjZXB0aW9uIGZyb20gJy4vaGFuZGxlYmFycy9leGNlcHRpb24nO1xuaW1wb3J0ICogYXMgVXRpbHMgZnJvbSAnLi9oYW5kbGViYXJzL3V0aWxzJztcbmltcG9ydCAqIGFzIHJ1bnRpbWUgZnJvbSAnLi9oYW5kbGViYXJzL3J1bnRpbWUnO1xuXG5pbXBvcnQgbm9Db25mbGljdCBmcm9tICcuL2hhbmRsZWJhcnMvbm8tY29uZmxpY3QnO1xuXG4vLyBGb3IgY29tcGF0aWJpbGl0eSBhbmQgdXNhZ2Ugb3V0c2lkZSBvZiBtb2R1bGUgc3lzdGVtcywgbWFrZSB0aGUgSGFuZGxlYmFycyBvYmplY3QgYSBuYW1lc3BhY2VcbmZ1bmN0aW9uIGNyZWF0ZSgpIHtcbiAgbGV0IGhiID0gbmV3IGJhc2UuSGFuZGxlYmFyc0Vudmlyb25tZW50KCk7XG5cbiAgVXRpbHMuZXh0ZW5kKGhiLCBiYXNlKTtcbiAgaGIuU2FmZVN0cmluZyA9IFNhZmVTdHJpbmc7XG4gIGhiLkV4Y2VwdGlvbiA9IEV4Y2VwdGlvbjtcbiAgaGIuVXRpbHMgPSBVdGlscztcbiAgaGIuZXNjYXBlRXhwcmVzc2lvbiA9IFV0aWxzLmVzY2FwZUV4cHJlc3Npb247XG5cbiAgaGIuVk0gPSBydW50aW1lO1xuICBoYi50ZW1wbGF0ZSA9IGZ1bmN0aW9uKHNwZWMpIHtcbiAgICByZXR1cm4gcnVudGltZS50ZW1wbGF0ZShzcGVjLCBoYik7XG4gIH07XG5cbiAgcmV0dXJuIGhiO1xufVxuXG5sZXQgaW5zdCA9IGNyZWF0ZSgpO1xuaW5zdC5jcmVhdGUgPSBjcmVhdGU7XG5cbm5vQ29uZmxpY3QoaW5zdCk7XG5cbmluc3RbJ2RlZmF1bHQnXSA9IGluc3Q7XG5cbmV4cG9ydCBkZWZhdWx0IGluc3Q7XG4iXX0=
+  if (!isExisty(ctx)) {
+    return;
+  }
+
+  context = this._safeContext();
+  index = this._indexOfContext(ctx);
+
+  if (index > -1) {
+    context[index][1] += 1;
+  } else {
+    context.push([ctx, 1]);
+  }
+};
+
+/**
+ * Forget supplied context object
+ * @param {object} ctx - context object to forget
+ * @private
+ */
+CustomEvents.prototype._forgetContext = function(ctx) {
+  var context, contextIndex;
+
+  if (!isExisty(ctx)) {
+    return;
+  }
+
+  context = this._safeContext();
+  contextIndex = this._indexOfContext(ctx);
+
+  if (contextIndex > -1) {
+    context[contextIndex][1] -= 1;
+
+    if (context[contextIndex][1] <= 0) {
+      context.splice(contextIndex, 1);
+    }
+  }
+};
+
+/**
+ * Bind event handler
+ * @param {(string|{name:string, handler:function})} eventName - custom
+ *  event name or an object {eventName: handler}
+ * @param {(function|object)} [handler] - handler function or context
+ * @param {object} [context] - context for binding
+ * @private
+ */
+CustomEvents.prototype._bindEvent = function(eventName, handler, context) {
+  var events = this._safeEvent(eventName);
+  this._memorizeContext(context);
+  events.push(this._getHandlerItem(handler, context));
+};
+
+/**
+ * Bind event handlers
+ * @param {(string|{name:string, handler:function})} eventName - custom
+ *  event name or an object {eventName: handler}
+ * @param {(function|object)} [handler] - handler function or context
+ * @param {object} [context] - context for binding
+ * //-- #1. Get Module --//
+ * var CustomEvents = require('tui-code-snippet/customEvents/customEvents'); // node, commonjs
+ *
+ * //-- #2. Use method --//
+ * // # 2.1 Basic Usage
+ * CustomEvents.on('onload', handler);
+ *
+ * // # 2.2 With context
+ * CustomEvents.on('onload', handler, myObj);
+ *
+ * // # 2.3 Bind by object that name, handler pairs
+ * CustomEvents.on({
+ *     'play': handler,
+ *     'pause': handler2
+ * });
+ *
+ * // # 2.4 Bind by object that name, handler pairs with context object
+ * CustomEvents.on({
+ *     'play': handler
+ * }, myObj);
+ */
+CustomEvents.prototype.on = function(eventName, handler, context) {
+  var self = this;
+
+  if (isString(eventName)) {
+    // [syntax 1, 2]
+    eventName = eventName.split(R_EVENTNAME_SPLIT);
+    forEach(eventName, function(name) {
+      self._bindEvent(name, handler, context);
+    });
+  } else if (isObject(eventName)) {
+    // [syntax 3, 4]
+    context = handler;
+    forEach(eventName, function(func, name) {
+      self.on(name, func, context);
+    });
+  }
+};
+
+/**
+ * Bind one-shot event handlers
+ * @param {(string|{name:string,handler:function})} eventName - custom
+ *  event name or an object {eventName: handler}
+ * @param {function|object} [handler] - handler function or context
+ * @param {object} [context] - context for binding
+ */
+CustomEvents.prototype.once = function(eventName, handler, context) {
+  var self = this;
+
+  if (isObject(eventName)) {
+    context = handler;
+    forEach(eventName, function(func, name) {
+      self.once(name, func, context);
+    });
+
+    return;
+  }
+
+  function onceHandler() { // eslint-disable-line require-jsdoc
+    handler.apply(context, arguments);
+    self.off(eventName, onceHandler, context);
+  }
+
+  this.on(eventName, onceHandler, context);
+};
+
+/**
+ * Splice supplied array by callback result
+ * @param {array} arr - array to splice
+ * @param {function} predicate - function return boolean
+ * @private
+ */
+CustomEvents.prototype._spliceMatches = function(arr, predicate) {
+  var i = 0;
+  var len;
+
+  if (!isArray(arr)) {
+    return;
+  }
+
+  for (len = arr.length; i < len; i += 1) {
+    if (predicate(arr[i]) === true) {
+      arr.splice(i, 1);
+      len -= 1;
+      i -= 1;
+    }
+  }
+};
+
+/**
+ * Get matcher for unbind specific handler events
+ * @param {function} handler - handler function
+ * @returns {function} handler matcher
+ * @private
+ */
+CustomEvents.prototype._matchHandler = function(handler) {
+  var self = this;
+
+  return function(item) {
+    var needRemove = handler === item.handler;
+
+    if (needRemove) {
+      self._forgetContext(item.context);
+    }
+
+    return needRemove;
+  };
+};
+
+/**
+ * Get matcher for unbind specific context events
+ * @param {object} context - context
+ * @returns {function} object matcher
+ * @private
+ */
+CustomEvents.prototype._matchContext = function(context) {
+  var self = this;
+
+  return function(item) {
+    var needRemove = context === item.context;
+
+    if (needRemove) {
+      self._forgetContext(item.context);
+    }
+
+    return needRemove;
+  };
+};
+
+/**
+ * Get matcher for unbind specific hander, context pair events
+ * @param {function} handler - handler function
+ * @param {object} context - context
+ * @returns {function} handler, context matcher
+ * @private
+ */
+CustomEvents.prototype._matchHandlerAndContext = function(handler, context) {
+  var self = this;
+
+  return function(item) {
+    var matchHandler = (handler === item.handler);
+    var matchContext = (context === item.context);
+    var needRemove = (matchHandler && matchContext);
+
+    if (needRemove) {
+      self._forgetContext(item.context);
+    }
+
+    return needRemove;
+  };
+};
+
+/**
+ * Unbind event by event name
+ * @param {string} eventName - custom event name to unbind
+ * @param {function} [handler] - handler function
+ * @private
+ */
+CustomEvents.prototype._offByEventName = function(eventName, handler) {
+  var self = this;
+  var andByHandler = isFunction(handler);
+  var matchHandler = self._matchHandler(handler);
+
+  eventName = eventName.split(R_EVENTNAME_SPLIT);
+
+  forEach(eventName, function(name) {
+    var handlerItems = self._safeEvent(name);
+
+    if (andByHandler) {
+      self._spliceMatches(handlerItems, matchHandler);
+    } else {
+      forEach(handlerItems, function(item) {
+        self._forgetContext(item.context);
+      });
+
+      self.events[name] = [];
+    }
+  });
+};
+
+/**
+ * Unbind event by handler function
+ * @param {function} handler - handler function
+ * @private
+ */
+CustomEvents.prototype._offByHandler = function(handler) {
+  var self = this;
+  var matchHandler = this._matchHandler(handler);
+
+  forEach(this._safeEvent(), function(handlerItems) {
+    self._spliceMatches(handlerItems, matchHandler);
+  });
+};
+
+/**
+ * Unbind event by object(name: handler pair object or context object)
+ * @param {object} obj - context or {name: handler} pair object
+ * @param {function} handler - handler function
+ * @private
+ */
+CustomEvents.prototype._offByObject = function(obj, handler) {
+  var self = this;
+  var matchFunc;
+
+  if (this._indexOfContext(obj) < 0) {
+    forEach(obj, function(func, name) {
+      self.off(name, func);
+    });
+  } else if (isString(handler)) {
+    matchFunc = this._matchContext(obj);
+
+    self._spliceMatches(this._safeEvent(handler), matchFunc);
+  } else if (isFunction(handler)) {
+    matchFunc = this._matchHandlerAndContext(handler, obj);
+
+    forEach(this._safeEvent(), function(handlerItems) {
+      self._spliceMatches(handlerItems, matchFunc);
+    });
+  } else {
+    matchFunc = this._matchContext(obj);
+
+    forEach(this._safeEvent(), function(handlerItems) {
+      self._spliceMatches(handlerItems, matchFunc);
+    });
+  }
+};
+
+/**
+ * Unbind custom events
+ * @param {(string|object|function)} eventName - event name or context or
+ *  {name: handler} pair object or handler function
+ * @param {(function)} handler - handler function
+ * @example
+ * //-- #1. Get Module --//
+ * var CustomEvents = require('tui-code-snippet/customEvents/customEvents'); // node, commonjs
+ *
+ * //-- #2. Use method --//
+ * // # 2.1 off by event name
+ * CustomEvents.off('onload');
+ *
+ * // # 2.2 off by event name and handler
+ * CustomEvents.off('play', handler);
+ *
+ * // # 2.3 off by handler
+ * CustomEvents.off(handler);
+ *
+ * // # 2.4 off by context
+ * CustomEvents.off(myObj);
+ *
+ * // # 2.5 off by context and handler
+ * CustomEvents.off(myObj, handler);
+ *
+ * // # 2.6 off by context and event name
+ * CustomEvents.off(myObj, 'onload');
+ *
+ * // # 2.7 off by an Object.<string, function> that is {eventName: handler}
+ * CustomEvents.off({
+ *   'play': handler,
+ *   'pause': handler2
+ * });
+ *
+ * // # 2.8 off the all events
+ * CustomEvents.off();
+ */
+CustomEvents.prototype.off = function(eventName, handler) {
+  if (isString(eventName)) {
+    // [syntax 1, 2]
+    this._offByEventName(eventName, handler);
+  } else if (!arguments.length) {
+    // [syntax 8]
+    this.events = {};
+    this.contexts = [];
+  } else if (isFunction(eventName)) {
+    // [syntax 3]
+    this._offByHandler(eventName);
+  } else if (isObject(eventName)) {
+    // [syntax 4, 5, 6]
+    this._offByObject(eventName, handler);
+  }
+};
+
+/**
+ * Fire custom event
+ * @param {string} eventName - name of custom event
+ */
+CustomEvents.prototype.fire = function(eventName) {  // eslint-disable-line
+  this.invoke.apply(this, arguments);
+};
+
+/**
+ * Fire a event and returns the result of operation 'boolean AND' with all
+ *  listener's results.
+ *
+ * So, It is different from {@link CustomEvents#fire}.
+ *
+ * In service code, use this as a before event in component level usually
+ *  for notifying that the event is cancelable.
+ * @param {string} eventName - Custom event name
+ * @param {...*} data - Data for event
+ * @returns {boolean} The result of operation 'boolean AND'
+ * @example
+ * var map = new Map();
+ * map.on({
+ *     'beforeZoom': function() {
+ *         // It should cancel the 'zoom' event by some conditions.
+ *         if (that.disabled && this.getState()) {
+ *             return false;
+ *         }
+ *         return true;
+ *     }
+ * });
+ *
+ * if (this.invoke('beforeZoom')) {    // check the result of 'beforeZoom'
+ *     // if true,
+ *     // doSomething
+ * }
+ */
+CustomEvents.prototype.invoke = function(eventName) {
+  var events, args, index, item;
+
+  if (!this.hasListener(eventName)) {
+    return true;
+  }
+
+  events = this._safeEvent(eventName);
+  args = Array.prototype.slice.call(arguments, 1);
+  index = 0;
+
+  while (events[index]) {
+    item = events[index];
+
+    if (item.handler.apply(item.context, args) === false) {
+      return false;
+    }
+
+    index += 1;
+  }
+
+  return true;
+};
+
+/**
+ * Return whether at least one of the handlers is registered in the given
+ *  event name.
+ * @param {string} eventName - Custom event name
+ * @returns {boolean} Is there at least one handler in event name?
+ */
+CustomEvents.prototype.hasListener = function(eventName) {
+  return this.getListenerLength(eventName) > 0;
+};
+
+/**
+ * Return a count of events registered.
+ * @param {string} eventName - Custom event name
+ * @returns {number} number of event
+ */
+CustomEvents.prototype.getListenerLength = function(eventName) {
+  var events = this._safeEvent(eventName);
+
+  return events.length;
+};
+
+module.exports = CustomEvents;
 
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Execute the provided callback once for each property of object(or element of array) which actually exist.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
-	exports.HandlebarsEnvironment = HandlebarsEnvironment;
-	// istanbul ignore next
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _utils = __webpack_require__(10);
+var isArray = __webpack_require__(6);
+var forEachArray = __webpack_require__(2);
+var forEachOwnProperties = __webpack_require__(23);
 
-	var _exception = __webpack_require__(11);
+/**
+ * @module collection
+ */
 
-	var _exception2 = _interopRequireDefault(_exception);
+/**
+ * Execute the provided callback once for each property of object(or element of array) which actually exist.
+ * If the object is Array-like object(ex-arguments object), It needs to transform to Array.(see 'ex2' of example).
+ * If the callback function returns false, the loop will be stopped.
+ * Callback function(iteratee) is invoked with three arguments:
+ *  1) The value of the property(or The value of the element)
+ *  2) The name of the property(or The index of the element)
+ *  3) The object being traversed
+ * @param {Object} obj The object that will be traversed
+ * @param {function} iteratee Callback function
+ * @param {Object} [context] Context(this) of callback function
+ * @memberof module:collection
+ * @example
+ * var forEach = require('tui-code-snippet/collection/forEach'); // node, commonjs
+ *
+ * var sum = 0;
+ *
+ * forEach([1,2,3], function(value){
+ *     sum += value;
+ * });
+ * alert(sum); // 6
+ *
+ * // In case of Array-like object
+ * var array = Array.prototype.slice.call(arrayLike); // change to array
+ * forEach(array, function(value){
+ *     sum += value;
+ * });
+ */
+function forEach(obj, iteratee, context) {
+  if (isArray(obj)) {
+    forEachArray(obj, iteratee, context);
+  } else {
+    forEachOwnProperties(obj, iteratee, context);
+  }
+}
 
-	var _helpers = __webpack_require__(12);
-
-	var _decorators = __webpack_require__(20);
-
-	var _logger = __webpack_require__(22);
-
-	var _logger2 = _interopRequireDefault(_logger);
-
-	var VERSION = '4.0.5';
-	exports.VERSION = VERSION;
-	var COMPILER_REVISION = 7;
-
-	exports.COMPILER_REVISION = COMPILER_REVISION;
-	var REVISION_CHANGES = {
-	  1: '<= 1.0.rc.2', // 1.0.rc.2 is actually rev2 but doesn't report it
-	  2: '== 1.0.0-rc.3',
-	  3: '== 1.0.0-rc.4',
-	  4: '== 1.x.x',
-	  5: '== 2.0.0-alpha.x',
-	  6: '>= 2.0.0-beta.1',
-	  7: '>= 4.0.0'
-	};
-
-	exports.REVISION_CHANGES = REVISION_CHANGES;
-	var objectType = '[object Object]';
-
-	function HandlebarsEnvironment(helpers, partials, decorators) {
-	  this.helpers = helpers || {};
-	  this.partials = partials || {};
-	  this.decorators = decorators || {};
-
-	  _helpers.registerDefaultHelpers(this);
-	  _decorators.registerDefaultDecorators(this);
-	}
-
-	HandlebarsEnvironment.prototype = {
-	  constructor: HandlebarsEnvironment,
-
-	  logger: _logger2['default'],
-	  log: _logger2['default'].log,
-
-	  registerHelper: function registerHelper(name, fn) {
-	    if (_utils.toString.call(name) === objectType) {
-	      if (fn) {
-	        throw new _exception2['default']('Arg not supported with multiple helpers');
-	      }
-	      _utils.extend(this.helpers, name);
-	    } else {
-	      this.helpers[name] = fn;
-	    }
-	  },
-	  unregisterHelper: function unregisterHelper(name) {
-	    delete this.helpers[name];
-	  },
-
-	  registerPartial: function registerPartial(name, partial) {
-	    if (_utils.toString.call(name) === objectType) {
-	      _utils.extend(this.partials, name);
-	    } else {
-	      if (typeof partial === 'undefined') {
-	        throw new _exception2['default']('Attempting to register a partial called "' + name + '" as undefined');
-	      }
-	      this.partials[name] = partial;
-	    }
-	  },
-	  unregisterPartial: function unregisterPartial(name) {
-	    delete this.partials[name];
-	  },
-
-	  registerDecorator: function registerDecorator(name, fn) {
-	    if (_utils.toString.call(name) === objectType) {
-	      if (fn) {
-	        throw new _exception2['default']('Arg not supported with multiple decorators');
-	      }
-	      _utils.extend(this.decorators, name);
-	    } else {
-	      this.decorators[name] = fn;
-	    }
-	  },
-	  unregisterDecorator: function unregisterDecorator(name) {
-	    delete this.decorators[name];
-	  }
-	};
-
-	var log = _logger2['default'].log;
-
-	exports.log = log;
-	exports.createFrame = _utils.createFrame;
-	exports.logger = _logger2['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2Jhc2UuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7cUJBQTRDLFNBQVM7O3lCQUMvQixhQUFhOzs7O3VCQUNFLFdBQVc7OzBCQUNSLGNBQWM7O3NCQUNuQyxVQUFVOzs7O0FBRXRCLElBQU0sT0FBTyxHQUFHLE9BQU8sQ0FBQzs7QUFDeEIsSUFBTSxpQkFBaUIsR0FBRyxDQUFDLENBQUM7OztBQUU1QixJQUFNLGdCQUFnQixHQUFHO0FBQzlCLEdBQUMsRUFBRSxhQUFhO0FBQ2hCLEdBQUMsRUFBRSxlQUFlO0FBQ2xCLEdBQUMsRUFBRSxlQUFlO0FBQ2xCLEdBQUMsRUFBRSxVQUFVO0FBQ2IsR0FBQyxFQUFFLGtCQUFrQjtBQUNyQixHQUFDLEVBQUUsaUJBQWlCO0FBQ3BCLEdBQUMsRUFBRSxVQUFVO0NBQ2QsQ0FBQzs7O0FBRUYsSUFBTSxVQUFVLEdBQUcsaUJBQWlCLENBQUM7O0FBRTlCLFNBQVMscUJBQXFCLENBQUMsT0FBTyxFQUFFLFFBQVEsRUFBRSxVQUFVLEVBQUU7QUFDbkUsTUFBSSxDQUFDLE9BQU8sR0FBRyxPQUFPLElBQUksRUFBRSxDQUFDO0FBQzdCLE1BQUksQ0FBQyxRQUFRLEdBQUcsUUFBUSxJQUFJLEVBQUUsQ0FBQztBQUMvQixNQUFJLENBQUMsVUFBVSxHQUFHLFVBQVUsSUFBSSxFQUFFLENBQUM7O0FBRW5DLGtDQUF1QixJQUFJLENBQUMsQ0FBQztBQUM3Qix3Q0FBMEIsSUFBSSxDQUFDLENBQUM7Q0FDakM7O0FBRUQscUJBQXFCLENBQUMsU0FBUyxHQUFHO0FBQ2hDLGFBQVcsRUFBRSxxQkFBcUI7O0FBRWxDLFFBQU0scUJBQVE7QUFDZCxLQUFHLEVBQUUsb0JBQU8sR0FBRzs7QUFFZixnQkFBYyxFQUFFLHdCQUFTLElBQUksRUFBRSxFQUFFLEVBQUU7QUFDakMsUUFBSSxnQkFBUyxJQUFJLENBQUMsSUFBSSxDQUFDLEtBQUssVUFBVSxFQUFFO0FBQ3RDLFVBQUksRUFBRSxFQUFFO0FBQUUsY0FBTSwyQkFBYyx5Q0FBeUMsQ0FBQyxDQUFDO09BQUU7QUFDM0Usb0JBQU8sSUFBSSxDQUFDLE9BQU8sRUFBRSxJQUFJLENBQUMsQ0FBQztLQUM1QixNQUFNO0FBQ0wsVUFBSSxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsR0FBRyxFQUFFLENBQUM7S0FDekI7R0FDRjtBQUNELGtCQUFnQixFQUFFLDBCQUFTLElBQUksRUFBRTtBQUMvQixXQUFPLElBQUksQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDLENBQUM7R0FDM0I7O0FBRUQsaUJBQWUsRUFBRSx5QkFBUyxJQUFJLEVBQUUsT0FBTyxFQUFFO0FBQ3ZDLFFBQUksZ0JBQVMsSUFBSSxDQUFDLElBQUksQ0FBQyxLQUFLLFVBQVUsRUFBRTtBQUN0QyxvQkFBTyxJQUFJLENBQUMsUUFBUSxFQUFFLElBQUksQ0FBQyxDQUFDO0tBQzdCLE1BQU07QUFDTCxVQUFJLE9BQU8sT0FBTyxLQUFLLFdBQVcsRUFBRTtBQUNsQyxjQUFNLHlFQUEwRCxJQUFJLG9CQUFpQixDQUFDO09BQ3ZGO0FBQ0QsVUFBSSxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsR0FBRyxPQUFPLENBQUM7S0FDL0I7R0FDRjtBQUNELG1CQUFpQixFQUFFLDJCQUFTLElBQUksRUFBRTtBQUNoQyxXQUFPLElBQUksQ0FBQyxRQUFRLENBQUMsSUFBSSxDQUFDLENBQUM7R0FDNUI7O0FBRUQsbUJBQWlCLEVBQUUsMkJBQVMsSUFBSSxFQUFFLEVBQUUsRUFBRTtBQUNwQyxRQUFJLGdCQUFTLElBQUksQ0FBQyxJQUFJLENBQUMsS0FBSyxVQUFVLEVBQUU7QUFDdEMsVUFBSSxFQUFFLEVBQUU7QUFBRSxjQUFNLDJCQUFjLDRDQUE0QyxDQUFDLENBQUM7T0FBRTtBQUM5RSxvQkFBTyxJQUFJLENBQUMsVUFBVSxFQUFFLElBQUksQ0FBQyxDQUFDO0tBQy9CLE1BQU07QUFDTCxVQUFJLENBQUMsVUFBVSxDQUFDLElBQUksQ0FBQyxHQUFHLEVBQUUsQ0FBQztLQUM1QjtHQUNGO0FBQ0QscUJBQW1CLEVBQUUsNkJBQVMsSUFBSSxFQUFFO0FBQ2xDLFdBQU8sSUFBSSxDQUFDLFVBQVUsQ0FBQyxJQUFJLENBQUMsQ0FBQztHQUM5QjtDQUNGLENBQUM7O0FBRUssSUFBSSxHQUFHLEdBQUcsb0JBQU8sR0FBRyxDQUFDOzs7UUFFcEIsV0FBVztRQUFFLE1BQU0iLCJmaWxlIjoiYmFzZS5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7Y3JlYXRlRnJhbWUsIGV4dGVuZCwgdG9TdHJpbmd9IGZyb20gJy4vdXRpbHMnO1xuaW1wb3J0IEV4Y2VwdGlvbiBmcm9tICcuL2V4Y2VwdGlvbic7XG5pbXBvcnQge3JlZ2lzdGVyRGVmYXVsdEhlbHBlcnN9IGZyb20gJy4vaGVscGVycyc7XG5pbXBvcnQge3JlZ2lzdGVyRGVmYXVsdERlY29yYXRvcnN9IGZyb20gJy4vZGVjb3JhdG9ycyc7XG5pbXBvcnQgbG9nZ2VyIGZyb20gJy4vbG9nZ2VyJztcblxuZXhwb3J0IGNvbnN0IFZFUlNJT04gPSAnNC4wLjUnO1xuZXhwb3J0IGNvbnN0IENPTVBJTEVSX1JFVklTSU9OID0gNztcblxuZXhwb3J0IGNvbnN0IFJFVklTSU9OX0NIQU5HRVMgPSB7XG4gIDE6ICc8PSAxLjAucmMuMicsIC8vIDEuMC5yYy4yIGlzIGFjdHVhbGx5IHJldjIgYnV0IGRvZXNuJ3QgcmVwb3J0IGl0XG4gIDI6ICc9PSAxLjAuMC1yYy4zJyxcbiAgMzogJz09IDEuMC4wLXJjLjQnLFxuICA0OiAnPT0gMS54LngnLFxuICA1OiAnPT0gMi4wLjAtYWxwaGEueCcsXG4gIDY6ICc+PSAyLjAuMC1iZXRhLjEnLFxuICA3OiAnPj0gNC4wLjAnXG59O1xuXG5jb25zdCBvYmplY3RUeXBlID0gJ1tvYmplY3QgT2JqZWN0XSc7XG5cbmV4cG9ydCBmdW5jdGlvbiBIYW5kbGViYXJzRW52aXJvbm1lbnQoaGVscGVycywgcGFydGlhbHMsIGRlY29yYXRvcnMpIHtcbiAgdGhpcy5oZWxwZXJzID0gaGVscGVycyB8fCB7fTtcbiAgdGhpcy5wYXJ0aWFscyA9IHBhcnRpYWxzIHx8IHt9O1xuICB0aGlzLmRlY29yYXRvcnMgPSBkZWNvcmF0b3JzIHx8IHt9O1xuXG4gIHJlZ2lzdGVyRGVmYXVsdEhlbHBlcnModGhpcyk7XG4gIHJlZ2lzdGVyRGVmYXVsdERlY29yYXRvcnModGhpcyk7XG59XG5cbkhhbmRsZWJhcnNFbnZpcm9ubWVudC5wcm90b3R5cGUgPSB7XG4gIGNvbnN0cnVjdG9yOiBIYW5kbGViYXJzRW52aXJvbm1lbnQsXG5cbiAgbG9nZ2VyOiBsb2dnZXIsXG4gIGxvZzogbG9nZ2VyLmxvZyxcblxuICByZWdpc3RlckhlbHBlcjogZnVuY3Rpb24obmFtZSwgZm4pIHtcbiAgICBpZiAodG9TdHJpbmcuY2FsbChuYW1lKSA9PT0gb2JqZWN0VHlwZSkge1xuICAgICAgaWYgKGZuKSB7IHRocm93IG5ldyBFeGNlcHRpb24oJ0FyZyBub3Qgc3VwcG9ydGVkIHdpdGggbXVsdGlwbGUgaGVscGVycycpOyB9XG4gICAgICBleHRlbmQodGhpcy5oZWxwZXJzLCBuYW1lKTtcbiAgICB9IGVsc2Uge1xuICAgICAgdGhpcy5oZWxwZXJzW25hbWVdID0gZm47XG4gICAgfVxuICB9LFxuICB1bnJlZ2lzdGVySGVscGVyOiBmdW5jdGlvbihuYW1lKSB7XG4gICAgZGVsZXRlIHRoaXMuaGVscGVyc1tuYW1lXTtcbiAgfSxcblxuICByZWdpc3RlclBhcnRpYWw6IGZ1bmN0aW9uKG5hbWUsIHBhcnRpYWwpIHtcbiAgICBpZiAodG9TdHJpbmcuY2FsbChuYW1lKSA9PT0gb2JqZWN0VHlwZSkge1xuICAgICAgZXh0ZW5kKHRoaXMucGFydGlhbHMsIG5hbWUpO1xuICAgIH0gZWxzZSB7XG4gICAgICBpZiAodHlwZW9mIHBhcnRpYWwgPT09ICd1bmRlZmluZWQnKSB7XG4gICAgICAgIHRocm93IG5ldyBFeGNlcHRpb24oYEF0dGVtcHRpbmcgdG8gcmVnaXN0ZXIgYSBwYXJ0aWFsIGNhbGxlZCBcIiR7bmFtZX1cIiBhcyB1bmRlZmluZWRgKTtcbiAgICAgIH1cbiAgICAgIHRoaXMucGFydGlhbHNbbmFtZV0gPSBwYXJ0aWFsO1xuICAgIH1cbiAgfSxcbiAgdW5yZWdpc3RlclBhcnRpYWw6IGZ1bmN0aW9uKG5hbWUpIHtcbiAgICBkZWxldGUgdGhpcy5wYXJ0aWFsc1tuYW1lXTtcbiAgfSxcblxuICByZWdpc3RlckRlY29yYXRvcjogZnVuY3Rpb24obmFtZSwgZm4pIHtcbiAgICBpZiAodG9TdHJpbmcuY2FsbChuYW1lKSA9PT0gb2JqZWN0VHlwZSkge1xuICAgICAgaWYgKGZuKSB7IHRocm93IG5ldyBFeGNlcHRpb24oJ0FyZyBub3Qgc3VwcG9ydGVkIHdpdGggbXVsdGlwbGUgZGVjb3JhdG9ycycpOyB9XG4gICAgICBleHRlbmQodGhpcy5kZWNvcmF0b3JzLCBuYW1lKTtcbiAgICB9IGVsc2Uge1xuICAgICAgdGhpcy5kZWNvcmF0b3JzW25hbWVdID0gZm47XG4gICAgfVxuICB9LFxuICB1bnJlZ2lzdGVyRGVjb3JhdG9yOiBmdW5jdGlvbihuYW1lKSB7XG4gICAgZGVsZXRlIHRoaXMuZGVjb3JhdG9yc1tuYW1lXTtcbiAgfVxufTtcblxuZXhwb3J0IGxldCBsb2cgPSBsb2dnZXIubG9nO1xuXG5leHBvcnQge2NyZWF0ZUZyYW1lLCBsb2dnZXJ9O1xuIl19
+module.exports = forEach;
 
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Default locale texts
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
-	exports.extend = extend;
-	exports.indexOf = indexOf;
-	exports.escapeExpression = escapeExpression;
-	exports.isEmpty = isEmpty;
-	exports.createFrame = createFrame;
-	exports.blockParams = blockParams;
-	exports.appendContextPath = appendContextPath;
-	var escape = {
-	  '&': '&amp;',
-	  '<': '&lt;',
-	  '>': '&gt;',
-	  '"': '&quot;',
-	  "'": '&#x27;',
-	  '`': '&#x60;',
-	  '=': '&#x3D;'
-	};
 
-	var badChars = /[&<>"'`=]/g,
-	    possible = /[&<>"'`=]/;
 
-	function escapeChar(chr) {
-	  return escape[chr];
-	}
-
-	function extend(obj /* , ...source */) {
-	  for (var i = 1; i < arguments.length; i++) {
-	    for (var key in arguments[i]) {
-	      if (Object.prototype.hasOwnProperty.call(arguments[i], key)) {
-	        obj[key] = arguments[i][key];
-	      }
-	    }
-	  }
-
-	  return obj;
-	}
-
-	var toString = Object.prototype.toString;
-
-	exports.toString = toString;
-	// Sourced from lodash
-	// https://github.com/bestiejs/lodash/blob/master/LICENSE.txt
-	/* eslint-disable func-style */
-	var isFunction = function isFunction(value) {
-	  return typeof value === 'function';
-	};
-	// fallback for older versions of Chrome and Safari
-	/* istanbul ignore next */
-	if (isFunction(/x/)) {
-	  exports.isFunction = isFunction = function (value) {
-	    return typeof value === 'function' && toString.call(value) === '[object Function]';
-	  };
-	}
-	exports.isFunction = isFunction;
-
-	/* eslint-enable func-style */
-
-	/* istanbul ignore next */
-	var isArray = Array.isArray || function (value) {
-	  return value && typeof value === 'object' ? toString.call(value) === '[object Array]' : false;
-	};
-
-	exports.isArray = isArray;
-	// Older IE versions do not directly support indexOf so we must implement our own, sadly.
-
-	function indexOf(array, value) {
-	  for (var i = 0, len = array.length; i < len; i++) {
-	    if (array[i] === value) {
-	      return i;
-	    }
-	  }
-	  return -1;
-	}
-
-	function escapeExpression(string) {
-	  if (typeof string !== 'string') {
-	    // don't escape SafeStrings, since they're already safe
-	    if (string && string.toHTML) {
-	      return string.toHTML();
-	    } else if (string == null) {
-	      return '';
-	    } else if (!string) {
-	      return string + '';
-	    }
-
-	    // Force a string conversion as this will be done by the append regardless and
-	    // the regex test will do this transparently behind the scenes, causing issues if
-	    // an object's to string has escaped characters in it.
-	    string = '' + string;
-	  }
-
-	  if (!possible.test(string)) {
-	    return string;
-	  }
-	  return string.replace(badChars, escapeChar);
-	}
-
-	function isEmpty(value) {
-	  if (!value && value !== 0) {
-	    return true;
-	  } else if (isArray(value) && value.length === 0) {
-	    return true;
-	  } else {
-	    return false;
-	  }
-	}
-
-	function createFrame(object) {
-	  var frame = extend({}, object);
-	  frame._parent = object;
-	  return frame;
-	}
-
-	function blockParams(params, ids) {
-	  params.path = ids;
-	  return params;
-	}
-
-	function appendContextPath(contextPath, id) {
-	  return (contextPath ? contextPath + '.' : '') + id;
-	}
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL3V0aWxzLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7QUFBQSxJQUFNLE1BQU0sR0FBRztBQUNiLEtBQUcsRUFBRSxPQUFPO0FBQ1osS0FBRyxFQUFFLE1BQU07QUFDWCxLQUFHLEVBQUUsTUFBTTtBQUNYLEtBQUcsRUFBRSxRQUFRO0FBQ2IsS0FBRyxFQUFFLFFBQVE7QUFDYixLQUFHLEVBQUUsUUFBUTtBQUNiLEtBQUcsRUFBRSxRQUFRO0NBQ2QsQ0FBQzs7QUFFRixJQUFNLFFBQVEsR0FBRyxZQUFZO0lBQ3ZCLFFBQVEsR0FBRyxXQUFXLENBQUM7O0FBRTdCLFNBQVMsVUFBVSxDQUFDLEdBQUcsRUFBRTtBQUN2QixTQUFPLE1BQU0sQ0FBQyxHQUFHLENBQUMsQ0FBQztDQUNwQjs7QUFFTSxTQUFTLE1BQU0sQ0FBQyxHQUFHLG9CQUFtQjtBQUMzQyxPQUFLLElBQUksQ0FBQyxHQUFHLENBQUMsRUFBRSxDQUFDLEdBQUcsU0FBUyxDQUFDLE1BQU0sRUFBRSxDQUFDLEVBQUUsRUFBRTtBQUN6QyxTQUFLLElBQUksR0FBRyxJQUFJLFNBQVMsQ0FBQyxDQUFDLENBQUMsRUFBRTtBQUM1QixVQUFJLE1BQU0sQ0FBQyxTQUFTLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsQ0FBQyxDQUFDLEVBQUUsR0FBRyxDQUFDLEVBQUU7QUFDM0QsV0FBRyxDQUFDLEdBQUcsQ0FBQyxHQUFHLFNBQVMsQ0FBQyxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQUMsQ0FBQztPQUM5QjtLQUNGO0dBQ0Y7O0FBRUQsU0FBTyxHQUFHLENBQUM7Q0FDWjs7QUFFTSxJQUFJLFFBQVEsR0FBRyxNQUFNLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQzs7Ozs7O0FBS2hELElBQUksVUFBVSxHQUFHLG9CQUFTLEtBQUssRUFBRTtBQUMvQixTQUFPLE9BQU8sS0FBSyxLQUFLLFVBQVUsQ0FBQztDQUNwQyxDQUFDOzs7QUFHRixJQUFJLFVBQVUsQ0FBQyxHQUFHLENBQUMsRUFBRTtBQUNuQixVQUlNLFVBQVUsR0FKaEIsVUFBVSxHQUFHLFVBQVMsS0FBSyxFQUFFO0FBQzNCLFdBQU8sT0FBTyxLQUFLLEtBQUssVUFBVSxJQUFJLFFBQVEsQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDLEtBQUssbUJBQW1CLENBQUM7R0FDcEYsQ0FBQztDQUNIO1FBQ08sVUFBVSxHQUFWLFVBQVU7Ozs7O0FBSVgsSUFBTSxPQUFPLEdBQUcsS0FBSyxDQUFDLE9BQU8sSUFBSSxVQUFTLEtBQUssRUFBRTtBQUN0RCxTQUFPLEFBQUMsS0FBSyxJQUFJLE9BQU8sS0FBSyxLQUFLLFFBQVEsR0FBSSxRQUFRLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxLQUFLLGdCQUFnQixHQUFHLEtBQUssQ0FBQztDQUNqRyxDQUFDOzs7OztBQUdLLFNBQVMsT0FBTyxDQUFDLEtBQUssRUFBRSxLQUFLLEVBQUU7QUFDcEMsT0FBSyxJQUFJLENBQUMsR0FBRyxDQUFDLEVBQUUsR0FBRyxHQUFHLEtBQUssQ0FBQyxNQUFNLEVBQUUsQ0FBQyxHQUFHLEdBQUcsRUFBRSxDQUFDLEVBQUUsRUFBRTtBQUNoRCxRQUFJLEtBQUssQ0FBQyxDQUFDLENBQUMsS0FBSyxLQUFLLEVBQUU7QUFDdEIsYUFBTyxDQUFDLENBQUM7S0FDVjtHQUNGO0FBQ0QsU0FBTyxDQUFDLENBQUMsQ0FBQztDQUNYOztBQUdNLFNBQVMsZ0JBQWdCLENBQUMsTUFBTSxFQUFFO0FBQ3ZDLE1BQUksT0FBTyxNQUFNLEtBQUssUUFBUSxFQUFFOztBQUU5QixRQUFJLE1BQU0sSUFBSSxNQUFNLENBQUMsTUFBTSxFQUFFO0FBQzNCLGFBQU8sTUFBTSxDQUFDLE1BQU0sRUFBRSxDQUFDO0tBQ3hCLE1BQU0sSUFBSSxNQUFNLElBQUksSUFBSSxFQUFFO0FBQ3pCLGFBQU8sRUFBRSxDQUFDO0tBQ1gsTUFBTSxJQUFJLENBQUMsTUFBTSxFQUFFO0FBQ2xCLGFBQU8sTUFBTSxHQUFHLEVBQUUsQ0FBQztLQUNwQjs7Ozs7QUFLRCxVQUFNLEdBQUcsRUFBRSxHQUFHLE1BQU0sQ0FBQztHQUN0Qjs7QUFFRCxNQUFJLENBQUMsUUFBUSxDQUFDLElBQUksQ0FBQyxNQUFNLENBQUMsRUFBRTtBQUFFLFdBQU8sTUFBTSxDQUFDO0dBQUU7QUFDOUMsU0FBTyxNQUFNLENBQUMsT0FBTyxDQUFDLFFBQVEsRUFBRSxVQUFVLENBQUMsQ0FBQztDQUM3Qzs7QUFFTSxTQUFTLE9BQU8sQ0FBQyxLQUFLLEVBQUU7QUFDN0IsTUFBSSxDQUFDLEtBQUssSUFBSSxLQUFLLEtBQUssQ0FBQyxFQUFFO0FBQ3pCLFdBQU8sSUFBSSxDQUFDO0dBQ2IsTUFBTSxJQUFJLE9BQU8sQ0FBQyxLQUFLLENBQUMsSUFBSSxLQUFLLENBQUMsTUFBTSxLQUFLLENBQUMsRUFBRTtBQUMvQyxXQUFPLElBQUksQ0FBQztHQUNiLE1BQU07QUFDTCxXQUFPLEtBQUssQ0FBQztHQUNkO0NBQ0Y7O0FBRU0sU0FBUyxXQUFXLENBQUMsTUFBTSxFQUFFO0FBQ2xDLE1BQUksS0FBSyxHQUFHLE1BQU0sQ0FBQyxFQUFFLEVBQUUsTUFBTSxDQUFDLENBQUM7QUFDL0IsT0FBSyxDQUFDLE9BQU8sR0FBRyxNQUFNLENBQUM7QUFDdkIsU0FBTyxLQUFLLENBQUM7Q0FDZDs7QUFFTSxTQUFTLFdBQVcsQ0FBQyxNQUFNLEVBQUUsR0FBRyxFQUFFO0FBQ3ZDLFFBQU0sQ0FBQyxJQUFJLEdBQUcsR0FBRyxDQUFDO0FBQ2xCLFNBQU8sTUFBTSxDQUFDO0NBQ2Y7O0FBRU0sU0FBUyxpQkFBaUIsQ0FBQyxXQUFXLEVBQUUsRUFBRSxFQUFFO0FBQ2pELFNBQU8sQ0FBQyxXQUFXLEdBQUcsV0FBVyxHQUFHLEdBQUcsR0FBRyxFQUFFLENBQUEsR0FBSSxFQUFFLENBQUM7Q0FDcEQiLCJmaWxlIjoidXRpbHMuanMiLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBlc2NhcGUgPSB7XG4gICcmJzogJyZhbXA7JyxcbiAgJzwnOiAnJmx0OycsXG4gICc+JzogJyZndDsnLFxuICAnXCInOiAnJnF1b3Q7JyxcbiAgXCInXCI6ICcmI3gyNzsnLFxuICAnYCc6ICcmI3g2MDsnLFxuICAnPSc6ICcmI3gzRDsnXG59O1xuXG5jb25zdCBiYWRDaGFycyA9IC9bJjw+XCInYD1dL2csXG4gICAgICBwb3NzaWJsZSA9IC9bJjw+XCInYD1dLztcblxuZnVuY3Rpb24gZXNjYXBlQ2hhcihjaHIpIHtcbiAgcmV0dXJuIGVzY2FwZVtjaHJdO1xufVxuXG5leHBvcnQgZnVuY3Rpb24gZXh0ZW5kKG9iai8qICwgLi4uc291cmNlICovKSB7XG4gIGZvciAobGV0IGkgPSAxOyBpIDwgYXJndW1lbnRzLmxlbmd0aDsgaSsrKSB7XG4gICAgZm9yIChsZXQga2V5IGluIGFyZ3VtZW50c1tpXSkge1xuICAgICAgaWYgKE9iamVjdC5wcm90b3R5cGUuaGFzT3duUHJvcGVydHkuY2FsbChhcmd1bWVudHNbaV0sIGtleSkpIHtcbiAgICAgICAgb2JqW2tleV0gPSBhcmd1bWVudHNbaV1ba2V5XTtcbiAgICAgIH1cbiAgICB9XG4gIH1cblxuICByZXR1cm4gb2JqO1xufVxuXG5leHBvcnQgbGV0IHRvU3RyaW5nID0gT2JqZWN0LnByb3RvdHlwZS50b1N0cmluZztcblxuLy8gU291cmNlZCBmcm9tIGxvZGFzaFxuLy8gaHR0cHM6Ly9naXRodWIuY29tL2Jlc3RpZWpzL2xvZGFzaC9ibG9iL21hc3Rlci9MSUNFTlNFLnR4dFxuLyogZXNsaW50LWRpc2FibGUgZnVuYy1zdHlsZSAqL1xubGV0IGlzRnVuY3Rpb24gPSBmdW5jdGlvbih2YWx1ZSkge1xuICByZXR1cm4gdHlwZW9mIHZhbHVlID09PSAnZnVuY3Rpb24nO1xufTtcbi8vIGZhbGxiYWNrIGZvciBvbGRlciB2ZXJzaW9ucyBvZiBDaHJvbWUgYW5kIFNhZmFyaVxuLyogaXN0YW5idWwgaWdub3JlIG5leHQgKi9cbmlmIChpc0Z1bmN0aW9uKC94LykpIHtcbiAgaXNGdW5jdGlvbiA9IGZ1bmN0aW9uKHZhbHVlKSB7XG4gICAgcmV0dXJuIHR5cGVvZiB2YWx1ZSA9PT0gJ2Z1bmN0aW9uJyAmJiB0b1N0cmluZy5jYWxsKHZhbHVlKSA9PT0gJ1tvYmplY3QgRnVuY3Rpb25dJztcbiAgfTtcbn1cbmV4cG9ydCB7aXNGdW5jdGlvbn07XG4vKiBlc2xpbnQtZW5hYmxlIGZ1bmMtc3R5bGUgKi9cblxuLyogaXN0YW5idWwgaWdub3JlIG5leHQgKi9cbmV4cG9ydCBjb25zdCBpc0FycmF5ID0gQXJyYXkuaXNBcnJheSB8fCBmdW5jdGlvbih2YWx1ZSkge1xuICByZXR1cm4gKHZhbHVlICYmIHR5cGVvZiB2YWx1ZSA9PT0gJ29iamVjdCcpID8gdG9TdHJpbmcuY2FsbCh2YWx1ZSkgPT09ICdbb2JqZWN0IEFycmF5XScgOiBmYWxzZTtcbn07XG5cbi8vIE9sZGVyIElFIHZlcnNpb25zIGRvIG5vdCBkaXJlY3RseSBzdXBwb3J0IGluZGV4T2Ygc28gd2UgbXVzdCBpbXBsZW1lbnQgb3VyIG93biwgc2FkbHkuXG5leHBvcnQgZnVuY3Rpb24gaW5kZXhPZihhcnJheSwgdmFsdWUpIHtcbiAgZm9yIChsZXQgaSA9IDAsIGxlbiA9IGFycmF5Lmxlbmd0aDsgaSA8IGxlbjsgaSsrKSB7XG4gICAgaWYgKGFycmF5W2ldID09PSB2YWx1ZSkge1xuICAgICAgcmV0dXJuIGk7XG4gICAgfVxuICB9XG4gIHJldHVybiAtMTtcbn1cblxuXG5leHBvcnQgZnVuY3Rpb24gZXNjYXBlRXhwcmVzc2lvbihzdHJpbmcpIHtcbiAgaWYgKHR5cGVvZiBzdHJpbmcgIT09ICdzdHJpbmcnKSB7XG4gICAgLy8gZG9uJ3QgZXNjYXBlIFNhZmVTdHJpbmdzLCBzaW5jZSB0aGV5J3JlIGFscmVhZHkgc2FmZVxuICAgIGlmIChzdHJpbmcgJiYgc3RyaW5nLnRvSFRNTCkge1xuICAgICAgcmV0dXJuIHN0cmluZy50b0hUTUwoKTtcbiAgICB9IGVsc2UgaWYgKHN0cmluZyA9PSBudWxsKSB7XG4gICAgICByZXR1cm4gJyc7XG4gICAgfSBlbHNlIGlmICghc3RyaW5nKSB7XG4gICAgICByZXR1cm4gc3RyaW5nICsgJyc7XG4gICAgfVxuXG4gICAgLy8gRm9yY2UgYSBzdHJpbmcgY29udmVyc2lvbiBhcyB0aGlzIHdpbGwgYmUgZG9uZSBieSB0aGUgYXBwZW5kIHJlZ2FyZGxlc3MgYW5kXG4gICAgLy8gdGhlIHJlZ2V4IHRlc3Qgd2lsbCBkbyB0aGlzIHRyYW5zcGFyZW50bHkgYmVoaW5kIHRoZSBzY2VuZXMsIGNhdXNpbmcgaXNzdWVzIGlmXG4gICAgLy8gYW4gb2JqZWN0J3MgdG8gc3RyaW5nIGhhcyBlc2NhcGVkIGNoYXJhY3RlcnMgaW4gaXQuXG4gICAgc3RyaW5nID0gJycgKyBzdHJpbmc7XG4gIH1cblxuICBpZiAoIXBvc3NpYmxlLnRlc3Qoc3RyaW5nKSkgeyByZXR1cm4gc3RyaW5nOyB9XG4gIHJldHVybiBzdHJpbmcucmVwbGFjZShiYWRDaGFycywgZXNjYXBlQ2hhcik7XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBpc0VtcHR5KHZhbHVlKSB7XG4gIGlmICghdmFsdWUgJiYgdmFsdWUgIT09IDApIHtcbiAgICByZXR1cm4gdHJ1ZTtcbiAgfSBlbHNlIGlmIChpc0FycmF5KHZhbHVlKSAmJiB2YWx1ZS5sZW5ndGggPT09IDApIHtcbiAgICByZXR1cm4gdHJ1ZTtcbiAgfSBlbHNlIHtcbiAgICByZXR1cm4gZmFsc2U7XG4gIH1cbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGNyZWF0ZUZyYW1lKG9iamVjdCkge1xuICBsZXQgZnJhbWUgPSBleHRlbmQoe30sIG9iamVjdCk7XG4gIGZyYW1lLl9wYXJlbnQgPSBvYmplY3Q7XG4gIHJldHVybiBmcmFtZTtcbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGJsb2NrUGFyYW1zKHBhcmFtcywgaWRzKSB7XG4gIHBhcmFtcy5wYXRoID0gaWRzO1xuICByZXR1cm4gcGFyYW1zO1xufVxuXG5leHBvcnQgZnVuY3Rpb24gYXBwZW5kQ29udGV4dFBhdGgoY29udGV4dFBhdGgsIGlkKSB7XG4gIHJldHVybiAoY29udGV4dFBhdGggPyBjb250ZXh0UGF0aCArICcuJyA6ICcnKSArIGlkO1xufVxuIl19
+module.exports = {
+  en: {
+    titles: {
+      DD: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      D: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      MMM: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      MMMM: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+      ]
+    },
+    titleFormat: 'MMMM yyyy',
+    todayFormat: 'To\\d\\ay: DD, MMMM d, yyyy',
+    time: 'Time',
+    date: 'Date'
+  },
+  ko: {
+    titles: {
+      DD: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+      D: ['일', '월', '화', '수', '목', '금', '토'],
+      MMM: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+      MMMM: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
+    },
+    titleFormat: 'yyyy.MM',
+    todayFormat: '오늘: yyyy.MM.dd (D)',
+    date: '날짜',
+    time: '시간'
+  }
+};
 
 
 /***/ }),
 /* 11 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Convert text by binding expressions with context.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
 
-	var errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
 
-	function Exception(message, node) {
-	  var loc = node && node.loc,
-	      line = undefined,
-	      column = undefined;
-	  if (loc) {
-	    line = loc.start.line;
-	    column = loc.start.column;
+var inArray = __webpack_require__(3);
+var forEach = __webpack_require__(9);
+var isArray = __webpack_require__(6);
+var isString = __webpack_require__(13);
+var extend = __webpack_require__(7);
 
-	    message += ' - ' + line + ':' + column;
-	  }
+// IE8 does not support capture groups.
+var EXPRESSION_REGEXP = /{{\s?|\s?}}/g;
+var BRACKET_NOTATION_REGEXP = /^[a-zA-Z0-9_@]+\[[a-zA-Z0-9_@"']+\]$/;
+var BRACKET_REGEXP = /\[\s?|\s?\]/;
+var DOT_NOTATION_REGEXP = /^[a-zA-Z_]+\.[a-zA-Z_]+$/;
+var DOT_REGEXP = /\./;
+var STRING_NOTATION_REGEXP = /^["']\w+["']$/;
+var STRING_REGEXP = /"|'/g;
+var NUMBER_REGEXP = /^-?\d+\.?\d*$/;
 
-	  var tmp = Error.prototype.constructor.call(this, message);
+var EXPRESSION_INTERVAL = 2;
 
-	  // Unfortunately errors are not enumerable in Chrome (at least), so `for prop in tmp` doesn't work.
-	  for (var idx = 0; idx < errorProps.length; idx++) {
-	    this[errorProps[idx]] = tmp[errorProps[idx]];
-	  }
+var BLOCK_HELPERS = {
+  'if': handleIf,
+  'each': handleEach,
+  'with': handleWith
+};
 
-	  /* istanbul ignore else */
-	  if (Error.captureStackTrace) {
-	    Error.captureStackTrace(this, Exception);
-	  }
+var isValidSplit = 'a'.split(/a/).length === 3;
 
-	  try {
-	    if (loc) {
-	      this.lineNumber = line;
+/**
+ * Split by RegExp. (Polyfill for IE8)
+ * @param {string} text - text to be splitted\
+ * @param {RegExp} regexp - regular expression
+ * @returns {Array.<string>}
+ */
+var splitByRegExp = (function() {
+  if (isValidSplit) {
+    return function(text, regexp) {
+      return text.split(regexp);
+    };
+  }
 
-	      // Work around issue under safari where we can't directly set the column value
-	      /* istanbul ignore next */
-	      if (Object.defineProperty) {
-	        Object.defineProperty(this, 'column', { value: column });
-	      } else {
-	        this.column = column;
-	      }
-	    }
-	  } catch (nop) {
-	    /* Ignore if the browser is very particular */
-	  }
-	}
+  return function(text, regexp) {
+    var result = [];
+    var prevIndex = 0;
+    var match, index;
 
-	Exception.prototype = new Error();
+    if (!regexp.global) {
+      regexp = new RegExp(regexp, 'g');
+    }
 
-	exports['default'] = Exception;
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2V4Y2VwdGlvbi5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O0FBQ0EsSUFBTSxVQUFVLEdBQUcsQ0FBQyxhQUFhLEVBQUUsVUFBVSxFQUFFLFlBQVksRUFBRSxTQUFTLEVBQUUsTUFBTSxFQUFFLFFBQVEsRUFBRSxPQUFPLENBQUMsQ0FBQzs7QUFFbkcsU0FBUyxTQUFTLENBQUMsT0FBTyxFQUFFLElBQUksRUFBRTtBQUNoQyxNQUFJLEdBQUcsR0FBRyxJQUFJLElBQUksSUFBSSxDQUFDLEdBQUc7TUFDdEIsSUFBSSxZQUFBO01BQ0osTUFBTSxZQUFBLENBQUM7QUFDWCxNQUFJLEdBQUcsRUFBRTtBQUNQLFFBQUksR0FBRyxHQUFHLENBQUMsS0FBSyxDQUFDLElBQUksQ0FBQztBQUN0QixVQUFNLEdBQUcsR0FBRyxDQUFDLEtBQUssQ0FBQyxNQUFNLENBQUM7O0FBRTFCLFdBQU8sSUFBSSxLQUFLLEdBQUcsSUFBSSxHQUFHLEdBQUcsR0FBRyxNQUFNLENBQUM7R0FDeEM7O0FBRUQsTUFBSSxHQUFHLEdBQUcsS0FBSyxDQUFDLFNBQVMsQ0FBQyxXQUFXLENBQUMsSUFBSSxDQUFDLElBQUksRUFBRSxPQUFPLENBQUMsQ0FBQzs7O0FBRzFELE9BQUssSUFBSSxHQUFHLEdBQUcsQ0FBQyxFQUFFLEdBQUcsR0FBRyxVQUFVLENBQUMsTUFBTSxFQUFFLEdBQUcsRUFBRSxFQUFFO0FBQ2hELFFBQUksQ0FBQyxVQUFVLENBQUMsR0FBRyxDQUFDLENBQUMsR0FBRyxHQUFHLENBQUMsVUFBVSxDQUFDLEdBQUcsQ0FBQyxDQUFDLENBQUM7R0FDOUM7OztBQUdELE1BQUksS0FBSyxDQUFDLGlCQUFpQixFQUFFO0FBQzNCLFNBQUssQ0FBQyxpQkFBaUIsQ0FBQyxJQUFJLEVBQUUsU0FBUyxDQUFDLENBQUM7R0FDMUM7O0FBRUQsTUFBSTtBQUNGLFFBQUksR0FBRyxFQUFFO0FBQ1AsVUFBSSxDQUFDLFVBQVUsR0FBRyxJQUFJLENBQUM7Ozs7QUFJdkIsVUFBSSxNQUFNLENBQUMsY0FBYyxFQUFFO0FBQ3pCLGNBQU0sQ0FBQyxjQUFjLENBQUMsSUFBSSxFQUFFLFFBQVEsRUFBRSxFQUFDLEtBQUssRUFBRSxNQUFNLEVBQUMsQ0FBQyxDQUFDO09BQ3hELE1BQU07QUFDTCxZQUFJLENBQUMsTUFBTSxHQUFHLE1BQU0sQ0FBQztPQUN0QjtLQUNGO0dBQ0YsQ0FBQyxPQUFPLEdBQUcsRUFBRTs7R0FFYjtDQUNGOztBQUVELFNBQVMsQ0FBQyxTQUFTLEdBQUcsSUFBSSxLQUFLLEVBQUUsQ0FBQzs7cUJBRW5CLFNBQVMiLCJmaWxlIjoiZXhjZXB0aW9uLmpzIiwic291cmNlc0NvbnRlbnQiOlsiXG5jb25zdCBlcnJvclByb3BzID0gWydkZXNjcmlwdGlvbicsICdmaWxlTmFtZScsICdsaW5lTnVtYmVyJywgJ21lc3NhZ2UnLCAnbmFtZScsICdudW1iZXInLCAnc3RhY2snXTtcblxuZnVuY3Rpb24gRXhjZXB0aW9uKG1lc3NhZ2UsIG5vZGUpIHtcbiAgbGV0IGxvYyA9IG5vZGUgJiYgbm9kZS5sb2MsXG4gICAgICBsaW5lLFxuICAgICAgY29sdW1uO1xuICBpZiAobG9jKSB7XG4gICAgbGluZSA9IGxvYy5zdGFydC5saW5lO1xuICAgIGNvbHVtbiA9IGxvYy5zdGFydC5jb2x1bW47XG5cbiAgICBtZXNzYWdlICs9ICcgLSAnICsgbGluZSArICc6JyArIGNvbHVtbjtcbiAgfVxuXG4gIGxldCB0bXAgPSBFcnJvci5wcm90b3R5cGUuY29uc3RydWN0b3IuY2FsbCh0aGlzLCBtZXNzYWdlKTtcblxuICAvLyBVbmZvcnR1bmF0ZWx5IGVycm9ycyBhcmUgbm90IGVudW1lcmFibGUgaW4gQ2hyb21lIChhdCBsZWFzdCksIHNvIGBmb3IgcHJvcCBpbiB0bXBgIGRvZXNuJ3Qgd29yay5cbiAgZm9yIChsZXQgaWR4ID0gMDsgaWR4IDwgZXJyb3JQcm9wcy5sZW5ndGg7IGlkeCsrKSB7XG4gICAgdGhpc1tlcnJvclByb3BzW2lkeF1dID0gdG1wW2Vycm9yUHJvcHNbaWR4XV07XG4gIH1cblxuICAvKiBpc3RhbmJ1bCBpZ25vcmUgZWxzZSAqL1xuICBpZiAoRXJyb3IuY2FwdHVyZVN0YWNrVHJhY2UpIHtcbiAgICBFcnJvci5jYXB0dXJlU3RhY2tUcmFjZSh0aGlzLCBFeGNlcHRpb24pO1xuICB9XG5cbiAgdHJ5IHtcbiAgICBpZiAobG9jKSB7XG4gICAgICB0aGlzLmxpbmVOdW1iZXIgPSBsaW5lO1xuXG4gICAgICAvLyBXb3JrIGFyb3VuZCBpc3N1ZSB1bmRlciBzYWZhcmkgd2hlcmUgd2UgY2FuJ3QgZGlyZWN0bHkgc2V0IHRoZSBjb2x1bW4gdmFsdWVcbiAgICAgIC8qIGlzdGFuYnVsIGlnbm9yZSBuZXh0ICovXG4gICAgICBpZiAoT2JqZWN0LmRlZmluZVByb3BlcnR5KSB7XG4gICAgICAgIE9iamVjdC5kZWZpbmVQcm9wZXJ0eSh0aGlzLCAnY29sdW1uJywge3ZhbHVlOiBjb2x1bW59KTtcbiAgICAgIH0gZWxzZSB7XG4gICAgICAgIHRoaXMuY29sdW1uID0gY29sdW1uO1xuICAgICAgfVxuICAgIH1cbiAgfSBjYXRjaCAobm9wKSB7XG4gICAgLyogSWdub3JlIGlmIHRoZSBicm93c2VyIGlzIHZlcnkgcGFydGljdWxhciAqL1xuICB9XG59XG5cbkV4Y2VwdGlvbi5wcm90b3R5cGUgPSBuZXcgRXJyb3IoKTtcblxuZXhwb3J0IGRlZmF1bHQgRXhjZXB0aW9uO1xuIl19
+    match = regexp.exec(text);
+    while (match !== null) {
+      index = match.index;
+      result.push(text.slice(prevIndex, index));
+
+      prevIndex = index + match[0].length;
+      match = regexp.exec(text);
+    }
+    result.push(text.slice(prevIndex));
+
+    return result;
+  };
+})();
+
+/**
+ * Find value in the context by an expression.
+ * @param {string} exp - an expression
+ * @param {object} context - context
+ * @returns {*}
+ * @private
+ */
+// eslint-disable-next-line complexity
+function getValueFromContext(exp, context) {
+  var splitedExps;
+  var value = context[exp];
+
+  if (exp === 'true') {
+    value = true;
+  } else if (exp === 'false') {
+    value = false;
+  } else if (STRING_NOTATION_REGEXP.test(exp)) {
+    value = exp.replace(STRING_REGEXP, '');
+  } else if (BRACKET_NOTATION_REGEXP.test(exp)) {
+    splitedExps = exp.split(BRACKET_REGEXP);
+    value = getValueFromContext(splitedExps[0], context)[getValueFromContext(splitedExps[1], context)];
+  } else if (DOT_NOTATION_REGEXP.test(exp)) {
+    splitedExps = exp.split(DOT_REGEXP);
+    value = getValueFromContext(splitedExps[0], context)[splitedExps[1]];
+  } else if (NUMBER_REGEXP.test(exp)) {
+    value = parseFloat(exp);
+  }
+
+  return value;
+}
+
+/**
+ * Extract elseif and else expressions.
+ * @param {Array.<string>} ifExps - args of if expression
+ * @param {Array.<string>} sourcesInsideBlock - sources inside if block
+ * @returns {object} - exps: expressions of if, elseif, and else / sourcesInsideIf: sources inside if, elseif, and else block.
+ * @private
+ */
+function extractElseif(ifExps, sourcesInsideBlock) {
+  var exps = [ifExps];
+  var sourcesInsideIf = [];
+  var otherIfCount = 0;
+  var start = 0;
+
+  // eslint-disable-next-line complexity
+  forEach(sourcesInsideBlock, function(source, index) {
+    if (source.indexOf('if') === 0) {
+      otherIfCount += 1;
+    } else if (source === '/if') {
+      otherIfCount -= 1;
+    } else if (!otherIfCount && (source.indexOf('elseif') === 0 || source === 'else')) {
+      exps.push(source === 'else' ? ['true'] : source.split(' ').slice(1));
+      sourcesInsideIf.push(sourcesInsideBlock.slice(start, index));
+      start = index + 1;
+    }
+  });
+
+  sourcesInsideIf.push(sourcesInsideBlock.slice(start));
+
+  return {
+    exps: exps,
+    sourcesInsideIf: sourcesInsideIf
+  };
+}
+
+/**
+ * Helper function for "if". 
+ * @param {Array.<string>} exps - array of expressions split by spaces
+ * @param {Array.<string>} sourcesInsideBlock - array of sources inside the if block
+ * @param {object} context - context
+ * @returns {string}
+ * @private
+ */
+function handleIf(exps, sourcesInsideBlock, context) {
+  var analyzed = extractElseif(exps, sourcesInsideBlock);
+  var result = false;
+  var compiledSource = '';
+
+  forEach(analyzed.exps, function(exp, index) {
+    result = handleExpression(exp, context);
+    if (result) {
+      compiledSource = compile(analyzed.sourcesInsideIf[index], context);
+    }
+
+    return !result;
+  });
+
+  return compiledSource;
+}
+
+/**
+ * Helper function for "each".
+ * @param {Array.<string>} exps - array of expressions split by spaces
+ * @param {Array.<string>} sourcesInsideBlock - array of sources inside the each block
+ * @param {object} context - context
+ * @returns {string}
+ * @private
+ */
+function handleEach(exps, sourcesInsideBlock, context) {
+  var collection = handleExpression(exps, context);
+  var additionalKey = isArray(collection) ? '@index' : '@key';
+  var additionalContext = {};
+  var result = '';
+
+  forEach(collection, function(item, key) {
+    additionalContext[additionalKey] = key;
+    additionalContext['@this'] = item;
+    extend(context, additionalContext);
+
+    result += compile(sourcesInsideBlock.slice(), context);
+  });
+
+  return result;
+}
+
+/**
+ * Helper function for "with ... as"
+ * @param {Array.<string>} exps - array of expressions split by spaces
+ * @param {Array.<string>} sourcesInsideBlock - array of sources inside the with block
+ * @param {object} context - context
+ * @returns {string}
+ * @private
+ */
+function handleWith(exps, sourcesInsideBlock, context) {
+  var asIndex = inArray('as', exps);
+  var alias = exps[asIndex + 1];
+  var result = handleExpression(exps.slice(0, asIndex), context);
+
+  var additionalContext = {};
+  additionalContext[alias] = result;
+
+  return compile(sourcesInsideBlock, extend(context, additionalContext)) || '';
+}
+
+/**
+ * Extract sources inside block in place.
+ * @param {Array.<string>} sources - array of sources
+ * @param {number} start - index of start block
+ * @param {number} end - index of end block
+ * @returns {Array.<string>}
+ * @private
+ */
+function extractSourcesInsideBlock(sources, start, end) {
+  var sourcesInsideBlock = sources.splice(start + 1, end - start);
+  sourcesInsideBlock.pop();
+
+  return sourcesInsideBlock;
+}
+
+/**
+ * Handle block helper function
+ * @param {string} helperKeyword - helper keyword (ex. if, each, with)
+ * @param {Array.<string>} sourcesToEnd - array of sources after the starting block
+ * @param {object} context - context
+ * @returns {Array.<string>}
+ * @private
+ */
+function handleBlockHelper(helperKeyword, sourcesToEnd, context) {
+  var executeBlockHelper = BLOCK_HELPERS[helperKeyword];
+  var helperCount = 1;
+  var startBlockIndex = 0;
+  var endBlockIndex;
+  var index = startBlockIndex + EXPRESSION_INTERVAL;
+  var expression = sourcesToEnd[index];
+
+  while (helperCount && isString(expression)) {
+    if (expression.indexOf(helperKeyword) === 0) {
+      helperCount += 1;
+    } else if (expression.indexOf('/' + helperKeyword) === 0) {
+      helperCount -= 1;
+      endBlockIndex = index;
+    }
+
+    index += EXPRESSION_INTERVAL;
+    expression = sourcesToEnd[index];
+  }
+
+  if (helperCount) {
+    throw Error(helperKeyword + ' needs {{/' + helperKeyword + '}} expression.');
+  }
+
+  sourcesToEnd[startBlockIndex] = executeBlockHelper(
+    sourcesToEnd[startBlockIndex].split(' ').slice(1),
+    extractSourcesInsideBlock(sourcesToEnd, startBlockIndex, endBlockIndex),
+    context
+  );
+
+  return sourcesToEnd;
+}
+
+/**
+ * Helper function for "custom helper".
+ * If helper is not a function, return helper itself.
+ * @param {Array.<string>} exps - array of expressions split by spaces (first element: helper)
+ * @param {object} context - context
+ * @returns {string}
+ * @private
+ */
+function handleExpression(exps, context) {
+  var result = getValueFromContext(exps[0], context);
+
+  if (result instanceof Function) {
+    return executeFunction(result, exps.slice(1), context);
+  }
+
+  return result;
+}
+
+/**
+ * Execute a helper function.
+ * @param {Function} helper - helper function
+ * @param {Array.<string>} argExps - expressions of arguments
+ * @param {object} context - context
+ * @returns {string} - result of executing the function with arguments
+ * @private
+ */
+function executeFunction(helper, argExps, context) {
+  var args = [];
+  forEach(argExps, function(exp) {
+    args.push(getValueFromContext(exp, context));
+  });
+
+  return helper.apply(null, args);
+}
+
+/**
+ * Get a result of compiling an expression with the context.
+ * @param {Array.<string>} sources - array of sources split by regexp of expression.
+ * @param {object} context - context
+ * @returns {Array.<string>} - array of sources that bind with its context
+ * @private
+ */
+function compile(sources, context) {
+  var index = 1;
+  var expression = sources[index];
+  var exps, firstExp, result;
+
+  while (isString(expression)) {
+    exps = expression.split(' ');
+    firstExp = exps[0];
+
+    if (BLOCK_HELPERS[firstExp]) {
+      result = handleBlockHelper(firstExp, sources.splice(index, sources.length - index), context);
+      sources = sources.concat(result);
+    } else {
+      sources[index] = handleExpression(exps, context);
+    }
+
+    index += EXPRESSION_INTERVAL;
+    expression = sources[index];
+  }
+
+  return sources.join('');
+}
+
+/**
+ * Convert text by binding expressions with context.
+ * <br>
+ * If expression exists in the context, it will be replaced.
+ * ex) '{{title}}' with context {title: 'Hello!'} is converted to 'Hello!'.
+ * An array or object can be accessed using bracket and dot notation.
+ * ex) '{{odds\[2\]}}' with context {odds: \[1, 3, 5\]} is converted to '5'.
+ * ex) '{{evens\[first\]}}' with context {evens: \[2, 4\], first: 0} is converted to '2'.
+ * ex) '{{project\["name"\]}}' and '{{project.name}}' with context {project: {name: 'CodeSnippet'}} is converted to 'CodeSnippet'.
+ * <br>
+ * If replaced expression is a function, next expressions will be arguments of the function.
+ * ex) '{{add 1 2}}' with context {add: function(a, b) {return a + b;}} is converted to '3'.
+ * <br>
+ * It has 3 predefined block helpers '{{helper ...}} ... {{/helper}}': 'if', 'each', 'with ... as ...'.
+ * 1) 'if' evaluates conditional statements. It can use with 'elseif' and 'else'.
+ * 2) 'each' iterates an array or object. It provides '@index'(array), '@key'(object), and '@this'(current element).
+ * 3) 'with ... as ...' provides an alias.
+ * @param {string} text - text with expressions
+ * @param {object} context - context
+ * @returns {string} - text that bind with its context
+ * @memberof module:domUtil
+ * @example
+ * var template = require('tui-code-snippet/domUtil/template');
+ * 
+ * var source = 
+ *     '<h1>'
+ *   +   '{{if isValidNumber title}}'
+ *   +     '{{title}}th'
+ *   +   '{{elseif isValidDate title}}'
+ *   +     'Date: {{title}}'
+ *   +   '{{/if}}'
+ *   + '</h1>'
+ *   + '{{each list}}'
+ *   +   '{{with addOne @index as idx}}'
+ *   +     '<p>{{idx}}: {{@this}}</p>'
+ *   +   '{{/with}}'
+ *   + '{{/each}}';
+ * 
+ * var context = {
+ *   isValidDate: function(text) {
+ *     return /^\d{4}-(0|1)\d-(0|1|2|3)\d$/.test(text);
+ *   },
+ *   isValidNumber: function(text) {
+ *     return /^\d+$/.test(text);
+ *   }
+ *   title: '2019-11-25',
+ *   list: ['Clean the room', 'Wash the dishes'],
+ *   addOne: function(num) {
+ *     return num + 1;
+ *   }
+ * };
+ * 
+ * var result = template(source, context);
+ * console.log(result); // <h1>Date: 2019-11-25</h1><p>1: Clean the room</p><p>2: Wash the dishes</p>
+ */
+function template(text, context) {
+  return compile(splitByRegExp(text, EXPRESSION_REGEXP), context);
+}
+
+module.exports = template;
 
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Check whether the given variable is undefined or not.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
-	exports.registerDefaultHelpers = registerDefaultHelpers;
-	// istanbul ignore next
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _helpersBlockHelperMissing = __webpack_require__(13);
+/**
+ * Check whether the given variable is undefined or not.
+ * If the given variable is undefined, returns true.
+ * @param {*} obj - Target for checking
+ * @returns {boolean} Is undefined?
+ * @memberof module:type
+ */
+function isUndefined(obj) {
+  return obj === undefined; // eslint-disable-line no-undefined
+}
 
-	var _helpersBlockHelperMissing2 = _interopRequireDefault(_helpersBlockHelperMissing);
-
-	var _helpersEach = __webpack_require__(14);
-
-	var _helpersEach2 = _interopRequireDefault(_helpersEach);
-
-	var _helpersHelperMissing = __webpack_require__(15);
-
-	var _helpersHelperMissing2 = _interopRequireDefault(_helpersHelperMissing);
-
-	var _helpersIf = __webpack_require__(16);
-
-	var _helpersIf2 = _interopRequireDefault(_helpersIf);
-
-	var _helpersLog = __webpack_require__(17);
-
-	var _helpersLog2 = _interopRequireDefault(_helpersLog);
-
-	var _helpersLookup = __webpack_require__(18);
-
-	var _helpersLookup2 = _interopRequireDefault(_helpersLookup);
-
-	var _helpersWith = __webpack_require__(19);
-
-	var _helpersWith2 = _interopRequireDefault(_helpersWith);
-
-	function registerDefaultHelpers(instance) {
-	  _helpersBlockHelperMissing2['default'](instance);
-	  _helpersEach2['default'](instance);
-	  _helpersHelperMissing2['default'](instance);
-	  _helpersIf2['default'](instance);
-	  _helpersLog2['default'](instance);
-	  _helpersLookup2['default'](instance);
-	  _helpersWith2['default'](instance);
-	}
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2hlbHBlcnMuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7eUNBQXVDLGdDQUFnQzs7OzsyQkFDOUMsZ0JBQWdCOzs7O29DQUNQLDBCQUEwQjs7Ozt5QkFDckMsY0FBYzs7OzswQkFDYixlQUFlOzs7OzZCQUNaLGtCQUFrQjs7OzsyQkFDcEIsZ0JBQWdCOzs7O0FBRWxDLFNBQVMsc0JBQXNCLENBQUMsUUFBUSxFQUFFO0FBQy9DLHlDQUEyQixRQUFRLENBQUMsQ0FBQztBQUNyQywyQkFBYSxRQUFRLENBQUMsQ0FBQztBQUN2QixvQ0FBc0IsUUFBUSxDQUFDLENBQUM7QUFDaEMseUJBQVcsUUFBUSxDQUFDLENBQUM7QUFDckIsMEJBQVksUUFBUSxDQUFDLENBQUM7QUFDdEIsNkJBQWUsUUFBUSxDQUFDLENBQUM7QUFDekIsMkJBQWEsUUFBUSxDQUFDLENBQUM7Q0FDeEIiLCJmaWxlIjoiaGVscGVycy5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCByZWdpc3RlckJsb2NrSGVscGVyTWlzc2luZyBmcm9tICcuL2hlbHBlcnMvYmxvY2staGVscGVyLW1pc3NpbmcnO1xuaW1wb3J0IHJlZ2lzdGVyRWFjaCBmcm9tICcuL2hlbHBlcnMvZWFjaCc7XG5pbXBvcnQgcmVnaXN0ZXJIZWxwZXJNaXNzaW5nIGZyb20gJy4vaGVscGVycy9oZWxwZXItbWlzc2luZyc7XG5pbXBvcnQgcmVnaXN0ZXJJZiBmcm9tICcuL2hlbHBlcnMvaWYnO1xuaW1wb3J0IHJlZ2lzdGVyTG9nIGZyb20gJy4vaGVscGVycy9sb2cnO1xuaW1wb3J0IHJlZ2lzdGVyTG9va3VwIGZyb20gJy4vaGVscGVycy9sb29rdXAnO1xuaW1wb3J0IHJlZ2lzdGVyV2l0aCBmcm9tICcuL2hlbHBlcnMvd2l0aCc7XG5cbmV4cG9ydCBmdW5jdGlvbiByZWdpc3RlckRlZmF1bHRIZWxwZXJzKGluc3RhbmNlKSB7XG4gIHJlZ2lzdGVyQmxvY2tIZWxwZXJNaXNzaW5nKGluc3RhbmNlKTtcbiAgcmVnaXN0ZXJFYWNoKGluc3RhbmNlKTtcbiAgcmVnaXN0ZXJIZWxwZXJNaXNzaW5nKGluc3RhbmNlKTtcbiAgcmVnaXN0ZXJJZihpbnN0YW5jZSk7XG4gIHJlZ2lzdGVyTG9nKGluc3RhbmNlKTtcbiAgcmVnaXN0ZXJMb29rdXAoaW5zdGFuY2UpO1xuICByZWdpc3RlcldpdGgoaW5zdGFuY2UpO1xufVxuIl19
+module.exports = isUndefined;
 
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Check whether the given variable is a string or not.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
 
-	var _utils = __webpack_require__(10);
 
-	exports['default'] = function (instance) {
-	  instance.registerHelper('blockHelperMissing', function (context, options) {
-	    var inverse = options.inverse,
-	        fn = options.fn;
+/**
+ * Check whether the given variable is a string or not.
+ * If the given variable is a string, return true.
+ * @param {*} obj - Target for checking
+ * @returns {boolean} Is string?
+ * @memberof module:type
+ */
+function isString(obj) {
+  return typeof obj === 'string' || obj instanceof String;
+}
 
-	    if (context === true) {
-	      return fn(this);
-	    } else if (context === false || context == null) {
-	      return inverse(this);
-	    } else if (_utils.isArray(context)) {
-	      if (context.length > 0) {
-	        if (options.ids) {
-	          options.ids = [options.name];
-	        }
-
-	        return instance.helpers.each(context, options);
-	      } else {
-	        return inverse(this);
-	      }
-	    } else {
-	      if (options.data && options.ids) {
-	        var data = _utils.createFrame(options.data);
-	        data.contextPath = _utils.appendContextPath(options.data.contextPath, options.name);
-	        options = { data: data };
-	      }
-
-	      return fn(context, options);
-	    }
-	  });
-	};
-
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2hlbHBlcnMvYmxvY2staGVscGVyLW1pc3NpbmcuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OztxQkFBc0QsVUFBVTs7cUJBRWpELFVBQVMsUUFBUSxFQUFFO0FBQ2hDLFVBQVEsQ0FBQyxjQUFjLENBQUMsb0JBQW9CLEVBQUUsVUFBUyxPQUFPLEVBQUUsT0FBTyxFQUFFO0FBQ3ZFLFFBQUksT0FBTyxHQUFHLE9BQU8sQ0FBQyxPQUFPO1FBQ3pCLEVBQUUsR0FBRyxPQUFPLENBQUMsRUFBRSxDQUFDOztBQUVwQixRQUFJLE9BQU8sS0FBSyxJQUFJLEVBQUU7QUFDcEIsYUFBTyxFQUFFLENBQUMsSUFBSSxDQUFDLENBQUM7S0FDakIsTUFBTSxJQUFJLE9BQU8sS0FBSyxLQUFLLElBQUksT0FBTyxJQUFJLElBQUksRUFBRTtBQUMvQyxhQUFPLE9BQU8sQ0FBQyxJQUFJLENBQUMsQ0FBQztLQUN0QixNQUFNLElBQUksZUFBUSxPQUFPLENBQUMsRUFBRTtBQUMzQixVQUFJLE9BQU8sQ0FBQyxNQUFNLEdBQUcsQ0FBQyxFQUFFO0FBQ3RCLFlBQUksT0FBTyxDQUFDLEdBQUcsRUFBRTtBQUNmLGlCQUFPLENBQUMsR0FBRyxHQUFHLENBQUMsT0FBTyxDQUFDLElBQUksQ0FBQyxDQUFDO1NBQzlCOztBQUVELGVBQU8sUUFBUSxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsT0FBTyxFQUFFLE9BQU8sQ0FBQyxDQUFDO09BQ2hELE1BQU07QUFDTCxlQUFPLE9BQU8sQ0FBQyxJQUFJLENBQUMsQ0FBQztPQUN0QjtLQUNGLE1BQU07QUFDTCxVQUFJLE9BQU8sQ0FBQyxJQUFJLElBQUksT0FBTyxDQUFDLEdBQUcsRUFBRTtBQUMvQixZQUFJLElBQUksR0FBRyxtQkFBWSxPQUFPLENBQUMsSUFBSSxDQUFDLENBQUM7QUFDckMsWUFBSSxDQUFDLFdBQVcsR0FBRyx5QkFBa0IsT0FBTyxDQUFDLElBQUksQ0FBQyxXQUFXLEVBQUUsT0FBTyxDQUFDLElBQUksQ0FBQyxDQUFDO0FBQzdFLGVBQU8sR0FBRyxFQUFDLElBQUksRUFBRSxJQUFJLEVBQUMsQ0FBQztPQUN4Qjs7QUFFRCxhQUFPLEVBQUUsQ0FBQyxPQUFPLEVBQUUsT0FBTyxDQUFDLENBQUM7S0FDN0I7R0FDRixDQUFDLENBQUM7Q0FDSiIsImZpbGUiOiJibG9jay1oZWxwZXItbWlzc2luZy5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7YXBwZW5kQ29udGV4dFBhdGgsIGNyZWF0ZUZyYW1lLCBpc0FycmF5fSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uKGluc3RhbmNlKSB7XG4gIGluc3RhbmNlLnJlZ2lzdGVySGVscGVyKCdibG9ja0hlbHBlck1pc3NpbmcnLCBmdW5jdGlvbihjb250ZXh0LCBvcHRpb25zKSB7XG4gICAgbGV0IGludmVyc2UgPSBvcHRpb25zLmludmVyc2UsXG4gICAgICAgIGZuID0gb3B0aW9ucy5mbjtcblxuICAgIGlmIChjb250ZXh0ID09PSB0cnVlKSB7XG4gICAgICByZXR1cm4gZm4odGhpcyk7XG4gICAgfSBlbHNlIGlmIChjb250ZXh0ID09PSBmYWxzZSB8fCBjb250ZXh0ID09IG51bGwpIHtcbiAgICAgIHJldHVybiBpbnZlcnNlKHRoaXMpO1xuICAgIH0gZWxzZSBpZiAoaXNBcnJheShjb250ZXh0KSkge1xuICAgICAgaWYgKGNvbnRleHQubGVuZ3RoID4gMCkge1xuICAgICAgICBpZiAob3B0aW9ucy5pZHMpIHtcbiAgICAgICAgICBvcHRpb25zLmlkcyA9IFtvcHRpb25zLm5hbWVdO1xuICAgICAgICB9XG5cbiAgICAgICAgcmV0dXJuIGluc3RhbmNlLmhlbHBlcnMuZWFjaChjb250ZXh0LCBvcHRpb25zKTtcbiAgICAgIH0gZWxzZSB7XG4gICAgICAgIHJldHVybiBpbnZlcnNlKHRoaXMpO1xuICAgICAgfVxuICAgIH0gZWxzZSB7XG4gICAgICBpZiAob3B0aW9ucy5kYXRhICYmIG9wdGlvbnMuaWRzKSB7XG4gICAgICAgIGxldCBkYXRhID0gY3JlYXRlRnJhbWUob3B0aW9ucy5kYXRhKTtcbiAgICAgICAgZGF0YS5jb250ZXh0UGF0aCA9IGFwcGVuZENvbnRleHRQYXRoKG9wdGlvbnMuZGF0YS5jb250ZXh0UGF0aCwgb3B0aW9ucy5uYW1lKTtcbiAgICAgICAgb3B0aW9ucyA9IHtkYXRhOiBkYXRhfTtcbiAgICAgIH1cblxuICAgICAgcmV0dXJuIGZuKGNvbnRleHQsIG9wdGlvbnMpO1xuICAgIH1cbiAgfSk7XG59XG4iXX0=
+module.exports = isString;
 
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Remove element from parent node.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
-	// istanbul ignore next
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _utils = __webpack_require__(10);
+/**
+ * Remove element from parent node.
+ * @param {HTMLElement} element - element to remove.
+ * @memberof module:domUtil
+ */
+function removeElement(element) {
+  if (element && element.parentNode) {
+    element.parentNode.removeChild(element);
+  }
+}
 
-	var _exception = __webpack_require__(11);
-
-	var _exception2 = _interopRequireDefault(_exception);
-
-	exports['default'] = function (instance) {
-	  instance.registerHelper('each', function (context, options) {
-	    if (!options) {
-	      throw new _exception2['default']('Must pass iterator to #each');
-	    }
-
-	    var fn = options.fn,
-	        inverse = options.inverse,
-	        i = 0,
-	        ret = '',
-	        data = undefined,
-	        contextPath = undefined;
-
-	    if (options.data && options.ids) {
-	      contextPath = _utils.appendContextPath(options.data.contextPath, options.ids[0]) + '.';
-	    }
-
-	    if (_utils.isFunction(context)) {
-	      context = context.call(this);
-	    }
-
-	    if (options.data) {
-	      data = _utils.createFrame(options.data);
-	    }
-
-	    function execIteration(field, index, last) {
-	      if (data) {
-	        data.key = field;
-	        data.index = index;
-	        data.first = index === 0;
-	        data.last = !!last;
-
-	        if (contextPath) {
-	          data.contextPath = contextPath + field;
-	        }
-	      }
-
-	      ret = ret + fn(context[field], {
-	        data: data,
-	        blockParams: _utils.blockParams([context[field], field], [contextPath + field, null])
-	      });
-	    }
-
-	    if (context && typeof context === 'object') {
-	      if (_utils.isArray(context)) {
-	        for (var j = context.length; i < j; i++) {
-	          if (i in context) {
-	            execIteration(i, i, i === context.length - 1);
-	          }
-	        }
-	      } else {
-	        var priorKey = undefined;
-
-	        for (var key in context) {
-	          if (context.hasOwnProperty(key)) {
-	            // We're running the iterations one step out of sync so we can detect
-	            // the last iteration without have to scan the object twice and create
-	            // an itermediate keys array.
-	            if (priorKey !== undefined) {
-	              execIteration(priorKey, i - 1);
-	            }
-	            priorKey = key;
-	            i++;
-	          }
-	        }
-	        if (priorKey !== undefined) {
-	          execIteration(priorKey, i - 1, true);
-	        }
-	      }
-	    }
-
-	    if (i === 0) {
-	      ret = inverse(this);
-	    }
-
-	    return ret;
-	  });
-	};
-
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2hlbHBlcnMvZWFjaC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O3FCQUErRSxVQUFVOzt5QkFDbkUsY0FBYzs7OztxQkFFckIsVUFBUyxRQUFRLEVBQUU7QUFDaEMsVUFBUSxDQUFDLGNBQWMsQ0FBQyxNQUFNLEVBQUUsVUFBUyxPQUFPLEVBQUUsT0FBTyxFQUFFO0FBQ3pELFFBQUksQ0FBQyxPQUFPLEVBQUU7QUFDWixZQUFNLDJCQUFjLDZCQUE2QixDQUFDLENBQUM7S0FDcEQ7O0FBRUQsUUFBSSxFQUFFLEdBQUcsT0FBTyxDQUFDLEVBQUU7UUFDZixPQUFPLEdBQUcsT0FBTyxDQUFDLE9BQU87UUFDekIsQ0FBQyxHQUFHLENBQUM7UUFDTCxHQUFHLEdBQUcsRUFBRTtRQUNSLElBQUksWUFBQTtRQUNKLFdBQVcsWUFBQSxDQUFDOztBQUVoQixRQUFJLE9BQU8sQ0FBQyxJQUFJLElBQUksT0FBTyxDQUFDLEdBQUcsRUFBRTtBQUMvQixpQkFBVyxHQUFHLHlCQUFrQixPQUFPLENBQUMsSUFBSSxDQUFDLFdBQVcsRUFBRSxPQUFPLENBQUMsR0FBRyxDQUFDLENBQUMsQ0FBQyxDQUFDLEdBQUcsR0FBRyxDQUFDO0tBQ2pGOztBQUVELFFBQUksa0JBQVcsT0FBTyxDQUFDLEVBQUU7QUFBRSxhQUFPLEdBQUcsT0FBTyxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUMsQ0FBQztLQUFFOztBQUUxRCxRQUFJLE9BQU8sQ0FBQyxJQUFJLEVBQUU7QUFDaEIsVUFBSSxHQUFHLG1CQUFZLE9BQU8sQ0FBQyxJQUFJLENBQUMsQ0FBQztLQUNsQzs7QUFFRCxhQUFTLGFBQWEsQ0FBQyxLQUFLLEVBQUUsS0FBSyxFQUFFLElBQUksRUFBRTtBQUN6QyxVQUFJLElBQUksRUFBRTtBQUNSLFlBQUksQ0FBQyxHQUFHLEdBQUcsS0FBSyxDQUFDO0FBQ2pCLFlBQUksQ0FBQyxLQUFLLEdBQUcsS0FBSyxDQUFDO0FBQ25CLFlBQUksQ0FBQyxLQUFLLEdBQUcsS0FBSyxLQUFLLENBQUMsQ0FBQztBQUN6QixZQUFJLENBQUMsSUFBSSxHQUFHLENBQUMsQ0FBQyxJQUFJLENBQUM7O0FBRW5CLFlBQUksV0FBVyxFQUFFO0FBQ2YsY0FBSSxDQUFDLFdBQVcsR0FBRyxXQUFXLEdBQUcsS0FBSyxDQUFDO1NBQ3hDO09BQ0Y7O0FBRUQsU0FBRyxHQUFHLEdBQUcsR0FBRyxFQUFFLENBQUMsT0FBTyxDQUFDLEtBQUssQ0FBQyxFQUFFO0FBQzdCLFlBQUksRUFBRSxJQUFJO0FBQ1YsbUJBQVcsRUFBRSxtQkFBWSxDQUFDLE9BQU8sQ0FBQyxLQUFLLENBQUMsRUFBRSxLQUFLLENBQUMsRUFBRSxDQUFDLFdBQVcsR0FBRyxLQUFLLEVBQUUsSUFBSSxDQUFDLENBQUM7T0FDL0UsQ0FBQyxDQUFDO0tBQ0o7O0FBRUQsUUFBSSxPQUFPLElBQUksT0FBTyxPQUFPLEtBQUssUUFBUSxFQUFFO0FBQzFDLFVBQUksZUFBUSxPQUFPLENBQUMsRUFBRTtBQUNwQixhQUFLLElBQUksQ0FBQyxHQUFHLE9BQU8sQ0FBQyxNQUFNLEVBQUUsQ0FBQyxHQUFHLENBQUMsRUFBRSxDQUFDLEVBQUUsRUFBRTtBQUN2QyxjQUFJLENBQUMsSUFBSSxPQUFPLEVBQUU7QUFDaEIseUJBQWEsQ0FBQyxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsS0FBSyxPQUFPLENBQUMsTUFBTSxHQUFHLENBQUMsQ0FBQyxDQUFDO1dBQy9DO1NBQ0Y7T0FDRixNQUFNO0FBQ0wsWUFBSSxRQUFRLFlBQUEsQ0FBQzs7QUFFYixhQUFLLElBQUksR0FBRyxJQUFJLE9BQU8sRUFBRTtBQUN2QixjQUFJLE9BQU8sQ0FBQyxjQUFjLENBQUMsR0FBRyxDQUFDLEVBQUU7Ozs7QUFJL0IsZ0JBQUksUUFBUSxLQUFLLFNBQVMsRUFBRTtBQUMxQiwyQkFBYSxDQUFDLFFBQVEsRUFBRSxDQUFDLEdBQUcsQ0FBQyxDQUFDLENBQUM7YUFDaEM7QUFDRCxvQkFBUSxHQUFHLEdBQUcsQ0FBQztBQUNmLGFBQUMsRUFBRSxDQUFDO1dBQ0w7U0FDRjtBQUNELFlBQUksUUFBUSxLQUFLLFNBQVMsRUFBRTtBQUMxQix1QkFBYSxDQUFDLFFBQVEsRUFBRSxDQUFDLEdBQUcsQ0FBQyxFQUFFLElBQUksQ0FBQyxDQUFDO1NBQ3RDO09BQ0Y7S0FDRjs7QUFFRCxRQUFJLENBQUMsS0FBSyxDQUFDLEVBQUU7QUFDWCxTQUFHLEdBQUcsT0FBTyxDQUFDLElBQUksQ0FBQyxDQUFDO0tBQ3JCOztBQUVELFdBQU8sR0FBRyxDQUFDO0dBQ1osQ0FBQyxDQUFDO0NBQ0oiLCJmaWxlIjoiZWFjaC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7YXBwZW5kQ29udGV4dFBhdGgsIGJsb2NrUGFyYW1zLCBjcmVhdGVGcmFtZSwgaXNBcnJheSwgaXNGdW5jdGlvbn0gZnJvbSAnLi4vdXRpbHMnO1xuaW1wb3J0IEV4Y2VwdGlvbiBmcm9tICcuLi9leGNlcHRpb24nO1xuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbihpbnN0YW5jZSkge1xuICBpbnN0YW5jZS5yZWdpc3RlckhlbHBlcignZWFjaCcsIGZ1bmN0aW9uKGNvbnRleHQsIG9wdGlvbnMpIHtcbiAgICBpZiAoIW9wdGlvbnMpIHtcbiAgICAgIHRocm93IG5ldyBFeGNlcHRpb24oJ011c3QgcGFzcyBpdGVyYXRvciB0byAjZWFjaCcpO1xuICAgIH1cblxuICAgIGxldCBmbiA9IG9wdGlvbnMuZm4sXG4gICAgICAgIGludmVyc2UgPSBvcHRpb25zLmludmVyc2UsXG4gICAgICAgIGkgPSAwLFxuICAgICAgICByZXQgPSAnJyxcbiAgICAgICAgZGF0YSxcbiAgICAgICAgY29udGV4dFBhdGg7XG5cbiAgICBpZiAob3B0aW9ucy5kYXRhICYmIG9wdGlvbnMuaWRzKSB7XG4gICAgICBjb250ZXh0UGF0aCA9IGFwcGVuZENvbnRleHRQYXRoKG9wdGlvbnMuZGF0YS5jb250ZXh0UGF0aCwgb3B0aW9ucy5pZHNbMF0pICsgJy4nO1xuICAgIH1cblxuICAgIGlmIChpc0Z1bmN0aW9uKGNvbnRleHQpKSB7IGNvbnRleHQgPSBjb250ZXh0LmNhbGwodGhpcyk7IH1cblxuICAgIGlmIChvcHRpb25zLmRhdGEpIHtcbiAgICAgIGRhdGEgPSBjcmVhdGVGcmFtZShvcHRpb25zLmRhdGEpO1xuICAgIH1cblxuICAgIGZ1bmN0aW9uIGV4ZWNJdGVyYXRpb24oZmllbGQsIGluZGV4LCBsYXN0KSB7XG4gICAgICBpZiAoZGF0YSkge1xuICAgICAgICBkYXRhLmtleSA9IGZpZWxkO1xuICAgICAgICBkYXRhLmluZGV4ID0gaW5kZXg7XG4gICAgICAgIGRhdGEuZmlyc3QgPSBpbmRleCA9PT0gMDtcbiAgICAgICAgZGF0YS5sYXN0ID0gISFsYXN0O1xuXG4gICAgICAgIGlmIChjb250ZXh0UGF0aCkge1xuICAgICAgICAgIGRhdGEuY29udGV4dFBhdGggPSBjb250ZXh0UGF0aCArIGZpZWxkO1xuICAgICAgICB9XG4gICAgICB9XG5cbiAgICAgIHJldCA9IHJldCArIGZuKGNvbnRleHRbZmllbGRdLCB7XG4gICAgICAgIGRhdGE6IGRhdGEsXG4gICAgICAgIGJsb2NrUGFyYW1zOiBibG9ja1BhcmFtcyhbY29udGV4dFtmaWVsZF0sIGZpZWxkXSwgW2NvbnRleHRQYXRoICsgZmllbGQsIG51bGxdKVxuICAgICAgfSk7XG4gICAgfVxuXG4gICAgaWYgKGNvbnRleHQgJiYgdHlwZW9mIGNvbnRleHQgPT09ICdvYmplY3QnKSB7XG4gICAgICBpZiAoaXNBcnJheShjb250ZXh0KSkge1xuICAgICAgICBmb3IgKGxldCBqID0gY29udGV4dC5sZW5ndGg7IGkgPCBqOyBpKyspIHtcbiAgICAgICAgICBpZiAoaSBpbiBjb250ZXh0KSB7XG4gICAgICAgICAgICBleGVjSXRlcmF0aW9uKGksIGksIGkgPT09IGNvbnRleHQubGVuZ3RoIC0gMSk7XG4gICAgICAgICAgfVxuICAgICAgICB9XG4gICAgICB9IGVsc2Uge1xuICAgICAgICBsZXQgcHJpb3JLZXk7XG5cbiAgICAgICAgZm9yIChsZXQga2V5IGluIGNvbnRleHQpIHtcbiAgICAgICAgICBpZiAoY29udGV4dC5oYXNPd25Qcm9wZXJ0eShrZXkpKSB7XG4gICAgICAgICAgICAvLyBXZSdyZSBydW5uaW5nIHRoZSBpdGVyYXRpb25zIG9uZSBzdGVwIG91dCBvZiBzeW5jIHNvIHdlIGNhbiBkZXRlY3RcbiAgICAgICAgICAgIC8vIHRoZSBsYXN0IGl0ZXJhdGlvbiB3aXRob3V0IGhhdmUgdG8gc2NhbiB0aGUgb2JqZWN0IHR3aWNlIGFuZCBjcmVhdGVcbiAgICAgICAgICAgIC8vIGFuIGl0ZXJtZWRpYXRlIGtleXMgYXJyYXkuXG4gICAgICAgICAgICBpZiAocHJpb3JLZXkgIT09IHVuZGVmaW5lZCkge1xuICAgICAgICAgICAgICBleGVjSXRlcmF0aW9uKHByaW9yS2V5LCBpIC0gMSk7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICBwcmlvcktleSA9IGtleTtcbiAgICAgICAgICAgIGkrKztcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgICAgaWYgKHByaW9yS2V5ICE9PSB1bmRlZmluZWQpIHtcbiAgICAgICAgICBleGVjSXRlcmF0aW9uKHByaW9yS2V5LCBpIC0gMSwgdHJ1ZSk7XG4gICAgICAgIH1cbiAgICAgIH1cbiAgICB9XG5cbiAgICBpZiAoaSA9PT0gMCkge1xuICAgICAgcmV0ID0gaW52ZXJzZSh0aGlzKTtcbiAgICB9XG5cbiAgICByZXR1cm4gcmV0O1xuICB9KTtcbn1cbiJdfQ==
+module.exports = removeElement;
 
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Check whether the given variable is a number or not.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
-	// istanbul ignore next
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _exception = __webpack_require__(11);
+/**
+ * Check whether the given variable is a number or not.
+ * If the given variable is a number, return true.
+ * @param {*} obj - Target for checking
+ * @returns {boolean} Is number?
+ * @memberof module:type
+ */
+function isNumber(obj) {
+  return typeof obj === 'number' || obj instanceof Number;
+}
 
-	var _exception2 = _interopRequireDefault(_exception);
-
-	exports['default'] = function (instance) {
-	  instance.registerHelper('helperMissing', function () /* [args, ]options */{
-	    if (arguments.length === 1) {
-	      // A missing field in a {{foo}} construct.
-	      return undefined;
-	    } else {
-	      // Someone is actually trying to call something, blow up.
-	      throw new _exception2['default']('Missing helper: "' + arguments[arguments.length - 1].name + '"');
-	    }
-	  });
-	};
-
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2hlbHBlcnMvaGVscGVyLW1pc3NpbmcuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozt5QkFBc0IsY0FBYzs7OztxQkFFckIsVUFBUyxRQUFRLEVBQUU7QUFDaEMsVUFBUSxDQUFDLGNBQWMsQ0FBQyxlQUFlLEVBQUUsaUNBQWdDO0FBQ3ZFLFFBQUksU0FBUyxDQUFDLE1BQU0sS0FBSyxDQUFDLEVBQUU7O0FBRTFCLGFBQU8sU0FBUyxDQUFDO0tBQ2xCLE1BQU07O0FBRUwsWUFBTSwyQkFBYyxtQkFBbUIsR0FBRyxTQUFTLENBQUMsU0FBUyxDQUFDLE1BQU0sR0FBRyxDQUFDLENBQUMsQ0FBQyxJQUFJLEdBQUcsR0FBRyxDQUFDLENBQUM7S0FDdkY7R0FDRixDQUFDLENBQUM7Q0FDSiIsImZpbGUiOiJoZWxwZXItbWlzc2luZy5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBFeGNlcHRpb24gZnJvbSAnLi4vZXhjZXB0aW9uJztcblxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24oaW5zdGFuY2UpIHtcbiAgaW5zdGFuY2UucmVnaXN0ZXJIZWxwZXIoJ2hlbHBlck1pc3NpbmcnLCBmdW5jdGlvbigvKiBbYXJncywgXW9wdGlvbnMgKi8pIHtcbiAgICBpZiAoYXJndW1lbnRzLmxlbmd0aCA9PT0gMSkge1xuICAgICAgLy8gQSBtaXNzaW5nIGZpZWxkIGluIGEge3tmb299fSBjb25zdHJ1Y3QuXG4gICAgICByZXR1cm4gdW5kZWZpbmVkO1xuICAgIH0gZWxzZSB7XG4gICAgICAvLyBTb21lb25lIGlzIGFjdHVhbGx5IHRyeWluZyB0byBjYWxsIHNvbWV0aGluZywgYmxvdyB1cC5cbiAgICAgIHRocm93IG5ldyBFeGNlcHRpb24oJ01pc3NpbmcgaGVscGVyOiBcIicgKyBhcmd1bWVudHNbYXJndW1lbnRzLmxlbmd0aCAtIDFdLm5hbWUgKyAnXCInKTtcbiAgICB9XG4gIH0pO1xufVxuIl19
+module.exports = isNumber;
 
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Add css class to element
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
 
-	var _utils = __webpack_require__(10);
 
-	exports['default'] = function (instance) {
-	  instance.registerHelper('if', function (conditional, options) {
-	    if (_utils.isFunction(conditional)) {
-	      conditional = conditional.call(this);
-	    }
+var forEach = __webpack_require__(9);
+var inArray = __webpack_require__(3);
+var getClass = __webpack_require__(17);
+var setClassName = __webpack_require__(24);
 
-	    // Default behavior is to render the positive path if the value is truthy and not empty.
-	    // The `includeZero` option may be set to treat the condtional as purely not empty based on the
-	    // behavior of isEmpty. Effectively this determines if 0 is handled by the positive path or negative.
-	    if (!options.hash.includeZero && !conditional || _utils.isEmpty(conditional)) {
-	      return options.inverse(this);
-	    } else {
-	      return options.fn(this);
-	    }
-	  });
+/**
+ * domUtil module
+ * @module domUtil
+ */
 
-	  instance.registerHelper('unless', function (conditional, options) {
-	    return instance.helpers['if'].call(this, conditional, { fn: options.inverse, inverse: options.fn, hash: options.hash });
-	  });
-	};
+/**
+ * Add css class to element
+ * @param {(HTMLElement|SVGElement)} element - target element
+ * @param {...string} cssClass - css classes to add
+ * @memberof module:domUtil
+ */
+function addClass(element) {
+  var cssClass = Array.prototype.slice.call(arguments, 1);
+  var classList = element.classList;
+  var newClass = [];
+  var origin;
 
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2hlbHBlcnMvaWYuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OztxQkFBa0MsVUFBVTs7cUJBRTdCLFVBQVMsUUFBUSxFQUFFO0FBQ2hDLFVBQVEsQ0FBQyxjQUFjLENBQUMsSUFBSSxFQUFFLFVBQVMsV0FBVyxFQUFFLE9BQU8sRUFBRTtBQUMzRCxRQUFJLGtCQUFXLFdBQVcsQ0FBQyxFQUFFO0FBQUUsaUJBQVcsR0FBRyxXQUFXLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxDQUFDO0tBQUU7Ozs7O0FBS3RFLFFBQUksQUFBQyxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsV0FBVyxJQUFJLENBQUMsV0FBVyxJQUFLLGVBQVEsV0FBVyxDQUFDLEVBQUU7QUFDdkUsYUFBTyxPQUFPLENBQUMsT0FBTyxDQUFDLElBQUksQ0FBQyxDQUFDO0tBQzlCLE1BQU07QUFDTCxhQUFPLE9BQU8sQ0FBQyxFQUFFLENBQUMsSUFBSSxDQUFDLENBQUM7S0FDekI7R0FDRixDQUFDLENBQUM7O0FBRUgsVUFBUSxDQUFDLGNBQWMsQ0FBQyxRQUFRLEVBQUUsVUFBUyxXQUFXLEVBQUUsT0FBTyxFQUFFO0FBQy9ELFdBQU8sUUFBUSxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsQ0FBQyxJQUFJLENBQUMsSUFBSSxFQUFFLFdBQVcsRUFBRSxFQUFDLEVBQUUsRUFBRSxPQUFPLENBQUMsT0FBTyxFQUFFLE9BQU8sRUFBRSxPQUFPLENBQUMsRUFBRSxFQUFFLElBQUksRUFBRSxPQUFPLENBQUMsSUFBSSxFQUFDLENBQUMsQ0FBQztHQUN2SCxDQUFDLENBQUM7Q0FDSiIsImZpbGUiOiJpZi5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7aXNFbXB0eSwgaXNGdW5jdGlvbn0gZnJvbSAnLi4vdXRpbHMnO1xuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbihpbnN0YW5jZSkge1xuICBpbnN0YW5jZS5yZWdpc3RlckhlbHBlcignaWYnLCBmdW5jdGlvbihjb25kaXRpb25hbCwgb3B0aW9ucykge1xuICAgIGlmIChpc0Z1bmN0aW9uKGNvbmRpdGlvbmFsKSkgeyBjb25kaXRpb25hbCA9IGNvbmRpdGlvbmFsLmNhbGwodGhpcyk7IH1cblxuICAgIC8vIERlZmF1bHQgYmVoYXZpb3IgaXMgdG8gcmVuZGVyIHRoZSBwb3NpdGl2ZSBwYXRoIGlmIHRoZSB2YWx1ZSBpcyB0cnV0aHkgYW5kIG5vdCBlbXB0eS5cbiAgICAvLyBUaGUgYGluY2x1ZGVaZXJvYCBvcHRpb24gbWF5IGJlIHNldCB0byB0cmVhdCB0aGUgY29uZHRpb25hbCBhcyBwdXJlbHkgbm90IGVtcHR5IGJhc2VkIG9uIHRoZVxuICAgIC8vIGJlaGF2aW9yIG9mIGlzRW1wdHkuIEVmZmVjdGl2ZWx5IHRoaXMgZGV0ZXJtaW5lcyBpZiAwIGlzIGhhbmRsZWQgYnkgdGhlIHBvc2l0aXZlIHBhdGggb3IgbmVnYXRpdmUuXG4gICAgaWYgKCghb3B0aW9ucy5oYXNoLmluY2x1ZGVaZXJvICYmICFjb25kaXRpb25hbCkgfHwgaXNFbXB0eShjb25kaXRpb25hbCkpIHtcbiAgICAgIHJldHVybiBvcHRpb25zLmludmVyc2UodGhpcyk7XG4gICAgfSBlbHNlIHtcbiAgICAgIHJldHVybiBvcHRpb25zLmZuKHRoaXMpO1xuICAgIH1cbiAgfSk7XG5cbiAgaW5zdGFuY2UucmVnaXN0ZXJIZWxwZXIoJ3VubGVzcycsIGZ1bmN0aW9uKGNvbmRpdGlvbmFsLCBvcHRpb25zKSB7XG4gICAgcmV0dXJuIGluc3RhbmNlLmhlbHBlcnNbJ2lmJ10uY2FsbCh0aGlzLCBjb25kaXRpb25hbCwge2ZuOiBvcHRpb25zLmludmVyc2UsIGludmVyc2U6IG9wdGlvbnMuZm4sIGhhc2g6IG9wdGlvbnMuaGFzaH0pO1xuICB9KTtcbn1cbiJdfQ==
+  if (classList) {
+    forEach(cssClass, function(name) {
+      element.classList.add(name);
+    });
+
+    return;
+  }
+
+  origin = getClass(element);
+
+  if (origin) {
+    cssClass = [].concat(origin.split(/\s+/), cssClass);
+  }
+
+  forEach(cssClass, function(cls) {
+    if (inArray(cls, newClass) < 0) {
+      newClass.push(cls);
+    }
+  });
+
+  setClassName(element, newClass);
+}
+
+module.exports = addClass;
 
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Get HTML element's design classes.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
 
-	exports['default'] = function (instance) {
-	  instance.registerHelper('log', function () /* message, options */{
-	    var args = [undefined],
-	        options = arguments[arguments.length - 1];
-	    for (var i = 0; i < arguments.length - 1; i++) {
-	      args.push(arguments[i]);
-	    }
 
-	    var level = 1;
-	    if (options.hash.level != null) {
-	      level = options.hash.level;
-	    } else if (options.data && options.data.level != null) {
-	      level = options.data.level;
-	    }
-	    args[0] = level;
+var isUndefined = __webpack_require__(12);
 
-	    instance.log.apply(instance, args);
-	  });
-	};
+/**
+ * Get HTML element's design classes.
+ * @param {(HTMLElement|SVGElement)} element target element
+ * @returns {string} element css class name
+ * @memberof module:domUtil
+ */
+function getClass(element) {
+  if (!element || !element.className) {
+    return '';
+  }
 
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2hlbHBlcnMvbG9nLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7cUJBQWUsVUFBUyxRQUFRLEVBQUU7QUFDaEMsVUFBUSxDQUFDLGNBQWMsQ0FBQyxLQUFLLEVBQUUsa0NBQWlDO0FBQzlELFFBQUksSUFBSSxHQUFHLENBQUMsU0FBUyxDQUFDO1FBQ2xCLE9BQU8sR0FBRyxTQUFTLENBQUMsU0FBUyxDQUFDLE1BQU0sR0FBRyxDQUFDLENBQUMsQ0FBQztBQUM5QyxTQUFLLElBQUksQ0FBQyxHQUFHLENBQUMsRUFBRSxDQUFDLEdBQUcsU0FBUyxDQUFDLE1BQU0sR0FBRyxDQUFDLEVBQUUsQ0FBQyxFQUFFLEVBQUU7QUFDN0MsVUFBSSxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsQ0FBQyxDQUFDLENBQUMsQ0FBQztLQUN6Qjs7QUFFRCxRQUFJLEtBQUssR0FBRyxDQUFDLENBQUM7QUFDZCxRQUFJLE9BQU8sQ0FBQyxJQUFJLENBQUMsS0FBSyxJQUFJLElBQUksRUFBRTtBQUM5QixXQUFLLEdBQUcsT0FBTyxDQUFDLElBQUksQ0FBQyxLQUFLLENBQUM7S0FDNUIsTUFBTSxJQUFJLE9BQU8sQ0FBQyxJQUFJLElBQUksT0FBTyxDQUFDLElBQUksQ0FBQyxLQUFLLElBQUksSUFBSSxFQUFFO0FBQ3JELFdBQUssR0FBRyxPQUFPLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQztLQUM1QjtBQUNELFFBQUksQ0FBQyxDQUFDLENBQUMsR0FBRyxLQUFLLENBQUM7O0FBRWhCLFlBQVEsQ0FBQyxHQUFHLE1BQUEsQ0FBWixRQUFRLEVBQVMsSUFBSSxDQUFDLENBQUM7R0FDeEIsQ0FBQyxDQUFDO0NBQ0oiLCJmaWxlIjoibG9nLmpzIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24oaW5zdGFuY2UpIHtcbiAgaW5zdGFuY2UucmVnaXN0ZXJIZWxwZXIoJ2xvZycsIGZ1bmN0aW9uKC8qIG1lc3NhZ2UsIG9wdGlvbnMgKi8pIHtcbiAgICBsZXQgYXJncyA9IFt1bmRlZmluZWRdLFxuICAgICAgICBvcHRpb25zID0gYXJndW1lbnRzW2FyZ3VtZW50cy5sZW5ndGggLSAxXTtcbiAgICBmb3IgKGxldCBpID0gMDsgaSA8IGFyZ3VtZW50cy5sZW5ndGggLSAxOyBpKyspIHtcbiAgICAgIGFyZ3MucHVzaChhcmd1bWVudHNbaV0pO1xuICAgIH1cblxuICAgIGxldCBsZXZlbCA9IDE7XG4gICAgaWYgKG9wdGlvbnMuaGFzaC5sZXZlbCAhPSBudWxsKSB7XG4gICAgICBsZXZlbCA9IG9wdGlvbnMuaGFzaC5sZXZlbDtcbiAgICB9IGVsc2UgaWYgKG9wdGlvbnMuZGF0YSAmJiBvcHRpb25zLmRhdGEubGV2ZWwgIT0gbnVsbCkge1xuICAgICAgbGV2ZWwgPSBvcHRpb25zLmRhdGEubGV2ZWw7XG4gICAgfVxuICAgIGFyZ3NbMF0gPSBsZXZlbDtcblxuICAgIGluc3RhbmNlLmxvZyguLi4gYXJncyk7XG4gIH0pO1xufVxuIl19
+  if (isUndefined(element.className.baseVal)) {
+    return element.className;
+  }
+
+  return element.className.baseVal;
+}
+
+module.exports = getClass;
 
 
 /***/ }),
 /* 18 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Remove css class from element
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
 
-	exports['default'] = function (instance) {
-	  instance.registerHelper('lookup', function (obj, field) {
-	    return obj && obj[field];
-	  });
-	};
 
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2hlbHBlcnMvbG9va3VwLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7cUJBQWUsVUFBUyxRQUFRLEVBQUU7QUFDaEMsVUFBUSxDQUFDLGNBQWMsQ0FBQyxRQUFRLEVBQUUsVUFBUyxHQUFHLEVBQUUsS0FBSyxFQUFFO0FBQ3JELFdBQU8sR0FBRyxJQUFJLEdBQUcsQ0FBQyxLQUFLLENBQUMsQ0FBQztHQUMxQixDQUFDLENBQUM7Q0FDSiIsImZpbGUiOiJsb29rdXAuanMiLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgZGVmYXVsdCBmdW5jdGlvbihpbnN0YW5jZSkge1xuICBpbnN0YW5jZS5yZWdpc3RlckhlbHBlcignbG9va3VwJywgZnVuY3Rpb24ob2JqLCBmaWVsZCkge1xuICAgIHJldHVybiBvYmogJiYgb2JqW2ZpZWxkXTtcbiAgfSk7XG59XG4iXX0=
+var forEachArray = __webpack_require__(2);
+var inArray = __webpack_require__(3);
+var getClass = __webpack_require__(17);
+var setClassName = __webpack_require__(24);
+
+/**
+ * Remove css class from element
+ * @param {(HTMLElement|SVGElement)} element - target element
+ * @param {...string} cssClass - css classes to remove
+ * @memberof module:domUtil
+ */
+function removeClass(element) {
+  var cssClass = Array.prototype.slice.call(arguments, 1);
+  var classList = element.classList;
+  var origin, newClass;
+
+  if (classList) {
+    forEachArray(cssClass, function(name) {
+      classList.remove(name);
+    });
+
+    return;
+  }
+
+  origin = getClass(element).split(/\s+/);
+  newClass = [];
+  forEachArray(origin, function(name) {
+    if (inArray(name, cssClass) < 0) {
+      newClass.push(name);
+    }
+  });
+
+  setClassName(element, newClass);
+}
+
+module.exports = removeClass;
 
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Set mouse-touch event
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
 
-	var _utils = __webpack_require__(10);
 
-	exports['default'] = function (instance) {
-	  instance.registerHelper('with', function (context, options) {
-	    if (_utils.isFunction(context)) {
-	      context = context.call(this);
-	    }
+var on = __webpack_require__(31);
+var off = __webpack_require__(33);
 
-	    var fn = options.fn;
+var mouseTouchEvent = {
+  /**
+   * Detect mobile browser
+   * @type {boolean} Whether using Mobile browser
+   * @private
+   */
+  _isMobile: (function() {
+    return /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+      navigator.userAgent
+    );
+  })(),
 
-	    if (!_utils.isEmpty(context)) {
-	      var data = options.data;
-	      if (options.data && options.ids) {
-	        data = _utils.createFrame(options.data);
-	        data.contextPath = _utils.appendContextPath(options.data.contextPath, options.ids[0]);
-	      }
+  /**
+   * Return a matched event type by a mouse event type
+   * @param {string} type A mouse event type - mousedown, click
+   * @returns {string}
+   * @private
+   */
+  _getEventType: function(type) {
+    if (this._isMobile) {
+      if (type === 'mousedown') {
+        type = 'touchstart';
+      } else if (type === 'click') {
+        type = 'touchend';
+      }
+    }
 
-	      return fn(context, {
-	        data: data,
-	        blockParams: _utils.blockParams([context], [data && data.contextPath])
-	      });
-	    } else {
-	      return options.inverse(this);
-	    }
-	  });
-	};
+    return type;
+  },
 
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2hlbHBlcnMvd2l0aC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O3FCQUErRSxVQUFVOztxQkFFMUUsVUFBUyxRQUFRLEVBQUU7QUFDaEMsVUFBUSxDQUFDLGNBQWMsQ0FBQyxNQUFNLEVBQUUsVUFBUyxPQUFPLEVBQUUsT0FBTyxFQUFFO0FBQ3pELFFBQUksa0JBQVcsT0FBTyxDQUFDLEVBQUU7QUFBRSxhQUFPLEdBQUcsT0FBTyxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUMsQ0FBQztLQUFFOztBQUUxRCxRQUFJLEVBQUUsR0FBRyxPQUFPLENBQUMsRUFBRSxDQUFDOztBQUVwQixRQUFJLENBQUMsZUFBUSxPQUFPLENBQUMsRUFBRTtBQUNyQixVQUFJLElBQUksR0FBRyxPQUFPLENBQUMsSUFBSSxDQUFDO0FBQ3hCLFVBQUksT0FBTyxDQUFDLElBQUksSUFBSSxPQUFPLENBQUMsR0FBRyxFQUFFO0FBQy9CLFlBQUksR0FBRyxtQkFBWSxPQUFPLENBQUMsSUFBSSxDQUFDLENBQUM7QUFDakMsWUFBSSxDQUFDLFdBQVcsR0FBRyx5QkFBa0IsT0FBTyxDQUFDLElBQUksQ0FBQyxXQUFXLEVBQUUsT0FBTyxDQUFDLEdBQUcsQ0FBQyxDQUFDLENBQUMsQ0FBQyxDQUFDO09BQ2hGOztBQUVELGFBQU8sRUFBRSxDQUFDLE9BQU8sRUFBRTtBQUNqQixZQUFJLEVBQUUsSUFBSTtBQUNWLG1CQUFXLEVBQUUsbUJBQVksQ0FBQyxPQUFPLENBQUMsRUFBRSxDQUFDLElBQUksSUFBSSxJQUFJLENBQUMsV0FBVyxDQUFDLENBQUM7T0FDaEUsQ0FBQyxDQUFDO0tBQ0osTUFBTTtBQUNMLGFBQU8sT0FBTyxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsQ0FBQztLQUM5QjtHQUNGLENBQUMsQ0FBQztDQUNKIiwiZmlsZSI6IndpdGguanMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQge2FwcGVuZENvbnRleHRQYXRoLCBibG9ja1BhcmFtcywgY3JlYXRlRnJhbWUsIGlzRW1wdHksIGlzRnVuY3Rpb259IGZyb20gJy4uL3V0aWxzJztcblxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24oaW5zdGFuY2UpIHtcbiAgaW5zdGFuY2UucmVnaXN0ZXJIZWxwZXIoJ3dpdGgnLCBmdW5jdGlvbihjb250ZXh0LCBvcHRpb25zKSB7XG4gICAgaWYgKGlzRnVuY3Rpb24oY29udGV4dCkpIHsgY29udGV4dCA9IGNvbnRleHQuY2FsbCh0aGlzKTsgfVxuXG4gICAgbGV0IGZuID0gb3B0aW9ucy5mbjtcblxuICAgIGlmICghaXNFbXB0eShjb250ZXh0KSkge1xuICAgICAgbGV0IGRhdGEgPSBvcHRpb25zLmRhdGE7XG4gICAgICBpZiAob3B0aW9ucy5kYXRhICYmIG9wdGlvbnMuaWRzKSB7XG4gICAgICAgIGRhdGEgPSBjcmVhdGVGcmFtZShvcHRpb25zLmRhdGEpO1xuICAgICAgICBkYXRhLmNvbnRleHRQYXRoID0gYXBwZW5kQ29udGV4dFBhdGgob3B0aW9ucy5kYXRhLmNvbnRleHRQYXRoLCBvcHRpb25zLmlkc1swXSk7XG4gICAgICB9XG5cbiAgICAgIHJldHVybiBmbihjb250ZXh0LCB7XG4gICAgICAgIGRhdGE6IGRhdGEsXG4gICAgICAgIGJsb2NrUGFyYW1zOiBibG9ja1BhcmFtcyhbY29udGV4dF0sIFtkYXRhICYmIGRhdGEuY29udGV4dFBhdGhdKVxuICAgICAgfSk7XG4gICAgfSBlbHNlIHtcbiAgICAgIHJldHVybiBvcHRpb25zLmludmVyc2UodGhpcyk7XG4gICAgfVxuICB9KTtcbn1cbiJdfQ==
+  /**
+   * Bind touch or mouse events
+   * @param {HTMLElement} element An element to bind
+   * @param {string} type A mouse event type - mousedown, click
+   * @param {Function} handler A handler function
+   * @param {object} [context] A context for handler.
+   */
+  on: function(element, type, handler, context) {
+    on(element, this._getEventType(type), handler, context);
+  },
+
+  /**
+   * Unbind touch or mouse events
+   * @param {HTMLElement} element - Target element
+   * @param {string} type A mouse event type - mousedown, click
+   * @param {Function} handler - Handler
+   */
+  off: function(element, type, handler) {
+    off(element, this._getEventType(type), handler);
+  }
+};
+
+module.exports = mouseTouchEvent;
 
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Layer base
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
-	exports.registerDefaultDecorators = registerDefaultDecorators;
-	// istanbul ignore next
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _decoratorsInline = __webpack_require__(21);
+var defineClass = __webpack_require__(0);
+var removeElement = __webpack_require__(14);
 
-	var _decoratorsInline2 = _interopRequireDefault(_decoratorsInline);
+var localeText = __webpack_require__(10);
+var DEFAULT_LANGUAGE_TYPE = __webpack_require__(1).DEFAULT_LANGUAGE_TYPE;
 
-	function registerDefaultDecorators(instance) {
-	  _decoratorsInline2['default'](instance);
-	}
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2RlY29yYXRvcnMuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Z0NBQTJCLHFCQUFxQjs7OztBQUV6QyxTQUFTLHlCQUF5QixDQUFDLFFBQVEsRUFBRTtBQUNsRCxnQ0FBZSxRQUFRLENBQUMsQ0FBQztDQUMxQiIsImZpbGUiOiJkZWNvcmF0b3JzLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHJlZ2lzdGVySW5saW5lIGZyb20gJy4vZGVjb3JhdG9ycy9pbmxpbmUnO1xuXG5leHBvcnQgZnVuY3Rpb24gcmVnaXN0ZXJEZWZhdWx0RGVjb3JhdG9ycyhpbnN0YW5jZSkge1xuICByZWdpc3RlcklubGluZShpbnN0YW5jZSk7XG59XG5cbiJdfQ==
+/**
+ * @abstract
+ * @class
+ * @ignore
+ * @param {string} language - Initial language
+ * Layer base
+ */
+var LayerBase = defineClass(
+  /** @lends LayerBase.prototype */ {
+    init: function(language) {
+      language = language || DEFAULT_LANGUAGE_TYPE;
+
+      /**
+       * Layer element
+       * @type {HTMLElement}
+       * @private
+       */
+      this._element = null;
+
+      /**
+       * Language type
+       * @type {string}
+       * @private
+       */
+      this._localeText = localeText[language];
+
+      /**
+       * Layer type
+       * @type {string}
+       * @private
+       */
+      this._type = 'base';
+    },
+
+    /**
+     * Make context
+     * @abstract
+     * @throws {Error}
+     * @returns {object}
+     * @private
+     */
+    _makeContext: function() {
+      throwOverrideError(this.getType(), '_makeContext');
+    },
+
+    /**
+     * Render the layer element
+     * @abstract
+     * @throws {Error}
+     */
+    render: function() {
+      throwOverrideError(this.getType(), 'render');
+    },
+
+    /**
+     * Returns date elements
+     * @abstract
+     * @throws {Error}
+     * @returns {HTMLElement[]}
+     */
+    getDateElements: function() {
+      throwOverrideError(this.getType(), 'getDateElements');
+    },
+
+    /**
+     * Returns layer type
+     * @returns {string}
+     */
+    getType: function() {
+      return this._type;
+    },
+
+    /**
+     * Set language
+     * @param {string} language - Language name
+     */
+    changeLanguage: function(language) {
+      this._localeText = localeText[language];
+    },
+
+    /**
+     * Remove elements
+     */
+    remove: function() {
+      if (this._element) {
+        removeElement(this._element);
+      }
+      this._element = null;
+    }
+  }
+);
+
+/**
+ * Throw - method override error
+ * @ignore
+ * @param {string} layerType - Layer type
+ * @param {string} methodName - Method name
+ * @throws {Error}
+ */
+function throwOverrideError(layerType, methodName) {
+  throw new Error(layerType + ' layer does not have the "' + methodName + '" method.');
+}
+
+module.exports = LayerBase;
 
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview DatePicker component
+ * @author NHN. FE dev Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
 
-	var _utils = __webpack_require__(10);
 
-	exports['default'] = function (instance) {
-	  instance.registerDecorator('inline', function (fn, props, container, options) {
-	    var ret = fn;
-	    if (!props.partials) {
-	      props.partials = {};
-	      ret = function (context, options) {
-	        // Create a new partials stack frame prior to exec.
-	        var original = container.partials;
-	        container.partials = _utils.extend({}, original, props.partials);
-	        var ret = fn(context, options);
-	        container.partials = original;
-	        return ret;
-	      };
-	    }
+var inArray = __webpack_require__(3);
+var forEachArray = __webpack_require__(2);
+var defineClass = __webpack_require__(0);
+var CustomEvents = __webpack_require__(8);
+var addClass = __webpack_require__(16);
+var closest = __webpack_require__(25);
+var getData = __webpack_require__(26);
+var hasClass = __webpack_require__(27);
+var removeClass = __webpack_require__(18);
+var removeElement = __webpack_require__(14);
+var extend = __webpack_require__(7);
+var isArray = __webpack_require__(6);
+var isDate = __webpack_require__(28);
+var isNumber = __webpack_require__(15);
+var isObject = __webpack_require__(22);
 
-	    props.partials[options.args[0]] = options.fn;
+var TimePicker = __webpack_require__(43);
 
-	    return ret;
-	  });
-	};
+var Calendar = __webpack_require__(29);
+var RangeModel = __webpack_require__(56);
+var constants = __webpack_require__(1);
+var localeTexts = __webpack_require__(10);
+var dateUtil = __webpack_require__(5);
+var util = __webpack_require__(4);
+var mouseTouchEvent = __webpack_require__(19);
+var tmpl = __webpack_require__(58);
+var DatePickerInput = __webpack_require__(59);
 
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2RlY29yYXRvcnMvaW5saW5lLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7cUJBQXFCLFVBQVU7O3FCQUVoQixVQUFTLFFBQVEsRUFBRTtBQUNoQyxVQUFRLENBQUMsaUJBQWlCLENBQUMsUUFBUSxFQUFFLFVBQVMsRUFBRSxFQUFFLEtBQUssRUFBRSxTQUFTLEVBQUUsT0FBTyxFQUFFO0FBQzNFLFFBQUksR0FBRyxHQUFHLEVBQUUsQ0FBQztBQUNiLFFBQUksQ0FBQyxLQUFLLENBQUMsUUFBUSxFQUFFO0FBQ25CLFdBQUssQ0FBQyxRQUFRLEdBQUcsRUFBRSxDQUFDO0FBQ3BCLFNBQUcsR0FBRyxVQUFTLE9BQU8sRUFBRSxPQUFPLEVBQUU7O0FBRS9CLFlBQUksUUFBUSxHQUFHLFNBQVMsQ0FBQyxRQUFRLENBQUM7QUFDbEMsaUJBQVMsQ0FBQyxRQUFRLEdBQUcsY0FBTyxFQUFFLEVBQUUsUUFBUSxFQUFFLEtBQUssQ0FBQyxRQUFRLENBQUMsQ0FBQztBQUMxRCxZQUFJLEdBQUcsR0FBRyxFQUFFLENBQUMsT0FBTyxFQUFFLE9BQU8sQ0FBQyxDQUFDO0FBQy9CLGlCQUFTLENBQUMsUUFBUSxHQUFHLFFBQVEsQ0FBQztBQUM5QixlQUFPLEdBQUcsQ0FBQztPQUNaLENBQUM7S0FDSDs7QUFFRCxTQUFLLENBQUMsUUFBUSxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsQ0FBQyxDQUFDLENBQUMsR0FBRyxPQUFPLENBQUMsRUFBRSxDQUFDOztBQUU3QyxXQUFPLEdBQUcsQ0FBQztHQUNaLENBQUMsQ0FBQztDQUNKIiwiZmlsZSI6ImlubGluZS5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7ZXh0ZW5kfSBmcm9tICcuLi91dGlscyc7XG5cbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uKGluc3RhbmNlKSB7XG4gIGluc3RhbmNlLnJlZ2lzdGVyRGVjb3JhdG9yKCdpbmxpbmUnLCBmdW5jdGlvbihmbiwgcHJvcHMsIGNvbnRhaW5lciwgb3B0aW9ucykge1xuICAgIGxldCByZXQgPSBmbjtcbiAgICBpZiAoIXByb3BzLnBhcnRpYWxzKSB7XG4gICAgICBwcm9wcy5wYXJ0aWFscyA9IHt9O1xuICAgICAgcmV0ID0gZnVuY3Rpb24oY29udGV4dCwgb3B0aW9ucykge1xuICAgICAgICAvLyBDcmVhdGUgYSBuZXcgcGFydGlhbHMgc3RhY2sgZnJhbWUgcHJpb3IgdG8gZXhlYy5cbiAgICAgICAgbGV0IG9yaWdpbmFsID0gY29udGFpbmVyLnBhcnRpYWxzO1xuICAgICAgICBjb250YWluZXIucGFydGlhbHMgPSBleHRlbmQoe30sIG9yaWdpbmFsLCBwcm9wcy5wYXJ0aWFscyk7XG4gICAgICAgIGxldCByZXQgPSBmbihjb250ZXh0LCBvcHRpb25zKTtcbiAgICAgICAgY29udGFpbmVyLnBhcnRpYWxzID0gb3JpZ2luYWw7XG4gICAgICAgIHJldHVybiByZXQ7XG4gICAgICB9O1xuICAgIH1cblxuICAgIHByb3BzLnBhcnRpYWxzW29wdGlvbnMuYXJnc1swXV0gPSBvcHRpb25zLmZuO1xuXG4gICAgcmV0dXJuIHJldDtcbiAgfSk7XG59XG4iXX0=
+var DEFAULT_WEEK_START_DAY = constants.DEFAULT_WEEK_START_DAY;
+var DEFAULT_LANGUAGE_TYPE = constants.DEFAULT_LANGUAGE_TYPE;
+var TYPE_DATE = constants.TYPE_DATE;
+var TYPE_MONTH = constants.TYPE_MONTH;
+var TYPE_YEAR = constants.TYPE_YEAR;
+var CLASS_NAME_NEXT_YEAR_BTN = constants.CLASS_NAME_NEXT_YEAR_BTN;
+var CLASS_NAME_NEXT_MONTH_BTN = constants.CLASS_NAME_NEXT_MONTH_BTN;
+var CLASS_NAME_PREV_YEAR_BTN = constants.CLASS_NAME_PREV_YEAR_BTN;
+var CLASS_NAME_PREV_MONTH_BTN = constants.CLASS_NAME_PREV_MONTH_BTN;
+var CLASS_NAME_SELECTED = constants.CLASS_NAME_SELECTED;
+
+var CLASS_NAME_SELECTABLE = 'tui-is-selectable';
+var CLASS_NAME_BLOCKED = 'tui-is-blocked';
+var CLASS_NAME_CHECKED = 'tui-is-checked';
+var CLASS_NAME_SELECTOR_BUTTON = 'tui-datepicker-selector-button';
+var CLASS_NAME_TODAY = 'tui-calendar-today';
+var CLASS_NAME_HIDDEN = 'tui-hidden';
+
+var SELECTOR_BODY = '.tui-datepicker-body';
+var SELECTOR_DATE_ICO = '.tui-ico-date';
+var SELECTOR_CALENDAR_TITLE = '.tui-calendar-title';
+var SELECTOR_CALENDAR_CONTAINER = '.tui-calendar-container';
+var SELECTOR_TIMEPICKER_CONTAINER = '.tui-timepicker-container';
+
+/**
+ * Merge default option
+ * @ignore
+ * @param {object} option - DatePicker option
+ * @returns {object}
+ */
+var mergeDefaultOption = function(option) {
+  option = extend(
+    {
+      language: DEFAULT_LANGUAGE_TYPE,
+      calendar: {},
+      input: {
+        element: null,
+        format: null
+      },
+      timePicker: null,
+      date: null,
+      showAlways: false,
+      type: TYPE_DATE,
+      selectableRanges: null,
+      openers: [],
+      autoClose: true,
+      usageStatistics: true,
+      weekStartDay: DEFAULT_WEEK_START_DAY
+    },
+    option
+  );
+
+  option.selectableRanges = option.selectableRanges || [[constants.MIN_DATE, constants.MAX_DATE]];
+
+  if (!isObject(option.calendar)) {
+    throw new Error('Calendar option must be an object');
+  }
+  if (!isObject(option.input)) {
+    throw new Error('Input option must be an object');
+  }
+  if (!isArray(option.selectableRanges)) {
+    throw new Error('Selectable-ranges must be a 2d-array');
+  }
+
+  option.localeText = localeTexts[option.language];
+
+  // override calendar option
+  option.calendar.language = option.language;
+  option.calendar.type = option.type;
+
+  // @TODO: after v5.0.0, remove option.timepicker
+  option.timePicker = option.timePicker || option.timepicker;
+
+  return option;
+};
+
+/**
+ * @class
+ * @description
+ * Create a date picker.
+ * @see {@link /tutorial-example01-basic DatePicker example}
+ * @param {HTMLElement|string} container - Container element or selector of DatePicker
+ * @param {Object} [options] - Options
+ *      @param {Date|number} [options.date = null] - Initial date. Set by a Date instance or a number(timestamp). (default: no initial date)
+ *      @param {('date'|'month'|'year')} [options.type = 'date'] - DatePicker type. Determine whether to choose a date, month, or year.
+ *      @param {string} [options.language='en'] - Language code. English('en') and Korean('ko') are provided as default. To set to the other languages, use {@link DatePicker#localeTexts DatePicker.localeTexts}.
+ *      @param {object|boolean} [options.timePicker] - [TimePicker](https://nhn.github.io/tui.time-picker/latest) options. Refer to the [TimePicker instance's options](https://nhn.github.io/tui.time-picker/latest/TimePicker). To create the TimePicker without customization, set to true.
+ *      @param {object} [options.calendar] - {@link Calendar} options. Refer to the {@link Calendar Calendar instance's options}.
+ *      @param {object} [options.input] - Input option
+ *      @param {HTMLElement|string} [options.input.element] - Input element or selector
+ *      @param {string} [options.input.format = 'yyyy-mm-dd'] - Format of the Date string
+ *      @param {Array.<Array.<Date|number>>} [options.selectableRanges = 1900/1/1 ~ 2999/12/31]
+ *        - Ranges of selectable date. Set by Date instances or numbers(timestamp).
+ *      @param {Array<HTMLElement|string>} [options.openers = []] - List of the openers to open the DatePicker (example - icon, button, etc.)
+ *      @param {boolean} [options.showAlways = false] - Show the DatePicker always
+ *      @param {boolean} [options.autoClose = true] - Close the DatePicker after clicking the date
+ *      @param {boolean} [options.usageStatistics = true] - Send a hostname to Google Analytics (default: true)
+ *      @param {string} [options.weekStartDay = 'Sun'] - Start of the week. 'Sun', 'Mon', ..., 'Sat'(default: 'Sun'(start on Sunday))
+ * @example
+ * // ES6
+ * import DatePicker from 'tui-date-picker'
+ *
+ * // CommonJS
+ * const DatePicker = require('tui-date-picker');
+ *
+ * // Browser
+ * const DatePicker = tui.DatePicker;
+ *
+ * const range1 = [new Date(2015, 2, 1), new Date(2015, 3, 1)];
+ * const range2 = [1465570800000, 1481266182155]; // timestamps
+ *
+ * const picker1 = new DatePicker('#datepicker-container1', {
+ *     showAlways: true
+ * });
+ *
+ * const picker2 = new DatePicker('#datepicker-container2', {
+ *    showAlways: true,
+ *    timePicker: true
+ * });
+ *
+ * const picker3 = new DatePicker('#datepicker-container3', {
+ *     language: 'ko',
+ *     calendar: {
+ *         showToday: true
+ *     },
+ *     timePicker: {
+ *         showMeridiem: true,
+ *         defaultHour: 13,
+ *         defaultMinute: 24
+ *     },
+ *     input: {
+ *         element: '#datepicker-input',
+ *         format: 'yyyy년 MM월 dd일 hh:mm A'
+ *     }
+ *     type: 'date',
+ *     date: new Date(2015, 0, 1)
+ *     selectableRanges: [range1, range2],
+ *     openers: ['#opener'],
+ *     weekStartDay: 'Mon',
+ * });
+ */
+var DatePicker = defineClass(
+  /** @lends DatePicker.prototype */ {
+    static: {
+      /**
+       * Locale text data. English('en') and Korean('ko') are provided as default.
+       * @type {object}
+       * @memberof DatePicker
+       * @static
+       * @example
+       * DatePicker.localeTexts['customKey'] = {
+       *     titles: {
+       *         // days
+       *         DD: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+       *         // daysShort
+       *         D: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+       *         // months
+       *         MMMM: [
+       *             'January', 'February', 'March', 'April', 'May', 'June',
+       *             'July', 'August', 'September', 'October', 'November', 'December'
+       *         ],
+       *         // monthsShort
+       *         MMM: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+       *     },
+       *     titleFormat: 'MMM yyyy',
+       *     todayFormat: 'D, MMMM dd, yyyy',
+       *     date: 'Date',
+       *     time: 'Time'
+       * };
+       *
+       * const datepicker = new DatePicker('#datepicker-container', {
+       *     language: 'customKey'
+       * });
+       */
+      localeTexts: localeTexts
+    },
+    init: function(container, options) {
+      options = mergeDefaultOption(options);
+
+      /**
+       * Language type
+       * @type {string}
+       * @private
+       */
+      this._language = options.language;
+
+      /**
+       * DatePicker container
+       * @type {HTMLElement}
+       * @private
+       */
+      this._container = util.getElement(container);
+      this._container.innerHTML = tmpl(
+        extend(options, {
+          isTab: options.timePicker && options.timePicker.layoutType === 'tab'
+        })
+      );
+
+      /**
+       * DatePicker element
+       * @type {HTMLElement}
+       * @private
+       */
+      this._element = this._container.firstChild;
+
+      /**
+       * Calendar instance
+       * @type {Calendar}
+       * @private
+       */
+      this._calendar = new Calendar(
+        this._element.querySelector(SELECTOR_CALENDAR_CONTAINER),
+        extend(options.calendar, {
+          usageStatistics: options.usageStatistics,
+          weekStartDay: options.weekStartDay
+        })
+      );
+
+      /**
+       * TimePicker instance
+       * @type {TimePicker}
+       * @private
+       */
+      this._timePicker = null;
+
+      /**
+       * DatePicker input
+       * @type {DatePickerInput}
+       * @private
+       */
+      this._datepickerInput = null;
+
+      /**
+       * Object having date values
+       * @type {Date}
+       * @private
+       */
+      this._date = null;
+
+      /**
+       * Selectable date-ranges model
+       * @type {RangeModel}
+       * @private
+       */
+      this._rangeModel = null;
+
+      /**
+       * openers - opener list
+       * @type {Array}
+       * @private
+       */
+      this._openers = [];
+
+      /**
+       * State of picker enable
+       * @type {boolean}
+       * @private
+       */
+      this._isEnabled = true;
+
+      /**
+       * ID of instance
+       * @type {number}
+       * @private
+       */
+      this._id = 'tui-datepicker-' + util.generateId();
+
+      /**
+       * DatePicker type
+       * @type {TYPE_DATE|TYPE_MONTH|TYPE_YEAR}
+       * @private
+       */
+      this._type = options.type;
+
+      /**
+       * Show always or not
+       * @type {boolean}
+       */
+      this.showAlways = options.showAlways;
+
+      /**
+       * Close after select a date
+       * @type {boolean}
+       */
+      this.autoClose = options.autoClose;
+
+      this._initializeDatePicker(options);
+    },
+
+    /**
+     * Initialize method
+     * @param {Object} option - user option
+     * @private
+     */
+    _initializeDatePicker: function(option) {
+      this.setRanges(option.selectableRanges);
+      this._setEvents();
+      this._initTimePicker(option.timePicker, option.usageStatistics);
+      this.setInput(option.input.element);
+      this.setDateFormat(option.input.format);
+      this.setDate(option.date);
+
+      forEachArray(option.openers, this.addOpener, this);
+      if (!this.showAlways) {
+        this._hide();
+      }
+
+      if (this.getType() === TYPE_DATE) {
+        addClass(this._element.querySelector(SELECTOR_BODY), 'tui-datepicker-type-date');
+      }
+    },
+
+    /**
+     * Set events on the date picker's element
+     * @param {object} option - Constructor option
+     * @private
+     */
+    _setEvents: function() {
+      mouseTouchEvent.on(this._element, 'click', this._onClickHandler, this);
+      this._calendar.on('draw', this._onDrawCalendar, this);
+    },
+
+    /**
+     * Remove events on the date picker's element
+     * @private
+     */
+    _removeEvents: function() {
+      mouseTouchEvent.off(this._element, 'click', this._onClickHandler, this);
+      this._calendar.off();
+    },
+
+    /**
+     * Set events on the document
+     * @private
+     */
+    _setDocumentEvents: function() {
+      mouseTouchEvent.on(document, 'mousedown', this._onMousedownDocument, this);
+    },
+
+    /**
+     * Remove events on the document
+     * @private
+     */
+    _removeDocumentEvents: function() {
+      mouseTouchEvent.off(document, 'mousedown', this._onMousedownDocument);
+    },
+
+    /**
+     * Set events on the opener
+     * @param {HTMLElement} opener An opener to bind the events
+     * @private
+     */
+    _setOpenerEvents: function(opener) {
+      mouseTouchEvent.on(opener, 'click', this.toggle, this);
+    },
+
+    /**
+     * Remove events on the opener
+     * @param {HTMLElement} opener An opener to unbind the events
+     * @private
+     */
+    _removeOpenerEvents: function(opener) {
+      mouseTouchEvent.off(opener, 'click', this.toggle);
+    },
+
+    /**
+     * Set TimePicker instance
+     * @param {object|boolean} opTimePicker - TimePicker instance options
+     * @param {boolean} usageStatistics - GA tracking options
+     * @private
+     */
+    _initTimePicker: function(opTimePicker, usageStatistics) {
+      var layoutType;
+      if (!opTimePicker) {
+        return;
+      }
+
+      layoutType = opTimePicker.layoutType || '';
+
+      if (isObject(opTimePicker)) {
+        opTimePicker.usageStatistics = usageStatistics;
+      } else {
+        opTimePicker = {
+          usageStatistics: usageStatistics
+        };
+      }
+
+      this._timePicker = new TimePicker(
+        this._element.querySelector(SELECTOR_TIMEPICKER_CONTAINER),
+        opTimePicker
+      );
+
+      if (layoutType.toLowerCase() === 'tab') {
+        this._timePicker.hide();
+      }
+
+      this._timePicker.on(
+        'change',
+        function(ev) {
+          var prevDate;
+          if (this._date) {
+            prevDate = new Date(this._date);
+            this.setDate(prevDate.setHours(ev.hour, ev.minute));
+          }
+        },
+        this
+      );
+    },
+
+    /**
+     * Change picker's type by a selector button.
+     * @param {HTMLElement} target A target element
+     * @private
+     */
+    _changePicker: function(target) {
+      var btnSelector = '.' + CLASS_NAME_SELECTOR_BUTTON;
+      var selectedBtn = closest(target, btnSelector);
+      var isDateElement = !!selectedBtn.querySelector(SELECTOR_DATE_ICO);
+
+      if (isDateElement) {
+        this._calendar.show();
+        this._timePicker.hide();
+      } else {
+        this._calendar.hide();
+        this._timePicker.show();
+      }
+      removeClass(this._element.querySelector('.' + CLASS_NAME_CHECKED), CLASS_NAME_CHECKED);
+      addClass(selectedBtn, CLASS_NAME_CHECKED);
+    },
+
+    /**
+     * Returns whether the element is opener
+     * @param {string|HTMLElement} element - Element or selector
+     * @returns {boolean}
+     * @private
+     */
+    _isOpener: function(element) {
+      var el = util.getElement(element);
+
+      return inArray(el, this._openers) > -1;
+    },
+
+    /**
+     * add/remove today-class-name to date element
+     * @param {HTMLElement} el - date element
+     * @private
+     */
+    _setTodayClassName: function(el) {
+      var timestamp, isToday;
+
+      if (this.getCalendarType() !== TYPE_DATE) {
+        return;
+      }
+
+      timestamp = Number(getData(el, 'timestamp'));
+      isToday = timestamp === new Date().setHours(0, 0, 0, 0);
+
+      if (isToday) {
+        addClass(el, CLASS_NAME_TODAY);
+      } else {
+        removeClass(el, CLASS_NAME_TODAY);
+      }
+    },
+
+    /**
+     * add/remove selectable-class-name to date element
+     * @param {HTMLElement} el - date element
+     * @private
+     */
+    _setSelectableClassName: function(el) {
+      var elDate = new Date(Number(getData(el, 'timestamp')));
+
+      if (this._isSelectableOnCalendar(elDate)) {
+        addClass(el, CLASS_NAME_SELECTABLE);
+        removeClass(el, CLASS_NAME_BLOCKED);
+      } else {
+        removeClass(el, CLASS_NAME_SELECTABLE);
+        addClass(el, CLASS_NAME_BLOCKED);
+      }
+    },
+
+    /**
+     * add/remove selected-class-name to date element
+     * @param {HTMLElement} el - date element
+     * @private
+     */
+    _setSelectedClassName: function(el) {
+      var elDate = new Date(Number(getData(el, 'timestamp')));
+
+      if (this._isSelectedOnCalendar(elDate)) {
+        addClass(el, CLASS_NAME_SELECTED);
+      } else {
+        removeClass(el, CLASS_NAME_SELECTED);
+      }
+    },
+
+    /**
+     * Returns whether the date is selectable on calendar
+     * @param {Date} date - Date instance
+     * @returns {boolean}
+     * @private
+     */
+    _isSelectableOnCalendar: function(date) {
+      var type = this.getCalendarType();
+      var start = dateUtil.cloneWithStartOf(date, type).getTime();
+      var end = dateUtil.cloneWithEndOf(date, type).getTime();
+
+      return this._rangeModel.hasOverlap(start, end);
+    },
+
+    /**
+     * Returns whether the date is selected on calendar
+     * @param {Date} date - Date instance
+     * @returns {boolean}
+     * @private
+     */
+    _isSelectedOnCalendar: function(date) {
+      var curDate = this.getDate();
+      var calendarType = this.getCalendarType();
+
+      return curDate && dateUtil.isSame(curDate, date, calendarType);
+    },
+
+    /**
+     * Show the date picker element
+     * @private
+     */
+    _show: function() {
+      removeClass(this._element, CLASS_NAME_HIDDEN);
+    },
+
+    /**
+     * Hide the date picker element
+     * @private
+     */
+    _hide: function() {
+      addClass(this._element, CLASS_NAME_HIDDEN);
+    },
+
+    /**
+     * Set value a date-string of current this instance to input element
+     * @private
+     */
+    _syncToInput: function() {
+      if (!this._date) {
+        return;
+      }
+
+      this._datepickerInput.setDate(this._date);
+    },
+
+    /**
+     * Set date from input value
+     * @param {boolean} [shouldRollback = false] - Should rollback from unselectable or error
+     * @private
+     */
+    _syncFromInput: function(shouldRollback) {
+      var isFailed = false;
+      var date;
+
+      try {
+        date = this._datepickerInput.getDate();
+
+        if (this.isSelectable(date)) {
+          if (this._timePicker) {
+            this._timePicker.setTime(date.getHours(), date.getMinutes());
+          }
+          this.setDate(date);
+        } else {
+          isFailed = true;
+        }
+      } catch (err) {
+        this.fire('error', {
+          type: 'ParsingError',
+          message: err.message
+        });
+        isFailed = true;
+      } finally {
+        if (isFailed) {
+          if (shouldRollback) {
+            this._syncToInput();
+          } else {
+            this.setNull();
+          }
+        }
+      }
+    },
+
+    /**
+     * Event handler for mousedown of document<br>
+     * - When click the out of layer, close the layer
+     * @param {Event} ev - Event object
+     * @private
+     */
+    _onMousedownDocument: function(ev) {
+      var target = util.getTarget(ev);
+      var selector = util.getSelector(target);
+      var isContain = selector ? this._element.querySelector(selector) : false;
+      var isInput = this._datepickerInput.is(target);
+      var isInOpener = inArray(target, this._openers) > -1;
+      var shouldClose = !(this.showAlways || isInput || isContain || isInOpener);
+
+      if (shouldClose) {
+        this.close();
+      }
+    },
+
+    /**
+     * Event handler for click of calendar
+     * @param {Event} ev An event object
+     * @private
+     */
+    _onClickHandler: function(ev) {
+      var target = util.getTarget(ev);
+      ev.preventDefault();
+
+      if (closest(target, '.' + CLASS_NAME_SELECTABLE)) {
+        this._updateDate(target);
+      } else if (closest(target, SELECTOR_CALENDAR_TITLE)) {
+        this.drawUpperCalendar(this._date);
+      } else if (closest(target, '.' + CLASS_NAME_SELECTOR_BUTTON)) {
+        this._changePicker(target);
+      }
+    },
+
+    /**
+     * Update date from event-target
+     * @param {HTMLElement} target An event target element
+     * @private
+     */
+    _updateDate: function(target) {
+      var timestamp = Number(getData(target, 'timestamp'));
+      var newDate = new Date(timestamp);
+      var timePicker = this._timePicker;
+      var prevDate = this._date;
+      var calendarType = this.getCalendarType();
+      var pickerType = this.getType();
+
+      if (calendarType !== pickerType) {
+        this.drawLowerCalendar(newDate);
+      } else {
+        if (timePicker) {
+          newDate.setHours(timePicker.getHour(), timePicker.getMinute());
+        } else if (prevDate) {
+          newDate.setHours(prevDate.getHours(), prevDate.getMinutes());
+        }
+        this.setDate(newDate);
+
+        if (!this.showAlways && this.autoClose) {
+          this.close();
+        }
+      }
+    },
+
+    /**
+     * Event handler for 'draw'-custom event of calendar
+     * @param {Object} eventData - custom event data
+     * @see {@link Calendar#draw}
+     * @private
+     */
+    _onDrawCalendar: function(eventData) {
+      forEachArray(
+        eventData.dateElements,
+        function(el) {
+          this._setTodayClassName(el);
+          this._setSelectableClassName(el);
+          this._setSelectedClassName(el);
+        },
+        this
+      );
+      this._setDisplayHeadButtons();
+
+      /**
+       * Occur after the calendar is drawn.
+       * @event DatePicker#draw
+       * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#on datepicker.on()} to bind event handlers.
+       * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#off datepicker.off()} to unbind event handlers.
+       * @see Refer to {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents CustomEvents from tui-code-snippet} for more methods. DatePicker mixes in the methods from CustomEvents.
+       * @property {Date} date - Calendar date
+       * @property {('date'|'month'|'year')} type - Calendar type
+       * @property {HTMLElement[]} dateElements - elements for dates
+       * @example
+       * // bind the 'draw' event
+       * datepicker.on('draw', (event) => {
+       *     console.log(`Draw the ${event.type} calendar and its date is ${event.date}.`);
+       * });
+       *
+       * // unbind the 'draw' event
+       * datepicker.off('draw');
+       */
+      this.fire('draw', eventData);
+    },
+
+    /**
+     * Hide useless buttons (next, next-year, prev, prev-year)
+     * @see Don't save buttons reference. The buttons are rerendered every "calendar.draw".
+     * @private
+     */
+    _setDisplayHeadButtons: function() {
+      var nextYearDate = this._calendar.getNextYearDate();
+      var prevYearDate = this._calendar.getPrevYearDate();
+      var maxTimestamp = this._rangeModel.getMaximumValue();
+      var minTimestamp = this._rangeModel.getMinimumValue();
+      var nextYearBtn = this._element.querySelector('.' + CLASS_NAME_NEXT_YEAR_BTN);
+      var prevYearBtn = this._element.querySelector('.' + CLASS_NAME_PREV_YEAR_BTN);
+      var nextMonthDate, prevMonthDate, nextMonBtn, prevMonBtn;
+
+      if (this.getCalendarType() === TYPE_DATE) {
+        nextMonthDate = dateUtil.cloneWithStartOf(this._calendar.getNextDate(), TYPE_MONTH);
+        prevMonthDate = dateUtil.cloneWithEndOf(this._calendar.getPrevDate(), TYPE_MONTH);
+
+        nextMonBtn = this._element.querySelector('.' + CLASS_NAME_NEXT_MONTH_BTN);
+        prevMonBtn = this._element.querySelector('.' + CLASS_NAME_PREV_MONTH_BTN);
+
+        this._setDisplay(nextMonBtn, nextMonthDate.getTime() <= maxTimestamp);
+        this._setDisplay(prevMonBtn, prevMonthDate.getTime() >= minTimestamp);
+
+        prevYearDate.setDate(1);
+        nextYearDate.setDate(1);
+      } else {
+        prevYearDate.setMonth(12, 0);
+        nextYearDate.setMonth(0, 1);
+      }
+
+      this._setDisplay(nextYearBtn, nextYearDate.getTime() <= maxTimestamp);
+      this._setDisplay(prevYearBtn, prevYearDate.getTime() >= minTimestamp);
+    },
+
+    /**
+     * Set display show/hide by condition
+     * @param {HTMLElement} el - An Element
+     * @param {boolean} shouldShow - Condition
+     * @private
+     */
+    _setDisplay: function(el, shouldShow) {
+      if (el) {
+        if (shouldShow) {
+          removeClass(el, CLASS_NAME_HIDDEN);
+        } else {
+          addClass(el, CLASS_NAME_HIDDEN);
+        }
+      }
+    },
+
+    /**
+     * Input change handler
+     * @private
+     * @throws {Error}
+     */
+    _onChangeInput: function() {
+      this._syncFromInput(true);
+    },
+
+    /**
+     * Returns whether the date is changed
+     * @param {Date} date - Date
+     * @returns {boolean}
+     * @private
+     */
+    _isChanged: function(date) {
+      var prevDate = this.getDate();
+
+      return !prevDate || date.getTime() !== prevDate.getTime();
+    },
+
+    /**
+     * Refresh datepicker
+     * @private
+     */
+    _refreshFromRanges: function() {
+      if (!this.isSelectable(this._date)) {
+        this.setNull();
+      } else {
+        this._calendar.draw(); // view update
+      }
+    },
+
+    /**
+     * Return the current calendar's type.
+     * @returns {('date'|'month'|'year')}
+     */
+    getCalendarType: function() {
+      return this._calendar.getType();
+    },
+
+    /**
+     * Return the date picker's type.
+     * @returns {('date'|'month'|'year')}
+     */
+    getType: function() {
+      return this._type;
+    },
+
+    /**
+     * Return whether the date is selectable.
+     * @param {Date} date - Date to check
+     * @returns {boolean}
+     */
+    isSelectable: function(date) {
+      var type = this.getType();
+      var start, end;
+
+      if (!dateUtil.isValidDate(date)) {
+        return false;
+      }
+      start = dateUtil.cloneWithStartOf(date, type).getTime();
+      end = dateUtil.cloneWithEndOf(date, type).getTime();
+
+      return this._rangeModel.hasOverlap(start, end);
+    },
+
+    /**
+     * Return whether the date is selected.
+     * @param {Date} date - Date to check
+     * @returns {boolean}
+     */
+    isSelected: function(date) {
+      return dateUtil.isValidDate(date) && dateUtil.isSame(this._date, date, this.getType());
+    },
+
+    /**
+     * Set selectable ranges. Previous ranges will be removed.
+     * @param {Array.<Array<Date|number>>} ranges - Selectable ranges. Use Date instances or numbers(timestamp).
+     * @example
+     * datepicker.setRanges([
+     *     [new Date(2017, 0, 1), new Date(2018, 0, 2)],
+     *     [new Date(2015, 2, 3), new Date(2016, 4, 2)]
+     * ]);
+     */
+    setRanges: function(ranges) {
+      var result = [];
+      forEachArray(ranges, function(range) {
+        var start = new Date(range[0]).getTime();
+        var end = new Date(range[1]).getTime();
+
+        result.push([start, end]);
+      });
+
+      this._rangeModel = new RangeModel(result);
+      this._refreshFromRanges();
+    },
+
+    /**
+     * Set the calendar's type.
+     * @param {('date'|'month'|'year')} type - Calendar type
+     * @example
+     * datepicker.setType('month');
+     */
+    setType: function(type) {
+      this._type = type;
+    },
+
+    /**
+     * Add a selectable range. Use Date instances or numbers(timestamp).
+     * @param {Date|number} start - the start date
+     * @param {Date|number} end - the end date
+     * @example
+     * const start = new Date(2015, 1, 3);
+     * const end = new Date(2015, 2, 6);
+     *
+     * datepicker.addRange(start, end);
+     */
+    addRange: function(start, end) {
+      start = new Date(start).getTime();
+      end = new Date(end).getTime();
+
+      this._rangeModel.add(start, end);
+      this._refreshFromRanges();
+    },
+
+    /**
+     * Remove a range. Use Date instances or numbers(timestamp).
+     * @param {Date|number} start - the start date
+     * @param {Date|number} end - the end date
+     * @param {null|'date'|'month'|'year'} type - Range type. If falsy, start and end values are considered as timestamp
+     * @example
+     * const start = new Date(2015, 1, 3);
+     * const end = new Date(2015, 2, 6);
+     *
+     * datepicker.removeRange(start, end);
+     */
+    removeRange: function(start, end, type) {
+      start = new Date(start);
+      end = new Date(end);
+
+      if (type) {
+        // @todo Consider time-range on timePicker
+        start = dateUtil.cloneWithStartOf(start, type);
+        end = dateUtil.cloneWithEndOf(end, type);
+      }
+
+      this._rangeModel.exclude(start.getTime(), end.getTime());
+      this._refreshFromRanges();
+    },
+
+    /**
+     * Add an opener.
+     * @param {HTMLElement|string} opener - element or selector of opener
+     */
+    addOpener: function(opener) {
+      opener = util.getElement(opener);
+
+      if (!this._isOpener(opener)) {
+        this._openers.push(opener);
+        this._setOpenerEvents(opener);
+      }
+    },
+
+    /**
+     * Remove an opener.
+     * @param {HTMLElement|string} opener - element or selector of opener
+     */
+    removeOpener: function(opener) {
+      var index;
+
+      opener = util.getElement(opener);
+      index = inArray(opener, this._openers);
+
+      if (index > -1) {
+        this._removeOpenerEvents(opener);
+        this._openers.splice(index, 1);
+      }
+    },
+
+    /**
+     * Remove all openers.
+     */
+    removeAllOpeners: function() {
+      forEachArray(
+        this._openers,
+        function(opener) {
+          this._removeOpenerEvents(opener);
+        },
+        this
+      );
+      this._openers = [];
+    },
+
+    /**
+     * Open the date picker.
+     * @example
+     * datepicker.open();
+     */
+    open: function() {
+      if (this.isOpened() || !this._isEnabled) {
+        return;
+      }
+
+      this._calendar.draw({
+        date: this._date,
+        type: this._type
+      });
+      this._show();
+
+      if (!this.showAlways) {
+        this._setDocumentEvents();
+      }
+
+      /**
+       * Occur after the date picker opens.
+       * @event DatePicker#open
+       * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#on datepicker.on()} to bind event handlers.
+       * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#off datepicker.off()} to unbind event handlers.
+       * @see Refer to {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents CustomEvents from tui-code-snippet} for more methods. DatePicker mixes in the methods from CustomEvents.
+       * @example
+       * // bind the 'open' event
+       * datepicker.on('open', () => {
+       *     alert('open');
+       * });
+       *
+       * // unbind the 'open' event
+       * datepicker.off('open');
+       */
+      this.fire('open');
+    },
+
+    /**
+     * Raise the calendar type. (date -> month -> year)
+     * @param {Date} [date] - Date to set
+     */
+    drawUpperCalendar: function(date) {
+      var calendarType = this.getCalendarType();
+
+      if (calendarType === TYPE_DATE) {
+        this._calendar.draw({
+          date: date,
+          type: TYPE_MONTH
+        });
+      } else if (calendarType === TYPE_MONTH) {
+        this._calendar.draw({
+          date: date,
+          type: TYPE_YEAR
+        });
+      }
+    },
+
+    /**
+     * Lower the calendar type. (year -> month -> date)
+     * @param {Date} [date] - Date to set
+     */
+    drawLowerCalendar: function(date) {
+      var calendarType = this.getCalendarType();
+      var pickerType = this.getType();
+      var isLast = calendarType === pickerType;
+
+      if (isLast) {
+        return;
+      }
+
+      if (calendarType === TYPE_MONTH) {
+        this._calendar.draw({
+          date: date,
+          type: TYPE_DATE
+        });
+      } else if (calendarType === TYPE_YEAR) {
+        this._calendar.draw({
+          date: date,
+          type: TYPE_MONTH
+        });
+      }
+    },
+
+    /**
+     * Close the date picker.
+     * @exmaple
+     * datepicker.close();
+     */
+    close: function() {
+      if (!this.isOpened()) {
+        return;
+      }
+      this._removeDocumentEvents();
+      this._hide();
+
+      /**
+       * Occur after the date picker closes.
+       * @event DatePicker#close
+       * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#on datepicker.on()} to bind event handlers.
+       * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#off datepicker.off()} to unbind event handlers.
+       * @see Refer to {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents CustomEvents from tui-code-snippet} for more methods. DatePicker mixes in the methods from CustomEvents.
+       * @example
+       * // bind the 'close' event
+       * datepicker.on('close', () => {
+       *     alert('close');
+       * });
+       *
+       * // unbind the 'close' event
+       * datepicker.off('close');
+       */
+      this.fire('close');
+    },
+
+    /**
+     * Toggle the date picker.
+     * @example
+     * datepicker.toggle();
+     */
+    toggle: function() {
+      if (this.isOpened()) {
+        this.close();
+      } else {
+        this.open();
+      }
+    },
+
+    /**
+     * Return the selected date.
+     * @returns {?Date} - selected date
+     * @example
+     * // 2015-04-13
+     * datepicker.getDate(); // new Date(2015, 3, 13)
+     */
+    getDate: function() {
+      if (!this._date) {
+        return null;
+      }
+
+      return new Date(this._date);
+    },
+
+    /**
+     * Select the date.
+     * @param {Date|number} date - Date instance or timestamp to set
+     * @example
+     * datepicker.setDate(new Date()); // Set today
+     */
+    // eslint-disable-next-line complexity
+    setDate: function(date) {
+      var isValidInput, newDate, shouldUpdate;
+
+      if (date === null) {
+        this.setNull();
+
+        return;
+      }
+
+      isValidInput = isNumber(date) || isDate(date);
+      newDate = new Date(date);
+      shouldUpdate = isValidInput && this._isChanged(newDate) && this.isSelectable(newDate);
+
+      if (shouldUpdate) {
+        newDate = new Date(date);
+        this._date = newDate;
+        this._calendar.draw({ date: newDate });
+        if (this._timePicker) {
+          this._timePicker.setTime(newDate.getHours(), newDate.getMinutes());
+        }
+        this._syncToInput();
+
+        /**
+         * Occur after the selected date is changed.
+         * @event DatePicker#change
+         * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#on datepicker.on()} to bind event handlers.
+         * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#off datepicker.off()} to unbind event handlers.
+         * @see Refer to {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents CustomEvents from tui-code-snippet} for more methods. DatePicker mixes in the methods from CustomEvents.
+         * @example
+         * // bind the 'change' event
+         * datepicker.on('change', () => {
+         *     console.log(`Selected date: ${datepicker.getDate()}`);
+         * });
+         *
+         * // unbind the 'change' event
+         * datepicker.off('change');
+         */
+        this.fire('change');
+      }
+    },
+
+    /**
+     * Set no date to be selected. (Selected date: null)
+     */
+    setNull: function() {
+      var calendarDate = this._calendar.getDate();
+      var isChagned = this._date !== null;
+
+      this._date = null;
+
+      if (this._datepickerInput) {
+        this._datepickerInput.clearText();
+      }
+      if (this._timePicker) {
+        this._timePicker.setTime(0, 0);
+      }
+
+      // View update
+      if (!this.isSelectable(calendarDate)) {
+        this._calendar.draw({
+          date: new Date(this._rangeModel.getMinimumValue())
+        });
+      } else {
+        this._calendar.draw();
+      }
+
+      if (isChagned) {
+        this.fire('change');
+      }
+    },
+
+    /**
+     * Select the date by the date string format.
+     * @param {String} [format] - Date string format
+     * @example
+     * datepicker.setDateFormat('yyyy-MM-dd');
+     * datepicker.setDateFormat('MM-dd, yyyy');
+     * datepicker.setDateFormat('yy/M/d');
+     * datepicker.setDateFormat('yy/MM/dd');
+     */
+    setDateFormat: function(format) {
+      this._datepickerInput.setFormat(format);
+      this._syncToInput();
+    },
+
+    /**
+     * Return whether the datepicker opens or not
+     * @returns {boolean}
+     * @example
+     * datepicker.close();
+     * datepicker.isOpened(); // false
+     *
+     * datepicker.open();
+     * datepicker.isOpened(); // true
+     */
+    isOpened: function() {
+      return !hasClass(this._element, CLASS_NAME_HIDDEN);
+    },
+
+    /**
+     * Return the time picker instance
+     * @returns {?TimePicker} - TimePicker instance
+     * @see {@link https://nhn.github.io/tui.time-picker/latest tui-time-picker}
+     * @example
+     * const timePicker = this.getTimePicker();
+     */
+    getTimePicker: function() {
+      return this._timePicker;
+    },
+
+    /**
+     * Return the calendar instance.
+     * @see {@link calendar Calendar}
+     * @returns {Calendar}
+     */
+    getCalendar: function() {
+      return this._calendar;
+    },
+
+    /**
+     * Return the locale text object.
+     * @see {@link DatePicker#localeTexts DatePicker.localeTexts}
+     * @returns {object}
+     */
+    getLocaleText: function() {
+      return localeTexts[this._language] || localeTexts[DEFAULT_LANGUAGE_TYPE];
+    },
+
+    /**
+     * Set the input element
+     * @param {string|HTMLElement} element - Input element or selector
+     * @param {object} [options] - Input option
+     * @param {string} [options.format = prevInput.format] - Format of the Date string in the input
+     * @param {boolean} [options.syncFromInput = false] - Whether set the date from the input
+     */
+    setInput: function(element, options) {
+      var prev = this._datepickerInput;
+      var localeText = this.getLocaleText();
+      var prevFormat;
+      options = options || {};
+
+      if (prev) {
+        prevFormat = prev.getFormat();
+        prev.destroy();
+      }
+
+      this._datepickerInput = new DatePickerInput(element, {
+        format: options.format || prevFormat,
+        id: this._id,
+        localeText: localeText
+      });
+
+      this._datepickerInput.on(
+        {
+          change: this._onChangeInput,
+          click: this.open
+        },
+        this
+      );
+
+      if (options.syncFromInput) {
+        this._syncFromInput();
+      } else {
+        this._syncToInput();
+      }
+    },
+
+    /**
+     * Enable the date picker.
+     */
+    enable: function() {
+      if (this._isEnabled) {
+        return;
+      }
+      this._isEnabled = true;
+      this._datepickerInput.enable();
+
+      forEachArray(
+        this._openers,
+        function(opener) {
+          opener.removeAttribute('disabled');
+          this._setOpenerEvents(opener);
+        },
+        this
+      );
+    },
+
+    /**
+     * Disable the date picker.
+     */
+    disable: function() {
+      if (!this._isEnabled) {
+        return;
+      }
+
+      this._isEnabled = false;
+      this.close();
+      this._datepickerInput.disable();
+
+      forEachArray(
+        this._openers,
+        function(opener) {
+          opener.setAttribute('disabled', true);
+          this._removeOpenerEvents(opener);
+        },
+        this
+      );
+    },
+
+    /**
+     * Return whether the date picker is disabled
+     * @returns {boolean}
+     */
+    isDisabled: function() {
+      // @todo this._isEnabled --> this._isDisabled
+      return !this._isEnabled;
+    },
+
+    /**
+     * Apply a CSS class to the date picker.
+     * @param {string} className - Class name
+     */
+    addCssClass: function(className) {
+      addClass(this._element, className);
+    },
+
+    /**
+     * Remove a CSS class from the date picker.
+     * @param {string} className - Class name
+     */
+    removeCssClass: function(className) {
+      removeClass(this._element, className);
+    },
+
+    /**
+     * Return the date elements on the calendar.
+     * @returns {HTMLElement[]}
+     */
+    getDateElements: function() {
+      return this._calendar.getDateElements();
+    },
+
+    /**
+     * Return the first overlapped range from the point or range.
+     * @param {Date|number} startDate - Start date to find overlapped range
+     * @param {Date|number} endDate - End date to find overlapped range
+     * @returns {Array.<Date>} - \[startDate, endDate]
+     */
+    findOverlappedRange: function(startDate, endDate) {
+      var startTimestamp = new Date(startDate).getTime();
+      var endTimestamp = new Date(endDate).getTime();
+      var overlappedRange = this._rangeModel.findOverlappedRange(startTimestamp, endTimestamp);
+
+      return [new Date(overlappedRange[0]), new Date(overlappedRange[1])];
+    },
+
+    /**
+     * Change language.
+     * @param {string} language - Language code. English('en') and Korean('ko') are provided as default.
+     * @see To set to the other languages, use {@link DatePicker#localeTexts DatePicker.localeTexts}.
+     */
+    changeLanguage: function(language) {
+      this._language = language;
+      this._calendar.changeLanguage(this._language);
+      this._datepickerInput.changeLocaleTitles(this.getLocaleText().titles);
+      this.setDateFormat(this._datepickerInput.getFormat());
+
+      if (this._timePicker) {
+        this._timePicker.changeLanguage(this._language);
+      }
+    },
+
+    /**
+     * Destroy the date picker.
+     */
+    destroy: function() {
+      this._removeDocumentEvents();
+      this._calendar.destroy();
+      if (this._timePicker) {
+        this._timePicker.destroy();
+      }
+      if (this._datepickerInput) {
+        this._datepickerInput.destroy();
+      }
+      this._removeEvents();
+      removeElement(this._element);
+      this.removeAllOpeners();
+
+      this._calendar = this._timePicker = this._datepickerInput = this._container = this._element = this._date = this._rangeModel = this._openers = this._isEnabled = this._id = null;
+    }
+  }
+);
+
+CustomEvents.mixin(DatePicker);
+module.exports = DatePicker;
 
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Check whether the given variable is an object or not.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
 
-	var _utils = __webpack_require__(10);
 
-	var logger = {
-	  methodMap: ['debug', 'info', 'warn', 'error'],
-	  level: 'info',
+/**
+ * Check whether the given variable is an object or not.
+ * If the given variable is an object, return true.
+ * @param {*} obj - Target for checking
+ * @returns {boolean} Is object?
+ * @memberof module:type
+ */
+function isObject(obj) {
+  return obj === Object(obj);
+}
 
-	  // Maps a given level value to the `methodMap` indexes above.
-	  lookupLevel: function lookupLevel(level) {
-	    if (typeof level === 'string') {
-	      var levelMap = _utils.indexOf(logger.methodMap, level.toLowerCase());
-	      if (levelMap >= 0) {
-	        level = levelMap;
-	      } else {
-	        level = parseInt(level, 10);
-	      }
-	    }
-
-	    return level;
-	  },
-
-	  // Can be overridden in the host environment
-	  log: function log(level) {
-	    level = logger.lookupLevel(level);
-
-	    if (typeof console !== 'undefined' && logger.lookupLevel(logger.level) <= level) {
-	      var method = logger.methodMap[level];
-	      if (!console[method]) {
-	        // eslint-disable-line no-console
-	        method = 'log';
-	      }
-
-	      for (var _len = arguments.length, message = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	        message[_key - 1] = arguments[_key];
-	      }
-
-	      console[method].apply(console, message); // eslint-disable-line no-console
-	    }
-	  }
-	};
-
-	exports['default'] = logger;
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL2xvZ2dlci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O3FCQUFzQixTQUFTOztBQUUvQixJQUFJLE1BQU0sR0FBRztBQUNYLFdBQVMsRUFBRSxDQUFDLE9BQU8sRUFBRSxNQUFNLEVBQUUsTUFBTSxFQUFFLE9BQU8sQ0FBQztBQUM3QyxPQUFLLEVBQUUsTUFBTTs7O0FBR2IsYUFBVyxFQUFFLHFCQUFTLEtBQUssRUFBRTtBQUMzQixRQUFJLE9BQU8sS0FBSyxLQUFLLFFBQVEsRUFBRTtBQUM3QixVQUFJLFFBQVEsR0FBRyxlQUFRLE1BQU0sQ0FBQyxTQUFTLEVBQUUsS0FBSyxDQUFDLFdBQVcsRUFBRSxDQUFDLENBQUM7QUFDOUQsVUFBSSxRQUFRLElBQUksQ0FBQyxFQUFFO0FBQ2pCLGFBQUssR0FBRyxRQUFRLENBQUM7T0FDbEIsTUFBTTtBQUNMLGFBQUssR0FBRyxRQUFRLENBQUMsS0FBSyxFQUFFLEVBQUUsQ0FBQyxDQUFDO09BQzdCO0tBQ0Y7O0FBRUQsV0FBTyxLQUFLLENBQUM7R0FDZDs7O0FBR0QsS0FBRyxFQUFFLGFBQVMsS0FBSyxFQUFjO0FBQy9CLFNBQUssR0FBRyxNQUFNLENBQUMsV0FBVyxDQUFDLEtBQUssQ0FBQyxDQUFDOztBQUVsQyxRQUFJLE9BQU8sT0FBTyxLQUFLLFdBQVcsSUFBSSxNQUFNLENBQUMsV0FBVyxDQUFDLE1BQU0sQ0FBQyxLQUFLLENBQUMsSUFBSSxLQUFLLEVBQUU7QUFDL0UsVUFBSSxNQUFNLEdBQUcsTUFBTSxDQUFDLFNBQVMsQ0FBQyxLQUFLLENBQUMsQ0FBQztBQUNyQyxVQUFJLENBQUMsT0FBTyxDQUFDLE1BQU0sQ0FBQyxFQUFFOztBQUNwQixjQUFNLEdBQUcsS0FBSyxDQUFDO09BQ2hCOzt3Q0FQbUIsT0FBTztBQUFQLGVBQU87OztBQVEzQixhQUFPLENBQUMsTUFBTSxPQUFDLENBQWYsT0FBTyxFQUFZLE9BQU8sQ0FBQyxDQUFDO0tBQzdCO0dBQ0Y7Q0FDRixDQUFDOztxQkFFYSxNQUFNIiwiZmlsZSI6ImxvZ2dlci5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7aW5kZXhPZn0gZnJvbSAnLi91dGlscyc7XG5cbmxldCBsb2dnZXIgPSB7XG4gIG1ldGhvZE1hcDogWydkZWJ1ZycsICdpbmZvJywgJ3dhcm4nLCAnZXJyb3InXSxcbiAgbGV2ZWw6ICdpbmZvJyxcblxuICAvLyBNYXBzIGEgZ2l2ZW4gbGV2ZWwgdmFsdWUgdG8gdGhlIGBtZXRob2RNYXBgIGluZGV4ZXMgYWJvdmUuXG4gIGxvb2t1cExldmVsOiBmdW5jdGlvbihsZXZlbCkge1xuICAgIGlmICh0eXBlb2YgbGV2ZWwgPT09ICdzdHJpbmcnKSB7XG4gICAgICBsZXQgbGV2ZWxNYXAgPSBpbmRleE9mKGxvZ2dlci5tZXRob2RNYXAsIGxldmVsLnRvTG93ZXJDYXNlKCkpO1xuICAgICAgaWYgKGxldmVsTWFwID49IDApIHtcbiAgICAgICAgbGV2ZWwgPSBsZXZlbE1hcDtcbiAgICAgIH0gZWxzZSB7XG4gICAgICAgIGxldmVsID0gcGFyc2VJbnQobGV2ZWwsIDEwKTtcbiAgICAgIH1cbiAgICB9XG5cbiAgICByZXR1cm4gbGV2ZWw7XG4gIH0sXG5cbiAgLy8gQ2FuIGJlIG92ZXJyaWRkZW4gaW4gdGhlIGhvc3QgZW52aXJvbm1lbnRcbiAgbG9nOiBmdW5jdGlvbihsZXZlbCwgLi4ubWVzc2FnZSkge1xuICAgIGxldmVsID0gbG9nZ2VyLmxvb2t1cExldmVsKGxldmVsKTtcblxuICAgIGlmICh0eXBlb2YgY29uc29sZSAhPT0gJ3VuZGVmaW5lZCcgJiYgbG9nZ2VyLmxvb2t1cExldmVsKGxvZ2dlci5sZXZlbCkgPD0gbGV2ZWwpIHtcbiAgICAgIGxldCBtZXRob2QgPSBsb2dnZXIubWV0aG9kTWFwW2xldmVsXTtcbiAgICAgIGlmICghY29uc29sZVttZXRob2RdKSB7ICAgLy8gZXNsaW50LWRpc2FibGUtbGluZSBuby1jb25zb2xlXG4gICAgICAgIG1ldGhvZCA9ICdsb2cnO1xuICAgICAgfVxuICAgICAgY29uc29sZVttZXRob2RdKC4uLm1lc3NhZ2UpOyAgICAvLyBlc2xpbnQtZGlzYWJsZS1saW5lIG5vLWNvbnNvbGVcbiAgICB9XG4gIH1cbn07XG5cbmV4cG9ydCBkZWZhdWx0IGxvZ2dlcjtcbiJdfQ==
+module.exports = isObject;
 
 
 /***/ }),
 /* 23 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	// Build out our basic SafeString type
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Execute the provided callback once for each property of object which actually exist.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
-	function SafeString(string) {
-	  this.string = string;
-	}
 
-	SafeString.prototype.toString = SafeString.prototype.toHTML = function () {
-	  return '' + this.string;
-	};
 
-	exports['default'] = SafeString;
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL3NhZmUtc3RyaW5nLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7QUFDQSxTQUFTLFVBQVUsQ0FBQyxNQUFNLEVBQUU7QUFDMUIsTUFBSSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7Q0FDdEI7O0FBRUQsVUFBVSxDQUFDLFNBQVMsQ0FBQyxRQUFRLEdBQUcsVUFBVSxDQUFDLFNBQVMsQ0FBQyxNQUFNLEdBQUcsWUFBVztBQUN2RSxTQUFPLEVBQUUsR0FBRyxJQUFJLENBQUMsTUFBTSxDQUFDO0NBQ3pCLENBQUM7O3FCQUVhLFVBQVUiLCJmaWxlIjoic2FmZS1zdHJpbmcuanMiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBCdWlsZCBvdXQgb3VyIGJhc2ljIFNhZmVTdHJpbmcgdHlwZVxuZnVuY3Rpb24gU2FmZVN0cmluZyhzdHJpbmcpIHtcbiAgdGhpcy5zdHJpbmcgPSBzdHJpbmc7XG59XG5cblNhZmVTdHJpbmcucHJvdG90eXBlLnRvU3RyaW5nID0gU2FmZVN0cmluZy5wcm90b3R5cGUudG9IVE1MID0gZnVuY3Rpb24oKSB7XG4gIHJldHVybiAnJyArIHRoaXMuc3RyaW5nO1xufTtcblxuZXhwb3J0IGRlZmF1bHQgU2FmZVN0cmluZztcbiJdfQ==
+/**
+ * Execute the provided callback once for each property of object which actually exist.
+ * If the callback function returns false, the loop will be stopped.
+ * Callback function(iteratee) is invoked with three arguments:
+ *  1) The value of the property
+ *  2) The name of the property
+ *  3) The object being traversed
+ * @param {Object} obj The object that will be traversed
+ * @param {function} iteratee  Callback function
+ * @param {Object} [context] Context(this) of callback function
+ * @memberof module:collection
+ * @example
+ * var forEachOwnProperties = require('tui-code-snippet/collection/forEachOwnProperties'); // node, commonjs
+ *
+ * var sum = 0;
+ *
+ * forEachOwnProperties({a:1,b:2,c:3}, function(value){
+ *     sum += value;
+ * });
+ * alert(sum); // 6
+ */
+function forEachOwnProperties(obj, iteratee, context) {
+  var key;
+
+  context = context || null;
+
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (iteratee.call(context, obj[key], key, obj) === false) {
+        break;
+      }
+    }
+  }
+}
+
+module.exports = forEachOwnProperties;
 
 
 /***/ }),
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Set className value
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
-	exports.checkRevision = checkRevision;
-	exports.template = template;
-	exports.wrapProgram = wrapProgram;
-	exports.resolvePartial = resolvePartial;
-	exports.invokePartial = invokePartial;
-	exports.noop = noop;
-	// istanbul ignore next
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	// istanbul ignore next
+var isArray = __webpack_require__(6);
+var isUndefined = __webpack_require__(12);
 
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+/**
+ * Set className value
+ * @param {(HTMLElement|SVGElement)} element - target element
+ * @param {(string|string[])} cssClass - class names
+ * @private
+ */
+function setClassName(element, cssClass) {
+  cssClass = isArray(cssClass) ? cssClass.join(' ') : cssClass;
 
-	var _utils = __webpack_require__(10);
+  cssClass = cssClass.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 
-	var Utils = _interopRequireWildcard(_utils);
+  if (isUndefined(element.className.baseVal)) {
+    element.className = cssClass;
 
-	var _exception = __webpack_require__(11);
+    return;
+  }
 
-	var _exception2 = _interopRequireDefault(_exception);
+  element.className.baseVal = cssClass;
+}
 
-	var _base = __webpack_require__(9);
-
-	function checkRevision(compilerInfo) {
-	  var compilerRevision = compilerInfo && compilerInfo[0] || 1,
-	      currentRevision = _base.COMPILER_REVISION;
-
-	  if (compilerRevision !== currentRevision) {
-	    if (compilerRevision < currentRevision) {
-	      var runtimeVersions = _base.REVISION_CHANGES[currentRevision],
-	          compilerVersions = _base.REVISION_CHANGES[compilerRevision];
-	      throw new _exception2['default']('Template was precompiled with an older version of Handlebars than the current runtime. ' + 'Please update your precompiler to a newer version (' + runtimeVersions + ') or downgrade your runtime to an older version (' + compilerVersions + ').');
-	    } else {
-	      // Use the embedded version info since the runtime doesn't know about this revision yet
-	      throw new _exception2['default']('Template was precompiled with a newer version of Handlebars than the current runtime. ' + 'Please update your runtime to a newer version (' + compilerInfo[1] + ').');
-	    }
-	  }
-	}
-
-	function template(templateSpec, env) {
-	  /* istanbul ignore next */
-	  if (!env) {
-	    throw new _exception2['default']('No environment passed to template');
-	  }
-	  if (!templateSpec || !templateSpec.main) {
-	    throw new _exception2['default']('Unknown template object: ' + typeof templateSpec);
-	  }
-
-	  templateSpec.main.decorator = templateSpec.main_d;
-
-	  // Note: Using env.VM references rather than local var references throughout this section to allow
-	  // for external users to override these as psuedo-supported APIs.
-	  env.VM.checkRevision(templateSpec.compiler);
-
-	  function invokePartialWrapper(partial, context, options) {
-	    if (options.hash) {
-	      context = Utils.extend({}, context, options.hash);
-	      if (options.ids) {
-	        options.ids[0] = true;
-	      }
-	    }
-
-	    partial = env.VM.resolvePartial.call(this, partial, context, options);
-	    var result = env.VM.invokePartial.call(this, partial, context, options);
-
-	    if (result == null && env.compile) {
-	      options.partials[options.name] = env.compile(partial, templateSpec.compilerOptions, env);
-	      result = options.partials[options.name](context, options);
-	    }
-	    if (result != null) {
-	      if (options.indent) {
-	        var lines = result.split('\n');
-	        for (var i = 0, l = lines.length; i < l; i++) {
-	          if (!lines[i] && i + 1 === l) {
-	            break;
-	          }
-
-	          lines[i] = options.indent + lines[i];
-	        }
-	        result = lines.join('\n');
-	      }
-	      return result;
-	    } else {
-	      throw new _exception2['default']('The partial ' + options.name + ' could not be compiled when running in runtime-only mode');
-	    }
-	  }
-
-	  // Just add water
-	  var container = {
-	    strict: function strict(obj, name) {
-	      if (!(name in obj)) {
-	        throw new _exception2['default']('"' + name + '" not defined in ' + obj);
-	      }
-	      return obj[name];
-	    },
-	    lookup: function lookup(depths, name) {
-	      var len = depths.length;
-	      for (var i = 0; i < len; i++) {
-	        if (depths[i] && depths[i][name] != null) {
-	          return depths[i][name];
-	        }
-	      }
-	    },
-	    lambda: function lambda(current, context) {
-	      return typeof current === 'function' ? current.call(context) : current;
-	    },
-
-	    escapeExpression: Utils.escapeExpression,
-	    invokePartial: invokePartialWrapper,
-
-	    fn: function fn(i) {
-	      var ret = templateSpec[i];
-	      ret.decorator = templateSpec[i + '_d'];
-	      return ret;
-	    },
-
-	    programs: [],
-	    program: function program(i, data, declaredBlockParams, blockParams, depths) {
-	      var programWrapper = this.programs[i],
-	          fn = this.fn(i);
-	      if (data || depths || blockParams || declaredBlockParams) {
-	        programWrapper = wrapProgram(this, i, fn, data, declaredBlockParams, blockParams, depths);
-	      } else if (!programWrapper) {
-	        programWrapper = this.programs[i] = wrapProgram(this, i, fn);
-	      }
-	      return programWrapper;
-	    },
-
-	    data: function data(value, depth) {
-	      while (value && depth--) {
-	        value = value._parent;
-	      }
-	      return value;
-	    },
-	    merge: function merge(param, common) {
-	      var obj = param || common;
-
-	      if (param && common && param !== common) {
-	        obj = Utils.extend({}, common, param);
-	      }
-
-	      return obj;
-	    },
-
-	    noop: env.VM.noop,
-	    compilerInfo: templateSpec.compiler
-	  };
-
-	  function ret(context) {
-	    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-	    var data = options.data;
-
-	    ret._setup(options);
-	    if (!options.partial && templateSpec.useData) {
-	      data = initData(context, data);
-	    }
-	    var depths = undefined,
-	        blockParams = templateSpec.useBlockParams ? [] : undefined;
-	    if (templateSpec.useDepths) {
-	      if (options.depths) {
-	        depths = context != options.depths[0] ? [context].concat(options.depths) : options.depths;
-	      } else {
-	        depths = [context];
-	      }
-	    }
-
-	    function main(context /*, options*/) {
-	      return '' + templateSpec.main(container, context, container.helpers, container.partials, data, blockParams, depths);
-	    }
-	    main = executeDecorators(templateSpec.main, main, container, options.depths || [], data, blockParams);
-	    return main(context, options);
-	  }
-	  ret.isTop = true;
-
-	  ret._setup = function (options) {
-	    if (!options.partial) {
-	      container.helpers = container.merge(options.helpers, env.helpers);
-
-	      if (templateSpec.usePartial) {
-	        container.partials = container.merge(options.partials, env.partials);
-	      }
-	      if (templateSpec.usePartial || templateSpec.useDecorators) {
-	        container.decorators = container.merge(options.decorators, env.decorators);
-	      }
-	    } else {
-	      container.helpers = options.helpers;
-	      container.partials = options.partials;
-	      container.decorators = options.decorators;
-	    }
-	  };
-
-	  ret._child = function (i, data, blockParams, depths) {
-	    if (templateSpec.useBlockParams && !blockParams) {
-	      throw new _exception2['default']('must pass block params');
-	    }
-	    if (templateSpec.useDepths && !depths) {
-	      throw new _exception2['default']('must pass parent depths');
-	    }
-
-	    return wrapProgram(container, i, templateSpec[i], data, 0, blockParams, depths);
-	  };
-	  return ret;
-	}
-
-	function wrapProgram(container, i, fn, data, declaredBlockParams, blockParams, depths) {
-	  function prog(context) {
-	    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-	    var currentDepths = depths;
-	    if (depths && context != depths[0]) {
-	      currentDepths = [context].concat(depths);
-	    }
-
-	    return fn(container, context, container.helpers, container.partials, options.data || data, blockParams && [options.blockParams].concat(blockParams), currentDepths);
-	  }
-
-	  prog = executeDecorators(fn, prog, container, depths, data, blockParams);
-
-	  prog.program = i;
-	  prog.depth = depths ? depths.length : 0;
-	  prog.blockParams = declaredBlockParams || 0;
-	  return prog;
-	}
-
-	function resolvePartial(partial, context, options) {
-	  if (!partial) {
-	    if (options.name === '@partial-block') {
-	      var data = options.data;
-	      while (data['partial-block'] === noop) {
-	        data = data._parent;
-	      }
-	      partial = data['partial-block'];
-	      data['partial-block'] = noop;
-	    } else {
-	      partial = options.partials[options.name];
-	    }
-	  } else if (!partial.call && !options.name) {
-	    // This is a dynamic partial that returned a string
-	    options.name = partial;
-	    partial = options.partials[partial];
-	  }
-	  return partial;
-	}
-
-	function invokePartial(partial, context, options) {
-	  options.partial = true;
-	  if (options.ids) {
-	    options.data.contextPath = options.ids[0] || options.data.contextPath;
-	  }
-
-	  var partialBlock = undefined;
-	  if (options.fn && options.fn !== noop) {
-	    options.data = _base.createFrame(options.data);
-	    partialBlock = options.data['partial-block'] = options.fn;
-
-	    if (partialBlock.partials) {
-	      options.partials = Utils.extend({}, options.partials, partialBlock.partials);
-	    }
-	  }
-
-	  if (partial === undefined && partialBlock) {
-	    partial = partialBlock;
-	  }
-
-	  if (partial === undefined) {
-	    throw new _exception2['default']('The partial ' + options.name + ' could not be found');
-	  } else if (partial instanceof Function) {
-	    return partial(context, options);
-	  }
-	}
-
-	function noop() {
-	  return '';
-	}
-
-	function initData(context, data) {
-	  if (!data || !('root' in data)) {
-	    data = data ? _base.createFrame(data) : {};
-	    data.root = context;
-	  }
-	  return data;
-	}
-
-	function executeDecorators(fn, prog, container, depths, data, blockParams) {
-	  if (fn.decorator) {
-	    var props = {};
-	    prog = fn.decorator(prog, props, container, depths && depths[0], data, blockParams, depths);
-	    Utils.extend(prog, props);
-	  }
-	  return prog;
-	}
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL3J1bnRpbWUuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7cUJBQXVCLFNBQVM7O0lBQXBCLEtBQUs7O3lCQUNLLGFBQWE7Ozs7b0JBQzhCLFFBQVE7O0FBRWxFLFNBQVMsYUFBYSxDQUFDLFlBQVksRUFBRTtBQUMxQyxNQUFNLGdCQUFnQixHQUFHLFlBQVksSUFBSSxZQUFZLENBQUMsQ0FBQyxDQUFDLElBQUksQ0FBQztNQUN2RCxlQUFlLDBCQUFvQixDQUFDOztBQUUxQyxNQUFJLGdCQUFnQixLQUFLLGVBQWUsRUFBRTtBQUN4QyxRQUFJLGdCQUFnQixHQUFHLGVBQWUsRUFBRTtBQUN0QyxVQUFNLGVBQWUsR0FBRyx1QkFBaUIsZUFBZSxDQUFDO1VBQ25ELGdCQUFnQixHQUFHLHVCQUFpQixnQkFBZ0IsQ0FBQyxDQUFDO0FBQzVELFlBQU0sMkJBQWMseUZBQXlGLEdBQ3ZHLHFEQUFxRCxHQUFHLGVBQWUsR0FBRyxtREFBbUQsR0FBRyxnQkFBZ0IsR0FBRyxJQUFJLENBQUMsQ0FBQztLQUNoSyxNQUFNOztBQUVMLFlBQU0sMkJBQWMsd0ZBQXdGLEdBQ3RHLGlEQUFpRCxHQUFHLFlBQVksQ0FBQyxDQUFDLENBQUMsR0FBRyxJQUFJLENBQUMsQ0FBQztLQUNuRjtHQUNGO0NBQ0Y7O0FBRU0sU0FBUyxRQUFRLENBQUMsWUFBWSxFQUFFLEdBQUcsRUFBRTs7QUFFMUMsTUFBSSxDQUFDLEdBQUcsRUFBRTtBQUNSLFVBQU0sMkJBQWMsbUNBQW1DLENBQUMsQ0FBQztHQUMxRDtBQUNELE1BQUksQ0FBQyxZQUFZLElBQUksQ0FBQyxZQUFZLENBQUMsSUFBSSxFQUFFO0FBQ3ZDLFVBQU0sMkJBQWMsMkJBQTJCLEdBQUcsT0FBTyxZQUFZLENBQUMsQ0FBQztHQUN4RTs7QUFFRCxjQUFZLENBQUMsSUFBSSxDQUFDLFNBQVMsR0FBRyxZQUFZLENBQUMsTUFBTSxDQUFDOzs7O0FBSWxELEtBQUcsQ0FBQyxFQUFFLENBQUMsYUFBYSxDQUFDLFlBQVksQ0FBQyxRQUFRLENBQUMsQ0FBQzs7QUFFNUMsV0FBUyxvQkFBb0IsQ0FBQyxPQUFPLEVBQUUsT0FBTyxFQUFFLE9BQU8sRUFBRTtBQUN2RCxRQUFJLE9BQU8sQ0FBQyxJQUFJLEVBQUU7QUFDaEIsYUFBTyxHQUFHLEtBQUssQ0FBQyxNQUFNLENBQUMsRUFBRSxFQUFFLE9BQU8sRUFBRSxPQUFPLENBQUMsSUFBSSxDQUFDLENBQUM7QUFDbEQsVUFBSSxPQUFPLENBQUMsR0FBRyxFQUFFO0FBQ2YsZUFBTyxDQUFDLEdBQUcsQ0FBQyxDQUFDLENBQUMsR0FBRyxJQUFJLENBQUM7T0FDdkI7S0FDRjs7QUFFRCxXQUFPLEdBQUcsR0FBRyxDQUFDLEVBQUUsQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLElBQUksRUFBRSxPQUFPLEVBQUUsT0FBTyxFQUFFLE9BQU8sQ0FBQyxDQUFDO0FBQ3RFLFFBQUksTUFBTSxHQUFHLEdBQUcsQ0FBQyxFQUFFLENBQUMsYUFBYSxDQUFDLElBQUksQ0FBQyxJQUFJLEVBQUUsT0FBTyxFQUFFLE9BQU8sRUFBRSxPQUFPLENBQUMsQ0FBQzs7QUFFeEUsUUFBSSxNQUFNLElBQUksSUFBSSxJQUFJLEdBQUcsQ0FBQyxPQUFPLEVBQUU7QUFDakMsYUFBTyxDQUFDLFFBQVEsQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDLEdBQUcsR0FBRyxDQUFDLE9BQU8sQ0FBQyxPQUFPLEVBQUUsWUFBWSxDQUFDLGVBQWUsRUFBRSxHQUFHLENBQUMsQ0FBQztBQUN6RixZQUFNLEdBQUcsT0FBTyxDQUFDLFFBQVEsQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDLENBQUMsT0FBTyxFQUFFLE9BQU8sQ0FBQyxDQUFDO0tBQzNEO0FBQ0QsUUFBSSxNQUFNLElBQUksSUFBSSxFQUFFO0FBQ2xCLFVBQUksT0FBTyxDQUFDLE1BQU0sRUFBRTtBQUNsQixZQUFJLEtBQUssR0FBRyxNQUFNLENBQUMsS0FBSyxDQUFDLElBQUksQ0FBQyxDQUFDO0FBQy9CLGFBQUssSUFBSSxDQUFDLEdBQUcsQ0FBQyxFQUFFLENBQUMsR0FBRyxLQUFLLENBQUMsTUFBTSxFQUFFLENBQUMsR0FBRyxDQUFDLEVBQUUsQ0FBQyxFQUFFLEVBQUU7QUFDNUMsY0FBSSxDQUFDLEtBQUssQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLEdBQUcsQ0FBQyxLQUFLLENBQUMsRUFBRTtBQUM1QixrQkFBTTtXQUNQOztBQUVELGVBQUssQ0FBQyxDQUFDLENBQUMsR0FBRyxPQUFPLENBQUMsTUFBTSxHQUFHLEtBQUssQ0FBQyxDQUFDLENBQUMsQ0FBQztTQUN0QztBQUNELGNBQU0sR0FBRyxLQUFLLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxDQUFDO09BQzNCO0FBQ0QsYUFBTyxNQUFNLENBQUM7S0FDZixNQUFNO0FBQ0wsWUFBTSwyQkFBYyxjQUFjLEdBQUcsT0FBTyxDQUFDLElBQUksR0FBRywwREFBMEQsQ0FBQyxDQUFDO0tBQ2pIO0dBQ0Y7OztBQUdELE1BQUksU0FBUyxHQUFHO0FBQ2QsVUFBTSxFQUFFLGdCQUFTLEdBQUcsRUFBRSxJQUFJLEVBQUU7QUFDMUIsVUFBSSxFQUFFLElBQUksSUFBSSxHQUFHLENBQUEsQUFBQyxFQUFFO0FBQ2xCLGNBQU0sMkJBQWMsR0FBRyxHQUFHLElBQUksR0FBRyxtQkFBbUIsR0FBRyxHQUFHLENBQUMsQ0FBQztPQUM3RDtBQUNELGFBQU8sR0FBRyxDQUFDLElBQUksQ0FBQyxDQUFDO0tBQ2xCO0FBQ0QsVUFBTSxFQUFFLGdCQUFTLE1BQU0sRUFBRSxJQUFJLEVBQUU7QUFDN0IsVUFBTSxHQUFHLEdBQUcsTUFBTSxDQUFDLE1BQU0sQ0FBQztBQUMxQixXQUFLLElBQUksQ0FBQyxHQUFHLENBQUMsRUFBRSxDQUFDLEdBQUcsR0FBRyxFQUFFLENBQUMsRUFBRSxFQUFFO0FBQzVCLFlBQUksTUFBTSxDQUFDLENBQUMsQ0FBQyxJQUFJLE1BQU0sQ0FBQyxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUMsSUFBSSxJQUFJLEVBQUU7QUFDeEMsaUJBQU8sTUFBTSxDQUFDLENBQUMsQ0FBQyxDQUFDLElBQUksQ0FBQyxDQUFDO1NBQ3hCO09BQ0Y7S0FDRjtBQUNELFVBQU0sRUFBRSxnQkFBUyxPQUFPLEVBQUUsT0FBTyxFQUFFO0FBQ2pDLGFBQU8sT0FBTyxPQUFPLEtBQUssVUFBVSxHQUFHLE9BQU8sQ0FBQyxJQUFJLENBQUMsT0FBTyxDQUFDLEdBQUcsT0FBTyxDQUFDO0tBQ3hFOztBQUVELG9CQUFnQixFQUFFLEtBQUssQ0FBQyxnQkFBZ0I7QUFDeEMsaUJBQWEsRUFBRSxvQkFBb0I7O0FBRW5DLE1BQUUsRUFBRSxZQUFTLENBQUMsRUFBRTtBQUNkLFVBQUksR0FBRyxHQUFHLFlBQVksQ0FBQyxDQUFDLENBQUMsQ0FBQztBQUMxQixTQUFHLENBQUMsU0FBUyxHQUFHLFlBQVksQ0FBQyxDQUFDLEdBQUcsSUFBSSxDQUFDLENBQUM7QUFDdkMsYUFBTyxHQUFHLENBQUM7S0FDWjs7QUFFRCxZQUFRLEVBQUUsRUFBRTtBQUNaLFdBQU8sRUFBRSxpQkFBUyxDQUFDLEVBQUUsSUFBSSxFQUFFLG1CQUFtQixFQUFFLFdBQVcsRUFBRSxNQUFNLEVBQUU7QUFDbkUsVUFBSSxjQUFjLEdBQUcsSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUM7VUFDakMsRUFBRSxHQUFHLElBQUksQ0FBQyxFQUFFLENBQUMsQ0FBQyxDQUFDLENBQUM7QUFDcEIsVUFBSSxJQUFJLElBQUksTUFBTSxJQUFJLFdBQVcsSUFBSSxtQkFBbUIsRUFBRTtBQUN4RCxzQkFBYyxHQUFHLFdBQVcsQ0FBQyxJQUFJLEVBQUUsQ0FBQyxFQUFFLEVBQUUsRUFBRSxJQUFJLEVBQUUsbUJBQW1CLEVBQUUsV0FBVyxFQUFFLE1BQU0sQ0FBQyxDQUFDO09BQzNGLE1BQU0sSUFBSSxDQUFDLGNBQWMsRUFBRTtBQUMxQixzQkFBYyxHQUFHLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQyxDQUFDLEdBQUcsV0FBVyxDQUFDLElBQUksRUFBRSxDQUFDLEVBQUUsRUFBRSxDQUFDLENBQUM7T0FDOUQ7QUFDRCxhQUFPLGNBQWMsQ0FBQztLQUN2Qjs7QUFFRCxRQUFJLEVBQUUsY0FBUyxLQUFLLEVBQUUsS0FBSyxFQUFFO0FBQzNCLGFBQU8sS0FBSyxJQUFJLEtBQUssRUFBRSxFQUFFO0FBQ3ZCLGFBQUssR0FBRyxLQUFLLENBQUMsT0FBTyxDQUFDO09BQ3ZCO0FBQ0QsYUFBTyxLQUFLLENBQUM7S0FDZDtBQUNELFNBQUssRUFBRSxlQUFTLEtBQUssRUFBRSxNQUFNLEVBQUU7QUFDN0IsVUFBSSxHQUFHLEdBQUcsS0FBSyxJQUFJLE1BQU0sQ0FBQzs7QUFFMUIsVUFBSSxLQUFLLElBQUksTUFBTSxJQUFLLEtBQUssS0FBSyxNQUFNLEFBQUMsRUFBRTtBQUN6QyxXQUFHLEdBQUcsS0FBSyxDQUFDLE1BQU0sQ0FBQyxFQUFFLEVBQUUsTUFBTSxFQUFFLEtBQUssQ0FBQyxDQUFDO09BQ3ZDOztBQUVELGFBQU8sR0FBRyxDQUFDO0tBQ1o7O0FBRUQsUUFBSSxFQUFFLEdBQUcsQ0FBQyxFQUFFLENBQUMsSUFBSTtBQUNqQixnQkFBWSxFQUFFLFlBQVksQ0FBQyxRQUFRO0dBQ3BDLENBQUM7O0FBRUYsV0FBUyxHQUFHLENBQUMsT0FBTyxFQUFnQjtRQUFkLE9BQU8seURBQUcsRUFBRTs7QUFDaEMsUUFBSSxJQUFJLEdBQUcsT0FBTyxDQUFDLElBQUksQ0FBQzs7QUFFeEIsT0FBRyxDQUFDLE1BQU0sQ0FBQyxPQUFPLENBQUMsQ0FBQztBQUNwQixRQUFJLENBQUMsT0FBTyxDQUFDLE9BQU8sSUFBSSxZQUFZLENBQUMsT0FBTyxFQUFFO0FBQzVDLFVBQUksR0FBRyxRQUFRLENBQUMsT0FBTyxFQUFFLElBQUksQ0FBQyxDQUFDO0tBQ2hDO0FBQ0QsUUFBSSxNQUFNLFlBQUE7UUFDTixXQUFXLEdBQUcsWUFBWSxDQUFDLGNBQWMsR0FBRyxFQUFFLEdBQUcsU0FBUyxDQUFDO0FBQy9ELFFBQUksWUFBWSxDQUFDLFNBQVMsRUFBRTtBQUMxQixVQUFJLE9BQU8sQ0FBQyxNQUFNLEVBQUU7QUFDbEIsY0FBTSxHQUFHLE9BQU8sSUFBSSxPQUFPLENBQUMsTUFBTSxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQUMsT0FBTyxDQUFDLENBQUMsTUFBTSxDQUFDLE9BQU8sQ0FBQyxNQUFNLENBQUMsR0FBRyxPQUFPLENBQUMsTUFBTSxDQUFDO09BQzNGLE1BQU07QUFDTCxjQUFNLEdBQUcsQ0FBQyxPQUFPLENBQUMsQ0FBQztPQUNwQjtLQUNGOztBQUVELGFBQVMsSUFBSSxDQUFDLE9BQU8sZ0JBQWU7QUFDbEMsYUFBTyxFQUFFLEdBQUcsWUFBWSxDQUFDLElBQUksQ0FBQyxTQUFTLEVBQUUsT0FBTyxFQUFFLFNBQVMsQ0FBQyxPQUFPLEVBQUUsU0FBUyxDQUFDLFFBQVEsRUFBRSxJQUFJLEVBQUUsV0FBVyxFQUFFLE1BQU0sQ0FBQyxDQUFDO0tBQ3JIO0FBQ0QsUUFBSSxHQUFHLGlCQUFpQixDQUFDLFlBQVksQ0FBQyxJQUFJLEVBQUUsSUFBSSxFQUFFLFNBQVMsRUFBRSxPQUFPLENBQUMsTUFBTSxJQUFJLEVBQUUsRUFBRSxJQUFJLEVBQUUsV0FBVyxDQUFDLENBQUM7QUFDdEcsV0FBTyxJQUFJLENBQUMsT0FBTyxFQUFFLE9BQU8sQ0FBQyxDQUFDO0dBQy9CO0FBQ0QsS0FBRyxDQUFDLEtBQUssR0FBRyxJQUFJLENBQUM7O0FBRWpCLEtBQUcsQ0FBQyxNQUFNLEdBQUcsVUFBUyxPQUFPLEVBQUU7QUFDN0IsUUFBSSxDQUFDLE9BQU8sQ0FBQyxPQUFPLEVBQUU7QUFDcEIsZUFBUyxDQUFDLE9BQU8sR0FBRyxTQUFTLENBQUMsS0FBSyxDQUFDLE9BQU8sQ0FBQyxPQUFPLEVBQUUsR0FBRyxDQUFDLE9BQU8sQ0FBQyxDQUFDOztBQUVsRSxVQUFJLFlBQVksQ0FBQyxVQUFVLEVBQUU7QUFDM0IsaUJBQVMsQ0FBQyxRQUFRLEdBQUcsU0FBUyxDQUFDLEtBQUssQ0FBQyxPQUFPLENBQUMsUUFBUSxFQUFFLEdBQUcsQ0FBQyxRQUFRLENBQUMsQ0FBQztPQUN0RTtBQUNELFVBQUksWUFBWSxDQUFDLFVBQVUsSUFBSSxZQUFZLENBQUMsYUFBYSxFQUFFO0FBQ3pELGlCQUFTLENBQUMsVUFBVSxHQUFHLFNBQVMsQ0FBQyxLQUFLLENBQUMsT0FBTyxDQUFDLFVBQVUsRUFBRSxHQUFHLENBQUMsVUFBVSxDQUFDLENBQUM7T0FDNUU7S0FDRixNQUFNO0FBQ0wsZUFBUyxDQUFDLE9BQU8sR0FBRyxPQUFPLENBQUMsT0FBTyxDQUFDO0FBQ3BDLGVBQVMsQ0FBQyxRQUFRLEdBQUcsT0FBTyxDQUFDLFFBQVEsQ0FBQztBQUN0QyxlQUFTLENBQUMsVUFBVSxHQUFHLE9BQU8sQ0FBQyxVQUFVLENBQUM7S0FDM0M7R0FDRixDQUFDOztBQUVGLEtBQUcsQ0FBQyxNQUFNLEdBQUcsVUFBUyxDQUFDLEVBQUUsSUFBSSxFQUFFLFdBQVcsRUFBRSxNQUFNLEVBQUU7QUFDbEQsUUFBSSxZQUFZLENBQUMsY0FBYyxJQUFJLENBQUMsV0FBVyxFQUFFO0FBQy9DLFlBQU0sMkJBQWMsd0JBQXdCLENBQUMsQ0FBQztLQUMvQztBQUNELFFBQUksWUFBWSxDQUFDLFNBQVMsSUFBSSxDQUFDLE1BQU0sRUFBRTtBQUNyQyxZQUFNLDJCQUFjLHlCQUF5QixDQUFDLENBQUM7S0FDaEQ7O0FBRUQsV0FBTyxXQUFXLENBQUMsU0FBUyxFQUFFLENBQUMsRUFBRSxZQUFZLENBQUMsQ0FBQyxDQUFDLEVBQUUsSUFBSSxFQUFFLENBQUMsRUFBRSxXQUFXLEVBQUUsTUFBTSxDQUFDLENBQUM7R0FDakYsQ0FBQztBQUNGLFNBQU8sR0FBRyxDQUFDO0NBQ1o7O0FBRU0sU0FBUyxXQUFXLENBQUMsU0FBUyxFQUFFLENBQUMsRUFBRSxFQUFFLEVBQUUsSUFBSSxFQUFFLG1CQUFtQixFQUFFLFdBQVcsRUFBRSxNQUFNLEVBQUU7QUFDNUYsV0FBUyxJQUFJLENBQUMsT0FBTyxFQUFnQjtRQUFkLE9BQU8seURBQUcsRUFBRTs7QUFDakMsUUFBSSxhQUFhLEdBQUcsTUFBTSxDQUFDO0FBQzNCLFFBQUksTUFBTSxJQUFJLE9BQU8sSUFBSSxNQUFNLENBQUMsQ0FBQyxDQUFDLEVBQUU7QUFDbEMsbUJBQWEsR0FBRyxDQUFDLE9BQU8sQ0FBQyxDQUFDLE1BQU0sQ0FBQyxNQUFNLENBQUMsQ0FBQztLQUMxQzs7QUFFRCxXQUFPLEVBQUUsQ0FBQyxTQUFTLEVBQ2YsT0FBTyxFQUNQLFNBQVMsQ0FBQyxPQUFPLEVBQUUsU0FBUyxDQUFDLFFBQVEsRUFDckMsT0FBTyxDQUFDLElBQUksSUFBSSxJQUFJLEVBQ3BCLFdBQVcsSUFBSSxDQUFDLE9BQU8sQ0FBQyxXQUFXLENBQUMsQ0FBQyxNQUFNLENBQUMsV0FBVyxDQUFDLEVBQ3hELGFBQWEsQ0FBQyxDQUFDO0dBQ3BCOztBQUVELE1BQUksR0FBRyxpQkFBaUIsQ0FBQyxFQUFFLEVBQUUsSUFBSSxFQUFFLFNBQVMsRUFBRSxNQUFNLEVBQUUsSUFBSSxFQUFFLFdBQVcsQ0FBQyxDQUFDOztBQUV6RSxNQUFJLENBQUMsT0FBTyxHQUFHLENBQUMsQ0FBQztBQUNqQixNQUFJLENBQUMsS0FBSyxHQUFHLE1BQU0sR0FBRyxNQUFNLENBQUMsTUFBTSxHQUFHLENBQUMsQ0FBQztBQUN4QyxNQUFJLENBQUMsV0FBVyxHQUFHLG1CQUFtQixJQUFJLENBQUMsQ0FBQztBQUM1QyxTQUFPLElBQUksQ0FBQztDQUNiOztBQUVNLFNBQVMsY0FBYyxDQUFDLE9BQU8sRUFBRSxPQUFPLEVBQUUsT0FBTyxFQUFFO0FBQ3hELE1BQUksQ0FBQyxPQUFPLEVBQUU7QUFDWixRQUFJLE9BQU8sQ0FBQyxJQUFJLEtBQUssZ0JBQWdCLEVBQUU7QUFDckMsVUFBSSxJQUFJLEdBQUcsT0FBTyxDQUFDLElBQUksQ0FBQztBQUN4QixhQUFPLElBQUksQ0FBQyxlQUFlLENBQUMsS0FBSyxJQUFJLEVBQUU7QUFDckMsWUFBSSxHQUFHLElBQUksQ0FBQyxPQUFPLENBQUM7T0FDckI7QUFDRCxhQUFPLEdBQUcsSUFBSSxDQUFDLGVBQWUsQ0FBQyxDQUFDO0FBQ2hDLFVBQUksQ0FBQyxlQUFlLENBQUMsR0FBRyxJQUFJLENBQUM7S0FDOUIsTUFBTTtBQUNMLGFBQU8sR0FBRyxPQUFPLENBQUMsUUFBUSxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsQ0FBQztLQUMxQztHQUNGLE1BQU0sSUFBSSxDQUFDLE9BQU8sQ0FBQyxJQUFJLElBQUksQ0FBQyxPQUFPLENBQUMsSUFBSSxFQUFFOztBQUV6QyxXQUFPLENBQUMsSUFBSSxHQUFHLE9BQU8sQ0FBQztBQUN2QixXQUFPLEdBQUcsT0FBTyxDQUFDLFFBQVEsQ0FBQyxPQUFPLENBQUMsQ0FBQztHQUNyQztBQUNELFNBQU8sT0FBTyxDQUFDO0NBQ2hCOztBQUVNLFNBQVMsYUFBYSxDQUFDLE9BQU8sRUFBRSxPQUFPLEVBQUUsT0FBTyxFQUFFO0FBQ3ZELFNBQU8sQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDO0FBQ3ZCLE1BQUksT0FBTyxDQUFDLEdBQUcsRUFBRTtBQUNmLFdBQU8sQ0FBQyxJQUFJLENBQUMsV0FBVyxHQUFHLE9BQU8sQ0FBQyxHQUFHLENBQUMsQ0FBQyxDQUFDLElBQUksT0FBTyxDQUFDLElBQUksQ0FBQyxXQUFXLENBQUM7R0FDdkU7O0FBRUQsTUFBSSxZQUFZLFlBQUEsQ0FBQztBQUNqQixNQUFJLE9BQU8sQ0FBQyxFQUFFLElBQUksT0FBTyxDQUFDLEVBQUUsS0FBSyxJQUFJLEVBQUU7QUFDckMsV0FBTyxDQUFDLElBQUksR0FBRyxrQkFBWSxPQUFPLENBQUMsSUFBSSxDQUFDLENBQUM7QUFDekMsZ0JBQVksR0FBRyxPQUFPLENBQUMsSUFBSSxDQUFDLGVBQWUsQ0FBQyxHQUFHLE9BQU8sQ0FBQyxFQUFFLENBQUM7O0FBRTFELFFBQUksWUFBWSxDQUFDLFFBQVEsRUFBRTtBQUN6QixhQUFPLENBQUMsUUFBUSxHQUFHLEtBQUssQ0FBQyxNQUFNLENBQUMsRUFBRSxFQUFFLE9BQU8sQ0FBQyxRQUFRLEVBQUUsWUFBWSxDQUFDLFFBQVEsQ0FBQyxDQUFDO0tBQzlFO0dBQ0Y7O0FBRUQsTUFBSSxPQUFPLEtBQUssU0FBUyxJQUFJLFlBQVksRUFBRTtBQUN6QyxXQUFPLEdBQUcsWUFBWSxDQUFDO0dBQ3hCOztBQUVELE1BQUksT0FBTyxLQUFLLFNBQVMsRUFBRTtBQUN6QixVQUFNLDJCQUFjLGNBQWMsR0FBRyxPQUFPLENBQUMsSUFBSSxHQUFHLHFCQUFxQixDQUFDLENBQUM7R0FDNUUsTUFBTSxJQUFJLE9BQU8sWUFBWSxRQUFRLEVBQUU7QUFDdEMsV0FBTyxPQUFPLENBQUMsT0FBTyxFQUFFLE9BQU8sQ0FBQyxDQUFDO0dBQ2xDO0NBQ0Y7O0FBRU0sU0FBUyxJQUFJLEdBQUc7QUFBRSxTQUFPLEVBQUUsQ0FBQztDQUFFOztBQUVyQyxTQUFTLFFBQVEsQ0FBQyxPQUFPLEVBQUUsSUFBSSxFQUFFO0FBQy9CLE1BQUksQ0FBQyxJQUFJLElBQUksRUFBRSxNQUFNLElBQUksSUFBSSxDQUFBLEFBQUMsRUFBRTtBQUM5QixRQUFJLEdBQUcsSUFBSSxHQUFHLGtCQUFZLElBQUksQ0FBQyxHQUFHLEVBQUUsQ0FBQztBQUNyQyxRQUFJLENBQUMsSUFBSSxHQUFHLE9BQU8sQ0FBQztHQUNyQjtBQUNELFNBQU8sSUFBSSxDQUFDO0NBQ2I7O0FBRUQsU0FBUyxpQkFBaUIsQ0FBQyxFQUFFLEVBQUUsSUFBSSxFQUFFLFNBQVMsRUFBRSxNQUFNLEVBQUUsSUFBSSxFQUFFLFdBQVcsRUFBRTtBQUN6RSxNQUFJLEVBQUUsQ0FBQyxTQUFTLEVBQUU7QUFDaEIsUUFBSSxLQUFLLEdBQUcsRUFBRSxDQUFDO0FBQ2YsUUFBSSxHQUFHLEVBQUUsQ0FBQyxTQUFTLENBQUMsSUFBSSxFQUFFLEtBQUssRUFBRSxTQUFTLEVBQUUsTUFBTSxJQUFJLE1BQU0sQ0FBQyxDQUFDLENBQUMsRUFBRSxJQUFJLEVBQUUsV0FBVyxFQUFFLE1BQU0sQ0FBQyxDQUFDO0FBQzVGLFNBQUssQ0FBQyxNQUFNLENBQUMsSUFBSSxFQUFFLEtBQUssQ0FBQyxDQUFDO0dBQzNCO0FBQ0QsU0FBTyxJQUFJLENBQUM7Q0FDYiIsImZpbGUiOiJydW50aW1lLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0ICogYXMgVXRpbHMgZnJvbSAnLi91dGlscyc7XG5pbXBvcnQgRXhjZXB0aW9uIGZyb20gJy4vZXhjZXB0aW9uJztcbmltcG9ydCB7IENPTVBJTEVSX1JFVklTSU9OLCBSRVZJU0lPTl9DSEFOR0VTLCBjcmVhdGVGcmFtZSB9IGZyb20gJy4vYmFzZSc7XG5cbmV4cG9ydCBmdW5jdGlvbiBjaGVja1JldmlzaW9uKGNvbXBpbGVySW5mbykge1xuICBjb25zdCBjb21waWxlclJldmlzaW9uID0gY29tcGlsZXJJbmZvICYmIGNvbXBpbGVySW5mb1swXSB8fCAxLFxuICAgICAgICBjdXJyZW50UmV2aXNpb24gPSBDT01QSUxFUl9SRVZJU0lPTjtcblxuICBpZiAoY29tcGlsZXJSZXZpc2lvbiAhPT0gY3VycmVudFJldmlzaW9uKSB7XG4gICAgaWYgKGNvbXBpbGVyUmV2aXNpb24gPCBjdXJyZW50UmV2aXNpb24pIHtcbiAgICAgIGNvbnN0IHJ1bnRpbWVWZXJzaW9ucyA9IFJFVklTSU9OX0NIQU5HRVNbY3VycmVudFJldmlzaW9uXSxcbiAgICAgICAgICAgIGNvbXBpbGVyVmVyc2lvbnMgPSBSRVZJU0lPTl9DSEFOR0VTW2NvbXBpbGVyUmV2aXNpb25dO1xuICAgICAgdGhyb3cgbmV3IEV4Y2VwdGlvbignVGVtcGxhdGUgd2FzIHByZWNvbXBpbGVkIHdpdGggYW4gb2xkZXIgdmVyc2lvbiBvZiBIYW5kbGViYXJzIHRoYW4gdGhlIGN1cnJlbnQgcnVudGltZS4gJyArXG4gICAgICAgICAgICAnUGxlYXNlIHVwZGF0ZSB5b3VyIHByZWNvbXBpbGVyIHRvIGEgbmV3ZXIgdmVyc2lvbiAoJyArIHJ1bnRpbWVWZXJzaW9ucyArICcpIG9yIGRvd25ncmFkZSB5b3VyIHJ1bnRpbWUgdG8gYW4gb2xkZXIgdmVyc2lvbiAoJyArIGNvbXBpbGVyVmVyc2lvbnMgKyAnKS4nKTtcbiAgICB9IGVsc2Uge1xuICAgICAgLy8gVXNlIHRoZSBlbWJlZGRlZCB2ZXJzaW9uIGluZm8gc2luY2UgdGhlIHJ1bnRpbWUgZG9lc24ndCBrbm93IGFib3V0IHRoaXMgcmV2aXNpb24geWV0XG4gICAgICB0aHJvdyBuZXcgRXhjZXB0aW9uKCdUZW1wbGF0ZSB3YXMgcHJlY29tcGlsZWQgd2l0aCBhIG5ld2VyIHZlcnNpb24gb2YgSGFuZGxlYmFycyB0aGFuIHRoZSBjdXJyZW50IHJ1bnRpbWUuICcgK1xuICAgICAgICAgICAgJ1BsZWFzZSB1cGRhdGUgeW91ciBydW50aW1lIHRvIGEgbmV3ZXIgdmVyc2lvbiAoJyArIGNvbXBpbGVySW5mb1sxXSArICcpLicpO1xuICAgIH1cbiAgfVxufVxuXG5leHBvcnQgZnVuY3Rpb24gdGVtcGxhdGUodGVtcGxhdGVTcGVjLCBlbnYpIHtcbiAgLyogaXN0YW5idWwgaWdub3JlIG5leHQgKi9cbiAgaWYgKCFlbnYpIHtcbiAgICB0aHJvdyBuZXcgRXhjZXB0aW9uKCdObyBlbnZpcm9ubWVudCBwYXNzZWQgdG8gdGVtcGxhdGUnKTtcbiAgfVxuICBpZiAoIXRlbXBsYXRlU3BlYyB8fCAhdGVtcGxhdGVTcGVjLm1haW4pIHtcbiAgICB0aHJvdyBuZXcgRXhjZXB0aW9uKCdVbmtub3duIHRlbXBsYXRlIG9iamVjdDogJyArIHR5cGVvZiB0ZW1wbGF0ZVNwZWMpO1xuICB9XG5cbiAgdGVtcGxhdGVTcGVjLm1haW4uZGVjb3JhdG9yID0gdGVtcGxhdGVTcGVjLm1haW5fZDtcblxuICAvLyBOb3RlOiBVc2luZyBlbnYuVk0gcmVmZXJlbmNlcyByYXRoZXIgdGhhbiBsb2NhbCB2YXIgcmVmZXJlbmNlcyB0aHJvdWdob3V0IHRoaXMgc2VjdGlvbiB0byBhbGxvd1xuICAvLyBmb3IgZXh0ZXJuYWwgdXNlcnMgdG8gb3ZlcnJpZGUgdGhlc2UgYXMgcHN1ZWRvLXN1cHBvcnRlZCBBUElzLlxuICBlbnYuVk0uY2hlY2tSZXZpc2lvbih0ZW1wbGF0ZVNwZWMuY29tcGlsZXIpO1xuXG4gIGZ1bmN0aW9uIGludm9rZVBhcnRpYWxXcmFwcGVyKHBhcnRpYWwsIGNvbnRleHQsIG9wdGlvbnMpIHtcbiAgICBpZiAob3B0aW9ucy5oYXNoKSB7XG4gICAgICBjb250ZXh0ID0gVXRpbHMuZXh0ZW5kKHt9LCBjb250ZXh0LCBvcHRpb25zLmhhc2gpO1xuICAgICAgaWYgKG9wdGlvbnMuaWRzKSB7XG4gICAgICAgIG9wdGlvbnMuaWRzWzBdID0gdHJ1ZTtcbiAgICAgIH1cbiAgICB9XG5cbiAgICBwYXJ0aWFsID0gZW52LlZNLnJlc29sdmVQYXJ0aWFsLmNhbGwodGhpcywgcGFydGlhbCwgY29udGV4dCwgb3B0aW9ucyk7XG4gICAgbGV0IHJlc3VsdCA9IGVudi5WTS5pbnZva2VQYXJ0aWFsLmNhbGwodGhpcywgcGFydGlhbCwgY29udGV4dCwgb3B0aW9ucyk7XG5cbiAgICBpZiAocmVzdWx0ID09IG51bGwgJiYgZW52LmNvbXBpbGUpIHtcbiAgICAgIG9wdGlvbnMucGFydGlhbHNbb3B0aW9ucy5uYW1lXSA9IGVudi5jb21waWxlKHBhcnRpYWwsIHRlbXBsYXRlU3BlYy5jb21waWxlck9wdGlvbnMsIGVudik7XG4gICAgICByZXN1bHQgPSBvcHRpb25zLnBhcnRpYWxzW29wdGlvbnMubmFtZV0oY29udGV4dCwgb3B0aW9ucyk7XG4gICAgfVxuICAgIGlmIChyZXN1bHQgIT0gbnVsbCkge1xuICAgICAgaWYgKG9wdGlvbnMuaW5kZW50KSB7XG4gICAgICAgIGxldCBsaW5lcyA9IHJlc3VsdC5zcGxpdCgnXFxuJyk7XG4gICAgICAgIGZvciAobGV0IGkgPSAwLCBsID0gbGluZXMubGVuZ3RoOyBpIDwgbDsgaSsrKSB7XG4gICAgICAgICAgaWYgKCFsaW5lc1tpXSAmJiBpICsgMSA9PT0gbCkge1xuICAgICAgICAgICAgYnJlYWs7XG4gICAgICAgICAgfVxuXG4gICAgICAgICAgbGluZXNbaV0gPSBvcHRpb25zLmluZGVudCArIGxpbmVzW2ldO1xuICAgICAgICB9XG4gICAgICAgIHJlc3VsdCA9IGxpbmVzLmpvaW4oJ1xcbicpO1xuICAgICAgfVxuICAgICAgcmV0dXJuIHJlc3VsdDtcbiAgICB9IGVsc2Uge1xuICAgICAgdGhyb3cgbmV3IEV4Y2VwdGlvbignVGhlIHBhcnRpYWwgJyArIG9wdGlvbnMubmFtZSArICcgY291bGQgbm90IGJlIGNvbXBpbGVkIHdoZW4gcnVubmluZyBpbiBydW50aW1lLW9ubHkgbW9kZScpO1xuICAgIH1cbiAgfVxuXG4gIC8vIEp1c3QgYWRkIHdhdGVyXG4gIGxldCBjb250YWluZXIgPSB7XG4gICAgc3RyaWN0OiBmdW5jdGlvbihvYmosIG5hbWUpIHtcbiAgICAgIGlmICghKG5hbWUgaW4gb2JqKSkge1xuICAgICAgICB0aHJvdyBuZXcgRXhjZXB0aW9uKCdcIicgKyBuYW1lICsgJ1wiIG5vdCBkZWZpbmVkIGluICcgKyBvYmopO1xuICAgICAgfVxuICAgICAgcmV0dXJuIG9ialtuYW1lXTtcbiAgICB9LFxuICAgIGxvb2t1cDogZnVuY3Rpb24oZGVwdGhzLCBuYW1lKSB7XG4gICAgICBjb25zdCBsZW4gPSBkZXB0aHMubGVuZ3RoO1xuICAgICAgZm9yIChsZXQgaSA9IDA7IGkgPCBsZW47IGkrKykge1xuICAgICAgICBpZiAoZGVwdGhzW2ldICYmIGRlcHRoc1tpXVtuYW1lXSAhPSBudWxsKSB7XG4gICAgICAgICAgcmV0dXJuIGRlcHRoc1tpXVtuYW1lXTtcbiAgICAgICAgfVxuICAgICAgfVxuICAgIH0sXG4gICAgbGFtYmRhOiBmdW5jdGlvbihjdXJyZW50LCBjb250ZXh0KSB7XG4gICAgICByZXR1cm4gdHlwZW9mIGN1cnJlbnQgPT09ICdmdW5jdGlvbicgPyBjdXJyZW50LmNhbGwoY29udGV4dCkgOiBjdXJyZW50O1xuICAgIH0sXG5cbiAgICBlc2NhcGVFeHByZXNzaW9uOiBVdGlscy5lc2NhcGVFeHByZXNzaW9uLFxuICAgIGludm9rZVBhcnRpYWw6IGludm9rZVBhcnRpYWxXcmFwcGVyLFxuXG4gICAgZm46IGZ1bmN0aW9uKGkpIHtcbiAgICAgIGxldCByZXQgPSB0ZW1wbGF0ZVNwZWNbaV07XG4gICAgICByZXQuZGVjb3JhdG9yID0gdGVtcGxhdGVTcGVjW2kgKyAnX2QnXTtcbiAgICAgIHJldHVybiByZXQ7XG4gICAgfSxcblxuICAgIHByb2dyYW1zOiBbXSxcbiAgICBwcm9ncmFtOiBmdW5jdGlvbihpLCBkYXRhLCBkZWNsYXJlZEJsb2NrUGFyYW1zLCBibG9ja1BhcmFtcywgZGVwdGhzKSB7XG4gICAgICBsZXQgcHJvZ3JhbVdyYXBwZXIgPSB0aGlzLnByb2dyYW1zW2ldLFxuICAgICAgICAgIGZuID0gdGhpcy5mbihpKTtcbiAgICAgIGlmIChkYXRhIHx8IGRlcHRocyB8fCBibG9ja1BhcmFtcyB8fCBkZWNsYXJlZEJsb2NrUGFyYW1zKSB7XG4gICAgICAgIHByb2dyYW1XcmFwcGVyID0gd3JhcFByb2dyYW0odGhpcywgaSwgZm4sIGRhdGEsIGRlY2xhcmVkQmxvY2tQYXJhbXMsIGJsb2NrUGFyYW1zLCBkZXB0aHMpO1xuICAgICAgfSBlbHNlIGlmICghcHJvZ3JhbVdyYXBwZXIpIHtcbiAgICAgICAgcHJvZ3JhbVdyYXBwZXIgPSB0aGlzLnByb2dyYW1zW2ldID0gd3JhcFByb2dyYW0odGhpcywgaSwgZm4pO1xuICAgICAgfVxuICAgICAgcmV0dXJuIHByb2dyYW1XcmFwcGVyO1xuICAgIH0sXG5cbiAgICBkYXRhOiBmdW5jdGlvbih2YWx1ZSwgZGVwdGgpIHtcbiAgICAgIHdoaWxlICh2YWx1ZSAmJiBkZXB0aC0tKSB7XG4gICAgICAgIHZhbHVlID0gdmFsdWUuX3BhcmVudDtcbiAgICAgIH1cbiAgICAgIHJldHVybiB2YWx1ZTtcbiAgICB9LFxuICAgIG1lcmdlOiBmdW5jdGlvbihwYXJhbSwgY29tbW9uKSB7XG4gICAgICBsZXQgb2JqID0gcGFyYW0gfHwgY29tbW9uO1xuXG4gICAgICBpZiAocGFyYW0gJiYgY29tbW9uICYmIChwYXJhbSAhPT0gY29tbW9uKSkge1xuICAgICAgICBvYmogPSBVdGlscy5leHRlbmQoe30sIGNvbW1vbiwgcGFyYW0pO1xuICAgICAgfVxuXG4gICAgICByZXR1cm4gb2JqO1xuICAgIH0sXG5cbiAgICBub29wOiBlbnYuVk0ubm9vcCxcbiAgICBjb21waWxlckluZm86IHRlbXBsYXRlU3BlYy5jb21waWxlclxuICB9O1xuXG4gIGZ1bmN0aW9uIHJldChjb250ZXh0LCBvcHRpb25zID0ge30pIHtcbiAgICBsZXQgZGF0YSA9IG9wdGlvbnMuZGF0YTtcblxuICAgIHJldC5fc2V0dXAob3B0aW9ucyk7XG4gICAgaWYgKCFvcHRpb25zLnBhcnRpYWwgJiYgdGVtcGxhdGVTcGVjLnVzZURhdGEpIHtcbiAgICAgIGRhdGEgPSBpbml0RGF0YShjb250ZXh0LCBkYXRhKTtcbiAgICB9XG4gICAgbGV0IGRlcHRocyxcbiAgICAgICAgYmxvY2tQYXJhbXMgPSB0ZW1wbGF0ZVNwZWMudXNlQmxvY2tQYXJhbXMgPyBbXSA6IHVuZGVmaW5lZDtcbiAgICBpZiAodGVtcGxhdGVTcGVjLnVzZURlcHRocykge1xuICAgICAgaWYgKG9wdGlvbnMuZGVwdGhzKSB7XG4gICAgICAgIGRlcHRocyA9IGNvbnRleHQgIT0gb3B0aW9ucy5kZXB0aHNbMF0gPyBbY29udGV4dF0uY29uY2F0KG9wdGlvbnMuZGVwdGhzKSA6IG9wdGlvbnMuZGVwdGhzO1xuICAgICAgfSBlbHNlIHtcbiAgICAgICAgZGVwdGhzID0gW2NvbnRleHRdO1xuICAgICAgfVxuICAgIH1cblxuICAgIGZ1bmN0aW9uIG1haW4oY29udGV4dC8qLCBvcHRpb25zKi8pIHtcbiAgICAgIHJldHVybiAnJyArIHRlbXBsYXRlU3BlYy5tYWluKGNvbnRhaW5lciwgY29udGV4dCwgY29udGFpbmVyLmhlbHBlcnMsIGNvbnRhaW5lci5wYXJ0aWFscywgZGF0YSwgYmxvY2tQYXJhbXMsIGRlcHRocyk7XG4gICAgfVxuICAgIG1haW4gPSBleGVjdXRlRGVjb3JhdG9ycyh0ZW1wbGF0ZVNwZWMubWFpbiwgbWFpbiwgY29udGFpbmVyLCBvcHRpb25zLmRlcHRocyB8fCBbXSwgZGF0YSwgYmxvY2tQYXJhbXMpO1xuICAgIHJldHVybiBtYWluKGNvbnRleHQsIG9wdGlvbnMpO1xuICB9XG4gIHJldC5pc1RvcCA9IHRydWU7XG5cbiAgcmV0Ll9zZXR1cCA9IGZ1bmN0aW9uKG9wdGlvbnMpIHtcbiAgICBpZiAoIW9wdGlvbnMucGFydGlhbCkge1xuICAgICAgY29udGFpbmVyLmhlbHBlcnMgPSBjb250YWluZXIubWVyZ2Uob3B0aW9ucy5oZWxwZXJzLCBlbnYuaGVscGVycyk7XG5cbiAgICAgIGlmICh0ZW1wbGF0ZVNwZWMudXNlUGFydGlhbCkge1xuICAgICAgICBjb250YWluZXIucGFydGlhbHMgPSBjb250YWluZXIubWVyZ2Uob3B0aW9ucy5wYXJ0aWFscywgZW52LnBhcnRpYWxzKTtcbiAgICAgIH1cbiAgICAgIGlmICh0ZW1wbGF0ZVNwZWMudXNlUGFydGlhbCB8fCB0ZW1wbGF0ZVNwZWMudXNlRGVjb3JhdG9ycykge1xuICAgICAgICBjb250YWluZXIuZGVjb3JhdG9ycyA9IGNvbnRhaW5lci5tZXJnZShvcHRpb25zLmRlY29yYXRvcnMsIGVudi5kZWNvcmF0b3JzKTtcbiAgICAgIH1cbiAgICB9IGVsc2Uge1xuICAgICAgY29udGFpbmVyLmhlbHBlcnMgPSBvcHRpb25zLmhlbHBlcnM7XG4gICAgICBjb250YWluZXIucGFydGlhbHMgPSBvcHRpb25zLnBhcnRpYWxzO1xuICAgICAgY29udGFpbmVyLmRlY29yYXRvcnMgPSBvcHRpb25zLmRlY29yYXRvcnM7XG4gICAgfVxuICB9O1xuXG4gIHJldC5fY2hpbGQgPSBmdW5jdGlvbihpLCBkYXRhLCBibG9ja1BhcmFtcywgZGVwdGhzKSB7XG4gICAgaWYgKHRlbXBsYXRlU3BlYy51c2VCbG9ja1BhcmFtcyAmJiAhYmxvY2tQYXJhbXMpIHtcbiAgICAgIHRocm93IG5ldyBFeGNlcHRpb24oJ211c3QgcGFzcyBibG9jayBwYXJhbXMnKTtcbiAgICB9XG4gICAgaWYgKHRlbXBsYXRlU3BlYy51c2VEZXB0aHMgJiYgIWRlcHRocykge1xuICAgICAgdGhyb3cgbmV3IEV4Y2VwdGlvbignbXVzdCBwYXNzIHBhcmVudCBkZXB0aHMnKTtcbiAgICB9XG5cbiAgICByZXR1cm4gd3JhcFByb2dyYW0oY29udGFpbmVyLCBpLCB0ZW1wbGF0ZVNwZWNbaV0sIGRhdGEsIDAsIGJsb2NrUGFyYW1zLCBkZXB0aHMpO1xuICB9O1xuICByZXR1cm4gcmV0O1xufVxuXG5leHBvcnQgZnVuY3Rpb24gd3JhcFByb2dyYW0oY29udGFpbmVyLCBpLCBmbiwgZGF0YSwgZGVjbGFyZWRCbG9ja1BhcmFtcywgYmxvY2tQYXJhbXMsIGRlcHRocykge1xuICBmdW5jdGlvbiBwcm9nKGNvbnRleHQsIG9wdGlvbnMgPSB7fSkge1xuICAgIGxldCBjdXJyZW50RGVwdGhzID0gZGVwdGhzO1xuICAgIGlmIChkZXB0aHMgJiYgY29udGV4dCAhPSBkZXB0aHNbMF0pIHtcbiAgICAgIGN1cnJlbnREZXB0aHMgPSBbY29udGV4dF0uY29uY2F0KGRlcHRocyk7XG4gICAgfVxuXG4gICAgcmV0dXJuIGZuKGNvbnRhaW5lcixcbiAgICAgICAgY29udGV4dCxcbiAgICAgICAgY29udGFpbmVyLmhlbHBlcnMsIGNvbnRhaW5lci5wYXJ0aWFscyxcbiAgICAgICAgb3B0aW9ucy5kYXRhIHx8IGRhdGEsXG4gICAgICAgIGJsb2NrUGFyYW1zICYmIFtvcHRpb25zLmJsb2NrUGFyYW1zXS5jb25jYXQoYmxvY2tQYXJhbXMpLFxuICAgICAgICBjdXJyZW50RGVwdGhzKTtcbiAgfVxuXG4gIHByb2cgPSBleGVjdXRlRGVjb3JhdG9ycyhmbiwgcHJvZywgY29udGFpbmVyLCBkZXB0aHMsIGRhdGEsIGJsb2NrUGFyYW1zKTtcblxuICBwcm9nLnByb2dyYW0gPSBpO1xuICBwcm9nLmRlcHRoID0gZGVwdGhzID8gZGVwdGhzLmxlbmd0aCA6IDA7XG4gIHByb2cuYmxvY2tQYXJhbXMgPSBkZWNsYXJlZEJsb2NrUGFyYW1zIHx8IDA7XG4gIHJldHVybiBwcm9nO1xufVxuXG5leHBvcnQgZnVuY3Rpb24gcmVzb2x2ZVBhcnRpYWwocGFydGlhbCwgY29udGV4dCwgb3B0aW9ucykge1xuICBpZiAoIXBhcnRpYWwpIHtcbiAgICBpZiAob3B0aW9ucy5uYW1lID09PSAnQHBhcnRpYWwtYmxvY2snKSB7XG4gICAgICBsZXQgZGF0YSA9IG9wdGlvbnMuZGF0YTtcbiAgICAgIHdoaWxlIChkYXRhWydwYXJ0aWFsLWJsb2NrJ10gPT09IG5vb3ApIHtcbiAgICAgICAgZGF0YSA9IGRhdGEuX3BhcmVudDtcbiAgICAgIH1cbiAgICAgIHBhcnRpYWwgPSBkYXRhWydwYXJ0aWFsLWJsb2NrJ107XG4gICAgICBkYXRhWydwYXJ0aWFsLWJsb2NrJ10gPSBub29wO1xuICAgIH0gZWxzZSB7XG4gICAgICBwYXJ0aWFsID0gb3B0aW9ucy5wYXJ0aWFsc1tvcHRpb25zLm5hbWVdO1xuICAgIH1cbiAgfSBlbHNlIGlmICghcGFydGlhbC5jYWxsICYmICFvcHRpb25zLm5hbWUpIHtcbiAgICAvLyBUaGlzIGlzIGEgZHluYW1pYyBwYXJ0aWFsIHRoYXQgcmV0dXJuZWQgYSBzdHJpbmdcbiAgICBvcHRpb25zLm5hbWUgPSBwYXJ0aWFsO1xuICAgIHBhcnRpYWwgPSBvcHRpb25zLnBhcnRpYWxzW3BhcnRpYWxdO1xuICB9XG4gIHJldHVybiBwYXJ0aWFsO1xufVxuXG5leHBvcnQgZnVuY3Rpb24gaW52b2tlUGFydGlhbChwYXJ0aWFsLCBjb250ZXh0LCBvcHRpb25zKSB7XG4gIG9wdGlvbnMucGFydGlhbCA9IHRydWU7XG4gIGlmIChvcHRpb25zLmlkcykge1xuICAgIG9wdGlvbnMuZGF0YS5jb250ZXh0UGF0aCA9IG9wdGlvbnMuaWRzWzBdIHx8IG9wdGlvbnMuZGF0YS5jb250ZXh0UGF0aDtcbiAgfVxuXG4gIGxldCBwYXJ0aWFsQmxvY2s7XG4gIGlmIChvcHRpb25zLmZuICYmIG9wdGlvbnMuZm4gIT09IG5vb3ApIHtcbiAgICBvcHRpb25zLmRhdGEgPSBjcmVhdGVGcmFtZShvcHRpb25zLmRhdGEpO1xuICAgIHBhcnRpYWxCbG9jayA9IG9wdGlvbnMuZGF0YVsncGFydGlhbC1ibG9jayddID0gb3B0aW9ucy5mbjtcblxuICAgIGlmIChwYXJ0aWFsQmxvY2sucGFydGlhbHMpIHtcbiAgICAgIG9wdGlvbnMucGFydGlhbHMgPSBVdGlscy5leHRlbmQoe30sIG9wdGlvbnMucGFydGlhbHMsIHBhcnRpYWxCbG9jay5wYXJ0aWFscyk7XG4gICAgfVxuICB9XG5cbiAgaWYgKHBhcnRpYWwgPT09IHVuZGVmaW5lZCAmJiBwYXJ0aWFsQmxvY2spIHtcbiAgICBwYXJ0aWFsID0gcGFydGlhbEJsb2NrO1xuICB9XG5cbiAgaWYgKHBhcnRpYWwgPT09IHVuZGVmaW5lZCkge1xuICAgIHRocm93IG5ldyBFeGNlcHRpb24oJ1RoZSBwYXJ0aWFsICcgKyBvcHRpb25zLm5hbWUgKyAnIGNvdWxkIG5vdCBiZSBmb3VuZCcpO1xuICB9IGVsc2UgaWYgKHBhcnRpYWwgaW5zdGFuY2VvZiBGdW5jdGlvbikge1xuICAgIHJldHVybiBwYXJ0aWFsKGNvbnRleHQsIG9wdGlvbnMpO1xuICB9XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBub29wKCkgeyByZXR1cm4gJyc7IH1cblxuZnVuY3Rpb24gaW5pdERhdGEoY29udGV4dCwgZGF0YSkge1xuICBpZiAoIWRhdGEgfHwgISgncm9vdCcgaW4gZGF0YSkpIHtcbiAgICBkYXRhID0gZGF0YSA/IGNyZWF0ZUZyYW1lKGRhdGEpIDoge307XG4gICAgZGF0YS5yb290ID0gY29udGV4dDtcbiAgfVxuICByZXR1cm4gZGF0YTtcbn1cblxuZnVuY3Rpb24gZXhlY3V0ZURlY29yYXRvcnMoZm4sIHByb2csIGNvbnRhaW5lciwgZGVwdGhzLCBkYXRhLCBibG9ja1BhcmFtcykge1xuICBpZiAoZm4uZGVjb3JhdG9yKSB7XG4gICAgbGV0IHByb3BzID0ge307XG4gICAgcHJvZyA9IGZuLmRlY29yYXRvcihwcm9nLCBwcm9wcywgY29udGFpbmVyLCBkZXB0aHMgJiYgZGVwdGhzWzBdLCBkYXRhLCBibG9ja1BhcmFtcywgZGVwdGhzKTtcbiAgICBVdGlscy5leHRlbmQocHJvZywgcHJvcHMpO1xuICB9XG4gIHJldHVybiBwcm9nO1xufVxuIl19
+module.exports = setClassName;
 
 
 /***/ }),
 /* 25 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {/* global window */
-	'use strict';
+"use strict";
+/**
+ * @fileoverview Find parent element recursively
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	exports.__esModule = true;
 
-	exports['default'] = function (Handlebars) {
-	  /* istanbul ignore next */
-	  var root = typeof global !== 'undefined' ? global : window,
-	      $Handlebars = root.Handlebars;
-	  /* istanbul ignore next */
-	  Handlebars.noConflict = function () {
-	    if (root.Handlebars === Handlebars) {
-	      root.Handlebars = $Handlebars;
-	    }
-	    return Handlebars;
-	  };
-	};
 
-	module.exports = exports['default'];
-	//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2xpYi9oYW5kbGViYXJzL25vLWNvbmZsaWN0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7O3FCQUNlLFVBQVMsVUFBVSxFQUFFOztBQUVsQyxNQUFJLElBQUksR0FBRyxPQUFPLE1BQU0sS0FBSyxXQUFXLEdBQUcsTUFBTSxHQUFHLE1BQU07TUFDdEQsV0FBVyxHQUFHLElBQUksQ0FBQyxVQUFVLENBQUM7O0FBRWxDLFlBQVUsQ0FBQyxVQUFVLEdBQUcsWUFBVztBQUNqQyxRQUFJLElBQUksQ0FBQyxVQUFVLEtBQUssVUFBVSxFQUFFO0FBQ2xDLFVBQUksQ0FBQyxVQUFVLEdBQUcsV0FBVyxDQUFDO0tBQy9CO0FBQ0QsV0FBTyxVQUFVLENBQUM7R0FDbkIsQ0FBQztDQUNIIiwiZmlsZSI6Im5vLWNvbmZsaWN0LmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyogZ2xvYmFsIHdpbmRvdyAqL1xuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24oSGFuZGxlYmFycykge1xuICAvKiBpc3RhbmJ1bCBpZ25vcmUgbmV4dCAqL1xuICBsZXQgcm9vdCA9IHR5cGVvZiBnbG9iYWwgIT09ICd1bmRlZmluZWQnID8gZ2xvYmFsIDogd2luZG93LFxuICAgICAgJEhhbmRsZWJhcnMgPSByb290LkhhbmRsZWJhcnM7XG4gIC8qIGlzdGFuYnVsIGlnbm9yZSBuZXh0ICovXG4gIEhhbmRsZWJhcnMubm9Db25mbGljdCA9IGZ1bmN0aW9uKCkge1xuICAgIGlmIChyb290LkhhbmRsZWJhcnMgPT09IEhhbmRsZWJhcnMpIHtcbiAgICAgIHJvb3QuSGFuZGxlYmFycyA9ICRIYW5kbGViYXJzO1xuICAgIH1cbiAgICByZXR1cm4gSGFuZGxlYmFycztcbiAgfTtcbn1cbiJdfQ==
+var matches = __webpack_require__(40);
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+/**
+ * Find parent element recursively
+ * @param {HTMLElement} element - base element to start find
+ * @param {string} selector - selector string for find
+ * @returns {HTMLElement} - element finded or null
+ * @memberof module:domUtil
+ */
+function closest(element, selector) {
+  var parent = element.parentNode;
+
+  if (matches(element, selector)) {
+    return element;
+  }
+
+  while (parent && parent !== document) {
+    if (matches(parent, selector)) {
+      return parent;
+    }
+
+    parent = parent.parentNode;
+  }
+
+  return null;
+}
+
+module.exports = closest;
+
 
 /***/ }),
 /* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Calendar Header
-	 * @author NHN Ent. FE dev Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Get data value from data-attribute
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var $ = __webpack_require__(2);
-	var snippet = __webpack_require__(3);
 
-	var localeTexts = __webpack_require__(27);
-	var headerTmpl = __webpack_require__(28);
-	var DateTimeFormatter = __webpack_require__(29);
-	var constants = __webpack_require__(31);
+var convertToKebabCase = __webpack_require__(42);
 
-	var TYPE_DATE = constants.TYPE_DATE;
-	var TYPE_MONTH = constants.TYPE_MONTH;
-	var TYPE_YEAR = constants.TYPE_YEAR;
+/**
+ * Get data value from data-attribute
+ * @param {HTMLElement} element - target element
+ * @param {string} key - key
+ * @returns {string} value
+ * @memberof module:domUtil
+ */
+function getData(element, key) {
+  if (element.dataset) {
+    return element.dataset[key];
+  }
 
-	var CLASS_NAME_PREV_MONTH_BTN = constants.CLASS_NAME_PREV_MONTH_BTN;
-	var CLASS_NAME_PREV_YEAR_BTN = constants.CLASS_NAME_PREV_YEAR_BTN;
-	var CLASS_NAME_NEXT_YEAR_BTN = constants.CLASS_NAME_NEXT_YEAR_BTN;
-	var CLASS_NAME_NEXT_MONTH_BTN = constants.CLASS_NAME_NEXT_MONTH_BTN;
+  return element.getAttribute('data-' + convertToKebabCase(key));
+}
 
-	var CLASS_NAME_TITLE_MONTH = 'tui-calendar-title-month';
-	var CLASS_NAME_TITLE_YEAR = 'tui-calendar-title-year';
-	var CLASS_NAME_TITLE_YEAR_TO_YEAR = 'tui-calendar-title-year-to-year';
-
-	var YEAR_TITLE_FORMAT = 'yyyy';
-
-	/**
-	 * @ignore
-	 * @class
-	 * @param {string|Element|jQuery} container - Header container
-	 * @param {object} option - Header option
-	 * @param {string} option.language - Header language
-	 * @param {boolean} option.showToday - Has today box or not.
-	 * @param {boolean} option.showJumpButtons - Has jump buttons or not.
-	 */
-	var Header = snippet.defineClass(/** @lends Header.prototype */{
-	    init: function(container, option) {
-	        /**
-	         * Container element
-	         * @type {jQuery}
-	         * @private
-	         */
-	        this._$container = $(container);
-
-	        /**
-	         * headerElement
-	         * @type {jQuery}
-	         * @private
-	         */
-	        this._$element = $();
-
-	        /**
-	         * Render today box or not
-	         * @type {boolean}
-	         * @private
-	         */
-	        this._showToday = option.showToday;
-
-	        /**
-	         * Render jump buttons or not (next,prev year on date calendar)
-	         * @type {boolean}
-	         * @private
-	         */
-	        this._showJumpButtons = option.showJumpButtons;
-
-	        /**
-	         * Year_Month title formatter
-	         * @type {DateTimeFormatter}
-	         * @private
-	         */
-	        this._yearMonthTitleFormatter = null;
-
-	        /**
-	         * Year title formatter
-	         * @type {DateTimeFormatter}
-	         * @private
-	         */
-	        this._yearTitleFormatter = null;
-
-	        /**
-	         * Today formatter
-	         * @type {DateTimeFormatter}
-	         * @private
-	         */
-	        this._todayFormatter = null;
-
-	        this._setFormatters(localeTexts[option.language]);
-	        this._setEvents(option);
-	    },
-
-	    /**
-	     * Set formatters
-	     * @param {object} localeText - Locale text
-	     * @private
-	     */
-	    _setFormatters: function(localeText) {
-	        this._yearMonthTitleFormatter = new DateTimeFormatter(localeText.titleFormat, localeText.titles);
-	        this._yearTitleFormatter = new DateTimeFormatter(YEAR_TITLE_FORMAT, localeText.titles);
-	        this._todayFormatter = new DateTimeFormatter(localeText.todayFormat, localeText.titles);
-	    },
-
-	    /**
-	     * Set events for firing customEvents
-	     * @param {object} option - Constructor option
-	     * @private
-	     */
-	    _setEvents: function() {
-	        var self = this;
-	        var classNames = [
-	            CLASS_NAME_PREV_MONTH_BTN,
-	            CLASS_NAME_PREV_YEAR_BTN,
-	            CLASS_NAME_NEXT_MONTH_BTN,
-	            CLASS_NAME_NEXT_YEAR_BTN
-	        ];
-
-	        snippet.forEach(classNames, function(className) {
-	            self._$container.on('touchend.calendar click.calendar', '.' + className, function(ev) {
-	                self.fire('click', ev);
-	                ev.preventDefault(); // To prevent click after touchend
-	            });
-	        });
-	    },
-
-	    /**
-	     * Returns title class
-	     * @param {string} type - Calendar type
-	     * @returns {string}
-	     * @private
-	     */
-	    _getTitleClass: function(type) {
-	        switch (type) {
-	            case TYPE_DATE:
-	                return CLASS_NAME_TITLE_MONTH;
-	            case TYPE_MONTH:
-	                return CLASS_NAME_TITLE_YEAR;
-	            case TYPE_YEAR:
-	                return CLASS_NAME_TITLE_YEAR_TO_YEAR;
-	            default:
-	                return '';
-	        }
-	    },
-
-	    /**
-	     * Returns title text
-	     * @param {Date} date - date
-	     * @param {string} type - Calendar type
-	     * @returns {string}
-	     * @private
-	     */
-	    _getTitleText: function(date, type) {
-	        var currentYear, start, end;
-
-	        switch (type) {
-	            case TYPE_DATE:
-	                return this._yearMonthTitleFormatter.format(date);
-	            case TYPE_MONTH:
-	                return this._yearTitleFormatter.format(date);
-	            case TYPE_YEAR:
-	                currentYear = date.getFullYear();
-	                start = new Date(currentYear - 4, 0, 1);
-	                end = new Date(currentYear + 4, 0, 1);
-
-	                return this._yearTitleFormatter.format(start) + ' - ' + this._yearTitleFormatter.format(end);
-	            default:
-	                return '';
-	        }
-	    },
-
-	    /**
-	     * Change langauge
-	     * @param {string} language - Language
-	     */
-	    changeLanguage: function(language) {
-	        this._setFormatters(localeTexts[language]);
-	    },
-
-	    /**
-	     * Render header
-	     * @param {Date} date - date
-	     * @param {string} type - Calendar type
-	     */
-	    render: function(date, type) {
-	        var context = {
-	            showToday: this._showToday,
-	            showJumpButtons: this._showJumpButtons,
-	            todayText: this._todayFormatter.format(new Date()),
-	            isDateCalendar: type === TYPE_DATE,
-	            titleClass: this._getTitleClass(type),
-	            title: this._getTitleText(date, type)
-	        };
-
-	        this._$element.remove();
-	        this._$element = $(headerTmpl(context));
-	        this._$element.appendTo(this._$container);
-	    },
-
-	    /**
-	     * Destroy header
-	     */
-	    destroy: function() {
-	        this.off();
-	        this._$container.off('.calendar');
-	        this._$element.remove();
-	        this._$container
-	            = this._showToday
-	            = this._showJumpButtons
-	            = this._yearMonthTitleFormatter
-	            = this._yearTitleFormatter
-	            = this._todayFormatter
-	            = this._$element
-	            = null;
-	    }
-	});
-
-	snippet.CustomEvents.mixin(Header);
-	module.exports = Header;
+module.exports = getData;
 
 
 /***/ }),
 /* 27 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Default locale texts
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Check element has specific css class
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	module.exports = {
-	    en: {
-	        titles: {
-	            DD: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-	            D: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-	            MMM: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-	            MMMM: ['January', 'February', 'March', 'April', 'May', 'June',
-	                'July', 'August', 'September', 'October', 'November', 'December']
-	        },
-	        titleFormat: 'MMMM yyyy',
-	        todayFormat: 'To\\d\\ay: DD, MMMM d, yyyy',
-	        time: 'Time',
-	        date: 'Date'
-	    },
-	    ko: {
-	        titles: {
-	            DD: ['�쇱슂��', '�붿슂��', '�붿슂��', '�섏슂��', '紐⑹슂��', '湲덉슂��', '�좎슂��'],
-	            D: ['��', '��', '��', '��', '紐�', '湲�', '��'],
-	            MMM: ['1��', '2��', '3��', '4��', '5��', '6��',
-	                '7��', '8��', '9��', '10��', '11��', '12��'],
-	            MMMM: ['1��', '2��', '3��', '4��', '5��', '6��',
-	                '7��', '8��', '9��', '10��', '11��', '12��']
-	        },
-	        titleFormat: 'yyyy.MM',
-	        todayFormat: '�ㅻ뒛: yyyy.MM.dd (D)',
-	        date: '�좎쭨',
-	        time: '�쒓컙'
-	    }
-	};
+
+var inArray = __webpack_require__(3);
+var getClass = __webpack_require__(17);
+
+/**
+ * Check element has specific css class
+ * @param {(HTMLElement|SVGElement)} element - target element
+ * @param {string} cssClass - css class
+ * @returns {boolean}
+ * @memberof module:domUtil
+ */
+function hasClass(element, cssClass) {
+  var origin;
+
+  if (element.classList) {
+    return element.classList.contains(cssClass);
+  }
+
+  origin = getClass(element).split(/\s+/);
+
+  return inArray(cssClass, origin) > -1;
+}
+
+module.exports = hasClass;
 
 
 /***/ }),
 /* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(7);
-	function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
-	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
-	    var stack1;
+"use strict";
+/**
+ * @fileoverview Check whether the given variable is an instance of Date or not.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.showJumpButtons : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.program(4, data, 0),"data":data})) != null ? stack1 : "");
-	},"2":function(container,depth0,helpers,partials,data) {
-	    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-	  return "        <div class=\"tui-calendar-header-inner tui-calendar-has-btns\">\n            <a href=\"#\" class=\"tui-calendar-btn-prev-year\">Prev year</a>\n            <a href=\"#\" class=\"tui-calendar-btn-prev-month\">Prev month</a>\n            <em class=\"tui-calendar-title "
-	    + alias4(((helper = (helper = helpers.titleClass || (depth0 != null ? depth0.titleClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"titleClass","hash":{},"data":data}) : helper)))
-	    + "\">"
-	    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
-	    + "</em>\n            <a href=\"#\" class=\"tui-calendar-btn-next-month\">Next month</a>\n            <a href=\"#\" class=\"tui-calendar-btn-next-year\">Next year</a>\n        </div>\n";
-	},"4":function(container,depth0,helpers,partials,data) {
-	    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-	  return "        <div class=\"tui-calendar-header-inner\">\n            <a href=\"#\" class=\"tui-calendar-btn-prev-month\">Prev month</a>\n            <em class=\"tui-calendar-title "
-	    + alias4(((helper = (helper = helpers.titleClass || (depth0 != null ? depth0.titleClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"titleClass","hash":{},"data":data}) : helper)))
-	    + "\">"
-	    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
-	    + "</em>\n            <a href=\"#\" class=\"tui-calendar-btn-next-month\">Next month</a>\n        </div>\n";
-	},"6":function(container,depth0,helpers,partials,data) {
-	    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+/**
+ * Check whether the given variable is an instance of Date or not.
+ * If the given variables is an instance of Date, return true.
+ * @param {*} obj - Target for checking
+ * @returns {boolean} Is an instance of Date?
+ * @memberof module:type
+ */
+function isDate(obj) {
+  return obj instanceof Date;
+}
 
-	  return "    <div class=\"tui-calendar-header-inner\">\n        <a href=\"#\" class=\"tui-calendar-btn-prev-year\">Prev year</a>\n        <em class=\"tui-calendar-title "
-	    + alias4(((helper = (helper = helpers.titleClass || (depth0 != null ? depth0.titleClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"titleClass","hash":{},"data":data}) : helper)))
-	    + "\">"
-	    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
-	    + "</em>\n        <a href=\"#\" class=\"tui-calendar-btn-next-year\">Next year</a>\n    </div>\n";
-	},"8":function(container,depth0,helpers,partials,data) {
-	    var helper;
+module.exports = isDate;
 
-	  return "    <div class=\"tui-calendar-header-info\">\n        <p class=\"tui-calendar-title-today\">"
-	    + container.escapeExpression(((helper = (helper = helpers.todayText || (depth0 != null ? depth0.todayText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"todayText","hash":{},"data":data}) : helper)))
-	    + "</p>\n    </div>\n";
-	},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-	    var stack1, alias1=depth0 != null ? depth0 : {};
-
-	  return ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.isDateCalendar : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(6, data, 0),"data":data})) != null ? stack1 : "")
-	    + "\n"
-	    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.showToday : depth0),{"name":"if","hash":{},"fn":container.program(8, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-	},"useData":true});
 
 /***/ }),
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Date <-> Text formatting module
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Calendar component
+ * @author NHN. FE dev Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var snippet = __webpack_require__(3);
 
-	var dateUtil = __webpack_require__(30);
-	var constants = __webpack_require__(31);
-	var localeTexts = __webpack_require__(27);
+var defineClass = __webpack_require__(0);
+var CustomEvents = __webpack_require__(8);
+var addClass = __webpack_require__(16);
+var hasClass = __webpack_require__(27);
+var removeClass = __webpack_require__(18);
+var removeElement = __webpack_require__(14);
+var extend = __webpack_require__(7);
 
-	var rFormableKeys = /\\?(yyyy|yy|mmmm|mmm|mm|m|dd|d|hh|h|a)/gi;
-	var mapForConverting = {
-	    yyyy: {
-	        expression: '(\\d{4}|\\d{2})',
-	        type: constants.TYPE_YEAR
-	    },
-	    yy: {
-	        expression: '(\\d{4}|\\d{2})',
-	        type: constants.TYPE_YEAR
-	    },
-	    y: {
-	        expression: '(\\d{4}|\\d{2})',
-	        type: constants.TYPE_YEAR
-	    },
-	    M: {
-	        expression: '(1[012]|0[1-9]|[1-9])',
-	        type: constants.TYPE_MONTH
-	    },
-	    MM: {
-	        expression: '(1[012]|0[1-9]|[1-9])',
-	        type: constants.TYPE_MONTH
-	    },
-	    MMM: {
-	        expression: '(1[012]|0[1-9]|[1-9])',
-	        type: constants.TYPE_MONTH
-	    },
-	    MMMM: {
-	        expression: '(1[012]|0[1-9]|[1-9])',
-	        type: constants.TYPE_MONTH
-	    },
-	    mmm: {
-	        expression: '(1[012]|0[1-9]|[1-9])',
-	        type: constants.TYPE_MONTH
-	    },
-	    mmmm: {
-	        expression: '(1[012]|0[1-9]|[1-9])',
-	        type: constants.TYPE_MONTH
-	    },
-	    dd: {
-	        expression: '([12]\\d{1}|3[01]|0[1-9]|[1-9])',
-	        type: constants.TYPE_DATE
-	    },
-	    d: {
-	        expression: '([12]\\d{1}|3[01]|0[1-9]|[1-9])',
-	        type: constants.TYPE_DATE
-	    },
-	    D: {
-	        expression: '([12]\\d{1}|3[01]|0[1-9]|[1-9])',
-	        type: constants.TYPE_DATE
-	    },
-	    DD: {
-	        expression: '([12]\\d{1}|3[01]|0[1-9]|[1-9])',
-	        type: constants.TYPE_DATE
-	    },
-	    h: {
-	        expression: '(d{1}|0\\d{1}|1\\d{1}|2[0123])',
-	        type: constants.TYPE_HOUR
-	    },
-	    hh: {
-	        expression: '(d{1}|[01]\\d{1}|2[0123])',
-	        type: constants.TYPE_HOUR
-	    },
-	    H: {
-	        expression: '(d{1}|0\\d{1}|1\\d{1}|2[0123])',
-	        type: constants.TYPE_HOUR
-	    },
-	    HH: {
-	        expression: '(d{1}|[01]\\d{1}|2[0123])',
-	        type: constants.TYPE_HOUR
-	    },
-	    m: {
-	        expression: '(d{1}|[012345]\\d{1})',
-	        type: constants.TYPE_MINUTE
-	    },
-	    mm: {
-	        expression: '(d{1}|[012345]\\d{1})',
-	        type: constants.TYPE_MINUTE
-	    },
-	    a: {
-	        expression: '([ap]m)',
-	        type: constants.TYPE_MERIDIEM
-	    },
-	    A: {
-	        expression: '([ap]m)',
-	        type: constants.TYPE_MERIDIEM
-	    }
-	};
+var Header = __webpack_require__(44);
+var Body = __webpack_require__(49);
+var localeTexts = __webpack_require__(10);
+var constants = __webpack_require__(1);
+var dateUtil = __webpack_require__(5);
+var util = __webpack_require__(4);
 
-	/**
-	 * @class
-	 * @ignore
-	 */
-	var DateTimeFormatter = snippet.defineClass(/** @lends DateTimeFormatter.prototype */{
-	    init: function(rawStr, titles) {
-	        /**
-	         * @type {string}
-	         * @private
-	         */
-	        this._rawStr = rawStr;
+var DEFAULT_WEEK_START_DAY = constants.DEFAULT_WEEK_START_DAY;
+var DEFAULT_LANGUAGE_TYPE = constants.DEFAULT_LANGUAGE_TYPE;
 
-	        /**
-	         * @type {Array}
-	         * @private
-	         * @example
-	         *  rawStr = "yyyy-MM-dd" --> keyOrder = ['year', 'month', 'date']
-	         *  rawStr = "MM/dd, yyyy" --> keyOrder = ['month', 'date', 'year']
-	         */
-	        this._keyOrder = null;
+var TYPE_DATE = constants.TYPE_DATE;
+var TYPE_MONTH = constants.TYPE_MONTH;
+var TYPE_YEAR = constants.TYPE_YEAR;
 
-	        /**
-	         * @type {RegExp}
-	         * @private
-	         */
-	        this._regExp = null;
+var CLASS_NAME_PREV_MONTH_BTN = constants.CLASS_NAME_PREV_MONTH_BTN;
+var CLASS_NAME_PREV_YEAR_BTN = constants.CLASS_NAME_PREV_YEAR_BTN;
+var CLASS_NAME_NEXT_YEAR_BTN = constants.CLASS_NAME_NEXT_YEAR_BTN;
+var CLASS_NAME_NEXT_MONTH_BTN = constants.CLASS_NAME_NEXT_MONTH_BTN;
 
-	        /**
-	         * Titles
-	         * @type {object}
-	         * @private
-	         */
-	        this._titles = titles || localeTexts.en.titles;
+var CLASS_NAME_CALENDAR_MONTH = 'tui-calendar-month';
+var CLASS_NAME_CALENDAR_YEAR = 'tui-calendar-year';
+var CLASS_NAME_HIDDEN = 'tui-hidden';
 
-	        this._parseFormat();
-	    },
+var HEADER_SELECTOR = '.tui-calendar-header';
+var BODY_SELECTOR = '.tui-calendar-body';
 
-	    /**
-	     * Parse initial format and make the keyOrder, regExp
-	     * @private
-	     */
-	    _parseFormat: function() {
-	        var regExpStr = '^';
-	        var matchedKeys = this._rawStr.match(rFormableKeys);
-	        var keyOrder = [];
+/**
+ * @class
+ * @description
+ * Create a calendar by {@link DatePicker#createCalendar DatePicker.createCalendar()}.
+ * @see {@link /tutorial-example07-calendar Calendar example}
+ * @param {HTMLElement|string} container - Container or selector of the Calendar
+ * @param {Object} [options] - Calendar options
+ *     @param {Date} [options.date = new Date()] - Initial date (default: today)
+ *     @param {('date'|'month'|'year')} [options.type = 'date'] - Calendar type. Determine whether to show a date, month, or year.
+ *     @param {string} [options.language = 'en'] - Language code. English('en') and Korean('ko') are provided as default. To use the other languages, use {@link DatePicker#localeTexts DatePicker.localeTexts}.
+ *     @param {boolean} [options.showToday = true] - Show today.
+ *     @param {boolean} [options.showJumpButtons = false] - Show the yearly jump buttons (move to the previous and next year in 'date' Calendar)
+ *     @param {boolean} [options.usageStatistics = true] - Send a hostname to Google Analytics (default: true)
+ *     @param {string} [options.weekStartDay = 'Sun'] - Start of the week. 'Sun', 'Mon', ..., 'Sat'(default: 'Sun'(start on Sunday))
+ * @example
+ * //ES6
+ * import DatePicker from 'tui-date-picker'
+ *
+ * // CommonJS
+ * const DatePicker = require('tui-date-picker');
+ *
+ * // Browser
+ * const DatePicker = tui.DatePicker;
+ *
+ * const calendar = DatePicker.createCalendar('#calendar-wrapper', {
+ *     language: 'en',
+ *     showToday: true,
+ *     showJumpButtons: false,
+ *     date: new Date(),
+ *     type: 'date',
+ *     weekStartDay: 'Mon',
+ * });
+ *
+ * calendar.on('draw', (event) => {
+ *     console.log(event.date);
+ *     console.log(event.type);
+ *     for (let i = 0, len = event.dateElements.length; i < len; i += 1) {
+ *         const el = event.dateElements[i];
+ *         const date = new Date(getData(el, 'timestamp'));
+ *         console.log(date);
+ *     }
+ * });
+ */
+var Calendar = defineClass(
+  /** @lends Calendar.prototype */ {
+    static: {
+      localeTexts: localeTexts
+    },
+    init: function(container, options) {
+      options = extend(
+        {
+          language: DEFAULT_LANGUAGE_TYPE,
+          showToday: true,
+          showJumpButtons: false,
+          date: new Date(),
+          type: TYPE_DATE,
+          usageStatistics: true,
+          weekStartDay: DEFAULT_WEEK_START_DAY
+        },
+        options
+      );
 
-	        matchedKeys = snippet.filter(matchedKeys, function(key) {
-	            return key[0] !== '\\'; // escape character
-	        });
+      /**
+       * Container element
+       * @type {HTMLElement}
+       * @private
+       */
+      this._container = util.getElement(container);
+      this._container.innerHTML =
+        '<div class="tui-calendar">' +
+        '    <div class="tui-calendar-header"></div>' +
+        '    <div class="tui-calendar-body"></div>' +
+        '</div>';
 
-	        snippet.forEach(matchedKeys, function(key, index) {
-	            if (!/m/i.test(key)) {
-	                key = key.toLowerCase();
-	            }
+      /**
+       * Wrapper element
+       * @type {HTMLElement}
+       * @private
+       */
+      this._element = this._container.firstChild;
 
-	            regExpStr += (mapForConverting[key].expression + '[\\D\\s]*');
-	            keyOrder[index] = mapForConverting[key].type;
-	        });
+      /**
+       * Date
+       * @type {Date}
+       * @private
+       */
+      this._date = null;
 
-	        // This formatter does not allow additional numbers at the end of string.
-	        regExpStr += '$';
+      /**
+       * Layer type
+       * @type {string}
+       * @private
+       */
+      this._type = null;
 
-	        this._keyOrder = keyOrder;
+      /**
+       * Header box
+       * @type {Header}
+       * @private
+       */
+      this._header = null;
 
-	        this._regExp = new RegExp(regExpStr, 'gi');
-	    },
+      /**
+       * Body box
+       * @type {Body}
+       * @private
+       */
+      this._body = null;
 
-	    /**
-	     * Parse string to dateHash
-	     * @param {string} str - Date string
-	     * @returns {Date}
-	     */
-	    parse: function(str) {
-	        var dateHash = {
-	            year: 0,
-	            month: 1,
-	            date: 1,
-	            hour: 0,
-	            minute: 0
-	        };
-	        var hasMeridiem = false;
-	        var isPM = false;
-	        var matched;
+      this._initHeader(options);
+      this._initBody(options);
+      this.draw({
+        date: options.date,
+        type: options.type
+      });
 
-	        this._regExp.lastIndex = 0;
-	        matched = this._regExp.exec(str);
+      if (options.usageStatistics) {
+        util.sendHostName();
+      }
+    },
 
-	        if (!matched) {
-	            throw Error('DateTimeFormatter: Not matched - "' + str + '"');
-	        }
+    /**
+     * Initialize header
+     * @param {object} options - Header options
+     * @private
+     */
+    _initHeader: function(options) {
+      var headerContainer = this._element.querySelector(HEADER_SELECTOR);
 
-	        snippet.forEach(this._keyOrder, function(name, index) { // eslint-disable-line complexity
-	            var value = matched[index + 1];
+      this._header = new Header(headerContainer, options);
+      this._header.on(
+        'click',
+        function(ev) {
+          var target = util.getTarget(ev);
+          if (hasClass(target, CLASS_NAME_PREV_MONTH_BTN)) {
+            this.drawPrev();
+          } else if (hasClass(target, CLASS_NAME_PREV_YEAR_BTN)) {
+            this._onClickPrevYear();
+          } else if (hasClass(target, CLASS_NAME_NEXT_MONTH_BTN)) {
+            this.drawNext();
+          } else if (hasClass(target, CLASS_NAME_NEXT_YEAR_BTN)) {
+            this._onClickNextYear();
+          }
+        },
+        this
+      );
+    },
 
-	            if (name === constants.TYPE_MERIDIEM && /[ap]m/i.test(value)) {
-	                hasMeridiem = true;
-	                isPM = /pm/i.test(value);
-	            } else {
-	                value = Number(value);
+    /**
+     * Initialize body
+     * @param {object} options - Body options
+     * @private
+     */
+    _initBody: function(options) {
+      var bodyContainer = this._element.querySelector(BODY_SELECTOR);
 
-	                if (value !== 0 && !value) {
-	                    throw Error('DateTimeFormatter: Unknown value - ' + matched[index + 1]);
-	                }
+      this._body = new Body(bodyContainer, options);
+    },
 
-	                if (name === constants.TYPE_YEAR && value < 100) {
-	                    value += 2000;
-	                }
+    /**
+     * clickHandler - prev year button
+     * @private
+     */
+    _onClickPrevYear: function() {
+      if (this.getType() === TYPE_DATE) {
+        this.draw({
+          date: this._getRelativeDate(-12)
+        });
+      } else {
+        this.drawPrev();
+      }
+    },
 
-	                dateHash[name] = value;
-	            }
-	        });
+    /**
+     * clickHandler - next year button
+     * @private
+     */
+    _onClickNextYear: function() {
+      if (this.getType() === TYPE_DATE) {
+        this.draw({
+          date: this._getRelativeDate(12)
+        });
+      } else {
+        this.drawNext();
+      }
+    },
 
-	        if (hasMeridiem) {
-	            isPM = isPM || dateHash.hour > 12;
-	            dateHash.hour %= 12;
-	            if (isPM) {
-	                dateHash.hour += 12;
-	            }
-	        }
+    /**
+     * Returns whether the layer type is valid
+     * @param {string} type - Layer type to check
+     * @returns {boolean}
+     * @private
+     */
+    _isValidType: function(type) {
+      return type === TYPE_DATE || type === TYPE_MONTH || type === TYPE_YEAR;
+    },
 
-	        return new Date(dateHash.year, dateHash.month - 1, dateHash.date, dateHash.hour, dateHash.minute);
-	    },
+    /**
+     * @param {Date} date - Date to draw
+     * @param {string} type - Layer type to draw
+     * @returns {boolean}
+     * @private
+     */
+    _shouldUpdate: function(date, type) {
+      var prevDate = this._date;
 
-	    /**
-	     * Returns raw string of format
-	     * @returns {string}
-	     */
-	    getRawString: function() {
-	        return this._rawStr;
-	    },
+      if (!dateUtil.isValidDate(date)) {
+        throw new Error('Invalid date');
+      }
 
-	    /**
-	     * Format date to string
-	     * @param {Date} dateObj - Date object
-	     * @returns {string}
-	     */
-	    format: function(dateObj) {
-	        var year = dateObj.getFullYear();
-	        var month = dateObj.getMonth() + 1;
-	        var dayInMonth = dateObj.getDate();
-	        var day = dateObj.getDay();
-	        var hour = dateObj.getHours();
-	        var minute = dateObj.getMinutes();
-	        var meridiem = 'a'; // Default value for unusing meridiem format
-	        var replaceMap;
+      if (!this._isValidType(type)) {
+        throw new Error('Invalid layer type');
+      }
 
-	        if (snippet.inArray(constants.TYPE_MERIDIEM, this._keyOrder) > -1) {
-	            meridiem = hour >= 12 ? 'pm' : 'am';
-	            hour = dateUtil.getMeridiemHour(hour);
-	        }
+      return (
+        !prevDate ||
+        prevDate.getFullYear() !== date.getFullYear() ||
+        prevDate.getMonth() !== date.getMonth() ||
+        this.getType() !== type
+      );
+    },
 
-	        replaceMap = {
-	            yyyy: year,
-	            yy: String(year).substr(2, 2),
-	            M: month,
-	            MM: dateUtil.prependLeadingZero(month),
-	            MMM: this._titles.MMM[month - 1],
-	            MMMM: this._titles.MMMM[month - 1],
-	            d: dayInMonth,
-	            dd: dateUtil.prependLeadingZero(dayInMonth),
-	            D: this._titles.D[day],
-	            DD: this._titles.DD[day],
-	            hh: dateUtil.prependLeadingZero(hour),
-	            h: hour,
-	            mm: dateUtil.prependLeadingZero(minute),
-	            m: minute,
-	            A: meridiem.toUpperCase(),
-	            a: meridiem
-	        };
+    /**
+     * Render header & body elements
+     * @private
+     */
+    _render: function() {
+      var date = this._date;
+      var type = this.getType();
 
-	        return this._rawStr.replace(rFormableKeys, function(key) {
-	            if (key[0] === '\\') {
-	                return key.substr(1);
-	            }
+      this._header.render(date, type);
+      this._body.render(date, type);
+      removeClass(this._element, CLASS_NAME_CALENDAR_MONTH, CLASS_NAME_CALENDAR_YEAR);
 
-	            return replaceMap[key] || replaceMap[key.toLowerCase()] || '';
-	        });
-	    }
-	});
+      switch (type) {
+        case TYPE_MONTH:
+          addClass(this._element, CLASS_NAME_CALENDAR_MONTH);
+          break;
+        case TYPE_YEAR:
+          addClass(this._element, CLASS_NAME_CALENDAR_YEAR);
+          break;
+        default:
+          break;
+      }
+    },
 
-	module.exports = DateTimeFormatter;
+    /**
+     * Returns relative date
+     * @param {number} step - Month step
+     * @returns {Date}
+     * @private
+     */
+    _getRelativeDate: function(step) {
+      var prev = this._date;
+
+      return new Date(prev.getFullYear(), prev.getMonth() + step);
+    },
+
+    /**
+     * Draw the calendar.
+     * @param {Object} [options] - Draw options
+     *   @param {Date} [options.date] - Date to set
+     *   @param {('date'|'month'|'year')} [options.type = 'date'] - Calendar type. Determine whether to show a date, month, or year.
+     * @example
+     * calendar.draw();
+     * calendar.draw({
+     *     date: new Date()
+     * });
+     * calendar.draw({
+     *     type: 'month'
+     * });
+     * calendar.draw({
+     *     type: 'month',
+     *     date: new Date()
+     * });
+     */
+    draw: function(options) {
+      var date, type;
+
+      options = options || {};
+      date = options.date || this._date;
+      type = (options.type || this.getType()).toLowerCase();
+
+      if (this._shouldUpdate(date, type)) {
+        this._date = date;
+        this._type = type;
+        this._render();
+      }
+
+      /**
+       * Occur after the calendar draws.
+       * @event Calendar#draw
+       * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#on calendar.on()} to bind event handlers.
+       * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#off calendar.off()} to unbind event handlers.
+       * @see Refer to {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents CustomEvents from tui-code-snippet} for more methods. Calendar mixes in the methods from CustomEvents.
+       * @property {Date} date - Calendar date
+       * @property {('date'|'month'|'year')} type - Calendar type
+       * @property {HTMLElement[]} dateElements - elements for dates
+       * @example
+       * // bind the 'draw' event
+       * calendar.on('draw', ({type, date}) => {
+       *     console.log(`Draw the ${type} calendar and its date is ${date}.`);
+       * });
+       *
+       * // unbind the 'draw' event
+       * calendar.off('draw');
+       */
+      this.fire('draw', {
+        date: this._date,
+        type: type,
+        dateElements: this._body.getDateElements()
+      });
+    },
+
+    /**
+     * Show the calendar.
+     */
+    show: function() {
+      removeClass(this._element, CLASS_NAME_HIDDEN);
+    },
+
+    /**
+     * Hide the calendar.
+     */
+    hide: function() {
+      addClass(this._element, CLASS_NAME_HIDDEN);
+    },
+
+    /**
+     * Draw the next page.
+     */
+    drawNext: function() {
+      this.draw({
+        date: this.getNextDate()
+      });
+    },
+
+    /**
+     * Draw the previous page.
+     */
+    drawPrev: function() {
+      this.draw({
+        date: this.getPrevDate()
+      });
+    },
+
+    /**
+     * Return the next date.
+     * @returns {Date}
+     */
+    getNextDate: function() {
+      if (this.getType() === TYPE_DATE) {
+        return this._getRelativeDate(1);
+      }
+
+      return this.getNextYearDate();
+    },
+
+    /**
+     * Return the previous date.
+     * @returns {Date}
+     */
+    getPrevDate: function() {
+      if (this.getType() === TYPE_DATE) {
+        return this._getRelativeDate(-1);
+      }
+
+      return this.getPrevYearDate();
+    },
+
+    /**
+     * Return the date a year later.
+     * @returns {Date}
+     */
+    getNextYearDate: function() {
+      switch (this.getType()) {
+        case TYPE_DATE:
+        case TYPE_MONTH:
+          return this._getRelativeDate(12); // 12 months = 1 year
+        case TYPE_YEAR:
+          return this._getRelativeDate(108); // 108 months = 9 years = 12 * 9
+        default:
+          throw new Error('Unknown layer type');
+      }
+    },
+
+    /**
+     * Return the date a year previously.
+     * @returns {Date}
+     */
+    getPrevYearDate: function() {
+      switch (this.getType()) {
+        case TYPE_DATE:
+        case TYPE_MONTH:
+          return this._getRelativeDate(-12); // 12 months = 1 year
+        case TYPE_YEAR:
+          return this._getRelativeDate(-108); // 108 months = 9 years = 12 * 9
+        default:
+          throw new Error('Unknown layer type');
+      }
+    },
+
+    /**
+     * Change language.
+     * @param {string} language - Language code. English('en') and Korean('ko') are provided as default.
+     * @see To set to the other languages, use {@link DatePicker#localeTexts DatePicker.localeTexts}.
+     */
+    changeLanguage: function(language) {
+      this._header.changeLanguage(language);
+      this._body.changeLanguage(language);
+      this._render();
+    },
+
+    /**
+     * Return the rendered date.
+     * @returns {Date}
+     */
+    getDate: function() {
+      return new Date(this._date);
+    },
+
+    /**
+     * Return the calendar's type.
+     * @returns {('date'|'month'|'year')}
+     */
+    getType: function() {
+      return this._type;
+    },
+
+    /**
+     * Returns HTML elements for dates.
+     * @returns {HTMLElement[]}
+     */
+    getDateElements: function() {
+      return this._body.getDateElements();
+    },
+
+    /**
+     * Apply a CSS class to the calendar.
+     * @param {string} className - Class name
+     */
+    addCssClass: function(className) {
+      addClass(this._element, className);
+    },
+
+    /**
+     * Remove a CSS class from the calendar.
+     * @param {string} className - Class name
+     */
+    removeCssClass: function(className) {
+      removeClass(this._element, className);
+    },
+
+    /**
+     * Destroy the calendar.
+     */
+    destroy: function() {
+      this._header.destroy();
+      this._body.destroy();
+      removeElement(this._element);
+
+      this._type = this._date = this._container = this._element = this._header = this._body = null;
+    }
+  }
+);
+
+CustomEvents.mixin(Calendar);
+module.exports = Calendar;
 
 
 /***/ }),
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Utils for DatePicker component
-	 * @author NHN Ent. FE dev Lab. <dl_javascript@nhnent.com>
-	 * @dependency tui-code-snippet ^1.0.2
-	 */
+"use strict";
+/**
+ * @fileoverview Date <-> Text formatting module
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var snippet = __webpack_require__(3);
 
-	var constants = __webpack_require__(31);
+var inArray = __webpack_require__(3);
+var forEachArray = __webpack_require__(2);
+var defineClass = __webpack_require__(0);
 
-	var TYPE_DATE = constants.TYPE_DATE;
-	var TYPE_MONTH = constants.TYPE_MONTH;
-	var TYPE_YEAR = constants.TYPE_YEAR;
+var util = __webpack_require__(4);
+var dateUtil = __webpack_require__(5);
+var constants = __webpack_require__(1);
+var localeTexts = __webpack_require__(10);
 
-	/**
-	 * Utils of calendar
-	 * @namespace dateUtil
-	 * @ignore
-	 */
-	var utils = {
-	    /**
-	     * Get weeks count by paramenter
-	     * @param {number} year A year
-	     * @param {number} month A month
-	     * @returns {number} Weeks count (4~6)
-	     **/
-	    getWeeksCount: function(year, month) {
-	        var firstDay = utils.getFirstDay(year, month),
-	            lastDate = utils.getLastDayInMonth(year, month);
+var rFormableKeys = /\\?(yyyy|yy|mmmm|mmm|mm|m|dd|d|hh|h|a)/gi;
+var mapForConverting = {
+  yyyy: {
+    expression: '(\\d{4}|\\d{2})',
+    type: constants.TYPE_YEAR
+  },
+  yy: {
+    expression: '(\\d{4}|\\d{2})',
+    type: constants.TYPE_YEAR
+  },
+  y: {
+    expression: '(\\d{4}|\\d{2})',
+    type: constants.TYPE_YEAR
+  },
+  M: {
+    expression: '(1[012]|0[1-9]|[1-9])',
+    type: constants.TYPE_MONTH
+  },
+  MM: {
+    expression: '(1[012]|0[1-9]|[1-9])',
+    type: constants.TYPE_MONTH
+  },
+  MMM: {
+    expression: '(1[012]|0[1-9]|[1-9])',
+    type: constants.TYPE_MONTH
+  },
+  MMMM: {
+    expression: '(1[012]|0[1-9]|[1-9])',
+    type: constants.TYPE_MONTH
+  },
+  mmm: {
+    expression: '(1[012]|0[1-9]|[1-9])',
+    type: constants.TYPE_MONTH
+  },
+  mmmm: {
+    expression: '(1[012]|0[1-9]|[1-9])',
+    type: constants.TYPE_MONTH
+  },
+  dd: {
+    expression: '([12]\\d{1}|3[01]|0[1-9]|[1-9])',
+    type: constants.TYPE_DATE
+  },
+  d: {
+    expression: '([12]\\d{1}|3[01]|0[1-9]|[1-9])',
+    type: constants.TYPE_DATE
+  },
+  D: {
+    expression: '([12]\\d{1}|3[01]|0[1-9]|[1-9])',
+    type: constants.TYPE_DATE
+  },
+  DD: {
+    expression: '([12]\\d{1}|3[01]|0[1-9]|[1-9])',
+    type: constants.TYPE_DATE
+  },
+  h: {
+    expression: '(d{1}|0\\d{1}|1\\d{1}|2[0123])',
+    type: constants.TYPE_HOUR
+  },
+  hh: {
+    expression: '(d{1}|[01]\\d{1}|2[0123])',
+    type: constants.TYPE_HOUR
+  },
+  H: {
+    expression: '(d{1}|0\\d{1}|1\\d{1}|2[0123])',
+    type: constants.TYPE_HOUR
+  },
+  HH: {
+    expression: '(d{1}|[01]\\d{1}|2[0123])',
+    type: constants.TYPE_HOUR
+  },
+  m: {
+    expression: '(d{1}|[012345]\\d{1})',
+    type: constants.TYPE_MINUTE
+  },
+  mm: {
+    expression: '(d{1}|[012345]\\d{1})',
+    type: constants.TYPE_MINUTE
+  },
+  a: {
+    expression: '([ap]m)',
+    type: constants.TYPE_MERIDIEM
+  },
+  A: {
+    expression: '([ap]m)',
+    type: constants.TYPE_MERIDIEM
+  }
+};
 
-	        return Math.ceil((firstDay + lastDate) / 7);
-	    },
+/**
+ * @class
+ * @ignore
+ */
+var DateTimeFormatter = defineClass(
+  /** @lends DateTimeFormatter.prototype */ {
+    init: function(rawStr, titles) {
+      /**
+       * @type {string}
+       * @private
+       */
+      this._rawStr = rawStr;
 
-	    /**
-	     * @param {Date} date - Date instance
-	     * @returns {boolean}
-	     */
-	    isValidDate: function(date) {
-	        return snippet.isDate(date) && !isNaN(date.getTime());
-	    },
+      /**
+       * @type {Array}
+       * @private
+       * @example
+       *  rawStr = "yyyy-MM-dd" --> keyOrder = ['year', 'month', 'date']
+       *  rawStr = "MM/dd, yyyy" --> keyOrder = ['month', 'date', 'year']
+       */
+      this._keyOrder = null;
 
-	    /**
-	     * Get which day is first by parameters that include year and month information.
-	     * @param {number} year A year
-	     * @param {number} month A month
-	     * @returns {number} (0~6)
-	     */
-	    getFirstDay: function(year, month) {
-	        return new Date(year, month - 1, 1).getDay();
-	    },
+      /**
+       * @type {RegExp}
+       * @private
+       */
+      this._regExp = null;
 
-	    /**
-	     * Get last date by parameters that include year and month information.
-	     * @param {number} year A year
-	     * @param {number} month A month
-	     * @returns {number} (1~31)
-	     */
-	    getLastDayInMonth: function(year, month) {
-	        return new Date(year, month, 0).getDate();
-	    },
+      /**
+       * Titles
+       * @type {object}
+       * @private
+       */
+      this._titles = titles || localeTexts.en.titles;
 
-	    /**
-	     * Chagne number 0~9 to '00~09'
-	     * @param {number} number number
-	     * @returns {string}
-	     * @example
-	     *  dateUtil.prependLeadingZero(0); //  '00'
-	     *  dateUtil.prependLeadingZero(9); //  '09'
-	     *  dateUtil.prependLeadingZero(12); //  '12'
-	     */
-	    prependLeadingZero: function(number) {
-	        var prefix = '';
+      this._parseFormat();
+    },
 
-	        if (number < 10) {
-	            prefix = '0';
-	        }
+    /**
+     * Parse initial format and make the keyOrder, regExp
+     * @private
+     */
+    _parseFormat: function() {
+      var regExpStr = '^';
+      var matchedKeys = this._rawStr.match(rFormableKeys);
+      var keyOrder = [];
 
-	        return prefix + number;
-	    },
+      matchedKeys = util.filter(matchedKeys, function(key) {
+        return key[0] !== '\\';
+      });
 
-	    /**
-	     * Get meridiem hour
-	     * @param {number} hour - Original hour
-	     * @returns {number} Converted meridiem hour
-	     */
-	    getMeridiemHour: function(hour) {
-	        hour %= 12;
+      forEachArray(matchedKeys, function(key, index) {
+        if (!/m/i.test(key)) {
+          key = key.toLowerCase();
+        }
 
-	        if (hour === 0) {
-	            hour = 12;
-	        }
+        regExpStr += mapForConverting[key].expression + '[\\D\\s]*';
+        keyOrder[index] = mapForConverting[key].type;
+      });
 
-	        return hour;
-	    },
+      // This formatter does not allow additional numbers at the end of string.
+      regExpStr += '$';
 
-	    /**
-	     * Returns number or default
-	     * @param {*} any - Any value
-	     * @param {number} defaultNumber - Default number
-	     * @throws Will throw an error if the defaultNumber is invalid.
-	     * @returns {number}
-	     */
-	    getSafeNumber: function(any, defaultNumber) {
-	        if (isNaN(defaultNumber) || !snippet.isNumber(defaultNumber)) {
-	            throw Error('The defaultNumber must be a valid number.');
-	        }
-	        if (isNaN(any)) {
-	            return defaultNumber;
-	        }
+      this._keyOrder = keyOrder;
 
-	        return Number(any);
-	    },
+      this._regExp = new RegExp(regExpStr, 'gi');
+    },
 
-	    /**
-	     * Return date of the week
-	     * @param {number} year - Year
-	     * @param {number} month - Month
-	     * @param {number} weekNumber - Week number (0~5)
-	     * @param {number} dayNumber - Day number (0: sunday, 1: monday, ....)
-	     * @returns {number}
-	     */
-	    getDateOfWeek: function(year, month, weekNumber, dayNumber) {
-	        var firstDayOfMonth = new Date(year, month - 1).getDay();
-	        var dateOffset = firstDayOfMonth - dayNumber - 1;
+    /**
+     * Parse string to dateHash
+     * @param {string} str - Date string
+     * @returns {Date}
+     */
+    parse: function(str) {
+      var dateHash = {
+        year: 0,
+        month: 1,
+        date: 1,
+        hour: 0,
+        minute: 0
+      };
+      var hasMeridiem = false;
+      var isPM = false;
+      var matched;
 
-	        return new Date(year, month - 1, (weekNumber * 7) - dateOffset);
-	    },
+      this._regExp.lastIndex = 0;
+      matched = this._regExp.exec(str);
 
-	    /**
-	     * Returns range arr
-	     * @param {number} start - Start value
-	     * @param {number} end - End value
-	     * @returns {Array}
-	     */
-	    getRangeArr: function(start, end) {
-	        var arr = [];
-	        var i;
+      if (!matched) {
+        throw Error('DateTimeFormatter: Not matched - "' + str + '"');
+      }
 
-	        if (start > end) {
-	            for (i = end; i >= start; i -= 1) {
-	                arr.push(i);
-	            }
-	        } else {
-	            for (i = start; i <= end; i += 1) {
-	                arr.push(i);
-	            }
-	        }
+      // eslint-disable-next-line complexity
+      forEachArray(this._keyOrder, function(name, index) {
+        var value = matched[index + 1];
 
-	        return arr;
-	    },
+        if (name === constants.TYPE_MERIDIEM && /[ap]m/i.test(value)) {
+          hasMeridiem = true;
+          isPM = /pm/i.test(value);
+        } else {
+          value = Number(value);
 
-	    /**
-	     * Returns cloned date with the start of a unit of time
-	     * @param {Date|number} date - Original date
-	     * @param {string} [type = TYPE_DATE] - Unit type
-	     * @throws {Error}
-	     * @returns {Date}
-	     */
-	    cloneWithStartOf: function(date, type) {
-	        type = type || TYPE_DATE;
-	        date = new Date(date);
+          if (value !== 0 && !value) {
+            throw Error('DateTimeFormatter: Unknown value - ' + matched[index + 1]);
+          }
 
-	        // Does not consider time-level yet.
-	        date.setHours(0, 0, 0, 0);
+          if (name === constants.TYPE_YEAR && value < 100) {
+            value += 2000;
+          }
 
-	        switch (type) {
-	            case TYPE_DATE:
-	                break;
-	            case TYPE_MONTH:
-	                date.setDate(1);
-	                break;
-	            case TYPE_YEAR:
-	                date.setMonth(0, 1);
-	                break;
-	            default:
-	                throw Error('Unsupported type: ' + type);
-	        }
+          dateHash[name] = value;
+        }
+      });
 
-	        return date;
-	    },
+      if (hasMeridiem) {
+        isPM = isPM || dateHash.hour > 12;
+        dateHash.hour %= 12;
+        if (isPM) {
+          dateHash.hour += 12;
+        }
+      }
 
-	    /**
-	     * Returns cloned date with the end of a unit of time
-	     * @param {Date|number} date - Original date
-	     * @param {string} [type = TYPE_DATE] - Unit type
-	     * @throws {Error}
-	     * @returns {Date}
-	     */
-	    cloneWithEndOf: function(date, type) {
-	        type = type || TYPE_DATE;
-	        date = new Date(date);
+      return new Date(
+        dateHash.year,
+        dateHash.month - 1,
+        dateHash.date,
+        dateHash.hour,
+        dateHash.minute
+      );
+    },
 
-	        // Does not consider time-level yet.
-	        date.setHours(23, 59, 59, 999);
+    /**
+     * Returns raw string of format
+     * @returns {string}
+     */
+    getRawString: function() {
+      return this._rawStr;
+    },
 
-	        switch (type) {
-	            case TYPE_DATE:
-	                break;
-	            case TYPE_MONTH:
-	                date.setMonth(date.getMonth() + 1, 0);
-	                break;
-	            case TYPE_YEAR:
-	                date.setMonth(11, 31);
-	                break;
-	            default:
-	                throw Error('Unsupported type: ' + type);
-	        }
+    /**
+     * Format date to string
+     * @param {Date} dateObj - Date object
+     * @returns {string}
+     */
+    format: function(dateObj) {
+      var year = dateObj.getFullYear();
+      var month = dateObj.getMonth() + 1;
+      var dayInMonth = dateObj.getDate();
+      var day = dateObj.getDay();
+      var hour = dateObj.getHours();
+      var minute = dateObj.getMinutes();
+      var meridiem = 'a'; // Default value for unusing meridiem format
+      var replaceMap;
 
-	        return date;
-	    },
+      if (inArray(constants.TYPE_MERIDIEM, this._keyOrder) > -1) {
+        meridiem = hour >= 12 ? 'pm' : 'am';
+        hour = dateUtil.getMeridiemHour(hour);
+      }
 
-	    /**
-	     * Compare two dates
-	     * @param {Date|number} dateA - Date
-	     * @param {Date|number} dateB - Date
-	     * @param {string} [cmpLevel] - Comparing level
-	     * @returns {number}
-	     */
-	    compare: function(dateA, dateB, cmpLevel) {
-	        var aTimestamp, bTimestamp;
+      replaceMap = {
+        yyyy: year,
+        yy: String(year).substr(2, 2),
+        M: month,
+        MM: dateUtil.prependLeadingZero(month),
+        MMM: this._titles.MMM[month - 1],
+        MMMM: this._titles.MMMM[month - 1],
+        d: dayInMonth,
+        dd: dateUtil.prependLeadingZero(dayInMonth),
+        D: this._titles.D[day],
+        DD: this._titles.DD[day],
+        hh: dateUtil.prependLeadingZero(hour),
+        h: hour,
+        mm: dateUtil.prependLeadingZero(minute),
+        m: minute,
+        A: meridiem.toUpperCase(),
+        a: meridiem
+      };
 
-	        if (!(utils.isValidDate(dateA) && utils.isValidDate(dateB))) {
-	            return NaN;
-	        }
+      return this._rawStr.replace(rFormableKeys, function(key) {
+        if (key[0] === '\\') {
+          return key.substr(1);
+        }
 
-	        if (!cmpLevel) {
-	            aTimestamp = dateA.getTime();
-	            bTimestamp = dateB.getTime();
-	        } else {
-	            aTimestamp = utils.cloneWithStartOf(dateA, cmpLevel).getTime();
-	            bTimestamp = utils.cloneWithStartOf(dateB, cmpLevel).getTime();
-	        }
+        return replaceMap[key] || replaceMap[key.toLowerCase()] || '';
+      });
+    }
+  }
+);
 
-	        if (aTimestamp > bTimestamp) {
-	            return 1;
-	        }
-
-	        return aTimestamp === bTimestamp ? 0 : -1;
-	    },
-
-	    /**
-	     * Returns whether two dates are same
-	     * @param {Date|number} dateA - Date
-	     * @param {Date|number} dateB - Date
-	     * @param {string} [cmpLevel] - Comparing level
-	     * @returns {boolean}
-	     */
-	    isSame: function(dateA, dateB, cmpLevel) {
-	        return utils.compare(dateA, dateB, cmpLevel) === 0;
-	    },
-
-	    /**
-	     * Returns whether the target is in range
-	     * @param {Date|number} start - Range start
-	     * @param {Date|number} end - Range end
-	     * @param {Date|number} target - Target
-	     * @param {string} [cmpLevel = TYPE_DATE] - Comparing level
-	     * @returns {boolean}
-	     */
-	    inRange: function(start, end, target, cmpLevel) {
-	        return utils.compare(start, target, cmpLevel) < 1 && utils.compare(end, target, cmpLevel) > -1;
-	    }
-	};
-
-	module.exports = utils;
+module.exports = DateTimeFormatter;
 
 
 /***/ }),
 /* 31 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Constants of date-picker
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Bind DOM events
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	module.exports = {
-	    TYPE_DATE: 'date',
-	    TYPE_MONTH: 'month',
-	    TYPE_YEAR: 'year',
-	    TYPE_HOUR: 'hour',
-	    TYPE_MINUTE: 'minute',
-	    TYPE_MERIDIEM: 'meridiem',
-	    MIN_DATE: new Date(1900, 0, 1),
-	    MAX_DATE: new Date(2999, 11, 31),
 
-	    DEFAULT_LANGUAGE_TYPE: 'en',
+var isString = __webpack_require__(13);
+var forEach = __webpack_require__(9);
 
-	    CLASS_NAME_SELECTED: 'tui-is-selected',
+var safeEvent = __webpack_require__(32);
 
-	    CLASS_NAME_PREV_MONTH_BTN: 'tui-calendar-btn-prev-month',
-	    CLASS_NAME_PREV_YEAR_BTN: 'tui-calendar-btn-prev-year',
-	    CLASS_NAME_NEXT_YEAR_BTN: 'tui-calendar-btn-next-year',
-	    CLASS_NAME_NEXT_MONTH_BTN: 'tui-calendar-btn-next-month'
-	};
+/**
+ * Bind DOM events.
+ * @param {HTMLElement} element - element to bind events
+ * @param {(string|object)} types - Space splitted events names or eventName:handler object
+ * @param {(function|object)} handler - handler function or context for handler method
+ * @param {object} [context] context - context for handler method.
+ * @memberof module:domEvent
+ * @example
+ * var div = document.querySelector('div');
+ * 
+ * // Bind one event to an element.
+ * on(div, 'click', toggle);
+ * 
+ * // Bind multiple events with a same handler to multiple elements at once.
+ * // Use event names splitted by a space.
+ * on(div, 'mouseenter mouseleave', changeColor);
+ * 
+ * // Bind multiple events with different handlers to an element at once.
+ * // Use an object which of key is an event name and value is a handler function.
+ * on(div, {
+ *   keydown: highlight,
+ *   keyup: dehighlight
+ * });
+ * 
+ * // Set a context for handler method.
+ * var name = 'global';
+ * var repository = {name: 'CodeSnippet'};
+ * on(div, 'drag', function() {
+ *  console.log(this.name);
+ * }, repository);
+ * // Result when you drag a div: "CodeSnippet"
+ */
+function on(element, types, handler, context) {
+  if (isString(types)) {
+    forEach(types.split(/\s+/g), function(type) {
+      bindEvent(element, type, handler, context);
+    });
+
+    return;
+  }
+
+  forEach(types, function(func, type) {
+    bindEvent(element, type, func, handler);
+  });
+}
+
+/**
+ * Bind DOM events
+ * @param {HTMLElement} element - element to bind events
+ * @param {string} type - events name
+ * @param {function} handler - handler function or context for handler method
+ * @param {object} [context] context - context for handler method.
+ * @private
+ */
+function bindEvent(element, type, handler, context) {
+  /**
+     * Event handler
+     * @param {Event} e - event object
+     */
+  function eventHandler(e) {
+    handler.call(context || element, e || window.event);
+  }
+
+  if ('addEventListener' in element) {
+    element.addEventListener(type, eventHandler);
+  } else if ('attachEvent' in element) {
+    element.attachEvent('on' + type, eventHandler);
+  }
+  memorizeHandler(element, type, handler, eventHandler);
+}
+
+/**
+ * Memorize DOM event handler for unbinding.
+ * @param {HTMLElement} element - element to bind events
+ * @param {string} type - events name
+ * @param {function} handler - handler function that user passed at on() use
+ * @param {function} wrappedHandler - handler function that wrapped by domevent for implementing some features
+ * @private
+ */
+function memorizeHandler(element, type, handler, wrappedHandler) {
+  var events = safeEvent(element, type);
+  var existInEvents = false;
+
+  forEach(events, function(obj) {
+    if (obj.handler === handler) {
+      existInEvents = true;
+
+      return false;
+    }
+
+    return true;
+  });
+
+  if (!existInEvents) {
+    events.push({
+      handler: handler,
+      wrappedHandler: wrappedHandler
+    });
+  }
+}
+
+module.exports = on;
 
 
 /***/ }),
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Calendar body
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Get event collection for specific HTML element
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var $ = __webpack_require__(2);
-	var snippet = __webpack_require__(3);
 
-	var DateLayer = __webpack_require__(33);
-	var MonthLayer = __webpack_require__(38);
-	var YearLayer = __webpack_require__(41);
-	var constants = __webpack_require__(31);
+var EVENT_KEY = '_feEventKey';
 
-	var TYPE_DATE = constants.TYPE_DATE;
-	var TYPE_MONTH = constants.TYPE_MONTH;
-	var TYPE_YEAR = constants.TYPE_YEAR;
+/**
+ * Get event collection for specific HTML element
+ * @param {HTMLElement} element - HTML element
+ * @param {string} type - event type
+ * @returns {array}
+ * @private
+ */
+function safeEvent(element, type) {
+  var events = element[EVENT_KEY];
+  var handlers;
 
-	/**
-	 * @ignore
-	 * @class
-	 */
-	var Body = snippet.defineClass(/** @lends Body.prototype */{
-	    init: function(bodyContainer, option) {
-	        var language = option.language;
+  if (!events) {
+    events = element[EVENT_KEY] = {};
+  }
 
-	        /**
-	         * Body container element
-	         * @type {jQuery}
-	         * @private
-	         */
-	        this._$container = $(bodyContainer);
+  handlers = events[type];
+  if (!handlers) {
+    handlers = events[type] = [];
+  }
 
-	        /**
-	         * DateLayer
-	         * @type {DateLayer}
-	         * @private
-	         */
-	        this._dateLayer = new DateLayer(language);
+  return handlers;
+}
 
-	        /**
-	         * MonthLayer
-	         * @type {MonthLayer}
-	         * @private
-	         */
-	        this._monthLayer = new MonthLayer(language);
-
-	        /**
-	         * YearLayer
-	         * @type {YearLayer}
-	         * @private
-	         */
-	        this._yearLayer = new YearLayer(language);
-
-	        /**
-	         * Current Layer
-	         * @type {DateLayer|MonthLayer|YearLayer}
-	         * @private
-	         */
-	        this._currentLayer = this._dateLayer;
-	    },
-
-	    /**
-	     * Returns matched layer
-	     * @param {string} type - Layer type
-	     * @returns {Base} - Layer
-	     * @private
-	     */
-	    _getLayer: function(type) {
-	        switch (type) {
-	            case TYPE_DATE:
-	                return this._dateLayer;
-	            case TYPE_MONTH:
-	                return this._monthLayer;
-	            case TYPE_YEAR:
-	                return this._yearLayer;
-	            default:
-	                return this._currentLayer;
-	        }
-	    },
-
-	    /**
-	     * Iterate each layer
-	     * @param {Function} fn - function
-	     * @private
-	     */
-	    _eachLayer: function(fn) {
-	        snippet.forEach([this._dateLayer, this._monthLayer, this._yearLayer], fn);
-	    },
-
-	    /**
-	     * Change language
-	     * @param {string} language - Language
-	     */
-	    changeLanguage: function(language) {
-	        this._eachLayer(function(layer) {
-	            layer.changeLanguage(language);
-	        });
-	    },
-
-	    /**
-	     * Render body
-	     * @param {Date} date - date
-	     * @param {string} type - Layer type
-	     */
-	    render: function(date, type) {
-	        var nextLayer = this._getLayer(type);
-	        var prevLayer = this._currentLayer;
-
-	        prevLayer.remove();
-	        nextLayer.render(date);
-	        nextLayer.appendTo(this._$container);
-
-	        this._currentLayer = nextLayer;
-	    },
-
-	    /**
-	     * Returns date jQuery elements
-	     * @returns {jQuery}
-	     */
-	    getDateElements: function() {
-	        return this._currentLayer.getDateElements();
-	    },
-
-	    /**
-	     * Destory
-	     */
-	    destroy: function() {
-	        this._eachLayer(function(layer) {
-	            layer.remove();
-	        });
-
-	        this._$container = this._currentLayer = this._dateLayer = this._monthLayer = this._yearLayer = null;
-	    }
-	});
-
-	module.exports = Body;
+module.exports = safeEvent;
 
 
 /***/ }),
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Date layer
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Unbind DOM events
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var $ = __webpack_require__(2);
-	var snippet = __webpack_require__(3);
 
-	var bodyTmpl = __webpack_require__(34);
-	var LayerBase = __webpack_require__(37);
-	var TYPE_DATE = __webpack_require__(31).TYPE_DATE;
+var isString = __webpack_require__(13);
+var forEach = __webpack_require__(9);
 
-	var DATE_SELECTOR = '.tui-calendar-date';
+var safeEvent = __webpack_require__(32);
 
-	/**
-	 * @ignore
-	 * @class
-	 * @extends LayerBase
-	 * @param {string} language - Initial language
-	 */
-	var DateLayer = snippet.defineClass(LayerBase, /** @lends DateLayer.prototype */{
-	    init: function(language) {
-	        LayerBase.call(this, language);
-	    },
+/**
+ * Unbind DOM events
+ * If a handler function is not passed, remove all events of that type.
+ * @param {HTMLElement} element - element to unbind events
+ * @param {(string|object)} types - Space splitted events names or eventName:handler object
+ * @param {function} [handler] - handler function
+ * @memberof module:domEvent
+ * @example
+ * // Following the example of domEvent#on
+ * 
+ * // Unbind one event from an element.
+ * off(div, 'click', toggle);
+ * 
+ * // Unbind multiple events with a same handler from multiple elements at once.
+ * // Use event names splitted by a space.
+ * off(element, 'mouseenter mouseleave', changeColor);
+ * 
+ * // Unbind multiple events with different handlers from an element at once.
+ * // Use an object which of key is an event name and value is a handler function.
+ * off(div, {
+ *   keydown: highlight,
+ *   keyup: dehighlight
+ * });
+ * 
+ * // Unbind events without handlers.
+ * off(div, 'drag');
+ */
+function off(element, types, handler) {
+  if (isString(types)) {
+    forEach(types.split(/\s+/g), function(type) {
+      unbindEvent(element, type, handler);
+    });
 
-	    /**
-	     * Layer type
-	     * @type {string}
-	     * @private
-	     */
-	    _type: TYPE_DATE,
+    return;
+  }
 
-	    /**
-	     * @override
-	     * @private
-	     * @returns {object} Template context
-	     */
-	    _makeContext: function(date) {
-	        var daysShort = this._localeText.titles.D;
-	        var year, month;
+  forEach(types, function(func, type) {
+    unbindEvent(element, type, func);
+  });
+}
 
-	        date = date || new Date();
-	        year = date.getFullYear();
-	        month = date.getMonth() + 1;
+/**
+ * Unbind DOM events
+ * If a handler function is not passed, remove all events of that type.
+ * @param {HTMLElement} element - element to unbind events
+ * @param {string} type - events name
+ * @param {function} [handler] - handler function
+ * @private
+ */
+function unbindEvent(element, type, handler) {
+  var events = safeEvent(element, type);
+  var index;
 
-	        return {
-	            Sun: daysShort[0],
-	            Mon: daysShort[1],
-	            Tue: daysShort[2],
-	            Wed: daysShort[3],
-	            Thu: daysShort[4],
-	            Fri: daysShort[5],
-	            Sat: daysShort[6],
-	            year: year,
-	            month: month
-	        };
-	    },
+  if (!handler) {
+    forEach(events, function(item) {
+      removeHandler(element, type, item.wrappedHandler);
+    });
+    events.splice(0, events.length);
+  } else {
+    forEach(events, function(item, idx) {
+      if (handler === item.handler) {
+        removeHandler(element, type, item.wrappedHandler);
+        index = idx;
 
-	    /**
-	     * Render date-layer
-	     * @override
-	     * @param {Date} date - Date to render
-	     */
-	    render: function(date) {
-	        var context = this._makeContext(date);
+        return false;
+      }
 
-	        this._$element = $(bodyTmpl(context));
-	    },
+      return true;
+    });
+    events.splice(index, 1);
+  }
+}
 
-	    /**
-	     * Retunrs date elements
-	     * @override
-	     * @returns {jQuery}
-	     */
-	    getDateElements: function() {
-	        return this._$element.find(DATE_SELECTOR);
-	    }
-	});
+/**
+ * Remove an event handler
+ * @param {HTMLElement} element - An element to remove an event
+ * @param {string} type - event type
+ * @param {function} handler - event handler
+ * @private
+ */
+function removeHandler(element, type, handler) {
+  if ('removeEventListener' in element) {
+    element.removeEventListener(type, handler);
+  } else if ('detachEvent' in element) {
+    element.detachEvent('on' + type, handler);
+  }
+}
 
-	module.exports = DateLayer;
+module.exports = off;
 
 
 /***/ }),
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(7);
-	function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
-	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
-	    var stack1;
+"use strict";
+/**
+ * @fileoverview The entry file of DatePicker components
+ * @author NHN. FE Development Team
+ */
 
-	  return "            <tr class=\"tui-calendar-week\">\n"
-	    + ((stack1 = __default(__webpack_require__(35)).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.year : depth0),(depth0 != null ? depth0.month : depth0),(depth0 != null ? depth0.dates : depth0),{"name":"../helpers/week","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-	    + "            </tr>\n";
-	},"2":function(container,depth0,helpers,partials,data) {
-	    var alias1=container.lambda, alias2=container.escapeExpression;
 
-	  return "                    <td class=\""
-	    + alias2(alias1((depth0 != null ? depth0.className : depth0), depth0))
-	    + "\" data-timestamp=\""
-	    + alias2(alias1((depth0 != null ? depth0.timestamp : depth0), depth0))
-	    + "\">"
-	    + alias2(alias1((depth0 != null ? depth0.dayInMonth : depth0), depth0))
-	    + "</td>\n";
-	},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-	    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-	  return "<table class=\"tui-calendar-body-inner\" cellspacing=\"0\" cellpadding=\"0\">\n    <caption><span>Dates</span></caption>\n    <thead class=\"tui-calendar-body-header\">\n        <tr>\n            <th class=\"tui-sun\" scope=\"col\">"
-	    + alias2(alias1((depth0 != null ? depth0.Sun : depth0), depth0))
-	    + "</th>\n            <th scope=\"col\">"
-	    + alias2(alias1((depth0 != null ? depth0.Mon : depth0), depth0))
-	    + "</th>\n            <th scope=\"col\">"
-	    + alias2(alias1((depth0 != null ? depth0.Tue : depth0), depth0))
-	    + "</th>\n            <th scope=\"col\">"
-	    + alias2(alias1((depth0 != null ? depth0.Wed : depth0), depth0))
-	    + "</th>\n            <th scope=\"col\">"
-	    + alias2(alias1((depth0 != null ? depth0.Thu : depth0), depth0))
-	    + "</th>\n            <th scope=\"col\">"
-	    + alias2(alias1((depth0 != null ? depth0.Fri : depth0), depth0))
-	    + "</th>\n            <th class=\"tui-sat\" scope=\"col\">"
-	    + alias2(alias1((depth0 != null ? depth0.Sat : depth0), depth0))
-	    + "</th>\n        </tr>\n    </thead>\n    <tbody>\n"
-	    + ((stack1 = __default(__webpack_require__(36)).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.year : depth0),(depth0 != null ? depth0.month : depth0),{"name":"../helpers/weeks","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-	    + "    </tbody>\n</table>\n";
-	},"useData":true});
+var DatePicker = __webpack_require__(21);
+var DateRangePicker = __webpack_require__(60);
+var Calendar = __webpack_require__(29);
+
+__webpack_require__(61);
+
+/**
+ * Create a calendar.
+ * @see {@link Calendar}
+ * @see {@link /tutorial-example07-calendar Calendar example}
+ * @static
+ * @param {HTMLElement|string} wrapperElement - Container element or selector of the Calendar
+ * @param {Object} [options] - {@link Calendar} options. Refer to the {@link Calendar Calendar instance's options}.
+ * @returns {Calendar}
+ * @example
+ * const calendar = DatePicker.createCalendar('#calendar-wrapper', {
+ *    language: 'en',
+ *    showToday: true,
+ *    showJumpButtons: false,
+ *    date: new Date(),
+ *    type: 'date'
+ * });
+ */
+DatePicker.createCalendar = function(wrapperElement, options) {
+  return new Calendar(wrapperElement, options);
+};
+
+/**
+ * Create a date-range picker.
+ * @see {@link DateRangePicker}
+ * @see {@link /tutorial-example08-daterangepicker DateRangePicker example}
+ * @static
+ * @param {object} options - {@link DateRangePicker} options. Refer to the {@link DateRangePicker DateRangePicker instance's options}.
+ * @returns {DateRangePicker}
+ * @example
+ * const rangepicker = DatePicker.createRangePicker({
+ *     startpicker: {
+ *         input: '#start-input',
+ *         container: '#start-container'
+ *     },
+ *     endpicker: {
+ *         input: '#end-input',
+ *         container: '#end-container'
+ *     },
+ *     type: 'date',
+ *     format: 'yyyy-MM-dd'
+ *     selectableRanges: [
+ *         [new Date(2017, 3, 1), new Date(2017, 5, 1)],
+ *         [new Date(2017, 6, 3), new Date(2017, 10, 5)]
+ *     ]
+ * });
+ */
+DatePicker.createRangePicker = function(options) {
+  return new DateRangePicker(options);
+};
+
+module.exports = DatePicker;
+
 
 /***/ }),
 /* 35 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Handlebars helper - week (templating) for date-calendar
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Provide a simple inheritance in prototype-oriented.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	module.exports = function(currentYear, currentMonth, dates, options) {
-	    var firstDateOfCurrentMonth = new Date(currentYear, currentMonth - 1, 1);
-	    var lastDateOfCurrentMonth = new Date(currentYear, currentMonth, 0);
-	    var out = '';
-	    var i = 0;
-	    var length = dates.length;
-	    var date, className;
 
-	    for (; i < length; i += 1) {
-	        className = 'tui-calendar-date';
-	        date = dates[i];
+var createObject = __webpack_require__(36);
 
-	        if (date < firstDateOfCurrentMonth) {
-	            className += ' tui-calendar-prev-month';
-	        }
+/**
+ * Provide a simple inheritance in prototype-oriented.
+ * Caution :
+ *  Don't overwrite the prototype of child constructor.
+ *
+ * @param {function} subType Child constructor
+ * @param {function} superType Parent constructor
+ * @memberof module:inheritance
+ * @example
+ * var inherit = require('tui-code-snippet/inheritance/inherit'); // node, commonjs
+ *
+ * // Parent constructor
+ * function Animal(leg) {
+ *     this.leg = leg;
+ * }
+ * Animal.prototype.growl = function() {
+ *     // ...
+ * };
+ *
+ * // Child constructor
+ * function Person(name) {
+ *     this.name = name;
+ * }
+ *
+ * // Inheritance
+ * inherit(Person, Animal);
+ *
+ * // After this inheritance, please use only the extending of property.
+ * // Do not overwrite prototype.
+ * Person.prototype.walk = function(direction) {
+ *     // ...
+ * };
+ */
+function inherit(subType, superType) {
+  var prototype = createObject(superType.prototype);
+  prototype.constructor = subType;
+  subType.prototype = prototype;
+}
 
-	        if (date > lastDateOfCurrentMonth) {
-	            className += ' tui-calendar-next-month';
-	        }
-
-	        switch (date.getDay()) {
-	            case 0:
-	                className += ' tui-calendar-sun';
-	                break;
-	            case 6:
-	                className += ' tui-calendar-sat';
-	                break;
-	            default:
-	                break;
-	        }
-
-	        out += options.fn({
-	            dayInMonth: date.getDate(),
-	            className: className,
-	            timestamp: date.getTime()
-	        });
-	    }
-
-	    return out;
-	};
+module.exports = inherit;
 
 
 /***/ }),
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Handlebars helper - weeks (templating) for date-calendar
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Create a new object with the specified prototype object and properties.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var dateUtil = __webpack_require__(30);
 
-	module.exports = function(year, month, options) {
-	    var weekNumber = 0;
-	    var weeksCount = 6; // Fix for no changing height
-	    var out = '';
-	    var weekContext;
+/**
+ * @module inheritance
+ */
 
-	    for (; weekNumber < weeksCount; weekNumber += 1) {
-	        weekContext = {
-	            year: year,
-	            month: month,
-	            dates: [
-	                dateUtil.getDateOfWeek(year, month, weekNumber, 0),
-	                dateUtil.getDateOfWeek(year, month, weekNumber, 1),
-	                dateUtil.getDateOfWeek(year, month, weekNumber, 2),
-	                dateUtil.getDateOfWeek(year, month, weekNumber, 3),
-	                dateUtil.getDateOfWeek(year, month, weekNumber, 4),
-	                dateUtil.getDateOfWeek(year, month, weekNumber, 5),
-	                dateUtil.getDateOfWeek(year, month, weekNumber, 6)
-	            ]
-	        };
-	        out += options.fn(weekContext);
-	    }
+/**
+ * Create a new object with the specified prototype object and properties.
+ * @param {Object} obj This object will be a prototype of the newly-created object.
+ * @returns {Object}
+ * @memberof module:inheritance
+ */
+function createObject(obj) {
+  function F() {} // eslint-disable-line require-jsdoc
+  F.prototype = obj;
 
-	    return out;
-	};
+  return new F();
+}
+
+module.exports = createObject;
 
 
 /***/ }),
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Layer base
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Check whether the given variable is existing or not.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var snippet = __webpack_require__(3);
 
-	var localeText = __webpack_require__(27);
-	var DEFAULT_LANGUAGE_TYPE = __webpack_require__(31).DEFAULT_LANGUAGE_TYPE;
+var isUndefined = __webpack_require__(12);
+var isNull = __webpack_require__(38);
 
-	/**
-	 * @abstract
-	 * @class
-	 * @ignore
-	 * @param {string} language - Initial language
-	 * Layer base
-	 */
-	var LayerBase = snippet.defineClass(/** @lends LayerBase.prototype */{
-	    init: function(language) {
-	        language = language || DEFAULT_LANGUAGE_TYPE;
+/**
+ * Check whether the given variable is existing or not.
+ * If the given variable is not null and not undefined, returns true.
+ * @param {*} param - Target for checking
+ * @returns {boolean} Is existy?
+ * @memberof module:type
+ * @example
+ * var isExisty = require('tui-code-snippet/type/isExisty'); // node, commonjs
+ *
+ * isExisty(''); //true
+ * isExisty(0); //true
+ * isExisty([]); //true
+ * isExisty({}); //true
+ * isExisty(null); //false
+ * isExisty(undefined); //false
+*/
+function isExisty(param) {
+  return !isUndefined(param) && !isNull(param);
+}
 
-	        /**
-	         * Layer element
-	         * @type {jQuery}
-	         * @private
-	         */
-	        this._$element = null;
-
-	        /**
-	         * Language type
-	         * @type {string}
-	         * @private
-	         */
-	        this._localeText = localeText[language];
-
-	        /**
-	         * Layer type
-	         * @type {string}
-	         * @private
-	         */
-	        this._type = 'base';
-	    },
-
-	    /**
-	     * Make context
-	     * @abstract
-	     * @throws {Error}
-	     * @returns {object}
-	     * @private
-	     */
-	    _makeContext: function() {
-	        throwOverrideError(this.getType(), '_makeContext');
-	    },
-
-	    /**
-	     * Render the layer element
-	     * @abstract
-	     * @throws {Error}
-	     */
-	    render: function() {
-	        throwOverrideError(this.getType(), 'render');
-	    },
-
-	    /**
-	     * Returns date elements
-	     * @abstract
-	     * @throws {Error}
-	     * @returns {jQuery}
-	     */
-	    getDateElements: function() {
-	        throwOverrideError(this.getType(), 'getDateElements');
-	    },
-
-	    /**
-	     * Returns layer type
-	     * @returns {string}
-	     */
-	    getType: function() {
-	        return this._type;
-	    },
-
-	    /**
-	     * Set language
-	     * @param {string} language - Language name
-	     */
-	    changeLanguage: function(language) {
-	        this._localeText = localeText[language];
-	    },
-
-	    /**
-	     * Append to parent element
-	     * @param {string|HTMLElement|jQuery} parent - Parent element
-	     * @returns {jQuery}
-	     */
-	    appendTo: function(parent) {
-	        return this._$element.appendTo(parent);
-	    },
-
-	    /**
-	     * Remove elements
-	     */
-	    remove: function() {
-	        if (this._$element) {
-	            this._$element.remove();
-	        }
-	        this._$element = null;
-	    }
-	});
-
-	/**
-	 * Throw - method override error
-	 * @ignore
-	 * @param {string} layerType - Layer type
-	 * @param {string} methodName - Method name
-	 * @throws {Error}
-	 */
-	function throwOverrideError(layerType, methodName) {
-	    throw new Error(layerType + ' layer does not have the "' + methodName + '" method.');
-	}
-
-	module.exports = LayerBase;
+module.exports = isExisty;
 
 
 /***/ }),
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Month layer
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Check whether the given variable is null or not.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var $ = __webpack_require__(2);
-	var snippet = __webpack_require__(3);
 
-	var bodyTmpl = __webpack_require__(39);
-	var LayerBase = __webpack_require__(37);
-	var TYPE_MONTH = __webpack_require__(31).TYPE_MONTH;
+/**
+ * Check whether the given variable is null or not.
+ * If the given variable(arguments[0]) is null, returns true.
+ * @param {*} obj - Target for checking
+ * @returns {boolean} Is null?
+ * @memberof module:type
+ */
+function isNull(obj) {
+  return obj === null;
+}
 
-	var DATE_SELECTOR = '.tui-calendar-month';
-
-	/**
-	 * @class
-	 * @extends LayerBase
-	 * @param {string} language - Initial language
-	 * @ignore
-	 */
-	var MonthLayer = snippet.defineClass(LayerBase, /** @lends MonthLayer.prototype */{
-	    init: function(language) {
-	        LayerBase.call(this, language);
-	    },
-
-	    /**
-	     * Layer type
-	     * @type {string}
-	     * @private
-	     */
-	    _type: TYPE_MONTH,
-
-	    /**
-	     * @override
-	     * @returns {object} Template context
-	     * @private
-	     */
-	    _makeContext: function(date) {
-	        var monthsShort = this._localeText.titles.MMM;
-
-	        return {
-	            year: date.getFullYear(),
-	            Jan: monthsShort[0],
-	            Feb: monthsShort[1],
-	            Mar: monthsShort[2],
-	            Apr: monthsShort[3],
-	            May: monthsShort[4],
-	            Jun: monthsShort[5],
-	            Jul: monthsShort[6],
-	            Aug: monthsShort[7],
-	            Sep: monthsShort[8],
-	            Oct: monthsShort[9],
-	            Nov: monthsShort[10],
-	            Dec: monthsShort[11]
-	        };
-	    },
-
-	    /**
-	     * Render month-layer element
-	     * @override
-	     */
-	    render: function(date) {
-	        var context = this._makeContext(date);
-
-	        this._$element = $(bodyTmpl(context));
-	    },
-
-	    /**
-	     * Returns month elements
-	     * @override
-	     * @returns {jQuery}
-	     */
-	    getDateElements: function() {
-	        return this._$element.find(DATE_SELECTOR);
-	    }
-	});
-
-	module.exports = MonthLayer;
+module.exports = isNull;
 
 
 /***/ }),
 /* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(7);
-	function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
-	module.exports = (Handlebars["default"] || Handlebars).template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-	    var alias1=depth0 != null ? depth0 : {}, alias2=container.escapeExpression, alias3=container.lambda;
+"use strict";
+/**
+ * @fileoverview Check whether the given variable is a function or not.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	  return "<table class=\"tui-calendar-body-inner\">\n    <caption><span>Months</span></caption>\n    <tbody>\n    <tr class=\"tui-calendar-month-group\">\n        <td class=\"tui-calendar-month\" data-timestamp="
-	    + alias2(__default(__webpack_require__(40)).call(alias1,(depth0 != null ? depth0.year : depth0),0,{"name":"../helpers/timestamp","hash":{},"data":data}))
-	    + ">"
-	    + alias2(alias3((depth0 != null ? depth0.Jan : depth0), depth0))
-	    + "</td>\n        <td class=\"tui-calendar-month\" data-timestamp="
-	    + alias2(__default(__webpack_require__(40)).call(alias1,(depth0 != null ? depth0.year : depth0),1,{"name":"../helpers/timestamp","hash":{},"data":data}))
-	    + ">"
-	    + alias2(alias3((depth0 != null ? depth0.Feb : depth0), depth0))
-	    + "</td>\n        <td class=\"tui-calendar-month\" data-timestamp="
-	    + alias2(__default(__webpack_require__(40)).call(alias1,(depth0 != null ? depth0.year : depth0),2,{"name":"../helpers/timestamp","hash":{},"data":data}))
-	    + ">"
-	    + alias2(alias3((depth0 != null ? depth0.Mar : depth0), depth0))
-	    + "</td>\n        <td class=\"tui-calendar-month\" data-timestamp="
-	    + alias2(__default(__webpack_require__(40)).call(alias1,(depth0 != null ? depth0.year : depth0),3,{"name":"../helpers/timestamp","hash":{},"data":data}))
-	    + ">"
-	    + alias2(alias3((depth0 != null ? depth0.Apr : depth0), depth0))
-	    + "</td>\n    </tr>\n    <tr class=\"tui-calendar-month-group\">\n        <td class=\"tui-calendar-month\" data-timestamp="
-	    + alias2(__default(__webpack_require__(40)).call(alias1,(depth0 != null ? depth0.year : depth0),4,{"name":"../helpers/timestamp","hash":{},"data":data}))
-	    + ">"
-	    + alias2(alias3((depth0 != null ? depth0.May : depth0), depth0))
-	    + "</td>\n        <td class=\"tui-calendar-month\" data-timestamp="
-	    + alias2(__default(__webpack_require__(40)).call(alias1,(depth0 != null ? depth0.year : depth0),5,{"name":"../helpers/timestamp","hash":{},"data":data}))
-	    + ">"
-	    + alias2(alias3((depth0 != null ? depth0.Jun : depth0), depth0))
-	    + "</td>\n        <td class=\"tui-calendar-month\" data-timestamp="
-	    + alias2(__default(__webpack_require__(40)).call(alias1,(depth0 != null ? depth0.year : depth0),6,{"name":"../helpers/timestamp","hash":{},"data":data}))
-	    + ">"
-	    + alias2(alias3((depth0 != null ? depth0.Jul : depth0), depth0))
-	    + "</td>\n        <td class=\"tui-calendar-month\" data-timestamp="
-	    + alias2(__default(__webpack_require__(40)).call(alias1,(depth0 != null ? depth0.year : depth0),7,{"name":"../helpers/timestamp","hash":{},"data":data}))
-	    + ">"
-	    + alias2(alias3((depth0 != null ? depth0.Aug : depth0), depth0))
-	    + "</td>\n    </tr>\n    <tr class=\"tui-calendar-month-group\">\n        <td class=\"tui-calendar-month\" data-timestamp="
-	    + alias2(__default(__webpack_require__(40)).call(alias1,(depth0 != null ? depth0.year : depth0),8,{"name":"../helpers/timestamp","hash":{},"data":data}))
-	    + ">"
-	    + alias2(alias3((depth0 != null ? depth0.Sep : depth0), depth0))
-	    + "</td>\n        <td class=\"tui-calendar-month\" data-timestamp="
-	    + alias2(__default(__webpack_require__(40)).call(alias1,(depth0 != null ? depth0.year : depth0),9,{"name":"../helpers/timestamp","hash":{},"data":data}))
-	    + ">"
-	    + alias2(alias3((depth0 != null ? depth0.Oct : depth0), depth0))
-	    + "</td>\n        <td class=\"tui-calendar-month\" data-timestamp="
-	    + alias2(__default(__webpack_require__(40)).call(alias1,(depth0 != null ? depth0.year : depth0),10,{"name":"../helpers/timestamp","hash":{},"data":data}))
-	    + ">"
-	    + alias2(alias3((depth0 != null ? depth0.Nov : depth0), depth0))
-	    + "</td>\n        <td class=\"tui-calendar-month\" data-timestamp="
-	    + alias2(__default(__webpack_require__(40)).call(alias1,(depth0 != null ? depth0.year : depth0),11,{"name":"../helpers/timestamp","hash":{},"data":data}))
-	    + ">"
-	    + alias2(alias3((depth0 != null ? depth0.Dec : depth0), depth0))
-	    + "</td>\n    </tr>\n    </tbody>\n</table>\n";
-	},"useData":true});
+
+
+/**
+ * Check whether the given variable is a function or not.
+ * If the given variable is a function, return true.
+ * @param {*} obj - Target for checking
+ * @returns {boolean} Is function?
+ * @memberof module:type
+ */
+function isFunction(obj) {
+  return obj instanceof Function;
+}
+
+module.exports = isFunction;
+
 
 /***/ }),
 /* 40 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Handlebars helper - timestamp
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Check element match selector
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	/**
-	 * Return timestamp
-	 * @param {number} year - Year
-	 * @param {number} month - Month
-	 * @returns {number}
-	 */
-	module.exports = function(year, month) {
-	    return new Date(year, month, 1).getTime();
-	};
+
+var inArray = __webpack_require__(3);
+var toArray = __webpack_require__(41);
+
+var elProto = Element.prototype;
+var matchSelector = elProto.matches ||
+    elProto.webkitMatchesSelector ||
+    elProto.mozMatchesSelector ||
+    elProto.msMatchesSelector ||
+    function(selector) {
+      var doc = this.document || this.ownerDocument;
+
+      return inArray(this, toArray(doc.querySelectorAll(selector))) > -1;
+    };
+
+/**
+ * Check element match selector
+ * @param {HTMLElement} element - element to check
+ * @param {string} selector - selector to check
+ * @returns {boolean} is selector matched to element?
+ * @memberof module:domUtil
+ */
+function matches(element, selector) {
+  return matchSelector.call(element, selector);
+}
+
+module.exports = matches;
 
 
 /***/ }),
 /* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Year layer
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Transform the Array-like object to Array.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var $ = __webpack_require__(2);
-	var snippet = __webpack_require__(3);
 
-	var bodyTmpl = __webpack_require__(42);
-	var LayerBase = __webpack_require__(37);
-	var TYPE_YEAR = __webpack_require__(31).TYPE_YEAR;
-	var dateUtil = __webpack_require__(30);
+var forEachArray = __webpack_require__(2);
 
-	var DATE_SELECTOR = '.tui-calendar-year';
+/**
+ * Transform the Array-like object to Array.
+ * In low IE (below 8), Array.prototype.slice.call is not perfect. So, try-catch statement is used.
+ * @param {*} arrayLike Array-like object
+ * @returns {Array} Array
+ * @memberof module:collection
+ * @example
+ * var toArray = require('tui-code-snippet/collection/toArray'); // node, commonjs
+ *
+ * var arrayLike = {
+ *     0: 'one',
+ *     1: 'two',
+ *     2: 'three',
+ *     3: 'four',
+ *     length: 4
+ * };
+ * var result = toArray(arrayLike);
+ *
+ * alert(result instanceof Array); // true
+ * alert(result); // one,two,three,four
+ */
+function toArray(arrayLike) {
+  var arr;
+  try {
+    arr = Array.prototype.slice.call(arrayLike);
+  } catch (e) {
+    arr = [];
+    forEachArray(arrayLike, function(value) {
+      arr.push(value);
+    });
+  }
 
-	/**
-	 * @class
-	 * @extends LayerBase
-	 * @param {string} language - Initial language
-	 * @ignore
-	 */
-	var YearLayer = snippet.defineClass(LayerBase, /** @lends YearLayer.prototype */{
-	    init: function(language) {
-	        LayerBase.call(this, language);
-	    },
+  return arr;
+}
 
-	    /**
-	     * Layer type
-	     * @type {string}
-	     * @private
-	     */
-	    _type: TYPE_YEAR,
-
-	    /**
-	     * @override
-	     * @returns {object} Template context
-	     * @private
-	     */
-	    _makeContext: function(date) {
-	        var year = date.getFullYear();
-
-	        return {
-	            yearGroups: [
-	                dateUtil.getRangeArr(year - 4, year - 2),
-	                dateUtil.getRangeArr(year - 1, year + 1),
-	                dateUtil.getRangeArr(year + 2, year + 4)
-	            ]
-	        };
-	    },
-
-	    /**
-	     * Render month-layer element
-	     * @override
-	     */
-	    render: function(date) {
-	        var context = this._makeContext(date);
-
-	        this._$element = $(bodyTmpl(context));
-	    },
-
-	    /**
-	     * Returns year elements
-	     * @override
-	     * @returns {jQuery}
-	     */
-	    getDateElements: function() {
-	        return this._$element.find(DATE_SELECTOR);
-	    }
-	});
-
-	module.exports = YearLayer;
+module.exports = toArray;
 
 
 /***/ }),
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(7);
-	function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
-	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(container,depth0,helpers,partials,data,blockParams) {
-	    var stack1;
+"use strict";
+/**
+ * @fileoverview Convert kebab-case
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	  return "            <tr class=\"tui-calendar-year-group\">\n"
-	    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},blockParams[0][0],{"name":"each","hash":{},"fn":container.program(2, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
-	    + "            </tr>\n";
-	},"2":function(container,depth0,helpers,partials,data,blockParams) {
-	    var alias1=container.escapeExpression;
 
-	  return "                    <td class=\"tui-calendar-year\" data-timestamp="
-	    + alias1(__default(__webpack_require__(40)).call(depth0 != null ? depth0 : {},blockParams[0][0],0,{"name":"../helpers/timestamp","hash":{},"data":data,"blockParams":blockParams}))
-	    + ">\n                        "
-	    + alias1(container.lambda(blockParams[0][0], depth0))
-	    + "\n                    </td>\n";
-	},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams) {
-	    var stack1;
 
-	  return "<table class=\"tui-calendar-body-inner\">\n    <caption><span>Years</span></caption>\n    <tbody>\n"
-	    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.yearGroups : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 1, blockParams),"inverse":container.noop,"data":data,"blockParams":blockParams})) != null ? stack1 : "")
-	    + "    </tbody>\n</table>\n";
-	},"useData":true,"useBlockParams":true});
+/**
+ * Convert kebab-case
+ * @param {string} key - string to be converted to Kebab-case
+ * @private
+ */
+function convertToKebabCase(key) {
+  return key.replace(/([A-Z])/g, function(match) {
+    return '-' + match.toLowerCase();
+  });
+}
+
+module.exports = convertToKebabCase;
+
 
 /***/ }),
 /* 43 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-	/**
-	 * @fileoverview RangeModel
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
-
-	'use strict';
-
-	var snippet = __webpack_require__(3);
-
-	var Range = __webpack_require__(44);
-
-	/**
-	 * @class
-	 * @ignore
-	 * @param {Array.<Array.<number>>} ranges - Ranges
-	 */
-	var RangeModel = snippet.defineClass(/** @lends RangeModel.prototype */{
-	    init: function(ranges) {
-	        ranges = ranges || [];
-
-	        /**
-	         * @type {Array.<Range>}
-	         * @private
-	         */
-	        this._ranges = [];
-
-	        snippet.forEach(ranges, function(range) {
-	            this.add(range[0], range[1]);
-	        }, this);
-	    },
-
-	    /**
-	     * Whether the ranges contain a time or time-range
-	     * @param {number} start - Start
-	     * @param {number} [end] - End
-	     * @returns {boolean}
-	     */
-	    contains: function(start, end) {
-	        var i = 0;
-	        var length = this._ranges.length;
-	        var range;
-
-	        for (; i < length; i += 1) {
-	            range = this._ranges[i];
-	            if (range.contains(start, end)) {
-	                return true;
-	            }
-	        }
-
-	        return false;
-	    },
-
-	    /**
-	     * Whether overlaps with a point or range
-	     * @param {number} start - Start
-	     * @param {number} [end] - End
-	     * @returns {boolean}
-	     */
-	    hasOverlap: function(start, end) {
-	        var i = 0;
-	        var length = this._ranges.length;
-	        var range;
-
-	        for (; i < length; i += 1) {
-	            range = this._ranges[i];
-	            if (range.isOverlapped(start, end)) {
-	                return true;
-	            }
-	        }
-
-	        return false;
-	    },
-
-	    /**
-	     * Add range
-	     * @param {number} start - Start
-	     * @param {number} [end] - End
-	     */
-	    add: function(start, end) {
-	        var overlapped = false;
-	        var i = 0;
-	        var len = this._ranges.length;
-	        var range;
-
-	        for (; i < len; i += 1) {
-	            range = this._ranges[i];
-	            overlapped = range.isOverlapped(start, end);
-
-	            if (overlapped) {
-	                range.merge(start, end);
-	                break;
-	            }
-
-	            if (start < range.start) {
-	                break;
-	            }
-	        }
-
-	        if (!overlapped) {
-	            this._ranges.splice(i, 0, new Range(start, end));
-	        }
-	    },
-
-	    /**
-	     * Returns minimum value in ranges
-	     * @returns {number}
-	     */
-	    getMinimumValue: function() {
-	        return this._ranges[0].start;
-	    },
-
-	    /**
-	     * Returns maximum value in ranges
-	     * @returns {number}
-	     */
-	    getMaximumValue: function() {
-	        var length = this._ranges.length;
-
-	        return this._ranges[length - 1].end;
-	    },
-
-	    /**
-	     * @param {number} start - Start
-	     * @param {number} [end] - End
-	     */
-	    exclude: function(start, end) {
-	        if (!snippet.isNumber(end)) {
-	            end = start;
-	        }
-
-	        snippet.forEach(this._ranges, function(range) {
-	            var rangeEnd;
-
-	            if (range.isOverlapped(start, end)) {
-	                rangeEnd = range.end; // Save before excluding
-	                range.exclude(start, end);
-
-	                if (end + 1 <= rangeEnd) {
-	                    this.add(end + 1, rangeEnd); // Add split range
-	                }
-	            }
-	        }, this);
-
-	        // Reduce empty ranges
-	        this._ranges = snippet.filter(this._ranges, function(range) {
-	            return !range.isEmpty();
-	        });
-	    },
-
-	    /**
-	     * Returns the first overlapped range from the point or range
-	     * @param {number} start - Start
-	     * @param {number} end - End
-	     * @returns {Array.<number>} - [start, end]
-	     */
-	    findOverlappedRange: function(start, end) {
-	        var i = 0;
-	        var len = this._ranges.length;
-	        var range;
-
-	        for (; i < len; i += 1) {
-	            range = this._ranges[i];
-	            if (range.isOverlapped(start, end)) {
-	                return [range.start, range.end];
-	            }
-	        }
-
-	        return null;
-	    }
-	});
-
-	module.exports = RangeModel;
-
+module.exports = __WEBPACK_EXTERNAL_MODULE__43__;
 
 /***/ }),
 /* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Range (in RangeModel)
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Calendar Header
+ * @author NHN. FE dev Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var snippet = __webpack_require__(3);
 
-	var isNumber = snippet.isNumber;
+var defineClass = __webpack_require__(0);
+var CustomEvents = __webpack_require__(8);
+var closest = __webpack_require__(25);
+var removeElement = __webpack_require__(14);
 
-	/**
-	 * @class
-	 * @ignore
-	 * @param {number} start - Start of range
-	 * @param {number} [end] - End of range
-	 */
-	var Range = snippet.defineClass(/** @lends Range.prototype */{
-	    init: function(start, end) {
-	        this.setRange(start, end);
-	    },
+var localeTexts = __webpack_require__(10);
+var headerTmpl = __webpack_require__(45);
+var DateTimeFormatter = __webpack_require__(30);
+var constants = __webpack_require__(1);
+var util = __webpack_require__(4);
+var mouseTouchEvent = __webpack_require__(19);
 
-	    /**
-	     * Set range
-	     * @param {number} start - Start number
-	     * @param {number} [end] - End number
-	     */
-	    setRange: function(start, end) {
-	        if (!isNumber(end)) {
-	            end = start;
-	        }
+var TYPE_DATE = constants.TYPE_DATE;
+var TYPE_MONTH = constants.TYPE_MONTH;
+var TYPE_YEAR = constants.TYPE_YEAR;
 
-	        this.start = Math.min(start, end);
-	        this.end = Math.max(start, end);
-	    },
+var CLASS_NAME_TITLE_MONTH = 'tui-calendar-title-month';
+var CLASS_NAME_TITLE_YEAR = 'tui-calendar-title-year';
+var CLASS_NAME_TITLE_YEAR_TO_YEAR = 'tui-calendar-title-year-to-year';
 
-	    /**
-	     * Merge range
-	     * @param {number} start - Start
-	     * @param {number} [end] - End
-	     */
-	    merge: function(start, end) {
-	        if (!isNumber(start) || !isNumber(end) || !this.isOverlapped(start, end)) {
-	            return;
-	        }
+var SELECTOR_INNER_ELEM = '.tui-calendar-header-inner';
+var SELECTOR_INFO_ELEM = '.tui-calendar-header-info';
+var SELECTOR_BTN = '.tui-calendar-btn';
 
-	        this.start = Math.min(start, this.start);
-	        this.end = Math.max(end, this.end);
-	    },
+var YEAR_TITLE_FORMAT = 'yyyy';
 
-	    /**
-	     * Whether being empty.
-	     * @returns {boolean}
-	     */
-	    isEmpty: function() {
-	        return !isNumber(this.start) || !isNumber(this.end);
-	    },
+/**
+ * @ignore
+ * @class
+ * @param {string|HTMLElement} container - Header container or selector
+ * @param {object} option - Header option
+ * @param {string} option.language - Header language
+ * @param {boolean} option.showToday - Has today box or not.
+ * @param {boolean} option.showJumpButtons - Has jump buttons or not.
+ */
+var Header = defineClass(
+  /** @lends Header.prototype */ {
+    init: function(container, option) {
+      /**
+       * Container element
+       * @type {HTMLElement}
+       * @private
+       */
+      this._container = util.getElement(container);
 
-	    /**
-	     * Set empty
-	     */
-	    setEmpty: function() {
-	        this.start = this.end = null;
-	    },
+      /**
+       * Header inner element
+       * @type {HTMLElement}
+       * @private
+       */
+      this._innerElement = null;
 
-	    /**
-	     * Whether containing a range.
-	     * @param {number} start - Start
-	     * @param {number} [end] - End
-	     * @returns {boolean}
-	     */
-	    contains: function(start, end) {
-	        if (!isNumber(end)) {
-	            end = start;
-	        }
+      /**
+       * Header info element
+       * @type {HTMLElement}
+       * @private
+       */
+      this._infoElement = null;
 
-	        return this.start <= start && end <= this.end;
-	    },
+      /**
+       * Render today box or not
+       * @type {boolean}
+       * @private
+       */
+      this._showToday = option.showToday;
 
-	    /**
-	     * Whether overlaps with a range
-	     * @param {number} start - Start
-	     * @param {number} [end] - End
-	     * @returns {boolean}
-	     */
-	    isOverlapped: function(start, end) {
-	        if (!isNumber(end)) {
-	            end = start;
-	        }
+      /**
+       * Render jump buttons or not (next,prev year on date calendar)
+       * @type {boolean}
+       * @private
+       */
+      this._showJumpButtons = option.showJumpButtons;
 
-	        return this.start <= end && this.end >= start;
-	    },
+      /**
+       * Year_Month title formatter
+       * @type {DateTimeFormatter}
+       * @private
+       */
+      this._yearMonthTitleFormatter = null;
 
-	    /**
-	     * Exclude a range
-	     * @param {number} start - Start
-	     * @param {number} end - End
-	     */
-	    exclude: function(start, end) {
-	        if (start <= this.start && end >= this.end) {
-	            // Excluding range contains this
-	            this.setEmpty();
-	        } else if (this.contains(start)) {
-	            this.setRange(this.start, start - 1);
-	        } else if (this.contains(end)) {
-	            this.setRange(end + 1, this.end);
-	        }
-	    }
-	});
+      /**
+       * Year title formatter
+       * @type {DateTimeFormatter}
+       * @private
+       */
+      this._yearTitleFormatter = null;
 
-	module.exports = Range;
+      /**
+       * Today formatter
+       * @type {DateTimeFormatter}
+       * @private
+       */
+      this._todayFormatter = null;
+
+      this._setFormatters(localeTexts[option.language]);
+      this._setEvents(option);
+    },
+
+    /**
+     * @param {object} localeText - Locale text
+     * @private
+     */
+    _setFormatters: function(localeText) {
+      this._yearMonthTitleFormatter = new DateTimeFormatter(
+        localeText.titleFormat,
+        localeText.titles
+      );
+      this._yearTitleFormatter = new DateTimeFormatter(YEAR_TITLE_FORMAT, localeText.titles);
+      this._todayFormatter = new DateTimeFormatter(localeText.todayFormat, localeText.titles);
+    },
+
+    /**
+     * @param {object} option - Constructor option
+     * @private
+     */
+    _setEvents: function() {
+      mouseTouchEvent.on(this._container, 'click', this._onClickHandler, this);
+    },
+
+    /**
+     * @private
+     */
+    _removeEvents: function() {
+      this.off();
+      mouseTouchEvent.off(this._container, 'click', this._onClickHandler);
+    },
+
+    /**
+     * Fire customEvents
+     * @param {Event} ev An event object
+     * @private
+     */
+    _onClickHandler: function(ev) {
+      var target = util.getTarget(ev);
+
+      if (closest(target, SELECTOR_BTN)) {
+        this.fire('click', ev);
+      }
+    },
+
+    /**
+     * @param {string} type - Calendar type
+     * @returns {string}
+     * @private
+     */
+    _getTitleClass: function(type) {
+      switch (type) {
+        case TYPE_DATE:
+          return CLASS_NAME_TITLE_MONTH;
+        case TYPE_MONTH:
+          return CLASS_NAME_TITLE_YEAR;
+        case TYPE_YEAR:
+          return CLASS_NAME_TITLE_YEAR_TO_YEAR;
+        default:
+          return '';
+      }
+    },
+
+    /**
+     * @param {Date} date - date
+     * @param {string} type - Calendar type
+     * @returns {string}
+     * @private
+     */
+    _getTitleText: function(date, type) {
+      var currentYear, start, end;
+
+      switch (type) {
+        case TYPE_DATE:
+          return this._yearMonthTitleFormatter.format(date);
+        case TYPE_MONTH:
+          return this._yearTitleFormatter.format(date);
+        case TYPE_YEAR:
+          currentYear = date.getFullYear();
+          start = new Date(currentYear - 4, 0, 1);
+          end = new Date(currentYear + 4, 0, 1);
+
+          return (
+            this._yearTitleFormatter.format(start) + ' - ' + this._yearTitleFormatter.format(end)
+          );
+        default:
+          return '';
+      }
+    },
+
+    /**
+     * Change langauge
+     * @param {string} language - Language
+     */
+    changeLanguage: function(language) {
+      this._setFormatters(localeTexts[language]);
+    },
+
+    /**
+     * Render header
+     * @param {Date} date - date
+     * @param {string} type - Calendar type
+     */
+    render: function(date, type) {
+      var context = {
+        showToday: this._showToday,
+        showJumpButtons: this._showJumpButtons,
+        todayText: this._todayFormatter.format(new Date()),
+        isDateCalendar: type === TYPE_DATE,
+        titleClass: this._getTitleClass(type),
+        title: this._getTitleText(date, type)
+      };
+
+      this._container.innerHTML = headerTmpl(context).replace(/^\s+|\s+$/g, '');
+      this._innerElement = this._container.querySelector(SELECTOR_INNER_ELEM);
+      if (context.showToday) {
+        this._infoElement = this._container.querySelector(SELECTOR_INFO_ELEM);
+      }
+    },
+
+    /**
+     * Destroy header
+     */
+    destroy: function() {
+      this._removeEvents();
+      removeElement(this._innerElement);
+      removeElement(this._infoElement);
+      this._container = this._showToday = this._showJumpButtons = this._yearMonthTitleFormatter = this._yearTitleFormatter = this._todayFormatter = this._innerElement = this._infoElement = null;
+    }
+  }
+);
+
+CustomEvents.mixin(Header);
+module.exports = Header;
 
 
 /***/ }),
 /* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Set mouse-touch event
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
 
-	'use strict';
 
-	var snippet = __webpack_require__(3);
+var template = __webpack_require__(11);
 
-	var $ = __webpack_require__(2);
+module.exports = function(context) {
+  var source =
+    '{{if isDateCalendar}}' +
+    '  {{if showJumpButtons}}' +
+    '    <div class="tui-calendar-header-inner tui-calendar-has-btns">' +
+    '      <button class="tui-calendar-btn tui-calendar-btn-prev-year">Prev year</button>' +
+    '      <button class="tui-calendar-btn tui-calendar-btn-prev-month">Prev month</button>' +
+    '      <em class="tui-calendar-title {{titleClass}}">{{title}}</em>' +
+    '      <button class="tui-calendar-btn tui-calendar-btn-next-month">Next month</button>' +
+    '      <button class="tui-calendar-btn tui-calendar-btn-next-year">Next year</button>' +
+    '    </div>' +
+    '  {{else}}' +
+    '    <div class="tui-calendar-header-inner">' +
+    '      <button class="tui-calendar-btn tui-calendar-btn-prev-month">Prev month</button>' +
+    '      <em class="tui-calendar-title {{titleClass}}">{{title}}</em>' +
+    '      <button class="tui-calendar-btn tui-calendar-btn-next-month">Next month</button>' +
+    '    </div>' +
+    '  {{/if}}' +
+    '{{else}}' +
+    '  <div class="tui-calendar-header-inner">' +
+    '    <button class="tui-calendar-btn tui-calendar-btn-prev-year">Prev year</button>' +
+    '    <em class="tui-calendar-title {{titleClass}}">{{title}}</em>' +
+    '    <button class="tui-calendar-btn tui-calendar-btn-next-year">Next year</button>' +
+    '  </div>' +
+    '{{/if}}' +
+    '{{if showToday}}' +
+    '  <div class="tui-calendar-header-info">' +
+    '    <p class="tui-calendar-title-today">{{todayText}}</p>' +
+    '  </div>' +
+    '{{/if}}';
 
-	/**
-	 * For using one - Touch or Mouse Events
-	 * @param {jQuery|string|Element} target - Target element
-	 * @param {Function} handler - Handler
-	 * @param {object} [option] - Option
-	 * @param {string} option.selector - Selector
-	 * @param {string} option.namespace - Event namespace
-	 */
-	module.exports = function(target, handler, option) {
-	    var $target = $(target);
-	    var eventList = ['touchend', 'click'];
-	    var selector, namespace, events;
-
-	    option = option || {};
-	    selector = option.selector || null;
-	    namespace = option.namespace || '';
-
-	    if (namespace) {
-	        eventList = snippet.map(eventList, function(eventName) {
-	            return eventName + '.' + namespace;
-	        });
-	    }
-
-	    events = eventList.join(' ');
-	    $target.on(events, selector, function onceHandler(ev) {
-	        var newEventName = ev.type + '.' + namespace;
-
-	        handler(ev);
-	        $target.off(events, selector, onceHandler)
-	            .on(newEventName, selector, handler);
-	    });
-	};
+  return template(source, context);
+};
 
 
 /***/ }),
 /* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(7);
-	function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
-	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
-	    var stack1, alias1=depth0 != null ? depth0 : {};
+"use strict";
+/**
+ * @fileoverview Check whether the given variable is a instance of HTMLNode or not.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	  return ((stack1 = helpers["if"].call(alias1,__default(__webpack_require__(47)).call(alias1,((stack1 = (depth0 != null ? depth0.timepicker : depth0)) != null ? stack1.layoutType : stack1),"tab",{"name":"../helpers/equals","hash":{},"data":data}),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.program(4, data, 0),"data":data})) != null ? stack1 : "");
-	},"2":function(container,depth0,helpers,partials,data) {
-	    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-	  return "            <div class=\"tui-datepicker-selector\">\n                <button type=\"button\" class=\"tui-datepicker-selector-button tui-is-checked\" aria-label=\"selected\">\n                    <span class=\"tui-ico-date\"></span>"
-	    + alias2(alias1(((stack1 = (depth0 != null ? depth0.localeText : depth0)) != null ? stack1.date : stack1), depth0))
-	    + "\n                </button>\n                <button type=\"button\" class=\"tui-datepicker-selector-button\">\n                    <span class=\"tui-ico-time\"></span>"
-	    + alias2(alias1(((stack1 = (depth0 != null ? depth0.localeText : depth0)) != null ? stack1.time : stack1), depth0))
-	    + "\n                </button>\n            </div>\n            <div class=\"tui-datepicker-body\"></div>\n";
-	},"4":function(container,depth0,helpers,partials,data) {
-	    return "            <div class=\"tui-datepicker-body\"></div>\n            <div class=\"tui-datepicker-footer\"></div>\n";
-	},"6":function(container,depth0,helpers,partials,data) {
-	    return "        <div class=\"tui-datepicker-body\"></div>\n";
-	},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-	    var stack1;
 
-	  return "<div class=\"tui-datepicker\">\n"
-	    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.timepicker : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(6, data, 0),"data":data})) != null ? stack1 : "")
-	    + "</div>\n";
-	},"useData":true});
+/**
+ * Check whether the given variable is a instance of HTMLNode or not.
+ * If the given variables is a instance of HTMLNode, return true.
+ * @param {*} html - Target for checking
+ * @returns {boolean} Is HTMLNode ?
+ * @memberof module:type
+ */
+function isHTMLNode(html) {
+  if (typeof HTMLElement === 'object') {
+    return (html && (html instanceof HTMLElement || !!html.nodeType));
+  }
+
+  return !!(html && html.nodeType);
+}
+
+module.exports = isHTMLNode;
+
 
 /***/ }),
 /* 47 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Handlebars helper - Equals
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Send hostname on DOMContentLoaded.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	/**
-	 * @param {*} a - Anything
-	 * @param {*} b - Anything
-	 * @returns {boolean}
-	 */
-	module.exports = function(a, b) {
-	    return a === b;
-	};
+
+var isUndefined = __webpack_require__(12);
+var imagePing = __webpack_require__(48);
+
+var ms7days = 7 * 24 * 60 * 60 * 1000;
+
+/**
+ * Check if the date has passed 7 days
+ * @param {number} date - milliseconds
+ * @returns {boolean}
+ * @private
+ */
+function isExpired(date) {
+  var now = new Date().getTime();
+
+  return now - date > ms7days;
+}
+
+/**
+ * Send hostname on DOMContentLoaded.
+ * To prevent hostname set tui.usageStatistics to false.
+ * @param {string} appName - application name
+ * @param {string} trackingId - GA tracking ID
+ * @ignore
+ */
+function sendHostname(appName, trackingId) {
+  var url = 'https://www.google-analytics.com/collect';
+  var hostname = location.hostname;
+  var hitType = 'event';
+  var eventCategory = 'use';
+  var applicationKeyForStorage = 'TOAST UI ' + appName + ' for ' + hostname + ': Statistics';
+  var date = window.localStorage.getItem(applicationKeyForStorage);
+
+  // skip if the flag is defined and is set to false explicitly
+  if (!isUndefined(window.tui) && window.tui.usageStatistics === false) {
+    return;
+  }
+
+  // skip if not pass seven days old
+  if (date && !isExpired(date)) {
+    return;
+  }
+
+  window.localStorage.setItem(applicationKeyForStorage, new Date().getTime());
+
+  setTimeout(function() {
+    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+      imagePing(url, {
+        v: 1,
+        t: hitType,
+        tid: trackingId,
+        cid: hostname,
+        dp: hostname,
+        dh: appName,
+        el: appName,
+        ec: eventCategory
+      });
+    }
+  }, 1000);
+}
+
+module.exports = sendHostname;
 
 
 /***/ }),
 /* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview DatePicker input(element) component
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Request image ping.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var $ = __webpack_require__(2);
-	var snippet = __webpack_require__(3);
 
-	var DateTimeFormatter = __webpack_require__(29);
-	var setTouchClickEvent = __webpack_require__(45);
+var forEachOwnProperties = __webpack_require__(23);
 
-	var DEFAULT_FORMAT = 'yyyy-MM-dd';
+/**
+ * @module request
+ */
 
-	/**
-	 * DatePicker Input
-	 * @ignore
-	 * @class
-	 * @param {string|jQuery|HTMLElement} inputElement - Input element
-	 * @param {object} option - Option
-	 * @param {string} option.id - Id
-	 * @param {string} option.format - Text format
-	 */
-	var DatePickerInput = snippet.defineClass(/** @lends DatePickerInput.prototype */{
-	    init: function(inputElement, option) {
-	        option.format = option.format || DEFAULT_FORMAT;
+/**
+ * Request image ping.
+ * @param {String} url url for ping request
+ * @param {Object} trackingInfo infos for make query string
+ * @returns {HTMLElement}
+ * @memberof module:request
+ * @example
+ * var imagePing = require('tui-code-snippet/request/imagePing'); // node, commonjs
+ *
+ * imagePing('https://www.google-analytics.com/collect', {
+ *     v: 1,
+ *     t: 'event',
+ *     tid: 'trackingid',
+ *     cid: 'cid',
+ *     dp: 'dp',
+ *     dh: 'dh'
+ * });
+ */
+function imagePing(url, trackingInfo) {
+  var trackingElement = document.createElement('img');
+  var queryString = '';
+  forEachOwnProperties(trackingInfo, function(value, key) {
+    queryString += '&' + key + '=' + value;
+  });
+  queryString = queryString.substring(1);
 
-	        /**
-	         * Input element
-	         * @type {jQuery}
-	         * @private
-	         */
-	        this._$input = $(inputElement);
+  trackingElement.src = url + '?' + queryString;
 
-	        /**
-	         * Id
-	         * @type {string}
-	         * @private
-	         */
-	        this._id = option.id;
+  trackingElement.style.display = 'none';
+  document.body.appendChild(trackingElement);
+  document.body.removeChild(trackingElement);
 
-	        /**
-	         * LocaleText titles
-	         * @type {Object}
-	         * @private
-	         */
-	        this._titles = option.localeText.titles;
+  return trackingElement;
+}
 
-	        /**
-	         * Text<->DateTime Formatter
-	         * @type {DateTimeFormatter}
-	         * @private
-	         */
-	        this._formatter = new DateTimeFormatter(option.format, this._titles);
-
-	        this._setEvents();
-	    },
-
-	    /**
-	     * Change locale titles
-	     * @param {object} titles - locale text in format
-	     */
-	    changeLocaleTitles: function(titles) {
-	        this._titles = titles;
-	    },
-
-	    /**
-	     * Set input 'click', 'change' event
-	     * @private
-	     */
-	    _setEvents: function() {
-	        this._$input.on('change.' + this._id, $.proxy(this.fire, this, 'change'));
-
-	        setTouchClickEvent(this._$input, $.proxy(this.fire, this, 'click'), {
-	            namespace: this._id
-	        });
-	    },
-
-	    /**
-	     * @see {@link http://api.jquery.com/is/}
-	     * @param {string|jQuery|HTMLElement|function} el - To check matched set of elements
-	     * @returns {boolean}
-	     */
-	    is: function(el) {
-	        return this._$input.is(el);
-	    },
-
-	    /**
-	     * Enable input
-	     */
-	    enable: function() {
-	        this._$input.removeAttr('disabled');
-	    },
-
-	    /**
-	     * Disable input
-	     */
-	    disable: function() {
-	        this._$input.attr('disabled', true);
-	    },
-
-	    /**
-	     * Return format
-	     * @returns {string}
-	     */
-	    getFormat: function() {
-	        return this._formatter.getRawString();
-	    },
-
-	    /**
-	     * Set format
-	     * @param {string} format - Format
-	     */
-	    setFormat: function(format) {
-	        if (!format) {
-	            return;
-	        }
-
-	        this._formatter = new DateTimeFormatter(format, this._titles);
-	    },
-
-	    /**
-	     * Clear text
-	     */
-	    clearText: function() {
-	        this._$input.val('');
-	    },
-
-	    /**
-	     * Set value from date
-	     * @param {Date} date - Date
-	     */
-	    setDate: function(date) {
-	        this._$input.val(this._formatter.format(date));
-	    },
-
-	    /**
-	     * Returns date from input-text
-	     * @returns {Date}
-	     * @throws {Error}
-	     */
-	    getDate: function() {
-	        var value = this._$input.val();
-
-	        return this._formatter.parse(value);
-	    },
-
-	    /**
-	     * Destroy
-	     */
-	    destroy: function() {
-	        var evNamespace = '.' + this._id;
-
-	        this.off();
-	        this._$input.off(evNamespace);
-
-	        this._$input
-	            = this._id
-	            = this._formatter
-	            = null;
-	    }
-	});
-
-	snippet.CustomEvents.mixin(DatePickerInput);
-	module.exports = DatePickerInput;
+module.exports = imagePing;
 
 
 /***/ }),
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview Date-Range picker
-	 * @author NHN Ent. FE Development Lab <dl_javascript@nhnent.com>
-	 */
+"use strict";
+/**
+ * @fileoverview Calendar body
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
 
-	'use strict';
 
-	var $ = __webpack_require__(2);
-	var snippet = __webpack_require__(3);
 
-	var DatePicker = __webpack_require__(1);
-	var dateUtil = __webpack_require__(30);
-	var constants = __webpack_require__(31);
+var forEachArray = __webpack_require__(2);
+var defineClass = __webpack_require__(0);
 
-	var CLASS_NAME_RANGE_PICKER = 'tui-rangepicker';
-	var CLASS_NAME_SELECTED = constants.CLASS_NAME_SELECTED;
-	var CLASS_NAME_SELECTED_RANGE = 'tui-is-selected-range';
+var DateLayer = __webpack_require__(50);
+var MonthLayer = __webpack_require__(52);
+var YearLayer = __webpack_require__(54);
+var constants = __webpack_require__(1);
 
-	/**
-	 * @class
-	 * @param {object} options - Date-Range picker options
-	 *     @param {object} options.startpicker - Startpicker options
-	 *     @param {Element|jQuery|string} options.startpicker.input - Startpicker input element
-	 *     @param {Element|jQuery|string} options.startpicker.container - Startpicker container element
-	 *     @param {object} options.endpicker - Endpicker options
-	 *     @param {Element|jQuery|string} options.endpicker.input - Endpicker input element
-	 *     @param {Element|jQuery|string} options.endpicker.container - Endpicker container element
-	 *     @param {string} options.format - Input date-string format
-	 *     @param {string} [options.type = 'date'] - DatePicker type - ('date' | 'month' | 'year')
-	 *     @param {string} [options.language='en'] - Language key
-	 *     @param {object|boolean} [options.timePicker] -
-	 *                             [TimePicker]{@link https://nhnent.github.io/tui.time-picker/latest} options
-	 *     @param {object} [options.calendar] - {@link Calendar} options
-	 *     @param {Array.<Array.<Date|number>>} [options.selectableRanges] - Selectable ranges
-	 *     @param {boolean} [options.showAlways = false] - Whether the datepicker shows always
-	 *     @param {boolean} [options.autoClose = true] - Close after click a date
-	 *     @param {Boolean} [options.usageStatistics=true|false] send hostname to google analytics [default value is true]
-	 * @example
-	 * var DatePicker = tui.DatePicker; // or require('tui-date-picker');
-	 * var rangepicker = DatePicker.createRangePicker({
-	 *     startpicker: {
-	 *         input: '#start-input',
-	 *         container: '#start-container'
-	 *     },
-	 *     endpicker: {
-	 *         input: '#end-input',
-	 *         container: '#end-container'
-	 *     },
-	 *     type: 'date',
-	 *     format: 'yyyy-MM-dd'
-	 *     selectableRanges: [
-	 *         [new Date(2017, 3, 1), new Date(2017, 5, 1)],
-	 *         [new Date(2017, 6, 3), new Date(2017, 10, 5)]
-	 *     ]
-	 * });
-	 */
-	var DateRangePicker = snippet.defineClass(/** @lends DateRangePicker.prototype */{
-	    init: function(options) {
-	        var startpickerOpt, endpickerOpt;
+var TYPE_DATE = constants.TYPE_DATE;
+var TYPE_MONTH = constants.TYPE_MONTH;
+var TYPE_YEAR = constants.TYPE_YEAR;
 
-	        options = options || {};
-	        startpickerOpt = options.startpicker;
-	        endpickerOpt = options.endpicker;
+/**
+ * @ignore
+ * @class
+ */
+var Body = defineClass(
+  /** @lends Body.prototype */ {
+    init: function(bodyContainer, options) {
+      var language = options.language;
+      var weekStartDay = options.weekStartDay;
 
-	        if (!startpickerOpt) {
-	            throw new Error('The "startpicker" option is required.');
-	        }
-	        if (!endpickerOpt) {
-	            throw new Error('The "endpicker" option is required.');
-	        }
+      /**
+       * Body container element
+       * @type {HTMLElement}
+       * @private
+       */
+      this._container = bodyContainer;
 
-	        /**
-	         * Start picker
-	         * @type {DatePicker}
-	         * @private
-	         */
-	        this._startpicker = null;
+      /**
+       * DateLayer
+       * @type {DateLayer}
+       * @private
+       */
+      this._dateLayer = new DateLayer(language, weekStartDay);
 
-	        /**
-	         * End picker
-	         * @type {DatePicker}
-	         * @private
-	         */
-	        this._endpicker = null;
+      /**
+       * MonthLayer
+       * @type {MonthLayer}
+       * @private
+       */
+      this._monthLayer = new MonthLayer(language);
 
-	        this._initializePickers(options);
-	        this.setStartDate(startpickerOpt.date);
-	        this.setEndDate(endpickerOpt.date);
-	        this._syncRangesToEndpicker();
-	    },
+      /**
+       * YearLayer
+       * @type {YearLayer}
+       * @private
+       */
+      this._yearLayer = new YearLayer(language);
 
-	    /**
-	     * Create picker
-	     * @param {Object} options - DatePicker options
-	     * @private
-	     */
-	    _initializePickers: function(options) {
-	        var $startpickerContainer = $(options.startpicker.container);
-	        var $endpickerContainer = $(options.endpicker.container);
-	        var $startInput = $(options.startpicker.input);
-	        var $endInput = $(options.endpicker.input);
+      /**
+       * Current Layer
+       * @type {DateLayer|MonthLayer|YearLayer}
+       * @private
+       */
+      this._currentLayer = this._dateLayer;
+    },
 
-	        var startpickerOpt = snippet.extend({}, options, {
-	            input: {
-	                element: $startInput,
-	                format: options.format
-	            }
-	        });
-	        var endpickerOpt = snippet.extend({}, options, {
-	            input: {
-	                element: $endInput,
-	                format: options.format
-	            }
-	        });
+    /**
+     * Returns matched layer
+     * @param {string} type - Layer type
+     * @returns {Base} - Layer
+     * @private
+     */
+    _getLayer: function(type) {
+      switch (type) {
+        case TYPE_DATE:
+          return this._dateLayer;
+        case TYPE_MONTH:
+          return this._monthLayer;
+        case TYPE_YEAR:
+          return this._yearLayer;
+        default:
+          return this._currentLayer;
+      }
+    },
 
-	        this._startpicker = new DatePicker($startpickerContainer, startpickerOpt);
-	        this._startpicker.addCssClass(CLASS_NAME_RANGE_PICKER);
-	        this._startpicker.on('change', this._onChangeStartpicker, this);
-	        this._startpicker.on('draw', this._onDrawPicker, this);
+    /**
+     * Iterate each layer
+     * @param {Function} fn - function
+     * @private
+     */
+    _eachLayer: function(fn) {
+      forEachArray([this._dateLayer, this._monthLayer, this._yearLayer], fn);
+    },
 
-	        this._endpicker = new DatePicker($endpickerContainer, endpickerOpt);
-	        this._endpicker.addCssClass(CLASS_NAME_RANGE_PICKER);
-	        this._endpicker.on('change', this._onChangeEndpicker, this);
-	        this._endpicker.on('draw', this._onDrawPicker, this);
-	    },
+    /**
+     * Change language
+     * @param {string} language - Language
+     */
+    changeLanguage: function(language) {
+      this._eachLayer(function(layer) {
+        layer.changeLanguage(language);
+      });
+    },
 
-	    /**
-	     * Set selection-class to elements after calendar drawing
-	     * @param {Object} eventData - Event data {@link DatePicker#event:draw}
-	     * @private
-	     */
-	    _onDrawPicker: function(eventData) {
-	        var self = this;
-	        var calendarType = eventData.type;
-	        var $dateElements = eventData.$dateElements;
-	        var startDate = this._startpicker.getDate();
-	        var endDate = this._endpicker.getDate();
+    /**
+     * Render body
+     * @param {Date} date - date
+     * @param {string} type - Layer type
+     */
+    render: function(date, type) {
+      var nextLayer = this._getLayer(type);
+      var prevLayer = this._currentLayer;
 
-	        if (!startDate) {
-	            return;
-	        }
+      prevLayer.remove();
+      nextLayer.render(date, this._container);
 
-	        if (!endDate) {
-	            // Convert null to invaild date.
-	            endDate = new Date(NaN);
-	        }
+      this._currentLayer = nextLayer;
+    },
 
-	        $dateElements.each(function(idx, el) {
-	            var $el = $(el);
-	            var elDate = new Date($el.data('timestamp'));
-	            var isInRange = dateUtil.inRange(startDate, endDate, elDate, calendarType);
-	            var isSelected = (
-	                dateUtil.isSame(startDate, elDate, calendarType)
-	                || dateUtil.isSame(endDate, elDate, calendarType)
-	            );
+    /**
+     * Returns date elements
+     * @returns {HTMLElement[]}
+     */
+    getDateElements: function() {
+      return this._currentLayer.getDateElements();
+    },
 
-	            self._setRangeClass($el, isInRange);
-	            self._setSelectedClass($el, isSelected);
-	        });
-	    },
+    /**
+     * Destory
+     */
+    destroy: function() {
+      this._eachLayer(function(layer) {
+        layer.remove();
+      });
 
-	    /**
-	     * Set range class to element
-	     * @param {jQuery} $el - Element
-	     * @param {boolean} isInRange - In range
-	     * @private
-	     */
-	    _setRangeClass: function($el, isInRange) {
-	        if (isInRange) {
-	            $el.addClass(CLASS_NAME_SELECTED_RANGE);
-	        } else {
-	            $el.removeClass(CLASS_NAME_SELECTED_RANGE);
-	        }
-	    },
+      this._container = this._currentLayer = this._dateLayer = this._monthLayer = this._yearLayer = null;
+    }
+  }
+);
 
-	    /**
-	     * Set selected class to element
-	     * @param {jQuery} $el - Element
-	     * @param {boolean} isSelected - Is selected
-	     * @private
-	     */
-	    _setSelectedClass: function($el, isSelected) {
-	        if (isSelected) {
-	            $el.addClass(CLASS_NAME_SELECTED);
-	        } else {
-	            $el.removeClass(CLASS_NAME_SELECTED);
-	        }
-	    },
-
-	    /**
-	     * Sync ranges to endpicker
-	     * @private
-	     */
-	    _syncRangesToEndpicker: function() {
-	        var startDate = this._startpicker.getDate();
-	        var overlappedRange;
-
-	        if (startDate) {
-	            overlappedRange = this._startpicker.findOverlappedRange(
-	                dateUtil.cloneWithStartOf(startDate).getTime(),
-	                dateUtil.cloneWithEndOf(startDate).getTime()
-	            );
-
-	            this._endpicker.enable();
-	            this._endpicker.setRanges([
-	                [startDate.getTime(), overlappedRange[1].getTime()]
-	            ]);
-	        } else {
-	            this._endpicker.setNull();
-	            this._endpicker.disable();
-	        }
-	    },
-
-	    /**
-	     * After change on start-picker
-	     * @private
-	     */
-	    _onChangeStartpicker: function() {
-	        this._syncRangesToEndpicker();
-	        /**
-	         * @event DateRangePicker#change:start
-	         * @example
-	         *
-	         * rangepicker.on('change:start', function() {
-	         *     console.log(rangepicker.getStartDate());
-	         * });
-	         */
-	        this.fire('change:start');
-	    },
-
-	    /**
-	     * After change on end-picker
-	     * @private
-	     */
-	    _onChangeEndpicker: function() {
-	        /**
-	         * @event DateRangePicker#change:end
-	         * @example
-	         *
-	         * rangepicker.on('change:end', function() {
-	         *     console.log(rangepicker.getEndDate());
-	         * });
-	         */
-	        this.fire('change:end');
-	    },
-
-	    /**
-	     * Returns start-datepicker
-	     * @returns {DatePicker}
-	     */
-	    getStartpicker: function() {
-	        return this._startpicker;
-	    },
-
-	    /**
-	     * Returns end-datepicker
-	     * @returns {DatePicker}
-	     */
-	    getEndpicker: function() {
-	        return this._endpicker;
-	    },
-
-	    /**
-	     * Set start date
-	     * @param {Date} date - Start date
-	     */
-	    setStartDate: function(date) {
-	        this._startpicker.setDate(date);
-	    },
-
-	    /**
-	     * Returns start-date
-	     * @returns {?Date}
-	     */
-	    getStartDate: function() {
-	        return this._startpicker.getDate();
-	    },
-
-	    /**
-	     * Returns end-date
-	     * @returns {?Date}
-	     */
-	    getEndDate: function() {
-	        return this._endpicker.getDate();
-	    },
-
-	    /**
-	     * Set end date
-	     * @param {Date} date - End date
-	     */
-	    setEndDate: function(date) {
-	        this._endpicker.setDate(date);
-	    },
-
-	    /**
-	     * Set selectable ranges
-	     * @param {Array.<Array.<number|Date>>} ranges - Selectable ranges
-	     * @see DatePicker#setRanges
-	     */
-	    setRanges: function(ranges) {
-	        this._startpicker.setRanges(ranges);
-	        this._syncRangesToEndpicker();
-	    },
-
-	    /**
-	     * Add a range
-	     * @param {Date|number} start - startDate
-	     * @param {Date|number} end - endDate
-	     * @see DatePicker#addRange
-	     */
-	    addRange: function(start, end) {
-	        this._startpicker.addRange(start, end);
-	        this._syncRangesToEndpicker();
-	    },
-
-	    /**
-	     * Remove a range
-	     * @param {Date|number} start - startDate
-	     * @param {Date|number} end - endDate
-	     * @param {null|'date'|'month'|'year'} type - Range type, If falsy -> Use strict timestamp;
-	     * @see DatePicker#removeRange
-	     */
-	    removeRange: function(start, end, type) {
-	        this._startpicker.removeRange(start, end, type);
-	        this._syncRangesToEndpicker();
-	    },
-
-	    /**
-	     * Change language
-	     * @param {string} language - Language
-	     * @see {@link DatePicker.localeTexts}
-	     */
-	    changeLanguage: function(language) {
-	        this._startpicker.changeLanguage(language);
-	        this._endpicker.changeLanguage(language);
-	    },
-
-	    /**
-	     * Destroy date-range picker
-	     */
-	    destroy: function() {
-	        this.off();
-	        this._startpicker.destroy();
-	        this._endpicker.destroy();
-	        this._startpicker
-	            = this._endpicker
-	            = null;
-	    }
-	});
-
-	snippet.CustomEvents.mixin(DateRangePicker);
-	module.exports = DateRangePicker;
+module.exports = Body;
 
 
 /***/ }),
 /* 50 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	// removed by extract-text-webpack-plugin
+"use strict";
+/**
+ * @fileoverview Date layer
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+var defineClass = __webpack_require__(0);
+
+var dateUtil = __webpack_require__(5);
+var bodyTmpl = __webpack_require__(51);
+var LayerBase = __webpack_require__(20);
+var TYPE_DATE = __webpack_require__(1).TYPE_DATE;
+var WEEK_START_DAY_MAP = __webpack_require__(1).WEEK_START_DAY_MAP;
+
+var DATE_SELECTOR = '.tui-calendar-date';
+var DAYS_OF_WEEK = 7;
+
+/**
+ * @ignore
+ * @class
+ * @extends LayerBase
+ * @param {string} language - Initial language
+ */
+var DateLayer = defineClass(
+  LayerBase,
+  /** @lends DateLayer.prototype */ {
+    init: function(language, weekStartDay) {
+      LayerBase.call(this, language);
+
+      this.weekStartDay = WEEK_START_DAY_MAP[String(weekStartDay).toLowerCase()] || 0;
+    },
+
+    /**
+     * Layer type
+     * @type {string}
+     * @private
+     */
+    _type: TYPE_DATE,
+
+    /**
+     * @override
+     * @private
+     * @returns {object} Template context
+     */
+    _makeContext: function(date) {
+      var daysShort = this._localeText.titles.D;
+      var year, month, days, i;
+
+      date = date || new Date();
+      year = date.getFullYear();
+      month = date.getMonth() + 1;
+
+      if (this.weekStartDay) {
+        days = daysShort.slice();
+        for (i = 0; i < this.weekStartDay; i += 1) {
+          days.push(days.shift());
+        }
+        daysShort = days;
+      }
+
+      return {
+        Sun: daysShort[0],
+        Mon: daysShort[1],
+        Tue: daysShort[2],
+        Wed: daysShort[3],
+        Thu: daysShort[4],
+        Fri: daysShort[5],
+        Sat: daysShort[6],
+        year: year,
+        month: month,
+        weeks: this._getWeeks(year, month)
+      };
+    },
+
+    /**
+     * weeks (templating) for date-calendar
+     * @param {number} year - Year
+     * @param {number} month - Month
+     * @returns {Array.<Array.<Date>>}
+     * @private
+     */
+    _getWeeks: function(year, month) {
+      var weekNumber = 0;
+      var weeksCount = 6; // Fix for no changing height
+      var weeks = [];
+      var week, dates, i;
+
+      while (weekNumber < weeksCount) {
+        dates = [];
+
+        for (i = this.weekStartDay; i < DAYS_OF_WEEK + this.weekStartDay; i += 1) {
+          dates.push(dateUtil.getDateOfWeek(year, month, weekNumber, i));
+        }
+
+        week = this._getWeek(year, month, dates);
+
+        if (this.weekStartDay && !_isFirstWeek(weekNumber, week[0].dayInMonth)) {
+          weeks.push(this._getFirstWeek(year, month));
+          weeksCount -= 1; // Fix for no changing height
+        }
+
+        weeks.push(week);
+        weekNumber += 1;
+      }
+
+      return weeks;
+    },
+
+    /**
+     * week (templating) for date-calendar
+     * @param {number} currentYear
+     * @param {number} currentMonth
+     * @param {Array.<Date>} dates
+     * @private
+     */
+    _getWeek: function(currentYear, currentMonth, dates) {
+      var firstDateOfCurrentMonth = new Date(currentYear, currentMonth - 1, 1);
+      var lastDateOfCurrentMonth = new Date(currentYear, currentMonth, 0);
+      var contexts = [];
+      var i = 0;
+      var length = dates.length;
+      var date, className;
+
+      for (; i < length; i += 1) {
+        className = 'tui-calendar-date';
+        date = dates[i];
+
+        if (date < firstDateOfCurrentMonth) {
+          className += ' tui-calendar-prev-month';
+        }
+
+        if (date > lastDateOfCurrentMonth) {
+          className += ' tui-calendar-next-month';
+        }
+
+        if (date.getDay() === 0) {
+          className += ' tui-calendar-sun';
+        } else if (date.getDay() === 6) {
+          className += ' tui-calendar-sat';
+        }
+
+        contexts.push({
+          dayInMonth: date.getDate(),
+          className: className,
+          timestamp: date.getTime()
+        });
+      }
+
+      return contexts;
+    },
+
+    /**
+     * Render date-layer
+     * @override
+     * @param {Date} date Date to render
+     * @param {HTMLElement} container A container element for the rendered element
+     */
+    render: function(date, container) {
+      var context = this._makeContext(date);
+
+      container.innerHTML = bodyTmpl(context);
+      this._element = container.firstChild;
+    },
+
+    /**
+     * Return date elements
+     * @override
+     * @returns {HTMLElement[]}
+     */
+    getDateElements: function() {
+      return this._element.querySelectorAll(DATE_SELECTOR);
+    },
+
+    _getFirstWeek: function(year, month) {
+      var firstWeekDates = [];
+      var i;
+
+      for (i = this.weekStartDay; i < DAYS_OF_WEEK + this.weekStartDay; i += 1) {
+        firstWeekDates.push(dateUtil.getDateOfWeek(year, month, -1, i));
+      }
+
+      return this._getWeek(year, month, firstWeekDates);
+    }
+  }
+);
+
+function _isFirstWeek(weekIndex, dayInMonth) {
+  return weekIndex || dayInMonth === 1 || dayInMonth > DAYS_OF_WEEK;
+}
+
+module.exports = DateLayer;
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var template = __webpack_require__(11);
+
+module.exports = function(context) {
+  var source =
+    '<table class="tui-calendar-body-inner" cellspacing="0" cellpadding="0">' +
+    '  <caption><span>Dates</span></caption>' +
+    '  <thead class="tui-calendar-body-header">' +
+    '    <tr>' +
+    '      <th class="tui-sun" scope="col">{{Sun}}</th>' +
+    '      <th scope="col">{{Mon}}</th>' +
+    '      <th scope="col">{{Tue}}</th>' +
+    '      <th scope="col">{{Wed}}</th>' +
+    '      <th scope="col">{{Thu}}</th>' +
+    '      <th scope="col">{{Fri}}</th>' +
+    '      <th class="tui-sat" scope="col">{{Sat}}</th>' +
+    '    </tr>' +
+    '  </thead>' +
+    '  <tbody>' +
+    '    {{each weeks}}' +
+    '    <tr class="tui-calendar-week">' +
+    '      {{each @this}}' +
+    '      <td class="{{@this["className"]}}" data-timestamp="{{@this["timestamp"]}}">{{@this["dayInMonth"]}}</td>' +
+    '      {{/each}}' +
+    '    </tr>' +
+    '    {{/each}}' +
+    '  </tbody>' +
+    '</table>';
+
+  return template(source, context);
+};
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * @fileoverview Month layer
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+var defineClass = __webpack_require__(0);
+
+var bodyTmpl = __webpack_require__(53);
+var LayerBase = __webpack_require__(20);
+var TYPE_MONTH = __webpack_require__(1).TYPE_MONTH;
+var dateUtil = __webpack_require__(5);
+
+var DATE_SELECTOR = '.tui-calendar-month';
+
+/**
+ * @class
+ * @extends LayerBase
+ * @param {string} language - Initial language
+ * @ignore
+ */
+var MonthLayer = defineClass(
+  LayerBase,
+  /** @lends MonthLayer.prototype */ {
+    init: function(language) {
+      LayerBase.call(this, language);
+    },
+
+    /**
+     * Layer type
+     * @type {string}
+     * @private
+     */
+    _type: TYPE_MONTH,
+
+    /**
+     * @override
+     * @returns {object} Template context
+     * @private
+     */
+    _makeContext: function(date) {
+      var monthsShort = this._localeText.titles.MMM;
+
+      return {
+        year: date.getFullYear(),
+        Jan: monthsShort[0],
+        Feb: monthsShort[1],
+        Mar: monthsShort[2],
+        Apr: monthsShort[3],
+        May: monthsShort[4],
+        Jun: monthsShort[5],
+        Jul: monthsShort[6],
+        Aug: monthsShort[7],
+        Sep: monthsShort[8],
+        Oct: monthsShort[9],
+        Nov: monthsShort[10],
+        Dec: monthsShort[11],
+        getFirstDayTimestamp: dateUtil.getFirstDayTimestamp
+      };
+    },
+
+    /**
+     * Render month-layer element
+     * @override
+     * @param {Date} date Date to render
+     * @param {HTMLElement} container A container element for the rendered element
+     */
+    render: function(date, container) {
+      var context = this._makeContext(date);
+
+      container.innerHTML = bodyTmpl(context);
+      this._element = container.firstChild;
+    },
+
+    /**
+     * Returns month elements
+     * @override
+     * @returns {HTMLElement[]}
+     */
+    getDateElements: function() {
+      return this._element.querySelectorAll(DATE_SELECTOR);
+    }
+  }
+);
+
+module.exports = MonthLayer;
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var template = __webpack_require__(11);
+
+module.exports = function(context) {
+  var source =
+    '<table class="tui-calendar-body-inner">' +
+    '  <caption><span>Months</span></caption>' +
+    '  <tbody>' +
+    '    <tr class="tui-calendar-month-group">' +
+    '      <td class="tui-calendar-month" data-timestamp={{getFirstDayTimestamp year 0}}>{{Jan}}</td>' +
+    '      <td class="tui-calendar-month" data-timestamp={{getFirstDayTimestamp year 1}}>{{Feb}}</td>' +
+    '      <td class="tui-calendar-month" data-timestamp={{getFirstDayTimestamp year 2}}>{{Mar}}</td>' +
+    '      <td class="tui-calendar-month" data-timestamp={{getFirstDayTimestamp year 3}}>{{Apr}}</td>' +
+    '    </tr>' +
+    '    <tr class="tui-calendar-month-group">' +
+    '      <td class="tui-calendar-month" data-timestamp={{getFirstDayTimestamp year 4}}>{{May}}</td>' +
+    '      <td class="tui-calendar-month" data-timestamp={{getFirstDayTimestamp year 5}}>{{Jun}}</td>' +
+    '      <td class="tui-calendar-month" data-timestamp={{getFirstDayTimestamp year 6}}>{{Jul}}</td>' +
+    '      <td class="tui-calendar-month" data-timestamp={{getFirstDayTimestamp year 7}}>{{Aug}}</td>' +
+    '    </tr>' +
+    '    <tr class="tui-calendar-month-group">' +
+    '      <td class="tui-calendar-month" data-timestamp={{getFirstDayTimestamp year 8}}>{{Sep}}</td>' +
+    '      <td class="tui-calendar-month" data-timestamp={{getFirstDayTimestamp year 9}}>{{Oct}}</td>' +
+    '      <td class="tui-calendar-month" data-timestamp={{getFirstDayTimestamp year 10}}>{{Nov}}</td>' +
+    '      <td class="tui-calendar-month" data-timestamp={{getFirstDayTimestamp year 11}}>{{Dec}}</td>' +
+    '    </tr>' +
+    '  </tbody>' +
+    '</table>';
+
+  return template(source, context);
+};
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * @fileoverview Year layer
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+var defineClass = __webpack_require__(0);
+
+var bodyTmpl = __webpack_require__(55);
+var LayerBase = __webpack_require__(20);
+var TYPE_YEAR = __webpack_require__(1).TYPE_YEAR;
+var dateUtil = __webpack_require__(5);
+
+var DATE_SELECTOR = '.tui-calendar-year';
+
+/**
+ * @class
+ * @extends LayerBase
+ * @param {string} language - Initial language
+ * @ignore
+ */
+var YearLayer = defineClass(
+  LayerBase,
+  /** @lends YearLayer.prototype */ {
+    init: function(language) {
+      LayerBase.call(this, language);
+    },
+
+    /**
+     * Layer type
+     * @type {string}
+     * @private
+     */
+    _type: TYPE_YEAR,
+
+    /**
+     * @override
+     * @returns {object} Template context
+     * @private
+     */
+    _makeContext: function(date) {
+      var year = date.getFullYear();
+
+      return {
+        yearGroups: [
+          dateUtil.getRangeArr(year - 4, year - 2),
+          dateUtil.getRangeArr(year - 1, year + 1),
+          dateUtil.getRangeArr(year + 2, year + 4)
+        ],
+        getFirstDayTimestamp: dateUtil.getFirstDayTimestamp
+      };
+    },
+
+    /**
+     * Render year-layer element
+     * @override
+     * @param {Date} date Date to render
+     * @param {HTMLElement} container A container element for the rendered element
+     */
+    render: function(date, container) {
+      var context = this._makeContext(date);
+
+      container.innerHTML = bodyTmpl(context);
+      this._element = container.firstChild;
+    },
+
+    /**
+     * Returns year elements
+     * @override
+     * @returns {HTMLElement[]}
+     */
+    getDateElements: function() {
+      return this._element.querySelectorAll(DATE_SELECTOR);
+    }
+  }
+);
+
+module.exports = YearLayer;
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var template = __webpack_require__(11);
+
+module.exports = function(context) {
+  var source =
+    '<table class="tui-calendar-body-inner">' +
+    '  <caption><span>Years</span></caption>' +
+    '  <tbody>' +
+    '    {{each yearGroups}}' +
+    '    <tr class="tui-calendar-year-group">' +
+    '      {{each @this}}' +
+    '      <td class="tui-calendar-year" data-timestamp={{getFirstDayTimestamp @this 0}}>' +
+    '        {{@this}}' +
+    '      </td>' +
+    '      {{/each}}' +
+    '    </tr>' +
+    '    {{/each}}' +
+    '  </tbody>' +
+    '</table>';
+
+  return template(source, context);
+};
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * @fileoverview RangeModel
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+var forEachArray = __webpack_require__(2);
+var defineClass = __webpack_require__(0);
+var isNumber = __webpack_require__(15);
+
+var Range = __webpack_require__(57);
+var util = __webpack_require__(4);
+
+/**
+ * @class
+ * @ignore
+ * @param {Array.<Array.<number>>} ranges - Ranges
+ */
+var RangeModel = defineClass(
+  /** @lends RangeModel.prototype */ {
+    init: function(ranges) {
+      ranges = ranges || [];
+
+      /**
+       * @type {Array.<Range>}
+       * @private
+       */
+      this._ranges = [];
+
+      forEachArray(
+        ranges,
+        function(range) {
+          this.add(range[0], range[1]);
+        },
+        this
+      );
+    },
+
+    /**
+     * Whether the ranges contain a time or time-range
+     * @param {number} start - Start
+     * @param {number} [end] - End
+     * @returns {boolean}
+     */
+    contains: function(start, end) {
+      var i = 0;
+      var length = this._ranges.length;
+      var range;
+
+      for (; i < length; i += 1) {
+        range = this._ranges[i];
+        if (range.contains(start, end)) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+
+    /**
+     * Whether overlaps with a point or range
+     * @param {number} start - Start
+     * @param {number} [end] - End
+     * @returns {boolean}
+     */
+    hasOverlap: function(start, end) {
+      var i = 0;
+      var length = this._ranges.length;
+      var range;
+
+      for (; i < length; i += 1) {
+        range = this._ranges[i];
+        if (range.isOverlapped(start, end)) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+
+    /**
+     * Add range
+     * @param {number} start - Start
+     * @param {number} [end] - End
+     */
+    add: function(start, end) {
+      var overlapped = false;
+      var i = 0;
+      var len = this._ranges.length;
+      var range;
+
+      for (; i < len; i += 1) {
+        range = this._ranges[i];
+        overlapped = range.isOverlapped(start, end);
+
+        if (overlapped) {
+          range.merge(start, end);
+          break;
+        }
+
+        if (start < range.start) {
+          break;
+        }
+      }
+
+      if (!overlapped) {
+        this._ranges.splice(i, 0, new Range(start, end));
+      }
+    },
+
+    /**
+     * Returns minimum value in ranges
+     * @returns {number}
+     */
+    getMinimumValue: function() {
+      return this._ranges[0].start;
+    },
+
+    /**
+     * Returns maximum value in ranges
+     * @returns {number}
+     */
+    getMaximumValue: function() {
+      var length = this._ranges.length;
+
+      return this._ranges[length - 1].end;
+    },
+
+    /**
+     * @param {number} start - Start
+     * @param {number} [end] - End
+     */
+    exclude: function(start, end) {
+      if (!isNumber(end)) {
+        end = start;
+      }
+
+      forEachArray(
+        this._ranges,
+        function(range) {
+          var rangeEnd;
+
+          if (range.isOverlapped(start, end)) {
+            rangeEnd = range.end; // Save before excluding
+            range.exclude(start, end);
+
+            if (end + 1 <= rangeEnd) {
+              this.add(end + 1, rangeEnd); // Add split range
+            }
+          }
+        },
+        this
+      );
+
+      // Reduce empty ranges
+      this._ranges = util.filter(this._ranges, function(range) {
+        return !range.isEmpty();
+      });
+    },
+
+    /**
+     * Returns the first overlapped range from the point or range
+     * @param {number} start - Start
+     * @param {number} end - End
+     * @returns {Array.<number>} - [start, end]
+     */
+    findOverlappedRange: function(start, end) {
+      var i = 0;
+      var len = this._ranges.length;
+      var range;
+
+      for (; i < len; i += 1) {
+        range = this._ranges[i];
+        if (range.isOverlapped(start, end)) {
+          return [range.start, range.end];
+        }
+      }
+
+      return null;
+    }
+  }
+);
+
+module.exports = RangeModel;
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * @fileoverview Range (in RangeModel)
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+var defineClass = __webpack_require__(0);
+var isNumber = __webpack_require__(15);
+
+/**
+ * @class
+ * @ignore
+ * @param {number} start - Start of range
+ * @param {number} [end] - End of range
+ */
+var Range = defineClass(
+  /** @lends Range.prototype */ {
+    init: function(start, end) {
+      this.setRange(start, end);
+    },
+
+    /**
+     * Set range
+     * @param {number} start - Start number
+     * @param {number} [end] - End number
+     */
+    setRange: function(start, end) {
+      if (!isNumber(end)) {
+        end = start;
+      }
+
+      this.start = Math.min(start, end);
+      this.end = Math.max(start, end);
+    },
+
+    /**
+     * Merge range
+     * @param {number} start - Start
+     * @param {number} [end] - End
+     */
+    merge: function(start, end) {
+      if (!isNumber(start) || !isNumber(end) || !this.isOverlapped(start, end)) {
+        return;
+      }
+
+      this.start = Math.min(start, this.start);
+      this.end = Math.max(end, this.end);
+    },
+
+    /**
+     * Whether being empty.
+     * @returns {boolean}
+     */
+    isEmpty: function() {
+      return !isNumber(this.start) || !isNumber(this.end);
+    },
+
+    /**
+     * Set empty
+     */
+    setEmpty: function() {
+      this.start = this.end = null;
+    },
+
+    /**
+     * Whether containing a range.
+     * @param {number} start - Start
+     * @param {number} [end] - End
+     * @returns {boolean}
+     */
+    contains: function(start, end) {
+      if (!isNumber(end)) {
+        end = start;
+      }
+
+      return this.start <= start && end <= this.end;
+    },
+
+    /**
+     * Whether overlaps with a range
+     * @param {number} start - Start
+     * @param {number} [end] - End
+     * @returns {boolean}
+     */
+    isOverlapped: function(start, end) {
+      if (!isNumber(end)) {
+        end = start;
+      }
+
+      return this.start <= end && this.end >= start;
+    },
+
+    /**
+     * Exclude a range
+     * @param {number} start - Start
+     * @param {number} end - End
+     */
+    exclude: function(start, end) {
+      if (start <= this.start && end >= this.end) {
+        // Excluding range contains this
+        this.setEmpty();
+      } else if (this.contains(start)) {
+        this.setRange(this.start, start - 1);
+      } else if (this.contains(end)) {
+        this.setRange(end + 1, this.end);
+      }
+    }
+  }
+);
+
+module.exports = Range;
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var template = __webpack_require__(11);
+
+module.exports = function(context) {
+  var source =
+    '<div class="tui-datepicker">' +
+    '  {{if timePicker}}' +
+    '    {{if isTab}}' +
+    '      <div class="tui-datepicker-selector">' +
+    '        <button type="button" class="tui-datepicker-selector-button tui-is-checked" aria-label="selected">' +
+    '          <span class="tui-ico-date"></span>{{localeText["date"]}}' +
+    '        </button>' +
+    '        <button type="button" class="tui-datepicker-selector-button">' +
+    '          <span class="tui-ico-time"></span>{{localeText["time"]}}' +
+    '        </button>' +
+    '      </div>' +
+    '      <div class="tui-datepicker-body">' +
+    '        <div class="tui-calendar-container"></div>' +
+    '        <div class="tui-timepicker-container"></div>' +
+    '      </div>' +
+    '    {{else}}' +
+    '      <div class="tui-datepicker-body">' +
+    '        <div class="tui-calendar-container"></div>' +
+    '      </div>' +
+    '      <div class="tui-datepicker-footer">' +
+    '        <div class="tui-timepicker-container"></div>' +
+    '      </div>' +
+    '    {{/if}}' +
+    '  {{else}}' +
+    '    <div class="tui-datepicker-body">' +
+    '      <div class="tui-calendar-container"></div>' +
+    '    </div>' +
+    '  {{/if}}' +
+    '</div>';
+
+  return template(source, context);
+};
+
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * @fileoverview DatePicker input(element) component
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+var defineClass = __webpack_require__(0);
+var CustomEvents = __webpack_require__(8);
+var on = __webpack_require__(31);
+var off = __webpack_require__(33);
+
+var DateTimeFormatter = __webpack_require__(30);
+var mouseTouchEvent = __webpack_require__(19);
+var util = __webpack_require__(4);
+
+var DEFAULT_FORMAT = 'yyyy-MM-dd';
+
+/**
+ * DatePicker Input
+ * @ignore
+ * @class
+ * @param {string|HTMLElement} inputElement - Input element or selector
+ * @param {object} option - Option
+ * @param {string} option.id - Id
+ * @param {string} option.format - Text format
+ */
+var DatePickerInput = defineClass(
+  /** @lends DatePickerInput.prototype */ {
+    init: function(inputElement, option) {
+      option.format = option.format || DEFAULT_FORMAT;
+
+      /**
+       * Input element
+       * @type {HTMLElement}
+       * @private
+       */
+      this._input = util.getElement(inputElement);
+
+      /**
+       * Id
+       * @type {string}
+       * @private
+       */
+      this._id = option.id;
+
+      /**
+       * LocaleText titles
+       * @type {Object}
+       * @private
+       */
+      this._titles = option.localeText.titles;
+
+      /**
+       * Text<->DateTime Formatter
+       * @type {DateTimeFormatter}
+       * @private
+       */
+      this._formatter = new DateTimeFormatter(option.format, this._titles);
+
+      this._setEvents();
+    },
+
+    /**
+     * Change locale titles
+     * @param {object} titles - locale text in format
+     */
+    changeLocaleTitles: function(titles) {
+      this._titles = titles;
+    },
+
+    /**
+     * Set input 'click', 'change' event
+     * @private
+     */
+    _setEvents: function() {
+      if (this._input) {
+        on(this._input, 'change', this._onChangeHandler, this);
+        mouseTouchEvent.on(this._input, 'click', this._onClickHandler, this);
+      }
+    },
+
+    /**
+     * Remove events
+     * @private
+     */
+    _removeEvents: function() {
+      this.off();
+
+      if (this._input) {
+        off(this._input, 'change', this._onChangeHandler);
+        mouseTouchEvent.off(this._input, 'click', this._onClickHandler);
+      }
+    },
+
+    /**
+     * Onchange handler
+     */
+    _onChangeHandler: function() {
+      this.fire('change');
+    },
+
+    /**
+     * Onclick handler
+     */
+    _onClickHandler: function() {
+      this.fire('click');
+    },
+
+    /**
+     * Check element is same as the input element.
+     * @param {HTMLElement} el - To check matched set of elements
+     * @returns {boolean}
+     */
+    is: function(el) {
+      return this._input === el;
+    },
+
+    /**
+     * Enable input
+     */
+    enable: function() {
+      if (this._input) {
+        this._input.removeAttribute('disabled');
+      }
+    },
+
+    /**
+     * Disable input
+     */
+    disable: function() {
+      if (this._input) {
+        this._input.setAttribute('disabled', true);
+      }
+    },
+
+    /**
+     * Return format
+     * @returns {string}
+     */
+    getFormat: function() {
+      return this._formatter.getRawString();
+    },
+
+    /**
+     * Set format
+     * @param {string} format - Format
+     */
+    setFormat: function(format) {
+      if (!format) {
+        return;
+      }
+
+      this._formatter = new DateTimeFormatter(format, this._titles);
+    },
+
+    /**
+     * Clear text
+     */
+    clearText: function() {
+      if (this._input) {
+        this._input.value = '';
+      }
+    },
+
+    /**
+     * Set value from date
+     * @param {Date} date - Date
+     */
+    setDate: function(date) {
+      if (this._input) {
+        this._input.value = this._formatter.format(date);
+      }
+    },
+
+    /**
+     * Returns date from input-text
+     * @returns {Date}
+     * @throws {Error}
+     */
+    getDate: function() {
+      var value = '';
+
+      if (this._input) {
+        value = this._input.value;
+      }
+
+      return this._formatter.parse(value);
+    },
+
+    /**
+     * Destroy
+     */
+    destroy: function() {
+      this._removeEvents();
+
+      this._input = this._id = this._formatter = null;
+    }
+  }
+);
+
+CustomEvents.mixin(DatePickerInput);
+module.exports = DatePickerInput;
+
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * @fileoverview Date-Range picker
+ * @author NHN. FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+var forEachArray = __webpack_require__(2);
+var defineClass = __webpack_require__(0);
+var CustomEvents = __webpack_require__(8);
+var addClass = __webpack_require__(16);
+var getData = __webpack_require__(26);
+var removeClass = __webpack_require__(18);
+var extend = __webpack_require__(7);
+
+var DatePicker = __webpack_require__(21);
+var dateUtil = __webpack_require__(5);
+var constants = __webpack_require__(1);
+var util = __webpack_require__(4);
+
+var CLASS_NAME_RANGE_PICKER = 'tui-rangepicker';
+var CLASS_NAME_SELECTED = constants.CLASS_NAME_SELECTED;
+var CLASS_NAME_SELECTED_RANGE = 'tui-is-selected-range';
+
+/**
+ * @class
+ * @description
+ * Create a date-range picker by {@link DatePicker#createRangePicker DatePicker.createRangePicker()}.
+ * @see {@link /tutorial-example08-daterangepicker DateRangePicker example}
+ * @param {object} options - DateRangePicker options
+ *     @param {object} options.startpicker - Startpicker options
+ *         @param {HTMLElement|string} options.startpicker.input - Startpicker input element or selector
+ *         @param {HTMLElement|string} options.startpicker.container - Startpicker container element or selector
+ *         @param {Date|number} [options.startpicker.date] - Initial date of the start picker. Set by a Date instance or a number(timestamp). (default: no initial date)
+ *         @param {string} [options.startpicker.weekStartDay = 'Sun'] - Start of the week. 'Sun', 'Mon', ..., 'Sat'(default: 'Sun'(start on Sunday))
+ *     @param {object} options.endpicker - Endpicker options
+ *         @param {HTMLElement|string} options.endpicker.input - Endpicker input element or selector
+ *         @param {HTMLElement|string} options.endpicker.container - Endpicker container element or selector
+ *         @param {Date|number} [options.endpicker.date] - Initial date of the end picker. Set by a Date instance or a number(timestamp). (default: no initial date)
+ *         @param {string} [options.endpicker.weekStartDay = 'Sun'] - Start of the week. 'Sun', 'Mon', ..., 'Sat'(default: 'Sun'(start on Sunday))
+ *     @param {('date'|'month'|'year')} [options.type = 'date'] - DatePicker type. Determine whether to choose a date, month, or year.
+ *     @param {string} [options.language='en'] - Language code. English('en') and Korean('ko') are provided as default. To use the other languages, use {@link DatePicker#localeTexts DatePicker.localeTexts}.
+ *     @param {object|boolean} [options.timePicker] - [TimePicker](https://nhn.github.io/tui.time-picker/latest) options. Refer to the [TimePicker instance's options](https://nhn.github.io/tui.time-picker/latest/TimePicker). To create the TimePicker without customization, set to true.
+ *     @param {object} [options.calendar] - {@link Calendar} options. Refer to the {@link Calendar Calendar instance's options}.
+ *     @param {string} [options.format = 'yyyy-mm-dd'] - Format of the Date string
+ *     @param {Array.<Array.<Date|number>>} [options.selectableRanges] - Ranges of selectable date. Set by Date instances or numbers(timestamp).
+ *     @param {boolean} [options.showAlways = false] - Show the DateRangePicker always
+ *     @param {boolean} [options.autoClose = true] - Close the DateRangePicker after clicking the date
+ *     @param {boolean} [options.usageStatistics = true] - Send a hostname to Google Analytics (default: true)
+ * @example
+ * // ES6
+ * import DatePicker from 'tui-date-picker'
+ *
+ * // CommonJS
+ * const DatePicker = require('tui-date-picker');
+ *
+ * // Browser
+ * const DatePicker = tui.DatePicker;
+ *
+ * const rangePicker = DatePicker.createRangePicker({
+ *     startpicker: {
+ *         input: '#start-input',
+ *         container: '#start-container'
+ *         date: new Date(2019, 3, 1),
+ *         weekStartDay: 'Mon',
+ *     },
+ *     endpicker: {
+ *         input: '#end-input',
+ *         container: '#end-container',
+ *         weekStartDay: 'Mon',
+ *     },
+ *     type: 'date',
+ *     format: 'yyyy-MM-dd'
+ *     selectableRanges: [
+ *         [new Date(2017, 3, 1), new Date(2017, 5, 1)],
+ *         [new Date(2017, 6, 3), new Date(2017, 10, 5)]
+ *     ]
+ * });
+ */
+var DateRangePicker = defineClass(
+  /** @lends DateRangePicker.prototype */ {
+    init: function(options) {
+      var startpickerOpt, endpickerOpt;
+
+      options = options || {};
+      startpickerOpt = options.startpicker;
+      endpickerOpt = options.endpicker;
+
+      if (!startpickerOpt) {
+        throw new Error('The "startpicker" option is required.');
+      }
+      if (!endpickerOpt) {
+        throw new Error('The "endpicker" option is required.');
+      }
+
+      /**
+       * Start picker
+       * @type {DatePicker}
+       * @private
+       */
+      this._startpicker = null;
+
+      /**
+       * End picker
+       * @type {DatePicker}
+       * @private
+       */
+      this._endpicker = null;
+
+      this._isRangeSet = false;
+
+      this._preEndPickerDate = new Date().getDate();
+
+      this._initializePickers(options);
+      this._syncRangesToEndpicker();
+    },
+
+    /**
+     * Create picker
+     * @param {Object} options - DatePicker options
+     * @private
+     */
+    _initializePickers: function(options) {
+      var startpickerContainer = util.getElement(options.startpicker.container);
+      var endpickerContainer = util.getElement(options.endpicker.container);
+      var startInput = util.getElement(options.startpicker.input);
+      var endInput = util.getElement(options.endpicker.input);
+
+      var startpickerOpt = extend({}, options, {
+        input: {
+          element: startInput,
+          format: options.format
+        },
+        date: options.startpicker.date,
+        weekStartDay: options.startpicker.weekStartDay
+      });
+      var endpickerOpt = extend({}, options, {
+        input: {
+          element: endInput,
+          format: options.format
+        },
+        date: options.endpicker.date,
+        weekStartDay: options.endpicker.weekStartDay
+      });
+
+      this._startpicker = new DatePicker(startpickerContainer, startpickerOpt);
+      this._startpicker.addCssClass(CLASS_NAME_RANGE_PICKER);
+      this._startpicker.on('change', this._onChangeStartpicker, this);
+      this._startpicker.on('draw', this._onDrawPicker, this);
+
+      this._endpicker = new DatePicker(endpickerContainer, endpickerOpt);
+      this._endpicker.addCssClass(CLASS_NAME_RANGE_PICKER);
+      this._endpicker.on('change', this._onChangeEndpicker, this);
+      this._endpicker.on('draw', this._onDrawPicker, this);
+    },
+
+    /**
+     * Set selection-class to elements after calendar drawing
+     * @param {Object} eventData - Event data {@link DatePicker#event:draw}
+     * @private
+     */
+    _onDrawPicker: function(eventData) {
+      var calendarType = eventData.type;
+      var startDate = this._startpicker.getDate();
+      var endDate = this._endpicker.getDate();
+
+      if (!startDate) {
+        return;
+      }
+
+      if (!endDate) {
+        // Convert null to invaild date.
+        endDate = new Date(NaN);
+      }
+
+      forEachArray(
+        eventData.dateElements,
+        function(el) {
+          var elDate = new Date(Number(getData(el, 'timestamp')));
+          var isInRange = dateUtil.inRange(startDate, endDate, elDate, calendarType);
+          var isSelected =
+            dateUtil.isSame(startDate, elDate, calendarType) ||
+            dateUtil.isSame(endDate, elDate, calendarType);
+
+          this._setRangeClass(el, isInRange);
+          this._setSelectedClass(el, isSelected);
+        },
+        this
+      );
+    },
+
+    /**
+     * Set range class to element
+     * @param {HTMLElement} el - Element
+     * @param {boolean} isInRange - In range
+     * @private
+     */
+    _setRangeClass: function(el, isInRange) {
+      if (isInRange) {
+        addClass(el, CLASS_NAME_SELECTED_RANGE);
+      } else {
+        removeClass(el, CLASS_NAME_SELECTED_RANGE);
+      }
+    },
+
+    /**
+     * Set selected class to element
+     * @param {HTMLElement} el - Element
+     * @param {boolean} isSelected - Is selected
+     * @private
+     */
+    _setSelectedClass: function(el, isSelected) {
+      if (isSelected) {
+        addClass(el, CLASS_NAME_SELECTED);
+      } else {
+        removeClass(el, CLASS_NAME_SELECTED);
+      }
+    },
+
+    /**
+     * Sync ranges to endpicker
+     * @private
+     */
+    _syncRangesToEndpicker: function() {
+      var startDate = this._startpicker.getDate();
+      var overlappedRange;
+
+      if (startDate) {
+        overlappedRange = this._startpicker.findOverlappedRange(
+          dateUtil.cloneWithStartOf(startDate).getTime(),
+          dateUtil.cloneWithEndOf(startDate).getTime()
+        );
+
+        this._endpicker.enable();
+        this._endpicker.setRanges([[startDate.getTime(), overlappedRange[1].getTime()]]);
+
+        this._setTimeRangeOnEndPicker();
+      } else {
+        this._endpicker.setNull();
+        this._endpicker.disable();
+      }
+    },
+
+    /**
+     * After change on start-picker
+     * @private
+     */
+    _onChangeStartpicker: function() {
+      this._syncRangesToEndpicker();
+      /**
+       * Occur after the start date is changed.
+       * @event DateRangePicker#change:start
+       * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#on rangePicker.on()} to bind event handlers.
+       * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#off rangePicker.off()} to unbind event handlers.
+       * @see Refer to {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents CustomEvents} for more methods. DateRangePicker mixes in the methods from CustomEvents.
+       * @example
+       * // bind the 'change:start' event
+       * rangePicker.on('change:start', () => {
+       *     console.log(`Start date: ${rangePicker.getStartDate()}`);
+       * });
+       *
+       * // unbind the 'change:start' event
+       * rangePicker.off('change:start');
+       */
+      this.fire('change:start');
+    },
+
+    /**
+     * After change on end-picker
+     * @private
+     */
+    _onChangeEndpicker: function() {
+      /**
+       * Occur after the end date is changed.
+       * @event DateRangePicker#change:end
+       * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#on rangePicker.on()} to bind event handlers.
+       * @see {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents#off rangePicker.off()} to unbind event handlers.
+       * @see Refer to {@link https://nhn.github.io/tui.code-snippet/latest/CustomEvents CustomEvents} for more methods. DateRangePicker mixes in the methods from CustomEvents.
+       * @example
+       * // bind the 'change:end' event
+       * rangePicker.on('change:end', () => {
+       *     console.log(`End date: ${rangePicker.getEndDate()}`);
+       * });
+       *
+       * // unbind the 'change:end' event
+       * rangePicker.off('change:end');
+       */
+
+      var date;
+      var endPickerDate = this._endpicker.getDate();
+
+      if (endPickerDate) {
+        date = endPickerDate.getDate();
+        if (this._preEndPickerDate !== date) {
+          this._setTimeRangeOnEndPicker();
+        }
+
+        this._preEndPickerDate = date;
+      } else {
+        this._preEndPickerDate = null;
+      }
+
+      this.fire('change:end');
+    },
+
+    /**
+     * Set time range on end picker
+     * @private
+     */
+    _setTimeRangeOnEndPicker: function() {
+      var pickerDate, timeRange;
+      var endTimePicker = this._endpicker._timePicker;
+
+      if (!endTimePicker) {
+        return;
+      }
+
+      pickerDate = this._endpicker.getDate() || this._startpicker.getDate();
+      timeRange = this._getTimeRangeFromStartPicker();
+
+      if (pickerDate && timeRange[pickerDate.getDate()]) {
+        endTimePicker.setRange(timeRange[pickerDate.getDate()]);
+        this._isRangeSet = true;
+      } else if (this._isRangeSet) {
+        endTimePicker.setRange({ hour: 0, minute: 0 });
+        endTimePicker.resetMinuteRange();
+        this._isRangeSet = false;
+      }
+    },
+
+    /**
+     * Return object of time range from start picker.
+     * @returns {object}
+     * @private
+     */
+    _getTimeRangeFromStartPicker: function() {
+      var startDate = this._startpicker.getDate();
+      var timeRange = {};
+
+      timeRange[startDate.getDate()] = {
+        hour: startDate.getHours(),
+        minute: startDate.getMinutes()
+      };
+
+      return timeRange;
+    },
+
+    /**
+     * Return a start-datepicker.
+     * @returns {DatePicker}
+     */
+    getStartpicker: function() {
+      return this._startpicker;
+    },
+
+    /**
+     * Return a end-datepicker.
+     * @returns {DatePicker}
+     */
+    getEndpicker: function() {
+      return this._endpicker;
+    },
+
+    /**
+     * Set the start date.
+     * @param {Date} date - Start date
+     */
+    setStartDate: function(date) {
+      this._startpicker.setDate(date);
+    },
+
+    /**
+     * Return the start date.
+     * @returns {?Date}
+     */
+    getStartDate: function() {
+      return this._startpicker.getDate();
+    },
+
+    /**
+     * Return the end date.
+     * @returns {?Date}
+     */
+    getEndDate: function() {
+      return this._endpicker.getDate();
+    },
+
+    /**
+     * Set the end date.
+     * @param {Date} date - End date
+     */
+    setEndDate: function(date) {
+      this._endpicker.setDate(date);
+    },
+
+    /**
+     * Set selectable ranges.
+     * @param {Array.<Array.<number|Date>>} ranges - Selectable ranges. Use Date instances or numbers(timestamp).
+     */
+    setRanges: function(ranges) {
+      this._startpicker.setRanges(ranges);
+      this._syncRangesToEndpicker();
+    },
+
+    /**
+     * Add a selectable range. Use Date instances or numbers(timestamp).
+     * @param {Date|number} start - the start date
+     * @param {Date|number} end - the end date
+     */
+    addRange: function(start, end) {
+      this._startpicker.addRange(start, end);
+      this._syncRangesToEndpicker();
+    },
+
+    /**
+     * Remove a range. Use Date instances or numbers(timestamp).
+     * @param {Date|number} start - the start date
+     * @param {Date|number} end - the end date
+     * @param {null|'date'|'month'|'year'} type - Range type. If falsy, start and end values are considered as timestamp
+     */
+    removeRange: function(start, end, type) {
+      this._startpicker.removeRange(start, end, type);
+      this._syncRangesToEndpicker();
+    },
+
+    /**
+     * Change language.
+     * @param {string} language - Language code. English('en') and Korean('ko') are provided as default.
+     * @see To set to the other languages, use {@link DatePicker#localeTexts DatePicker.localeTexts}.
+     */
+    changeLanguage: function(language) {
+      this._startpicker.changeLanguage(language);
+      this._endpicker.changeLanguage(language);
+    },
+
+    /**
+     * Destroy the date-range picker.
+     */
+    destroy: function() {
+      this.off();
+      this._startpicker.destroy();
+      this._endpicker.destroy();
+      this._startpicker = this._endpicker = null;
+    }
+  }
+);
+
+CustomEvents.mixin(DateRangePicker);
+module.exports = DateRangePicker;
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ })
-/******/ ])
+/******/ ]);
 });
-;

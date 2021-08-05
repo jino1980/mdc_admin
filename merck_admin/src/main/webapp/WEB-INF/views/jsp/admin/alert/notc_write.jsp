@@ -7,28 +7,35 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 
+final String  BOARD_ID = "NOTC00000001"; // 공지게시판
+
 List<Map<String,Object>> boardPostList = new ArrayList();
 List<Map<String,Object>> paramList = (List<Map<String,Object>>)request.getAttribute("boardPostList");
 List<Map<String,Object>> imgGrpList = (List<Map<String,Object>>)request.getAttribute("imgGrpList");
 
 if( null == paramList || paramList.size() == 0 ) {
 	   TbCab001m vo = new TbCab001m();
-	   vo.setBoardId("NOTC00000001");
+	   vo.setBoardId(BOARD_ID);
 	   boardPostList.add(0, SoftLabHumUtils.converVoToMap(vo));
-	   //System.out.println("#### SoftLabHumUtils.converVoToMap(vo)=>>>"+SoftLabHumUtils.converVoToMap(vo));
-	   
-	   request.setAttribute("boardPostList", boardPostList);
+	   System.out.println("#### SoftLabHumUtils.converVoToMap(vo)=>>>"+SoftLabHumUtils.converVoToMap(vo));
 	   
 }else{
 	   boardPostList = (List<Map<String,Object>>)request.getAttribute("boardPostList");
 	   System.out.println("#### boardPostList =>>>"+boardPostList.get(0));
 }
 
-String pushBeginDate = SoftLabHumUtils.nvl((String)((Map<String,Object>)(boardPostList.get(0))).get("pushBeginDt"));
+String pushBeginDate = SoftLabHumUtils.nvl( boardPostList.get(0).get("pushBeginDt") );
+String pushBeginDtStr = SoftLabHumUtils.nvl( boardPostList.get(0).get("pushBeginDate") );
 
-String pushBeginDtStr = SoftLabHumUtils.nvl((String)((Map<String,Object>)(boardPostList.get(0))).get("pushBeginDate"));
+String imgFileGrpId = "";
+if( imgGrpList.size() > 0 ){
+	imgFileGrpId = SoftLabHumUtils.nvl( ((Map<String,Object>)imgGrpList.get(0)).get("imgFileGrpId") );
+}
 
+request.setAttribute("boardPostList", boardPostList);
 request.setAttribute("imgGrpList", imgGrpList);
+request.setAttribute("imgFileGrpId", imgFileGrpId);
+request.setAttribute("BOARD_ID", BOARD_ID);
 
 %>
         <!-- header -->
@@ -47,9 +54,9 @@ request.setAttribute("imgGrpList", imgGrpList);
 
             <!-- content -->
 			<c:forEach var="boardPost" items="${boardPostList}">
-            
+
             <form:form commandName="notcForm" action="#">
-            <input type="hidden" id="boardId" name="boardId"  value="${boardPost.boardId}"/>
+            <input type="hidden" id="boardId" name="boardId"  value="${BOARD_ID}"/>
             <input type="hidden" id="postId" name="postId"  value="${boardPost.postId}"/>
             <input type="hidden" id="pushRegNo" name="pushRegNo"  value="${boardPost.pushRegNo}"/>
             
@@ -93,10 +100,9 @@ request.setAttribute("imgGrpList", imgGrpList);
 												        </div>
 														<!-- 이미지 미리보기 영역 -->
 														<div id="dragDiv" class="imgs_wrap">
-														
 																<c:forEach var="imgs" items="${imgGrpList}" varStatus="stat">
-					                                        	
-																<a href="javascript:void(0);" onclick="deleteImageAction('${stat.count}')" id="img_id_${stat.count}"><img src="${imgs.filePath}${imgs.fileNm}.${imgs.fileExt}" data-file='${imgs.fileNm}' class='selProductFile' title='Click to remove'></a>
+																
+																<a href="javascript:void(0);" onclick="deleteImageAction('${stat.count}','${imgs.imgFileId}')" id="img_id_${stat.count}"><img src="${imgs.filePath}${imgs.fileNm}.${imgs.fileExt}" data-file='${imgs.fileNm}' class='selProductFile' title='Click to remove'></a>
 													            
 																</c:forEach>
 													    </div>
@@ -104,13 +110,8 @@ request.setAttribute("imgGrpList", imgGrpList);
                                             </li>
                                         </ul>
                                         <ul class="bullet mark mt5">
-                                            <li><b>첫번째 이미지는 <span class="color_red">대표이미지로</span> 등록됩니다.</b> (이미지는 JPG/PNG/GIF 형식의 파일로 3MB이하로 등록이 가능합니다.)</li>
+                                            <li>(이미지는 JPG/PNG/GIF 형식의 파일로 3MB이하로 등록이 가능합니다.)</li>
                                         </ul>
-                                        <!-- Bootstrap Progress bar -->
-									    <div id="progress" class="progress" >
-									      <div id="progressBar" class="progress-bar progress-bar-success" role="progressbar"
-									        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div>
-									    </div>
                                     </div>
                                 </td>
                             </tr>
@@ -152,7 +153,7 @@ request.setAttribute("imgGrpList", imgGrpList);
                 <!-- 페이징 + 버튼 -->
                 <div class="paging_box">
                     <div class="btn_box">
-                        <button type="button" class="btn btn_default" onClick="javascript:switchContent('/admin/alert/notc_write');">신규</button>
+                        <button type="button" class="btn btn_default" onClick="javascript:switchContent('/admin/board/viewBoardCommon/NOTC00000001/0');">신규</button>
                         <button type="button" class="btn btn_default" onClick="javascript:fnSave(0);">임시저장</button>
                         <button type="button" class="btn btn_default" onClick="javascript:fnSave(1);">등록</button>
                         <button type="button" class="btn btn_default" onClick="javascript:switchContent('/admin/alert/notc_list');">목록으로</button>
@@ -180,8 +181,10 @@ request.setAttribute("imgGrpList", imgGrpList);
 	    
 	    /*** 파일 처리 ************************************************/
 	    // 이미지 정보들을 담을 배열
-	    var fileIdx = 0;
+	    var fileIdx = <%=imgGrpList.size()%>;
         var sel_files = [];
+        var sel_del_files = []; // 이미지파일 삭제 배열
+        
         var $drop = $("#dragDiv");
         $drop.on("dragenter", function(e) { //드래그 요소가 들어왔을떄
         	$(this).addClass('drag-over');
@@ -194,17 +197,18 @@ request.setAttribute("imgGrpList", imgGrpList);
         	e.preventDefault();
         	$(this).removeClass('drag-over');
         						
-	            var files;
+	        	var files;
 	            var filesArr;
 	            	
-	            	files = e.originalEvent.dataTransfer.files; //드래그&드랍 항목
-	            	filesArr = Array.prototype.slice.call(files);
-		            console.log("### filesArr(catch) => "+filesArr);
-	            
+	        	files = e.target.files;
+	            filesArr = Array.prototype.slice.call(files);
+	            console.log("### filesArr(try) => "+filesArr);
+	
+	            var index = 0;
 	            filesArr.forEach(function(f) {
 	                if(!f.type.match("image.*")) {
-	                    toastr["warning"]("확장자는 이미지 확장자만 가능합니다.");
-	                    return;
+	                	toastr["warning"]("확장자는 이미지 확장자만 가능합니다.");
+	                    return false;
 	                }
 					
 	                var maxSize = 3 * 1024 * 1024; // 3MB
@@ -214,12 +218,12 @@ request.setAttribute("imgGrpList", imgGrpList);
 	            		//f.val("");
 	            		return false;
 	            	}
-	            	
+	                
 	                sel_files.push(f);
 	
 	                var reader = new FileReader();
 	                reader.onload = function(e) {
-	                    var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+fileIdx+")\" id=\"img_id_"+fileIdx+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+	                	var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+fileIdx+",'')\" id=\"img_id_"+fileIdx+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
 	                    $(".imgs_wrap").append(html);
 	                    fileIdx++;
 	
@@ -232,7 +236,7 @@ request.setAttribute("imgGrpList", imgGrpList);
 
         function handleImgFileSelect(e) {
 			
-            var files;
+        	var files;
             var filesArr;
             	
         	files = e.target.files;
@@ -258,7 +262,7 @@ request.setAttribute("imgGrpList", imgGrpList);
 
                 var reader = new FileReader();
                 reader.onload = function(e) {
-                    var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+fileIdx+")\" id=\"img_id_"+fileIdx+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+                	var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+fileIdx+",'')\" id=\"img_id_"+fileIdx+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
                     $(".imgs_wrap").append(html);
                     fileIdx++;
 
@@ -269,31 +273,29 @@ request.setAttribute("imgGrpList", imgGrpList);
         }
 
 
-        function deleteImageAction(index) {
+        var delImgFileIdx = 0;
+        function deleteImageAction(index,fileId) {
             console.log("index : "+index);
-            console.log("sel length : "+sel_files.length);
+            console.log("sel_files : "+sel_files.length);
 
             sel_files.splice(index, 1);
-
+            if(!isNull(fileId)) sel_del_files[delImgFileIdx++] = fileId;
+            
             var img_id = "#img_id_"+index;
             //console.log("## before img remove .. =>>"+$(img_id).html())
             $(img_id).remove(); 
         }
 
-        function fileUploadAction() {
-            console.log("fileUploadAction");
-            $("#input_imgs").trigger('click');
-        }
-
-        function submitAction(notcPostId) {
-        	//alert( notcPostId );
-            console.log("업로드 파일 갯수 : "+sel_files.length);
+        function submitImgFileAction(postId) {
+        	//alert( newCatlgId );
+            console.log("IMG 업로드 파일 갯수 : "+sel_files.length);
+            console.log("IMG 파일 삭제 갯수 : "+sel_del_files.length);
             //alert($('form')[0].id);alert($('form')[1].id);
            var form = $('#IMG_FILE_FORM')[0];
            var formData = new FormData(form);
             
             if(sel_files.length > 10){
-        		toastr["warning"]("파일첨부는 최대 10개 까지 가능합니다.");
+        		alert("파일첨부는 최대 10개 까지 가능합니다.");
         		//f.val("");
         		return false;
         	}
@@ -306,7 +308,7 @@ request.setAttribute("imgGrpList", imgGrpList);
                 var maxSize = (3 * 1024 * 1024) * 10 ; // 30 MB
             	var fileSize = f.size;
             	if(fileSize > maxSize){
-            		toastr["warning"]("첨부파일 총 사이즈는 30 MB 이내로 등록 가능합니다.");
+            		alert["warning"]("첨부파일 총 사이즈는 30 MB 이내로 등록 가능합니다.");
             		return false;
             	}
                 console.log("## fileFormData append {} , {} => ",name,f.name);
@@ -319,18 +321,15 @@ request.setAttribute("imgGrpList", imgGrpList);
             formData.append( "taskSe" , "NOTC");
             formData.append( "taskSeCd" , "NTC");
             formData.append( "attchType" , "IMG");
-            formData.append( "postId" , notcPostId);
+            formData.append( "boardId" , boardId);
+            formData.append( "postId" , postId);
+            formData.append( "fileGrpId" , "<%=imgFileGrpId%>");
+            formData.append( "imgFileGrpId" , "<%=imgFileGrpId%>");
+            formData.append( "delFileIds" , (sel_del_files.length>0?sel_del_files:""));
             
             //console.log("## fileFormData => {} " , formData);
             console.log("## fileFormData JSON =>  " , JSON.stringify(formData));
             
-            
-            /*
-            if(sel_files.length < 1) {
-                alert("한개이상의 파일을 선택해주세요.");
-                return;
-            }
-            */
 	         // Ajax call for file uploaling
 	         $("#div_load_image").show();
 	            var ajaxReq = $.ajax({
@@ -345,9 +344,8 @@ request.setAttribute("imgGrpList", imgGrpList);
 			  	    	//data = JSON.stringify(data);
 			  	    	//console.log("### upload done! =>>"+rs);				alert( rs );	    	
 			  	    	//grid.setData(rs);							  	    	
-			  	    	toastr["success"](sel_files.length+"건 업로드 되었습니다.","파일 업로드 완료.");
+			  	    	toastr["success"]((sel_files.length+sel_del_files.length)+"건 업로드 되었습니다.","이미지 파일 업로드 완료.");
 			  	    	$("#div_load_image").hide();
-			  	    	
 			  	    	return true;
 			  	    },
 			  	    error: function (xhr, status, error) {
@@ -357,6 +355,8 @@ request.setAttribute("imgGrpList", imgGrpList);
 			  	    	return false;
 			  	    }
 	            });
+	            
+	            return true;
 
         }
 	    /*** 파일 처리 ************************************************/		
@@ -401,7 +401,7 @@ request.setAttribute("imgGrpList", imgGrpList);
       }
         
       //-- 저장 --//
-      var boardId = "NOTC00000001"; // 공지사항
+      var boardId = "${BOARD_ID}"; // 공지사항
 		function fnSave(idx){
 			
 			
@@ -450,18 +450,24 @@ request.setAttribute("imgGrpList", imgGrpList);
 		  	    	//data = JSON.stringify(data);
 		  	    	console.log("### saveCatalog=>>"+rs);
 		  	    	
-		  	    	var isFileUp = false;
+		  	    	var isImgFileUp = false;
 		  	    	//alert("### sel_files length =>"+sel_files.length);
-		  	    	if(sel_files.length > 0 ){
-		  	    		isFileUp = submitAction(rs);
+		  	    	console.log("### FILE UPLOAD PROCESS START sel_files =>>"+sel_files.length);
+		  	    	console.log("### FILE UPLOAD PROCESS START sel_del_files =>>"+sel_del_files.length);
+		  	    	
+		  	    	if(sel_files.length > 0 || sel_del_files.length > 0 ){
+		  	    		isImgFileUp = submitImgFileAction(rs);
 		  	    	}else{
-		  	    		isFileUp = true;
+		  	    		isImgFileUp = true;
 		  	    	}
 		  	    	
-		  	    	//grid.setData(rs);							  	    	
-		  	    	toastr["success"]("1건 저장 되었습니다.","저장완료.");
-		  	    	
-		  	    	if( nvl($("#postId").val(),'') == '' ) switchContent('/admin/board/viewBoardCommon/'+boardId+"/"+rs);
+		  	    	console.log( "@@@ isImgFileUp complete... =>>"+isImgFileUp );
+		  	    								  	    	
+		  	    	if(isImgFileUp ){
+			  	    	toastr["success"]("공지사항 내용 저장 되었습니다.","저장완료.");
+			  	    	switchContent('/admin/board/viewBoardCommon/${BOARD_ID}/'+rs);
+		  	    	}
+		  	    	$("#div_load_image").hide();
 		  	    	
 		  	    },
 		  	    error: function (xhr, status, error) {

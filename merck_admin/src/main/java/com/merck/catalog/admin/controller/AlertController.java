@@ -12,15 +12,15 @@ public class AlertController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AlertController.class);
 	
-	@RequestMapping(value = "notice_list", method = {RequestMethod.GET, RequestMethod.POST})
-	public String noticeList() {
-	    logger.info("notice_list page");
-		return "/admin/alert/notice_list";
+	@RequestMapping(value = "notc_list", method = {RequestMethod.GET, RequestMethod.POST})
+	public String notcList() {
+	    logger.info("notc_list page");
+		return "/admin/alert/notc_list";
 	}
-	@RequestMapping(value = "notice_write", method = {RequestMethod.GET, RequestMethod.POST})
-	public String noticeWrite() {
-		logger.info("notice_write page");
-		return "/admin/alert/notice_write";
+	@RequestMapping(value = "notc_write", method = {RequestMethod.GET, RequestMethod.POST})
+	public String notcWrite() {
+		logger.info("notc_write page");
+		return "/admin/alert/notc_write";
 	}
 	
 	@RequestMapping(value = "push_list", method = {RequestMethod.GET, RequestMethod.POST})
@@ -34,16 +34,16 @@ public class AlertController {
 		return "/admin/alert/push_write";
 	}
 	
-	@RequestMapping(value = "popup_list", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "popp_list", method = {RequestMethod.GET, RequestMethod.POST})
 	public String popUpList() {
-		logger.info("popup_list page");
-		return "/admin/alert/popup_list";
+		logger.info("popp_list page");
+		return "/admin/alert/popp_list";
 	}
 	
-	@RequestMapping(value = "popup_write", method = {RequestMethod.GET, RequestMethod.POST})
-	public String popupWrite() {
-		logger.info("popup_write page");
-		return "/admin/alert/popup_write";
+	@RequestMapping(value = "popp_write", method = {RequestMethod.GET, RequestMethod.POST})
+	public String poppWrite() {
+		logger.info("popp_write page");
+		return "/admin/alert/popp_write";
 	}
 	
 }
