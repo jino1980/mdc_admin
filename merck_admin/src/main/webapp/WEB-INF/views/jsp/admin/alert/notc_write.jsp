@@ -1,5 +1,5 @@
 <%@page import="com.merck.catalog.common.SoftLabHumUtils"%>
-<%@page import="com.merck.catalog.admin.vo.TbCab001m"%>
+<%@page import="com.merck.catalog.admin.vo.TbCab002d"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
@@ -14,7 +14,7 @@ List<Map<String,Object>> paramList = (List<Map<String,Object>>)request.getAttrib
 List<Map<String,Object>> imgGrpList = (List<Map<String,Object>>)request.getAttribute("imgGrpList");
 
 if( null == paramList || paramList.size() == 0 ) {
-	   TbCab001m vo = new TbCab001m();
+	   TbCab002d vo = new TbCab002d();
 	   vo.setBoardId(BOARD_ID);
 	   boardPostList.add(0, SoftLabHumUtils.converVoToMap(vo));
 	   System.out.println("#### SoftLabHumUtils.converVoToMap(vo)=>>>"+SoftLabHumUtils.converVoToMap(vo));

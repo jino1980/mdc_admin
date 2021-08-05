@@ -101,7 +101,7 @@
                                     카탈로그 명
                                 </th>
                                 <td colspan="3">
-                                    <input type="text" name="catlgNm" id="catlgNm" value="${catalog.catlgNm}">
+                                    <input type="text" class="required" title="제목" name="catlgNm" id="catlgNm" value="${catalog.catlgNm}">
                                 </td>
                             </tr>
                             <tr>
@@ -120,7 +120,7 @@
 												            <input type="file" id="input_imgs" multiple/>
 												        </div>
 														<!-- 이미지 미리보기 영역 -->
-														<div id="dragDiv" class="imgs_wrap">
+														<div id="dragDivImg" class="imgs_wrap">
 														
 																<c:forEach var="imgs" items="${imgGrpList}" varStatus="stat">
 					                                        	
@@ -296,7 +296,7 @@
 							        </div>
 									<!-- pdf file 영역 -->
 									<ul class="inputbox">
-									<div id="dragDiv" class="pdf_wrap">
+									<div id="dragDivPdf" class="pdf_wrap">
 											
 											<c:forEach var="pdfs" items="${catalogGrpList}" varStatus="stat">
                                         		<li>                                        	
@@ -317,7 +317,7 @@
                 <!-- 페이징 + 버튼 -->
                 <div class="paging_box">
                     <div class="btn_box">
-                        <button type="button" class="btn btn_default" onClick="javascript:switchContent('/admin/catalog/catalog_write');">신규</button>
+                        <button type="button" class="btn btn_default" onClick="javascript:switchContent('/admin/catalog/viewCatalog/0');">신규</button>
                         <button type="button" class="btn btn_default" onClick="javascript:fnSave(0);">임시저장</button>
                         <button type="button" class="btn btn_default" onClick="javascript:fnSave(1);">등록</button>
                         <button type="button" class="btn btn_default" onClick="javascript:switchContent('/admin/catalog/catalog_list');">목록으로</button>
@@ -361,7 +361,7 @@
 		        var sel_del_files = []; // 이미지파일 삭제 배열
 		        var pdf_del_files = []; //카달로그 파일 삭제 배열
 		        
-		        var $drop = $("#dragDiv");
+		        var $drop = $("#dragDivImg");
 		        $drop.on("dragenter", function(e) { //드래그 요소가 들어왔을떄
 		        	$(this).addClass('drag-over');
 		        	}).on("dragleave", function(e) { //드래그 요소가 나갔을때
@@ -500,15 +500,20 @@
 				
 		     	var delImgFileIdx = 0;
 		        function deleteImageAction(index,fileId) {
-		            console.log("index : "+index);
-		            console.log("sel length : "+sel_files.length);
-		
-		            sel_files.splice(index, 1);
+		            console.log("@@@ delete target index : "+index);
+		            console.log("@@@ before delete : sel length : "+sel_files.length);
+		            console.log("@@@ before file[] : "+JSON.stringify(sel_files));
+		            
+		            var removeFile = sel_files.splice(index, 1);
 		            if(!isNull(fileId)) sel_del_files[delImgFileIdx++] = fileId;
 		            
+		            
 		            var img_id = "#img_id_"+index;
-		            //console.log("## before img remove .. =>>"+$(img_id).html())
 		            $(img_id).remove(); 
+		            console.log("@@@ removed file. : "+removeFile);
+		            console.log("@@@ removed file.stringify : "+JSON.stringify(removeFile));
+		            console.log("@@@ after img html =>>> "+$("#dragDivImg").html());
+		            //console.log("## before img remove .. =>>"+$(img_id).html())
 		        }
 		        
 		        var delPdfFileIdx = 0;
@@ -529,6 +534,7 @@
 		        	//alert( newCatlgId );
 		            console.log("IMG 업로드 파일 갯수 : "+sel_files.length);
 		            console.log("IMG 파일 삭제 갯수 : "+sel_del_files.length);
+		            
 		            //alert($('form')[0].id);alert($('form')[1].id);
 		           var form = $('#IMG_FILE_FORM')[0];
 		           var formData = new FormData(form);
@@ -750,7 +756,6 @@
 				//-- 저장 --//
 				function fnSave(idx){
 					
-					$("#div_load_image").show();
 					var formData = $("#catalogForm").serializeObject();
 					
 					var keyWdArr = "";
@@ -763,6 +768,7 @@
 					
 					// 필수체크
 					if( nullCheckAll() == false) return false;
+					$("#div_load_image").show();
 					
 					if( idx==0 ){
 						fnAjaxCall(formData);
