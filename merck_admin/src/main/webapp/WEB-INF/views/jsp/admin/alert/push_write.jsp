@@ -1,6 +1,7 @@
 <%@page import="com.merck.catalog.common.SoftLabHumUtils"%>
 <%@page import="com.merck.catalog.admin.vo.TbCab001m"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%@page import="java.util.*"%>
@@ -28,7 +29,7 @@ String pushBeginDate = SoftLabHumUtils.nvl( boardPostList.get(0).get("pushBeginD
 
 String pushBeginDtStr = SoftLabHumUtils.nvl( boardPostList.get(0).get("pushBeginDate") );
 
-request.setAttribute("categoryCmmnCdList", categoryCmmnCdList);
+request.setAttribute("categoryCmmnCdList", (SoftLabHumUtils.isNull(categoryCmmnCdList)?new ArrayList():categoryCmmnCdList));
 
 %>
 <%!
@@ -85,7 +86,7 @@ request.setAttribute("categoryCmmnCdList", categoryCmmnCdList);
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    제목
+                                    제목 <span id="titleLen"> (${fn:length(boardPost.title)}/100)</span>
                                 </th>
                                 <td colspan="3">
                                     <input type="text" class="required" title="제목" name="title" id="title" value="${boardPost.title}">
@@ -117,6 +118,7 @@ request.setAttribute("categoryCmmnCdList", categoryCmmnCdList);
                                         			
                                         			
                                         			String checked = (catgrIdMathcedArr[l]?"checked":"");
+                                        			if(SoftLabHumUtils.isNull(catgrIdGrp)) checked = "checked";
                                            %>
                                            
                                            <li>
@@ -134,7 +136,7 @@ request.setAttribute("categoryCmmnCdList", categoryCmmnCdList);
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    간략내용
+                                    간략내용<span id="cnLen"> (${fn:length(boardPost.cn)}/2000)</span>
                                 </th>
                                 <td colspan="3">
                                     <textarea name="cn" id="cn" title="간략내용" class="required" cols="30" rows="10">${boardPost.cn}</textarea>
@@ -170,7 +172,7 @@ request.setAttribute("categoryCmmnCdList", categoryCmmnCdList);
                 <!-- 페이징 + 버튼 -->
                 <div class="paging_box">
                     <div class="btn_box">
-                        <button type="button" class="btn btn_default" onClick="javascript:switchContent('/admin/alert/push_write');">신규</button>
+                        <button type="button" class="btn btn_default" onClick="javascript:switchContent('/admin/board/viewBoardCommon/PUSH00000001/PUSH');">신규</button>
                         <button type="button" class="btn btn_default" onClick="javascript:fnSave(0);">임시저장</button>
                         <button type="button" class="btn btn_default" onClick="javascript:fnSave(1);">등록</button>
                         <button type="button" class="btn btn_default" onClick="javascript:switchContent('/admin/alert/push_list');">목록으로</button>
@@ -184,6 +186,46 @@ request.setAttribute("categoryCmmnCdList", categoryCmmnCdList);
             <!-- // content -->
 
     <script>
+	    $(document).ready( function() {
+	        
+	        $("#div_load_image").hide();
+	        //$('#progress').hide();
+	        
+	        $('#title').on('keyup', function() {
+		        $('#titleLen').html("("+$(this).val().length+" / 100)");
+		 
+		        if($(this).val().length > 100) {
+		            $(this).val($(this).val().substring(0, 100));
+		            toastr["warning"]("제목 은(는) 100자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		    });
+	        $('#cn').on('keyup', function() {
+		        $('#cnLen').html("("+$(this).val().length+" / 2000)");
+		 
+		        if($(this).val().length > 2000) {
+		            $(this).val($(this).val().substring(0, 2000));
+		            toastr["warning"]("내용 은(는) 2000자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		    });
+	        $('#catlgUrl').on('keyup', function() {		        
+		 
+		        if($(this).val().length > 100) {
+		            $(this).val($(this).val().substring(0, 100));
+		            toastr["warning"]("카탈로그 경로 은(는) 100자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		        
+		        if (!(event.keyCode >=37 && event.keyCode<=40)) {
+	        		var inputVal=$(this).val(); 
+	        		$(this).val(inputVal.replace(/[^a-z0-9@_.\-=:/&?]/gi,'')); 
+	        	} 
+		    });
+	        
+	      });
+    	
+    
         var datepicker1 = new tui.DatePicker('#wrapper1', {
             date: parseStrToDate('<%=pushBeginDate%>'),            
             input: {
@@ -197,17 +239,25 @@ request.setAttribute("categoryCmmnCdList", categoryCmmnCdList);
 		function chkValidCate(obj){
 			if( obj.id=="checkbox01_1" && obj.checked ){
 				//console.log("전체 체크");
-				$("input:checkbox[id='checkbox01_2']").prop("checked", false);
-				$("input:checkbox[id='checkbox01_3']").prop("checked", false);
-				$("input:checkbox[id='checkbox01_4']").prop("checked", false);
-				$("input:checkbox[id='checkbox01_5']").prop("checked", false);
-				$("input:checkbox[id='checkbox01_6']").prop("checked", false);
-			}else if( obj.id!="checkbox01_1" && obj.checked ){
+				$('input:checkbox[name="catgrIdGrp"]').each(function() {
+						$(this).prop("checked",true);
+					});
+				
+			}else if( obj.id != "checkbox01_1" && obj.checked ){
 				//console.log("카테고리 체크");
 				$("input:checkbox[id='checkbox01_1']").prop("checked", false);
 			}else{
 				//console.log("그외 체크");
-				$("input:checkbox[id='"+obj.id+"']").prop("checked", false).trigger('change');
+				if( obj.id=="checkbox01_1" ){
+					/*$('input:checkbox[name="catgrIdGrp"]').each(function() {
+						$(this).prop("checked",false);
+					});
+					*/
+					$("input:checkbox[id='checkbox01_1']").prop("checked", true);
+				}else{
+					$("input:checkbox[id='"+obj.id+"']").prop("checked", false);
+					$("input:checkbox[id='checkbox01_1']").prop("checked", false);
+				}
 			}
 		}
      
@@ -303,8 +353,8 @@ request.setAttribute("categoryCmmnCdList", categoryCmmnCdList);
 			  	    	console.log("### saveCatalog=>>"+rs);					    	
 			  	    	//grid.setData(rs);							  	    	
 			  	    	toastr["success"]("1건 저장 되었습니다.","저장완료.");
-			  	    	
-			  	    	if( nvl($("#postId").val(),'') == '' ) switchContent('/admin/board/viewBoardCommon/'+boardId+"/"+rs);
+			  	    	$("#div_load_image").hide();
+			  	    	switchContent('/admin/board/viewBoardCommon/'+boardId+"/"+rs);
 			  	    	
 			  	    },
 			  	    error: function (xhr, status, error) {

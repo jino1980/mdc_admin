@@ -38,6 +38,8 @@ public class BoardCommonDAO<T> extends CommonDaoImpl<TbCab001m>{
 		
 		if("QNAM".contains(taskSe)) {
 			mapperId = NAMESPACE+"selectQnamBoardList";
+		}else if("HELP".contains(taskSe) ) {
+			mapperId = NAMESPACE+"selectBoardList";
 		}
 	    return sqlSession.selectList(mapperId, map);
 	}

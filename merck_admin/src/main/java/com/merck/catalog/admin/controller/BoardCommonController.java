@@ -58,7 +58,11 @@ public class BoardCommonController {
 	    List<Map<String, Object>> imgGrpList = service.selectImgGrpList(paramMap);
 	    
 	    ModelAndView mav = new ModelAndView();
-	    mav.setViewName("/admin/alert/"+taskSe+"_write");
+	    if( "help".equals(taskSe) ) {
+	    	mav.setViewName("/admin/env/help_regist");
+	    }else {
+	    	mav.setViewName("/admin/alert/"+taskSe+"_write");
+	    }
 	    //String rtnStr = "";
 	    //if(list.size() > 0) rtnStr = SoftLabHumUtils.converMapToJson(list.get(0));
 		mav.addObject("boardPostList", list);

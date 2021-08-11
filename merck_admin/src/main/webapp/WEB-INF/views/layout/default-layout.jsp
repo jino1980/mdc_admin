@@ -44,6 +44,7 @@
 	<script src="${RESOURCES_PATH}/resource/js/jquery.serialize-object.js"></script>
 	<script src="${RESOURCES_PATH}/resource/js/jquery-impromptu.min.js"></script>
 	<script src="${RESOURCES_PATH}/resource/js/toastr.min.js"></script>
+	<script src="${RESOURCES_PATH}/resource/js/kakao.js"></script>
 	
 	<link href="${RESOURCES_PATH}/bower_components/tui-grid/dist/tui-grid.css" rel="stylesheet" />
 	<link href="${RESOURCES_PATH}/bower_components/tui-pagination/dist/tui-pagination.css" rel="stylesheet" />

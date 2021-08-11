@@ -12,41 +12,209 @@
 
 	<select id="selectNewBoardId" parameterType="HashMap" resultType="paramMap">
 		/* com.merck.catalog.admin.dao.BoardCommon.countAll */
-		SELECT CONCAT( #{taskSeCd} , REPLICATE('0', 8-LEN(CONVERT(int,  replace(MAX(A.BOARD_ID),#{taskSeCd},'') )+1)) , CONVERT(int,  replace(MAX(A.BOARD_ID),#{taskSeCd},'') )+1 ) AS NEW_ID    
+		SELECT CASE WHEN ISNULL(MAX(A.BOARD_ID),'') = '' THEN CONCAT( #{taskSeCd} , '00000001') 
+            ELSE CONCAT( #{taskSeCd} , REPLICATE('0', 8-LEN(CONVERT(int,  replace(MAX(A.BOARD_ID),#{taskSeCd},'') )+1)) , CONVERT(int,  replace(MAX(A.BOARD_ID),#{taskSeCd},'') )+1 )
+		END AS NEW_ID     
 		FROM ${boardTableNm} A
 		WHERE 1=1
         AND A.BOARD_ID = #{boardId}	
 	</select>
 	<select id="selectNewPostId" parameterType="HashMap" resultType="paramMap">
 		/* com.merck.catalog.admin.dao.BoardCommon.countAll */
-		SELECT CONCAT( REPLICATE('0', 10-LEN(CONVERT(int,  MAX(A.POST_ID) )+1)) , CONVERT(int,  MAX(A.POST_ID) )+1 ) AS NEW_ID     
+		SELECT CASE WHEN ISNULL(MAX(A.POST_ID),'') = '' THEN '0000000001' 
+		            ELSE CONCAT( REPLICATE('0', 10-LEN(CONVERT(int, MAX(A.POST_ID) )+1)) , CONVERT(int, MAX(A.POST_ID) )+1 )
+				END AS NEW_ID      
 		FROM ${boardDtlTableNm} A
 		WHERE 1=1
         AND A.BOARD_ID = #{boardId}	
 	</select>
 	<select id="selectNewMangRegNo" parameterType="HashMap" resultType="paramMap">
 		/* com.merck.catalog.admin.dao.BoardCommon.selectNewMangRegNo */
-		SELECT CONCAT( REPLICATE('0', 5-LEN(CONVERT(int,  MAX(A.MANG_REG_NO) )+1)) , CONVERT(int,  MAX(A.MANG_REG_NO) )+1 ) AS NEW_ID
+		SELECT CASE WHEN ISNULL(MAX(A.MANG_REG_NO),'') = ''
+		            THEN '00001'
+		            ELSE CONCAT( REPLICATE('0', 5-LEN(CONVERT(int,  MAX(A.MANG_REG_NO) )+1)) , CONVERT(int,  MAX(A.MANG_REG_NO) )+1 ) 
+		        END AS NEW_ID
 		FROM TB_CAB004D A
 		WHERE 1=1
         AND A.BOARD_ID = #{boardId}	
 	</select>
 	<select id="selectNewPushRegNo" parameterType="HashMap" resultType="paramMap">
 		/* com.merck.catalog.admin.dao.BoardCommon.selectNewPushRegNo */
-		SELECT CONCAT( REPLICATE('0', 3-LEN(CONVERT(int,  MAX(A.PUSH_REG_NO) )+1)) , CONVERT(int,  MAX(A.PUSH_REG_NO) )+1 ) AS NEW_ID
+		SELECT CASE WHEN ISNULL(MAX(A.PUSH_REG_NO),'') = ''
+		            THEN '001'
+		            ELSE CONCAT( REPLICATE('0', 3-LEN(CONVERT(int,  MAX(A.PUSH_REG_NO) )+1)) , CONVERT(int,  MAX(A.PUSH_REG_NO) )+1 ) 
+		        END AS NEW_ID
 		FROM TB_CAC001D A
 		WHERE 1=1
         AND A.BOARD_ID = #{boardId}	
         AND A.POST_ID = #{postId}	
 	</select>
+	
+	<!-- 이미지 파일 KEY 조회 -->
+	<select id="selectNewImgFileGrpId" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.BoardCommon.selectNewImgFileGrpId */
+		SELECT CASE WHEN ISNULL(MAX(A.IMG_FILE_GRP_ID),'') = ''
+		            THEN CONCAT( #{taskSeCd} , '00001')
+		            ELSE CONCAT( #{taskSeCd} , REPLICATE('0', 5-LEN(CONVERT(int,  replace(MAX(A.IMG_FILE_GRP_ID),#{taskSeCd},'') )+1)) , CONVERT(int,  replace(MAX(A.IMG_FILE_GRP_ID),#{taskSeCd},'') )+1 ) 
+		        END AS NEW_ID
+		FROM TB_SAF002D A
+		WHERE 1=1
+        AND A.IMG_FILE_GRP_ID LIKE CONCAT( #{taskSeCd} , '%' )
+	</select>
+	<select id="selectNewImgFileId" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.BoardCommon.selectNewImgFileId */
+		SELECT CASE WHEN ISNULL(MAX(A.IMG_FILE_ID),'') = ''
+		            THEN CONCAT(#{fileGrpId} , '01')
+		            ELSE CONCAT( #{fileGrpId} , REPLICATE('0', 2-LEN(CONVERT(int,  replace(MAX(A.IMG_FILE_ID),#{fileGrpId},'') )+1)) , CONVERT(int,  replace(MAX(A.IMG_FILE_ID),#{fileGrpId},'') )+1 ) 
+		        END AS NEW_ID
+		FROM TB_SAF002D A
+		WHERE 1=1
+        AND A.IMG_FILE_GRP_ID LIKE CONCAT( #{fileGrpId} , '%' )
+	</select>
+	
+	<!-- 카달로그 파일 KEY 조회 -->
+	<select id="selectNewCatlgFileGrpId" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.BoardCommon.selectNewCatlgFileGrpId */
+		SELECT CASE WHEN ISNULL(MAX(A.CATLG_FILE_GRP_ID),'') = ''
+		            THEN CONCAT( #{taskSeCd} , '00001')
+		            ELSE CONCAT( #{taskSeCd} , REPLICATE('0', 5-LEN(CONVERT(int,  replace(MAX(A.CATLG_FILE_GRP_ID),#{taskSeCd},'') )+1)) , CONVERT(int,  replace(MAX(A.CATLG_FILE_GRP_ID),#{taskSeCd},'') )+1 ) 
+		        END AS NEW_ID
+		FROM TB_SAF003D A
+		WHERE 1=1
+        AND A.CATLG_FILE_GRP_ID LIKE CONCAT( #{taskSeCd} , '%' )
+	</select>
+	<select id="selectNewCatlgFileId" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.BoardCommon.selectNewCatlgFileId */
+		SELECT CASE WHEN ISNULL(MAX(A.CATLG_FILE_ID),'') = ''
+		            THEN CONCAT(#{fileGrpId} , '01')
+		            ELSE CONCAT( #{fileGrpId} , REPLICATE('0', 2-LEN(CONVERT(int,  replace(MAX(A.CATLG_FILE_ID),#{fileGrpId},'') )+1)) , CONVERT(int,  replace(MAX(A.CATLG_FILE_ID),#{fileGrpId},'') )+1 ) 
+		        END AS NEW_ID
+		FROM TB_SAF003D A
+		WHERE 1=1
+        AND A.CATLG_FILE_GRP_ID LIKE CONCAT( #{fileGrpId} , '%' )
+	</select>
 
+	<select id="selectQnamList" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.BoardCommon.selectQnamList */
+		SELECT A.BOARD_ID /* 게시판ID varchar12 */
+			, A.POST_ID /* 게시글ID varchar10 */
+			, A.MANG_REG_NO /* 담당자등록번호 varchar5 */
+			, A.MANG_DEPT_NM /* 담당자부서명 nvarchar1000 */
+			, A.MANG_USR_NM /* 담당자이름 nvarchar3000 */
+			, A.EMAIL_ADDR /* 이메일주소 varchar100 */
+			, A.COMP_TEL_NO /* 회사전화번호 varchar20 */
+			, A.PHONE_NO /* 핸드폰번호 varchar20 */
+			, A.REGIST_USR_ID /* 등록자ID varchar10 */
+			, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */
+			, A.UPDT_USR_ID /* 수정자ID varchar10 */
+			, convert(varchar, A.UPDT_DT, 102) /* 수정일시 datetime2 */
+		FROM TB_CAB004D A
+		WHERE 1=1
+		ORDER BY A.MANG_REG_NO DESC
+	</select>
+	
+	<select id="selectImgGrpListForCatlg" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.BoardCommon.selectImgGrpListForCatlg */
+		SELECT A.IMG_FILE_GRP_ID /* 이미지파일그룹ID varchar8 */
+			, A.IMG_FILE_ID /* 이미지파일ID varchar10 */
+			, A.FILE_NM /* 파일명 nvarchar500 */
+			, A.FILE_EXT /* 확장자명 varchar10 */
+			, A.FILE_LENTH /* 파일길이 numeric */
+			, A.FILE_PATH /* 파일경로 varchar500 */
+			, A.FILE_URL /* 파일URL nvarchar1000 */
+			--, A.FILE_BLOB /* 파일데이터 varbinary */
+			, A.THMNL_IMG_YN /* 썸네일이미지여부 varchar1 */
+			, A.SORT_SN /* 정렬순번 numeric */
+
+			, A.REGIST_USR_ID /* 등록자ID varchar10 */
+			, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */
+			, A.UPDT_USR_ID /* 수정자ID varchar10 */
+			, convert(varchar, A.UPDT_DT, 102) /* 수정일시 datetime2 */
+		FROM TB_SAF002D A
+		   , TB_CAA001M B 
+		WHERE 1=1
+		AND B.IMG_FILE_GRP_ID = A.IMG_FILE_GRP_ID
+		AND B.CATLG_ID = #{catlgId}
+		<if test="imgFileGrpId !=null and imgFileGrpId !='' "> 
+		and A.IMG_FILE_GRP_ID = #{imgFileGrpId}
+		</if>
+		<if test="imgFileId !=null and imgFileId !='' "> 
+		and A.IMG_FILE_ID = #{imgFileId}
+		</if>
+		ORDER BY A.SORT_SN
+	</select>
+	
+	<select id="selectImgGrpListForCommBoard" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.BoardCommon.selectImgGrpListForCommBoard */
+		SELECT A.IMG_FILE_GRP_ID /* 이미지파일그룹ID varchar8 */
+			, A.IMG_FILE_ID /* 이미지파일ID varchar10 */
+			, A.FILE_NM /* 파일명 nvarchar500 */
+			, A.FILE_EXT /* 확장자명 varchar10 */
+			, A.FILE_LENTH /* 파일길이 numeric */
+			, A.FILE_PATH /* 파일경로 varchar500 */
+			, A.FILE_URL /* 파일URL nvarchar1000 */
+			--, A.FILE_BLOB /* 파일데이터 varbinary */
+			, A.THMNL_IMG_YN /* 썸네일이미지여부 varchar1 */
+			, A.SORT_SN /* 정렬순번 numeric */
+
+			, A.REGIST_USR_ID /* 등록자ID varchar10 */
+			, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */
+			, A.UPDT_USR_ID /* 수정자ID varchar10 */
+			, convert(varchar, A.UPDT_DT, 102) /* 수정일시 datetime2 */
+		FROM TB_SAF002D A
+		   , TB_CAB002D B 
+		WHERE 1=1
+		AND B.IMG_FILE_GRP_ID = A.IMG_FILE_GRP_ID
+		AND B.BOARD_ID = #{boardId}
+		AND B.POST_ID = #{postId}
+		<if test="imgFileGrpId !=null and imgFileGrpId !='' "> 
+		and B.IMG_FILE_GRP_ID = #{imgFileGrpId}
+		</if>
+		<if test="imgFileId !=null and imgFileId !='' "> 
+		and A.IMG_FILE_ID = #{imgFileId}
+		</if>
+		ORDER BY A.SORT_SN
+	</select>
+	
+	<select id="selectCatalogGrpList" parameterType="HashMap" resultType="paramMap">
+		/* com.merck.catalog.admin.dao.BoardCommon.selectCatalogGrpList */
+		SELECT A.CATLG_FILE_GRP_ID /* 카달로그파일그룹ID varchar8 */
+            , A.CATLG_FILE_ID /* 카달로그파일ID varchar10 */
+
+			, A.FILE_NM /* 파일명 nvarchar500 */
+			, A.FILE_EXT /* 확장자명 varchar10 */
+			, A.FILE_LENTH /* 파일길이 numeric */
+			, A.FILE_PATH /* 파일경로 varchar500 */
+			, A.FILE_URL /* 파일URL nvarchar1000 */
+			--, A.FILE_BLOB /* 파일데이터 varbinary */
+
+			, A.SORT_SN /* 정렬순번 numeric */
+			, A.REGIST_USR_ID /* 등록자ID varchar10 */
+			, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */
+			, A.UPDT_USR_ID /* 수정자ID varchar10 */
+			, convert(varchar, A.UPDT_DT, 102) /* 수정일시 datetime2 */
+		FROM TB_SAF003D A
+		   , TB_CAA001M B 
+		WHERE 1=1
+		AND B.CATLG_FILE_GRP_ID = A.CATLG_FILE_GRP_ID
+		AND B.CATLG_ID = #{catlgId}
+		<if test="catlgFileGrpId !=null and catlgFileGrpId !='' "> 
+		and A.CATLG_FILE_GRP_ID = #{catlgFileGrpId}
+		</if>
+		<if test="catlgFileId !=null and catlgFileId !='' "> 
+		and A.CATLG_FILE_ID = #{catlgFileId}
+		</if>
+		ORDER BY A.SORT_SN
+	</select>
+	
     <select id="selectTaskBoardList" parameterType="HashMap" resultType="paramMap">
     <![CDATA[
     	/* com.merck.catalog.admin.dao.BoardCommon.selectTaskBoardList */
 		select 
 		  A.BOARD_ID /* 게시판ID varchar12 */
 		, A.POST_ID /* 게시글ID varchar10 */
-		, A.TITLE /* 제목 nvarchar1000 */
+		, A.TITLE
+		, CASE WHEN LEN(A.TITLE) > 50 THEN CONCAT(LEFT(A.TITLE,50),'...') ELSE A.TITLE END AS TITLE_SIMPLE /* 제목 nvarchar1000 */
 		, A.CN /* 내용 nvarchar3000 */
 		, A.PASSWD /* 비밀번호 varchar5 */
 		, A.TASK_SE_CD /* 업무구분코드 varchar5 */
@@ -60,22 +228,29 @@
 		, A.USE_YN /* 사용여부 varchar1 */
 		, A.REGIST_USR_ID /* 등록자ID varchar10 */
 		
+		, b.PUSH_REG_NO
 		, b.CATLG_URL /* 카탈로그경로 nvarchar100 */
 		, b.PUSH_BEGIN_DT /* 발행시작일자 varchar12 */	
-		, b.PUSH_END_DT /* 발행종료일자 varchar12 */	
+		, b.PUSH_END_DT /* 발행종료일자 varchar12 */
+		
+		, LEFT(b.PUSH_BEGIN_DT,4) + '-' +SUBSTRING(b.PUSH_BEGIN_DT,5,2) + '-' +SUBSTRING(b.PUSH_BEGIN_DT,7,2) + ' ' + SUBSTRING(b.PUSH_BEGIN_DT,9,2) + ':' + RIGHT(b.PUSH_BEGIN_DT,2) AS PUSH_BEGIN_DATE
+		, LEFT(b.PUSH_END_DT,4) + '-' +SUBSTRING(b.PUSH_END_DT,5,2) + '-' +SUBSTRING(b.PUSH_END_DT,7,2) + ' ' + SUBSTRING(b.PUSH_END_DT,9,2) + ':' + RIGHT(b.PUSH_END_DT,2) AS PUSH_END_DATE	
 		
 		, A.REGIST_USR_ID
 		, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */
 		, A.UPDT_USR_ID /* 수정자ID varchar10 */
-		, convert(varchar, A.UPDT_DT, 102)  AS UPDT_DT /* 수정일시 datetime2 */
+		, convert(varchar, A.UPDT_DT, 102)  AS UPDT_DTE /* 수정일시 datetime2 */
 		
 		from TB_CAB002D a
 		   , TB_CAC001D b
 		where 1=1
-		and a.BOARD_ID = #{boardId}	
-		and a.BOARD_ID = b.BOARD_ID
+		and a.BOARD_ID = b.BOARD_ID 
 		and a.POST_ID = b.POST_ID
+		and a.BOARD_ID = #{boardId}
 				]]>
+	    <if test="postId !=null and postId !='' "> 
+		and b.POST_ID = #{postId}
+		</if>
 		<if test="pushRegNo !=null and pushRegNo !='' "> 
 		and b.PUSH_REG_NO = #{pushRegNo}
 		</if>
@@ -86,7 +261,100 @@
 		AND  B.PUSH_BEGIN_DT BETWEEN #{pushBeginDt} AND #{pushEndDt} 
 		</if>
 		AND A.TITLE LIKE CONCAT('%', N'${title}', '%' )
-		AND A.CN LIKE CONCAT('%', N'${cn}', '%' )					
+		AND A.CN LIKE CONCAT('%', N'${cn}', '%' )			
+		ORDER BY A.REGIST_DT DESC		
     </select>
     
+    <select id="selectQnamBoardList" parameterType="HashMap" resultType="paramMap">
+    <![CDATA[
+    	/* com.merck.catalog.admin.dao.BoardCommon.selectQnamBoardList */
+		select 
+		  A.BOARD_ID /* 게시판ID varchar12 */
+		, A.POST_ID /* 게시글ID varchar10 */
+		, A.TITLE
+		, CASE WHEN LEN(A.TITLE) > 50 THEN CONCAT(LEFT(A.TITLE,50),'...') ELSE A.TITLE END AS TITLE_SIMPLE /* 제목 nvarchar1000 */
+		, A.CN /* 내용 nvarchar3000 */
+		, A.PASSWD /* 비밀번호 varchar5 */
+		, A.TASK_SE_CD /* 업무구분코드 varchar5 */
+		, A.CATGR_ID_GRP /* 카테고리ID그룹 nvarchar100 */
+		, A.CATLG_ID /* 카달로그ID varchar10 */
+		, A.IMG_FILE_GRP_ID /* 이미지파일그룹ID varchar8 */
+		, A.ATTCH_FILE_GRP_ID /* 첨부파일그룹ID varchar8 */
+		, A.HIDDN_YN /* 공개여부 varchar1 */
+		, A.REPLY_YN /* 댓글여부 varchar1 */
+		, A.DEL_YN /* 삭제여부 varchar1 */
+		, A.USE_YN /* 사용여부 varchar1 */
+		, A.REGIST_USR_ID /* 등록자ID varchar10 */
+		
+		, B.MANG_REG_NO /* 담당자등록번호 varchar5 */
+		, B.MANG_DEPT_NM /* 담당자부서명 nvarchar1000 */
+		, B.MANG_USR_NM /* 담당자이름 nvarchar3000 */
+		, B.EMAIL_ADDR /* 이메일주소 varchar100 */
+		, B.COMP_TEL_NO /* 회사전화번호 varchar20 */
+		, B.PHONE_NO /* 핸드폰번호 varchar20 */
+
+		, A.REGIST_USR_ID
+		, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */
+		, A.UPDT_USR_ID /* 수정자ID varchar10 */
+		, convert(varchar, A.UPDT_DT, 102)  AS UPDT_DTE /* 수정일시 datetime2 */
+		
+		from TB_CAB002D a
+		   , TB_CAB004D b
+		where 1=1
+		and a.BOARD_ID = b.BOARD_ID 
+		and a.POST_ID = b.POST_ID
+		and a.BOARD_ID = #{boardId}
+				]]>
+	    <if test="postId !=null and postId !='' "> 
+		and b.POST_ID = #{postId}
+		</if>
+		<if test="mangRegNo !=null and mangRegNo !='' "> 
+		and b.MANG_REG_NO = #{mangRegNo}
+		</if>
+		<if test="registBeginDt !=null and registBeginDt !='' "> 
+        AND  FORMAT( A.REGIST_DT , 'yyyyMMdd' ) BETWEEN #{registBeginDt} AND #{registEndDt}
+		</if>
+		AND A.TITLE LIKE CONCAT('%', N'${title}', '%' )
+		ORDER BY B.MANG_REG_NO DESC		
+    </select>
+    
+    <select id="selectBoardList" parameterType="HashMap" resultType="paramMap">
+    <![CDATA[
+    	/* com.merck.catalog.admin.dao.BoardCommon.selectBoardList */
+		select 
+		  A.BOARD_ID /* 게시판ID varchar12 */
+		, A.POST_ID /* 게시글ID varchar10 */
+		, A.TITLE
+		, CASE WHEN LEN(A.TITLE) > 50 THEN CONCAT(LEFT(A.TITLE,50),'...') ELSE A.TITLE END AS TITLE_SIMPLE /* 제목 nvarchar1000 */
+		, A.CN /* 내용 nvarchar3000 */
+		, A.PASSWD /* 비밀번호 varchar5 */
+		, A.TASK_SE_CD /* 업무구분코드 varchar5 */
+		, A.CATGR_ID_GRP /* 카테고리ID그룹 nvarchar100 */
+		, A.CATLG_ID /* 카달로그ID varchar10 */
+		, A.IMG_FILE_GRP_ID /* 이미지파일그룹ID varchar8 */
+		, A.ATTCH_FILE_GRP_ID /* 첨부파일그룹ID varchar8 */
+		, A.HIDDN_YN /* 공개여부 varchar1 */
+		, A.REPLY_YN /* 댓글여부 varchar1 */
+		, A.DEL_YN /* 삭제여부 varchar1 */
+		, A.USE_YN /* 사용여부 varchar1 */
+		, A.REGIST_USR_ID /* 등록자ID varchar10 */
+
+		, A.REGIST_USR_ID
+		, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */
+		, A.UPDT_USR_ID /* 수정자ID varchar10 */
+		, convert(varchar, A.UPDT_DT, 102)  AS UPDT_DTE /* 수정일시 datetime2 */
+		
+		from TB_CAB002D a
+		where 1=1
+		and a.BOARD_ID = #{boardId}
+				]]>
+	    <if test="postId !=null and postId !='' "> 
+		and a.POST_ID = #{postId}
+		</if>
+		<if test="registBeginDt !=null and registBeginDt !='' "> 
+        AND  FORMAT( A.REGIST_DT , 'yyyyMMdd' ) BETWEEN #{registBeginDt} AND #{registEndDt}
+		</if>
+		AND A.TITLE LIKE CONCAT('%', N'${title}', '%' )
+		ORDER BY A.POST_ID DESC		
+    </select>
 </mapper>

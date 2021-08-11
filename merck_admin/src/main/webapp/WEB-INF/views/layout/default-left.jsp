@@ -31,6 +31,12 @@
 							<li><a href="#" onClick="switchContent('/admin/env/help_regist');">도움말 관리</a></li>
 						</ul>
 					</li>
+					<li>
+						<a href="#">테스트페이지</a>
+						<ul class="lnb_menu_depth">
+							<li><a href="#" onClick="switchContent('/client/oauth/kakao');">카카오 싱크 테스트</a></li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</div>

@@ -1,6 +1,7 @@
 <%@page import="com.merck.catalog.common.SoftLabHumUtils"%>
 <%@page import="com.merck.catalog.admin.vo.TbCab002d"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%@page import="java.util.*"%>
@@ -77,7 +78,7 @@ request.setAttribute("BOARD_ID", BOARD_ID);
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    제목
+                                    제목<span id="titleLen"> (${fn:length(boardPost.title)}/100)</span>
                                 </th>
                                 <td colspan="3">
                                     <input type="text" class="required" title="제목" name="title" id="title" value="${boardPost.title}">
@@ -110,6 +111,7 @@ request.setAttribute("BOARD_ID", BOARD_ID);
                                             </li>
                                         </ul>
                                         <ul class="bullet mark mt5">
+                                            <li><b>이미지 클릭시 목록에서만 삭제 되며 <span class="color_red">등록저장 후 실제 삭제</span> 처리됩니다.</b></li>
                                             <li>(이미지는 JPG/PNG/GIF 형식의 파일로 3MB이하로 등록이 가능합니다.)</li>
                                         </ul>
                                     </div>
@@ -117,7 +119,7 @@ request.setAttribute("BOARD_ID", BOARD_ID);
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    내용
+                                    내용<span id="cnLen"> (${fn:length(boardPost.cn)}/2000)</span>
                                 </th>
                                 <td colspan="3">
                                     <textarea name="cn" calss="required"  id="cn" cols="30" rows="10">${boardPost.cn}</textarea>
@@ -176,14 +178,49 @@ request.setAttribute("BOARD_ID", BOARD_ID);
 	        $("#input_imgs").on("change", handleImgFileSelect);
 	        $("#div_load_image").hide();
 	        //$('#progress').hide();
+	        
+	        $('#title').on('keyup', function() {
+		        $('#titleLen').html("("+$(this).val().length+" / 100)");
+		 
+		        if($(this).val().length > 100) {
+		            $(this).val($(this).val().substring(0, 100));
+		            toastr["warning"]("제목 은(는) 100자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		    });
+	        $('#cn').on('keyup', function() {
+		        $('#cnLen').html("("+$(this).val().length+" / 2000)");
+		 
+		        if($(this).val().length > 2000) {
+		            $(this).val($(this).val().substring(0, 2000));
+		            toastr["warning"]("내용 은(는) 2000자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		    });
+	        $('#catlgUrl').on('keyup', function() {		        
+		 
+		        if($(this).val().length > 100) {
+		            $(this).val($(this).val().substring(0, 100));
+		            toastr["warning"]("카탈로그 경로 은(는) 100자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		        
+		        if (!(event.keyCode >=37 && event.keyCode<=40)) {
+	        		var inputVal=$(this).val(); 
+	        		$(this).val(inputVal.replace(/[^a-z0-9@_.\-=:/&?]/gi,'')); 
+	        	} 
+		    });
+	        
 	      });
 	    
 	    
 	    /*** 파일 처리 ************************************************/
 	    // 이미지 정보들을 담을 배열
 	    var fileIdx = <%=imgGrpList.size()%>;
-        var sel_files = [];
+	    var imgFileAttchCnt = 0;
+	    
         var sel_del_files = []; // 이미지파일 삭제 배열
+        var img_files_arr = {};
         
         var $drop = $("#dragDiv");
         $drop.on("dragenter", function(e) { //드래그 요소가 들어왔을떄
@@ -197,46 +234,53 @@ request.setAttribute("BOARD_ID", BOARD_ID);
         	e.preventDefault();
         	$(this).removeClass('drag-over');
         						
-	        	var files;
-	            var filesArr;
-	            	
-	        	files = e.target.files;
-	            filesArr = Array.prototype.slice.call(files);
-	            console.log("### filesArr(try) => "+filesArr);
-	
-	            var index = 0;
-	            filesArr.forEach(function(f) {
-	                if(!f.type.match("image.*")) {
-	                	toastr["warning"]("확장자는 이미지 확장자만 가능합니다.");
-	                    return false;
-	                }
-					
-	                var maxSize = 3 * 1024 * 1024; // 3MB
-	            	var fileSize = f.size;
-	            	if(fileSize > maxSize){
-	            		toastr["warning"]("첨부파일 사이즈는 3MB 이내로 등록 가능합니다.");
-	            		//f.val("");
-	            		return false;
-	            	}
-	                
-	                sel_files.push(f);
-	
-	                var reader = new FileReader();
-	                reader.onload = function(e) {
-	                	var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+fileIdx+",'')\" id=\"img_id_"+fileIdx+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
-	                    $(".imgs_wrap").append(html);
-	                    fileIdx++;
-	
-	                }
-	                reader.readAsDataURL(f);
+		        	var files;
+		            var filesArr;
+		            	
+		            	files = e.originalEvent.dataTransfer.files; //드래그&드랍 항목
+		            	filesArr = Array.prototype.slice.call(files);
+			            console.log("### filesArr(catch) => "+filesArr);
+		            
+		            filesArr.forEach(function(f) {
+		                if(!f.type.match("image.*")) {
+		                    toastr["warning"]("확장자는 이미지 확장자만 가능합니다.");
+		                    return;
+		                }
+						
+		                var maxSize = 3 * 1024 * 1024; // 3MB
+		            	var fileSize = f.size;
+		            	if(fileSize > maxSize){
+		            		toastr["warning"]("첨부파일 사이즈는 3MB 이내로 등록 가능합니다.");
+		            		//f.val("");
+		            		return false;
+		            	}
+		            	
+		                //sel_files.push(f);
+		
+		                var reader = new FileReader();
+		                reader.onload = function(e) {
+		                    var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+fileIdx+",'')\" id=\"img_id_"+fileIdx+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+		                    $(".imgs_wrap").append(html);
+		                    
+			                eval("img_files_arr.img_id_"+fileIdx+" = f;");
+			                console.log( "### img_files_arr.img_id_"+fileIdx+" = f =>>"+ f.name );
+			                fileIdx++;
+		                }
+		                reader.readAsDataURL(f);
+		            });
+		            
+		            //console.log( "### 1111 imgs_wrap DRAWING COMPLETE. =>>"+$(".imgs_wrap").html() );
 	                
 	            });
         	
-        	});
 
         function handleImgFileSelect(e) {
 			
-        	var files;
+        	// 이미지 정보들을 초기화
+            //sel_files = [];
+            //$(".imgs_wrap").empty();
+			
+            var files;
             var filesArr;
             	
         	files = e.target.files;
@@ -258,66 +302,83 @@ request.setAttribute("BOARD_ID", BOARD_ID);
             		return false;
             	}
                 
-                sel_files.push(f);
-
+                
                 var reader = new FileReader();
                 reader.onload = function(e) {
                 	var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+fileIdx+",'')\" id=\"img_id_"+fileIdx+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
                     $(".imgs_wrap").append(html);
-                    fileIdx++;
-
+                    
+	            	eval("img_files_arr.img_id_"+fileIdx+" = f;");
+	            	console.log( "### img_files_arr.img_id_"+fileIdx+" = f =>>"+ f.name );
+	                fileIdx++;
                 }
                 reader.readAsDataURL(f);
-                
             });
+            
+            //console.log( "### 2222 imgs_wrap DRAWING COMPLETE. =>>"+$(".imgs_wrap").html() );
+            console.log( "### img_files_arr.img_id_"+fileIdx+" DRAWING COMPLETE.." );
         }
 
 
         var delImgFileIdx = 0;
         function deleteImageAction(index,fileId) {
-            console.log("index : "+index);
-            console.log("sel_files : "+sel_files.length);
-
-            sel_files.splice(index, 1);
+            console.log("@@@ delete target index : "+index);
+			//var removeFile = sel_files.splice(index, 1);
             if(!isNull(fileId)) sel_del_files[delImgFileIdx++] = fileId;
-            
+
             var img_id = "#img_id_"+index;
-            //console.log("## before img remove .. =>>"+$(img_id).html())
             $(img_id).remove(); 
+            console.log("@@@ removed file");		            
+            console.log("@@@ after img html =>>> "+$("#dragDivImg").html());
+            //console.log("## before img remove .. =>>"+$(img_id).html())		
         }
 
         function submitImgFileAction(postId) {
         	//alert( newCatlgId );
-            console.log("IMG 업로드 파일 갯수 : "+sel_files.length);
-            console.log("IMG 파일 삭제 갯수 : "+sel_del_files.length);
-            //alert($('form')[0].id);alert($('form')[1].id);
-           var form = $('#IMG_FILE_FORM')[0];
+
+			var form = $('#IMG_FILE_FORM')[0];
            var formData = new FormData(form);
-            
-            if(sel_files.length > 10){
-        		alert("파일첨부는 최대 10개 까지 가능합니다.");
-        		//f.val("");
-        		return false;
-        	}
-            
-            var fArr = {};
-            for(var i=0, len=sel_files.length; i<len; i++) {
-                var name = "image_"+i;
-                
-                var f = sel_files[i];
-                var maxSize = (3 * 1024 * 1024) * 10 ; // 30 MB
-            	var fileSize = f.size;
-            	if(fileSize > maxSize){
-            		alert["warning"]("첨부파일 총 사이즈는 30 MB 이내로 등록 가능합니다.");
+           var imgFileAttchCnt = 0;
+           //alert("TEST.. "+img_files_arr.img_id_0);
+           console.log("@@@ img div html =>>> "+$("#dragDivImg").html());
+           
+           
+        	$("a[id^='img_id_']").each(function() {
+                imgFileAttchCnt += 1;
+        		
+        		var tagId = $(this).prop('id');
+        		var imgSrc = $(this).children('img').prop('src');
+        		
+        		if( imgSrc.indexOf("/resources") > -1 ) return true; // 이미저장 된 파일 pass
+        		
+				console.log("@@@ this.id =>>"+$(this).prop('id'));
+				var f;
+				eval("f = img_files_arr."+tagId+";");
+				//alert(" looppp... file =>"+f);
+				
+	            if(imgFileAttchCnt > 10){
+            		alert("파일첨부는 최대 10개 까지 가능합니다.");
             		return false;
             	}
-                console.log("## fileFormData append {} , {} => ",name,f.name);
-                //fArr  += '"'+name+'" : '"'+f+'"';		                
-                //eval('fArr.'+name+' = '+f);
+	            
+	            var maxSize = (3 * 1024 * 1024) * 10 ; // 30 MB
+            	var fileSize = f.size;
+            	if(fileSize > maxSize){
+            		alert("첨부파일 총 사이즈는 30 MB 이내로 등록 가능합니다.");
+            		return false;
+            	}
+                
+            	console.log("## fileFormData append {} , {} => ",name,f.name);		  
+                
                 formData.append("uploadFiles",f);
-            }		            
-            //fileFormData.uploadFiles = fArr;
-            //formData.append( "image_count" , sel_files.length);
+	            
+			  });
+        	
+            console.log("IMG 업로드 파일 갯수 : "+imgFileAttchCnt);
+            console.log("IMG 파일 삭제 갯수 : "+sel_del_files.length);
+            
+            if( imgFileAttchCnt == 0 && sel_del_files.length == 0 ) return true;
+        	
             formData.append( "taskSe" , "NOTC");
             formData.append( "taskSeCd" , "NTC");
             formData.append( "attchType" , "IMG");
@@ -344,7 +405,7 @@ request.setAttribute("BOARD_ID", BOARD_ID);
 			  	    	//data = JSON.stringify(data);
 			  	    	//console.log("### upload done! =>>"+rs);				alert( rs );	    	
 			  	    	//grid.setData(rs);							  	    	
-			  	    	toastr["success"]((sel_files.length+sel_del_files.length)+"건 업로드 되었습니다.","이미지 파일 업로드 완료.");
+	            	    toastr["success"]((imgFileAttchCnt+sel_del_files.length)+"건 업로드 되었습니다.","이미지 파일 업로드 완료.");
 			  	    	$("#div_load_image").hide();
 			  	    	return true;
 			  	    },
@@ -450,16 +511,9 @@ request.setAttribute("BOARD_ID", BOARD_ID);
 		  	    	//data = JSON.stringify(data);
 		  	    	console.log("### saveCatalog=>>"+rs);
 		  	    	
-		  	    	var isImgFileUp = false;
-		  	    	//alert("### sel_files length =>"+sel_files.length);
-		  	    	console.log("### FILE UPLOAD PROCESS START sel_files =>>"+sel_files.length);
-		  	    	console.log("### FILE UPLOAD PROCESS START sel_del_files =>>"+sel_del_files.length);
+		  	    	console.log("### FILE UPLOAD PROCESS START ");
 		  	    	
-		  	    	if(sel_files.length > 0 || sel_del_files.length > 0 ){
-		  	    		isImgFileUp = submitImgFileAction(rs);
-		  	    	}else{
-		  	    		isImgFileUp = true;
-		  	    	}
+		  	    	var isImgFileUp = submitImgFileAction(rs);
 		  	    	
 		  	    	console.log( "@@@ isImgFileUp complete... =>>"+isImgFileUp );
 		  	    								  	    	

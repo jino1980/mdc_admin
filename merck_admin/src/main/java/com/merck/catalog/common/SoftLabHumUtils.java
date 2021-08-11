@@ -94,7 +94,7 @@ public class SoftLabHumUtils {
 		}
 	}
 	public static boolean isNull(Object o){
-		if( null == o || ( o instanceof String && "".equals( nvl(o)) )) {
+		if( null == o || ( o instanceof String && ( "".equals( nvl(o) ) || "NULL".equals(((String) o).toUpperCase())) )) {
 			return true;
 		}else {
 			return false;

@@ -1,6 +1,7 @@
 	<%@page import="com.merck.catalog.common.SoftLabHumUtils"%>
 <%@page import="com.merck.catalog.admin.vo.TbCaa001m"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%@page import="java.util.*"%>
@@ -98,7 +99,7 @@
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    카탈로그 명
+                                    카탈로그 명<span id="catlgNmLen"> (${fn:length(catalog.catlgNm)}/100)</span>
                                 </th>
                                 <td colspan="3">
                                     <input type="text" class="required" title="제목" name="catlgNm" id="catlgNm" value="${catalog.catlgNm}">
@@ -132,6 +133,7 @@
                                             </li>
                                         </ul>
                                         <ul class="bullet mark mt5">
+                                        	<li><b>이미지 클릭시 목록에서만 삭제 되며 <span class="color_red">등록저장 후 실제 삭제</span> 처리됩니다.</b></li>
                                             <li><b>첫번째 이미지는 <span class="color_red">대표이미지로</span> 등록됩니다.</b> (이미지는 JPG/PNG/GIF 형식의 파일로 3MB이하로 등록이 가능합니다.)</li>
                                         </ul>
                                         <!-- Bootstrap Progress bar -->
@@ -149,7 +151,7 @@
                                 <td colspan="3">
                                     <ul class="inputbox">
                                         <li>
-                                            <input type="checkbox" id="checkbox01_1" name="catgrIdGrp" onchange="chkValidCate(this);" value="" <c:if test="${empty catalog.catgrIdGrp}">checked</c:if>><label
+                                            <input type="checkbox" id="checkbox01_1" name="catgrIdGrp" onchange="chkValidCate(this);" value="" ><label
                                                 for="checkbox01_1">전체</label>
                                         </li>
                                         
@@ -168,6 +170,8 @@
                                         			
                                         			
                                         			String checked = (catgrIdMathcedArr[l]?"checked":"");
+                                        			
+                                        			if(SoftLabHumUtils.isNull(catgrIdGrp)) checked = "checked";
                                            %>
                                            
                                            <li>
@@ -224,23 +228,23 @@
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    간략내용
+                                    간략내용<span id="simplCnLen"> (${fn:length(catalog.simplCn)}/1000)</span>
                                 </th>
                                 <td colspan="3">
-                                    <textarea name="simplCn" id="simplCn" cols="30" rows="10">${catalog.simplCn}</textarea>
+                                    <textarea name="simplCn" id="simplCn" class="required" title="간략내용" cols="30" rows="10">${catalog.simplCn}</textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    상세내용
+                                    상세내용<span id="detlCnLen"> (${fn:length(catalog.detlCn)}/2000)</span>
                                 </th>
                                 <td colspan="3">
-                                    <textarea name="detlCn" id="detlCn" cols="30" rows="10">${catalog.detlCn}</textarea>
+                                    <textarea name="detlCn" id="detlCn" class="required" title="상세내용"  cols="30" rows="10">${catalog.detlCn}</textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    버전정보
+                                    버전정보<span id="verInfoLen"> (${fn:length(catalog.verInfo)}/100)</span>
                                 </th>
                                 <td>
                                     <input type="text" name="verInfo" id="verInfo" value="${catalog.verInfo}">
@@ -300,7 +304,7 @@
 											
 											<c:forEach var="pdfs" items="${catalogGrpList}" varStatus="stat">
                                         		<li>                                        	
-												<div id="pdf_id_${stat.count}"><a href="javascript:void(0);" onclick="deletePdfFileAction('${stat.count}','${pdfs.catlgFileId}')"><img src="${RESOURCES_PATH}/resource/images/remove_ico.png" width=16 height=16 ></a>  <a href="./file/download/CAA/${catalog.catlgId}/${pdfs.catlgFileId}" target="_self"> ${pdfs.fileNm}</a></div>
+												<div id="pdf_id_${stat.count}"><a href="javascript:void(0);" onclick="deletePdfFileAction('${stat.count}','${pdfs.catlgFileId}')"><img src="${RESOURCES_PATH}/resource/images/remove_ico.png" width=16 height=16 ></a> <span id="load"><a href="./file/download/CAA/${catalog.catlgId}/${pdfs.catlgFileId}" target="_self"> ${pdfs.fileNm}</a></span></div>
 								            	</li>
 											</c:forEach>
 											
@@ -349,17 +353,61 @@
 			        
 			        $("#div_load_image").hide();
 			        $('#progress').hide();
+			        
+			        //입력제한
+			        $('#catlgNm').on('keyup', function() {
+				        $('#catlgNmLen').html("("+$(this).val().length+" / 100)");
+				 
+				        if($(this).val().length > 100) {
+				            $(this).val($(this).val().substring(0, 100));
+				            toastr["warning"]("카탈로그명 은(는) 100자 까지 입력 가능합니다.");
+				            //$('#catlgNmLen').html(" (100 / 100)");
+				        }
+				    });
+			        $('#simplCn').on('keyup', function() {
+				        $('#simplCnLen').html("("+$(this).val().length+" / 1000)");
+				 
+				        if($(this).val().length > 1000) {
+				            $(this).val($(this).val().substring(0, 1000));
+				            toastr["warning"]("간략내용 은(는) 1000자 까지 입력 가능합니다.");
+				            //$('#simplCnLen').html("(100 / 100)");
+				        }
+				    });
+			        $('#detlCn').on('keyup', function() {
+				        $('#detlCnLen').html("("+$(this).val().length+" / 2000)");
+				 
+				        if($(this).val().length > 2000) {
+				            $(this).val($(this).val().substring(0, 2000));
+				            toastr["warning"]("상세내용 은(는) 2000자 까지 입력 가능합니다.");
+				            //$('#test_cnt').html("(100 / 100)");
+				        }
+				    });
+			        $('#verInfo').on('keyup', function() {
+				        $('#verInfoLen').html("("+$(this).val().length+" / 100)");
+				 
+				        if($(this).val().length > 100) {
+				            $(this).val($(this).val().substring(0, 100));
+				            toastr["warning"]("버전정보 은(는) 100자 까지 입력 가능합니다.");
+				            //$('#test_cnt').html("(100 / 100)");
+				        }
+				    });
+			        
 			      });
 				
 		        /*** 파일 처리 ************************************************/
 			    // 이미지 정보들을 담을 배열
 			    var fileIdx = <%=imgGrpList.size()%>;
+			    var imgFileAttchCnt = 0;
 			    var pdfFileIdx = <%=catalogGrpList.size()%>;
-		        var sel_files = []; // 이미지파일 배열
-		        var pdf_files = []; //카달로그 파일 배열
+			    var pdfFileAttchCnt = 0;
+		        //var sel_files = []; // 이미지파일 배열
+		        //var pdf_files = []; //카달로그 파일 배열
 		        
 		        var sel_del_files = []; // 이미지파일 삭제 배열
 		        var pdf_del_files = []; //카달로그 파일 삭제 배열
+		        
+		        var img_files_arr = {};
+		        var pdf_files_arr = {};
 		        
 		        var $drop = $("#dragDivImg");
 		        $drop.on("dragenter", function(e) { //드래그 요소가 들어왔을떄
@@ -399,19 +447,22 @@
 			            		return false;
 			            	}
 			            	
-			                sel_files.push(f);
+			                //sel_files.push(f);
 			
 			                var reader = new FileReader();
 			                reader.onload = function(e) {
 			                    var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+fileIdx+",'')\" id=\"img_id_"+fileIdx+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
 			                    $(".imgs_wrap").append(html);
-			                    fileIdx++;
-			
+			                    
+				                eval("img_files_arr.img_id_"+fileIdx+" = f;");
+				                console.log( "### img_files_arr.img_id_"+fileIdx+" = f =>>"+ f.name );
+				                fileIdx++;
 			                }
 			                reader.readAsDataURL(f);
-			                
 			            });
-		        		
+			            
+			            console.log( "### 1111 imgs_wrap DRAWING COMPLETE. =>>"+$(".imgs_wrap").html() );
+			            //console.log( "### img_files_arr.img_id_"+fileIdx+" DRAWING COMPLETE.." );
 		        	});
 				
 		        // 이미지 파일 핸들러
@@ -443,18 +494,21 @@
 		            		return false;
 		            	}
 		                
-		                sel_files.push(f);
-		
+		                
 		                var reader = new FileReader();
 		                reader.onload = function(e) {
 		                	var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+fileIdx+",'')\" id=\"img_id_"+fileIdx+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
 		                    $(".imgs_wrap").append(html);
-		                    fileIdx++;
-		
+		                    
+			            	eval("img_files_arr.img_id_"+fileIdx+" = f;");
+			            	console.log( "### img_files_arr.img_id_"+fileIdx+" = f =>>"+ f.name );
+			                fileIdx++;
 		                }
 		                reader.readAsDataURL(f);
-		                
 		            });
+		            
+		            console.log( "### 2222 imgs_wrap DRAWING COMPLETE. =>>"+$(".imgs_wrap").html() );
+		            console.log( "### img_files_arr.img_id_"+fileIdx+" DRAWING COMPLETE.." );
 		        }
 		     	// 카달로그 파일 핸들러
 		        function handlePdfFileSelect(e) {
@@ -481,15 +535,18 @@
 		            		return false;
 		            	}
 		                
-		                pdf_files.push(f);
+		                //pdf_files.push(f);
 		
 		                var reader = new FileReader();
 		                reader.onload = function(e) {
 		                	var html = "<li>";
-		                	    html+= "<div id=\"pdf_id_"+pdfFileIdx+"\"><a href=\"javascript:void(0);\" onclick=\"deletePdfFileAction("+pdfFileIdx+",'')\"><img src='${RESOURCES_PATH}/resource/images/remove_ico.png' width=16 height=16 title='Click to remove'></a> "+f.name+"</div>";
+		                	    html+= "<div id=\"pdf_id_"+pdfFileIdx+"\"><a href=\"javascript:void(0);\" onclick=\"deletePdfFileAction("+pdfFileIdx+",'')\"><img src='${RESOURCES_PATH}/resource/images/remove_ico.png' width=16 height=16 title='Click to remove'></a><span id='new'> "+f.name+"</span></div>";
 		                	    html+= "</li>"
 		                	    ;
 		                    $(".pdf_wrap").append(html);
+		                    
+		                    eval("pdf_files_arr.pdf_id_"+pdfFileIdx+" = f;");
+			            	console.log( "pdf img_files_arr.pdf_id_"+pdfFileIdx+" = f =>>"+ f.name );
 		                    pdfFileIdx++;
 		
 		                }
@@ -501,68 +558,82 @@
 		     	var delImgFileIdx = 0;
 		        function deleteImageAction(index,fileId) {
 		            console.log("@@@ delete target index : "+index);
-		            console.log("@@@ before delete : sel length : "+sel_files.length);
-		            console.log("@@@ before file[] : "+JSON.stringify(sel_files));
-		            
-		            var removeFile = sel_files.splice(index, 1);
+					//var removeFile = sel_files.splice(index, 1);
 		            if(!isNull(fileId)) sel_del_files[delImgFileIdx++] = fileId;
-		            
-		            
+
 		            var img_id = "#img_id_"+index;
 		            $(img_id).remove(); 
-		            console.log("@@@ removed file. : "+removeFile);
-		            console.log("@@@ removed file.stringify : "+JSON.stringify(removeFile));
+		            console.log("@@@ removed file");		            
 		            console.log("@@@ after img html =>>> "+$("#dragDivImg").html());
-		            //console.log("## before img remove .. =>>"+$(img_id).html())
+		            //console.log("## before img remove .. =>>"+$(img_id).html())		
 		        }
 		        
 		        var delPdfFileIdx = 0;
 		        function deletePdfFileAction(index,fileId) {
 		            console.log("index : "+index);
-		            console.log("pdf length : "+pdf_files.length);
-		
-		            pdf_files.splice(index, 1);
+		            //pdf_files.splice(index, 1);
 		            if(!isNull(fileId)) pdf_del_files[delPdfFileIdx++] = fileId;
 		            
 		            var pdf_id = "#pdf_id_"+index;
 		            //console.log("## before img remove .. =>>"+$(img_id).html())
 		            $(pdf_id).remove(); 
+		            console.log("@@@ removed file");		            
+		            console.log("@@@ after pdf html =>>> "+$("#dragDivPdf").html());
 		        }
 		        
-		        		
+		        // 이미지 저장
 		        function submitImgFileAction(newCatlgId) {
 		        	//alert( newCatlgId );
-		            console.log("IMG 업로드 파일 갯수 : "+sel_files.length);
-		            console.log("IMG 파일 삭제 갯수 : "+sel_del_files.length);
 		            
 		            //alert($('form')[0].id);alert($('form')[1].id);
 		           var form = $('#IMG_FILE_FORM')[0];
 		           var formData = new FormData(form);
-		            
-		            if(sel_files.length > 10){
-	            		alert("파일첨부는 최대 10개 까지 가능합니다.");
-	            		//f.val("");
-	            		return false;
-	            	}
-		            
-		            var fArr = {};
-		            for(var i=0, len=sel_files.length; i<len; i++) {
-		                var name = "image_"+i;
-		                
-		                var f = sel_files[i];
-		                var maxSize = (3 * 1024 * 1024) * 10 ; // 30 MB
-		            	var fileSize = f.size;
-		            	if(fileSize > maxSize){
-		            		alert["warning"]("첨부파일 총 사이즈는 30 MB 이내로 등록 가능합니다.");
+		           var imgFileAttchCnt = 0;
+		           //alert("TEST.. "+img_files_arr.img_id_0);
+		           console.log("@@@ img div html =>>> "+$("#dragDivImg").html());
+		           
+		           
+		        	$("a[id^='img_id_']").each(function() {
+		                imgFileAttchCnt += 1;
+		        		
+		        		var tagId = $(this).prop('id');
+		        		var imgSrc = $(this).children('img').prop('src');
+		        		
+		        		if( imgSrc.indexOf("/resources") > -1 ) return true; // 이미저장 된 파일 pass
+		        		
+						console.log("@@@ this.id =>>"+$(this).prop('id'));
+						var f;
+						eval("f = img_files_arr."+tagId+";");
+						//alert(" looppp... file =>"+f);
+						
+			            if(imgFileAttchCnt > 10){
+		            		alert("파일첨부는 최대 10개 까지 가능합니다.");
 		            		return false;
 		            	}
-		                console.log("## fileFormData append {} , {} => ",name,f.name);
-		                //fArr  += '"'+name+'" : '"'+f+'"';		                
-		                //eval('fArr.'+name+' = '+f);
+			            
+			            var maxSize = (3 * 1024 * 1024) * 10 ; // 30 MB
+		            	var fileSize = f.size;
+		            	if(fileSize > maxSize){
+		            		alert("첨부파일 총 사이즈는 30 MB 이내로 등록 가능합니다.");
+		            		return false;
+		            	}
+		                
+		            	console.log("## fileFormData append {} , {} => ",name,f.name);		  
+		                
 		                formData.append("uploadFiles",f);
-		            }		            
-		            //fileFormData.uploadFiles = fArr;
-		            //formData.append( "image_count" , sel_files.length);
+			            
+					  });
+		        	
+		            console.log("IMG 업로드 파일 갯수 : "+imgFileAttchCnt);
+		            console.log("IMG 파일 삭제 갯수 : "+sel_del_files.length);
+		            
+		            //if( imgFileAttchCnt == 0 && sel_del_files.length == 0 ) return true;
+		            if( imgFileAttchCnt == 0 ){
+		            	toastr["warning"]("이미지는 는 1개 이상 필수 등록 해야 합니다.");
+			  	    	$("#div_load_image").hide();
+			  	    	return false;
+		            }
+		            
 		            formData.append( "taskSe" , "CATA");
 		            formData.append( "taskSeCd" , "CAA");
 		            formData.append( "attchType" , "IMG");
@@ -588,7 +659,7 @@
 					  	    	//data = JSON.stringify(data);
 					  	    	//console.log("### upload done! =>>"+rs);				alert( rs );	    	
 					  	    	//grid.setData(rs);							  	    	
-					  	    	toastr["success"]((sel_files.length+sel_del_files.length)+"건 업로드 되었습니다.","이미지 파일 업로드 완료.");
+					  	    	toastr["success"]((imgFileAttchCnt+sel_del_files.length)+"건 업로드 되었습니다.","이미지 파일 업로드 완료.");
 					  	    	$("#div_load_image").hide();
 					  	    	return true;
 					  	    },
@@ -607,34 +678,55 @@
 		        // 카달로그 저장
 		        function submitPdfFileAction(newCatlgId) {
 		        	//alert( newCatlgId );
-		            console.log("## PDF 업로드 파일 갯수 : "+pdf_files.length);
-		            console.log("## PDF 파일 삭제 갯수 : "+pdf_del_files.length);
-		            //alert($('form')[0].id);alert($('form')[1].id);
+		            
 		           var form = $('#PDF_FILE_FORM')[0];
 		           var formData = new FormData(form);
 		            
-		            if(pdf_files.length > 10){
-	            		alert("파일첨부는 최대 10개 까지 가능합니다.");
-	            		//f.val("");
-	            		return false;
-	            	}
-		            
-		            var fArr = {};
-		            for(var i=0, len=pdf_files.length; i<len; i++) {
-		                var name = "image_"+i;
-		                
-		                var f = pdf_files[i];
-		                var maxSize = (3 * 1024 * 1024) * 10 ; // 30 MB
-		            	var fileSize = f.size;
-		            	if(fileSize > maxSize){
-		            		alert("첨부파일 총 사이즈는 30 MB 이내로 등록 가능합니다.");
+		           var pdfFileAttchCnt = 0;
+		           //alert("TEST.. "+img_files_arr.img_id_0);
+		           console.log("@@@ pdf div html =>>> "+$("#dragDivPdf").html());
+		           
+		           
+		        	$("div[id^='pdf_id_']").each(function() {
+		        		pdfFileAttchCnt += 1;
+		        		
+		        		var tagId = $(this).prop('id');
+		        		var spanId = $(this).children('span').prop('id');
+		        		
+		        		if( spanId == "load" ) return true; // 이미저장 된 파일 pass
+		        		
+						console.log("@@@ this.id =>>"+$(this).prop('id'));
+						var f;
+						eval("f = pdf_files_arr."+tagId+";");
+						//alert(" looppp... file =>"+f);
+						
+			            if(pdfFileAttchCnt > 10){
+		            		alert("PDF 파일첨부는 최대 10개 까지 가능합니다.");
 		            		return false;
 		            	}
-		                console.log("## fileFormData append {} , {} => ",name,f.name);
-		                //fArr  += '"'+name+'" : '"'+f+'"';		                
-		                //eval('fArr.'+name+' = '+f);
+			            
+			            var maxSize = (3 * 1024 * 1024) * 10 ; // 30 MB
+		            	var fileSize = f.size;
+		            	if(fileSize > maxSize){
+		            		alert("PDF 첨부파일 총 사이즈는 30 MB 이내로 등록 가능합니다.");
+		            		return false;
+		            	}
+		                
+		            	console.log("## fileFormData append {} , {} => ",name,f.name);		  
+		                
 		                formData.append("uploadFiles",f);
-		            }		            
+			            
+					  });
+		        	
+		            console.log("PDF 업로드 파일 갯수 : "+pdfFileAttchCnt);
+		            console.log("PDF 파일 삭제 갯수 : "+pdf_del_files.length);
+		            
+		            //if( pdfFileAttchCnt == 0 && pdf_del_files.length == 0 ) return true;
+		            if( pdfFileAttchCnt == 0 ){
+		            	toastr["warning"]("PDF 는 1개 이상 필수 등록 해야 합니다.");
+			  	    	$("#div_load_image").hide();
+			  	    	return false;
+		            }
 		            
 		            formData.append( "taskSe" , "CATA");
 		            formData.append( "taskSeCd" , "CAA");
@@ -659,7 +751,7 @@
                           
 			              success: function(rs) {
 					  	    	
-			            	    toastr["success"]((pdf_files.length+pdf_del_files.length)+"건 업로드 되었습니다.","카달로그 PDF 파일 업로드 완료.");
+			            	    toastr["success"]((pdfFileAttchCnt+pdf_del_files.length)+"건 업로드 되었습니다.","카달로그 PDF 파일 업로드 완료.");
 					  	    	$("#div_load_image").hide();
 					  	    	
 					  	    	return true;
@@ -738,17 +830,25 @@
 				function chkValidCate(obj){
 					if( obj.id=="checkbox01_1" && obj.checked ){
 						//console.log("전체 체크");
-						$("input:checkbox[id='checkbox01_2']").prop("checked", false);
-						$("input:checkbox[id='checkbox01_3']").prop("checked", false);
-						$("input:checkbox[id='checkbox01_4']").prop("checked", false);
-						$("input:checkbox[id='checkbox01_5']").prop("checked", false);
-						$("input:checkbox[id='checkbox01_6']").prop("checked", false);
-					}else if( obj.id!="checkbox01_1" && obj.checked ){
+						$('input:checkbox[name="catgrIdGrp"]').each(function() {
+								$(this).prop("checked",true);
+							});
+						
+					}else if( obj.id != "checkbox01_1" && obj.checked ){
 						//console.log("카테고리 체크");
 						$("input:checkbox[id='checkbox01_1']").prop("checked", false);
 					}else{
 						//console.log("그외 체크");
-						$("input:checkbox[id='"+obj.id+"']").prop("checked", false).trigger('change');
+						if( obj.id=="checkbox01_1" ){
+							/*$('input:checkbox[name="catgrIdGrp"]').each(function() {
+								$(this).prop("checked",false);
+							});
+							*/
+							$("input:checkbox[id='checkbox01_1']").prop("checked", true);
+						}else{
+							$("input:checkbox[id='"+obj.id+"']").prop("checked", false);
+							$("input:checkbox[id='checkbox01_1']").prop("checked", false);
+						}
 					}
 				}
 		        
@@ -768,6 +868,72 @@
 					
 					// 필수체크
 					if( nullCheckAll() == false) return false;
+					
+					// 이미지 1개이상 체크
+					var imgFileAttchCnt = 0;
+					$("a[id^='img_id_']").each(function() {
+		                imgFileAttchCnt += 1;
+		        		
+		        		var tagId = $(this).prop('id');
+		        		var imgSrc = $(this).children('img').prop('src');
+		        		
+		        		if( imgSrc.indexOf("/resources") > -1 ) return true; // 이미저장 된 파일 pass
+		        		
+						var f;
+						eval("f = img_files_arr."+tagId+";");
+						//alert(" looppp... file =>"+f);
+						
+			            if(imgFileAttchCnt > 10){
+		            		alert("파일첨부는 최대 10개 까지 가능합니다.");
+		            		return false;
+		            	}
+			            
+			            var maxSize = (3 * 1024 * 1024) * 10 ; // 30 MB
+		            	var fileSize = f.size;
+		            	if(fileSize > maxSize){
+		            		alert("첨부파일 총 사이즈는 30 MB 이내로 등록 가능합니다.");
+		            		return false;
+		            	}
+					  });
+					if( imgFileAttchCnt == 0 ){
+		            	toastr["warning"]("이미지는 는 1개 이상 필수 등록 해야 합니다.");
+			  	    	$("#div_load_image").hide();
+			  	    	return false;
+		            }
+					
+					// PDF 1개이상 체크
+					var pdfFileAttchCnt = 0;
+					$("div[id^='pdf_id_']").each(function() {
+						pdfFileAttchCnt += 1;
+		        		
+		        		var tagId = $(this).prop('id');
+						var spanId = $(this).children('span').prop('id');
+		        		
+		        		if( spanId == "load" ) return true; // 이미저장 된 파일 pass
+		        		
+						console.log("@@@ this.id =>>"+$(this).prop('id'));
+						var f;
+						eval("f = pdf_files_arr."+tagId+";");
+						
+			            if(pdfFileAttchCnt > 10){
+		            		alert("PDF 파일첨부는 최대 10개 까지 가능합니다.");
+		            		return false;
+		            	}
+			            
+			            var maxSize = (3 * 1024 * 1024) * 10 ; // 30 MB
+		            	var fileSize = f.size;
+		            	if(fileSize > maxSize){
+		            		alert("PDF 첨부파일 총 사이즈는 30 MB 이내로 등록 가능합니다.");
+		            		return false;
+		            	}
+					  });
+		            if( pdfFileAttchCnt == 0 ){
+		            	toastr["warning"]("PDF 는 1개 이상 필수 등록 해야 합니다.");
+			  	    	$("#div_load_image").hide();
+			  	    	return false;
+		            }
+		            
+					
 					$("#div_load_image").show();
 					
 					if( idx==0 ){
@@ -816,24 +982,12 @@
 				  	    success: function(rs) {
 				  	    	console.log("### saveCatalog=>>"+rs);					    	
 				  	    	
-				  	    	var isImgFileUp = false;
-				  	    	var isPdfFileUp = false;
 				  	    	//alert("### sel_files length =>"+sel_files.length);
-				  	    	console.log("### FILE UPLOAD PROCESS START sel_files =>>"+sel_files.length);
-				  	    	console.log("### FILE UPLOAD PROCESS START sel_del_files =>>"+sel_del_files.length);
-				  	    	console.log("### FILE UPLOAD PROCESS START pdf_files =>>"+pdf_files.length);
-				  	    	console.log("### FILE UPLOAD PROCESS START pdf_del_files =>>"+pdf_del_files.length);
+				  	    	console.log("### FILE UPLOAD PROCESS START ");
 				  	    	
-				  	    	if(sel_files.length > 0 || sel_del_files.length > 0 ){
-				  	    		isImgFileUp = submitImgFileAction(rs);
-				  	    	}else{
-				  	    		isImgFileUp = true;
-				  	    	}
-				  	    	if(pdf_files.length > 0 || pdf_del_files.length > 0 ){
-				  	    		isPdfFileUp = submitPdfFileAction(rs);
-				  	    	}else{
-				  	    		isPdfFileUp = true;
-				  	    	}
+				  	    	var isImgFileUp = submitImgFileAction(rs);
+				  	    	
+				  	    	var isPdfFileUp = submitPdfFileAction(rs);
 				  	    	
 				  	    	console.log( "@@@ isImgFileUp complete... =>>"+isImgFileUp );
 				  	    	console.log( "@@@ isPdfFileUp complete... =>>"+isPdfFileUp );

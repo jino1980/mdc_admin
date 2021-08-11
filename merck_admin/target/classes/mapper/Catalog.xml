@@ -11,7 +11,10 @@
 
 	<select id="selectCatalogNewId" parameterType="HashMap" resultType="paramMap">
 		/* com.merck.catalog.admin.dao.Catalog.selectCatalogNewId */
-		SELECT CONCAT( 'CATLG' , REPLICATE('0', 5-LEN(CONVERT(int,  replace(MAX(A.CATLG_ID),'CATLG','') )+1)) , CONVERT(int,  replace(MAX(A.CATLG_ID),'CATLG','') )+1 ) AS NEW_ID  
+		SELECT CASE WHEN ISNULL(MAX(A.CATLG_ID),'') = ''
+		            THEN 'CATLG00001'
+		            ELSE CONCAT( 'CATLG' , REPLICATE('0', 5-LEN(CONVERT(int,  replace(MAX(A.CATLG_ID),'CATLG','') )+1)) , CONVERT(int,  replace(MAX(A.CATLG_ID),'CATLG','') )+1 ) 
+		        END AS NEW_ID  
 		FROM TB_CAA001M A
 	</select>
 
@@ -34,11 +37,14 @@
 					, A.LIKE_CNT /* 종아요수 numeric10 */
 					, A.IMG_FILE_GRP_ID /* 이미지파일그룹ID varchar8 */
 					, A.CATLG_FILE_GRP_ID /* 카달로그파일그룹ID varchar8 */
+					
+					, CONCAT('/client/catalog/viewCatalog/',A.CATLG_ID) AS CATALOG_URL
+					
 					, A.USE_YN /* 사용여부 varchar1 */
 					, A.REGIST_USR_ID /* 등록자ID varchar10 */
 					, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */
 					, A.UPDT_USR_ID /* 수정자ID varchar10 */
-					, A.UPDT_DT /* 수정일시 datetime2 */
+					, convert(varchar, A.UPDT_DT, 102) /* 수정일시 datetime2 */
 				FROM TB_CAA001M A 
 				WHERE 1=1
 				]]>

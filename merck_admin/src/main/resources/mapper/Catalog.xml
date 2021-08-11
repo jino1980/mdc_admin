@@ -37,6 +37,9 @@
 					, A.LIKE_CNT /* 종아요수 numeric10 */
 					, A.IMG_FILE_GRP_ID /* 이미지파일그룹ID varchar8 */
 					, A.CATLG_FILE_GRP_ID /* 카달로그파일그룹ID varchar8 */
+					
+					, CONCAT('/client/catalog/viewCatalog/',A.CATLG_ID) AS CATALOG_URL
+					
 					, A.USE_YN /* 사용여부 varchar1 */
 					, A.REGIST_USR_ID /* 등록자ID varchar10 */
 					, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */

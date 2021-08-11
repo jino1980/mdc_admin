@@ -56,6 +56,17 @@
 			
 			<script>
 				$(document).ready(function(){
+					
+					$('#title').on('keyup', function() {
+				        //$('#title').html("("+$(this).val().length+" / 100)");
+				 
+				        if($(this).val().length > 100) {
+				            $(this).val($(this).val().substring(0, 100));
+				            toastr["warning"]("검색내용 은 100자 까지 입력 가능합니다.");
+				            //$('#test_cnt').html("(100 / 100)");
+				        }
+				    });
+					
 					fnSelectListCall();
 				});
 		

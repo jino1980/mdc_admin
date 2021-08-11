@@ -192,7 +192,7 @@ if( null == paramList || paramList.size() == 0 ) {
 						            
 						          <td class="drag-handler"></td>
 						          <td class="recipe-table__cell" width="70%">
-						            <input type="text" id="cmmnCdNm" name="cmmnCdNm" title="카테고리명" class="recipe__text-field required" placeholder=":::카테고리명 입력:::" value="${cmmnCd.cmmnCdNm}">
+						            <input type="text" id="cmmnCdNm" name="cmmnCdNm" title="카테고리명" class="recipe__text-field required" placeholder=":::카테고리명 입력:::" value="${cmmnCd.cmmnCdNm}"  onKeyup="fnChkOnKeyUp(this);">
 						          </td>
 						          <td class="recipe-table__cell">
 						            <input type="text" id="cmmnCd" name="cmmnCd" class="recipe__text-field" readOnly value="${cmmnCd.cmmnCd}" placeholder="${cmmnCd.cmmnCd}">
@@ -241,7 +241,7 @@ if( null == paramList || paramList.size() == 0 ) {
 
         				<td class="drag-handler"></td>
         				<td class="recipe-table__cell">
-            				<input type="text" id="cmmnCdNm" name="cmmnCdNm" title="카테고리명" class="recipe__text-field required" placeholder=":::카테고리명 입력:::">
+            				<input type="text" id="cmmnCdNm" name="cmmnCdNm" title="카테고리명" class="recipe__text-field required" placeholder=":::카테고리명 입력:::" onKeyup="fnChkOnKeyUp(this);">
         				</td>
         				<td class="recipe-table__cell">
             				<input type="text" id="cmmnCd" name="cmmnCd" class="recipe__text-field" value="" readOnly placeholder="신규추가">
@@ -298,19 +298,31 @@ if( null == paramList || paramList.size() == 0 ) {
 	    	            }
 	    	        }
 	    	    );
-	    	  
 	    	});
 	    	  	
 	    	  	
 	    	  	
 		var cmmnCdId = "CATE01"; // 카테고리 공통코드
         var taskSe = "CATE";
-	    	  	
+
+		
      	// 추가
 		function fnAdd(){
 			var htmlString = $('#rowTemplate').html();
 			$('#recipeTableBody').append(htmlString);
 		}
+     	
+     	function fnChkOnKeyUp(obj){
+     		var val = obj.value;
+     		if(val.length > 20) {
+     			obj.value = val.substring(0, 20);
+  	            toastr["warning"]("카테고리명 은(는) 20자 까지 입력 가능합니다.");
+  	            //$('#test_cnt').html("(100 / 100)");
+  	            return false;
+  	        }
+     		return true;
+     	}
+     	
      	
      	// 삭제 유효성 체크
      	function fnDelValidate(trObj){

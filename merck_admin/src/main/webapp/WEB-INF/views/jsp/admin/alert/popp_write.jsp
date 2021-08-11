@@ -1,6 +1,7 @@
 <%@page import="com.merck.catalog.common.SoftLabHumUtils"%>
 <%@page import="com.merck.catalog.admin.vo.TbCab001m"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%@page import="java.util.*"%>
@@ -61,7 +62,7 @@ if( null == paramList || paramList.size() == 0 ) {
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    제목
+                                    제목<span id="titleLen"> (${fn:length(boardPost.title)}/50)</span>
                                 </th>
                                 <td>
                                     <input type="text" class="required" title="제목" name="title" id="title" value="${boardPost.title}">
@@ -91,7 +92,7 @@ if( null == paramList || paramList.size() == 0 ) {
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    내용
+                                    내용<span id="cnLen"> (${fn:length(boardPost.cn)}/1000)</span>
                                 </th>
                                 <td>
                                     <textarea name="cn" id="cn" title="내용" class="required" cols="30" rows="10">${boardPost.cn}</textarea>
@@ -163,6 +164,47 @@ if( null == paramList || paramList.size() == 0 ) {
     <!-- // 레이어 팝업 -->
 
     <script>
+    	
+	    $(document).ready( function() {
+	        
+	        $("#div_load_image").hide();
+	        //$('#progress').hide();
+	        
+	        $('#title').on('keyup', function() {
+		        $('#titleLen').html("("+$(this).val().length+" / 50)");
+		 
+		        if($(this).val().length > 50) {
+		            $(this).val($(this).val().substring(0, 50));
+		            toastr["warning"]("제목 은(는) 50자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		    });
+	        $('#cn').on('keyup', function() {
+		        $('#cnLen').html("("+$(this).val().length+" / 1000)");
+		 
+		        if($(this).val().length > 1000) {
+		            $(this).val($(this).val().substring(0, 1000));
+		            toastr["warning"]("내용 은(는) 1000자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		    });
+	        $('#catlgUrl').on('keyup', function() {		        
+		 
+		        if($(this).val().length > 100) {
+		            $(this).val($(this).val().substring(0, 100));
+		            toastr["warning"]("바로가기 은(는) 100자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		        
+		        if (!(event.keyCode >=37 && event.keyCode<=40)) {
+	        		var inputVal=$(this).val(); 
+	        		$(this).val(inputVal.replace(/[^a-z0-9@_.\-=:/&?]/gi,'')); 
+	        	} 
+		    });
+	        
+	      });
+    
+    	
         $(document).on("click", ".popup_open", function () {
         	var pTitle = $("#title").val();
         	var pCn = $("#cn").val();
@@ -180,6 +222,11 @@ if( null == paramList || paramList.size() == 0 ) {
             grid.refreshLayout();
         });
 
+        // div 팝업 후처리
+        function cfnLayoutPopUpCallBack(){
+        	return;
+        }
+        
         var today = new Date();
 		var datepicker1 = new tui.DatePicker('#wrapper1', {
 	        date: today,
@@ -254,8 +301,8 @@ if( null == paramList || paramList.size() == 0 ) {
 			  	    	console.log("### saveCatalog=>>"+rs);					    	
 			  	    	//grid.setData(rs);							  	    	
 			  	    	toastr["success"]("1건 저장 되었습니다.","저장완료.");
-			  	    	
-			  	    	if( nvl($("#postId").val(),'') == '' ) switchContent('/admin/board/viewBoardCommon/'+boardId+"/"+rs);
+			  	    	$("#div_load_image").hide();
+			  	    	switchContent('/admin/board/viewBoardCommon/'+boardId+"/"+rs);
 			  	    	
 			  	    },
 			  	    error: function (xhr, status, error) {

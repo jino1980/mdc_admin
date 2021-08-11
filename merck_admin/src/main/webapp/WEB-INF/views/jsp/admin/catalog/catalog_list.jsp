@@ -9,6 +9,10 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%@page import="java.util.*"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+List<Map<String,Object>> categoryCmmnCdList = (List<Map<String,Object>>)request.getAttribute("categoryCmmnCdList");
+
+%>
         <!-- header -->
 			<div class="header">
 
@@ -47,30 +51,6 @@
 								<td>
 									<ul class="inputbox" id="categoryUl">
 										
-										<li>
-											<input type="checkbox" id="checkbox01_1" name="checkbox01" onClick="chkValidCate(this);" value="ALL"><label
-												for="checkbox01_1">전체</label>
-										</li>
-										<li>
-											<input type="checkbox" id="checkbox01_2" name="checkbox01" onClick="chkValidCate(this);" value="생명과학"><label
-												for="checkbox01_2">생명과학</label>
-										</li>
-										<li>
-											<input type="checkbox" id="checkbox01_3" name="checkbox01" onClick="chkValidCate(this);" value="화학"><label
-												for="checkbox01_3">화학</label>
-										</li>
-										<li>
-											<input type="checkbox" id="checkbox01_4" name="checkbox01" onClick="chkValidCate(this);" value="재료과학"><label
-												for="checkbox01_4">재료과학</label>
-										</li>
-										<li>
-											<input type="checkbox" id="checkbox01_5" name="checkbox01" onClick="chkValidCate(this);" value="QA/QC"><label
-												for="checkbox01_5">QA/QC</label>
-										</li>
-										<li>
-											<input type="checkbox" id="checkbox01_6" name="checkbox01" onClick="chkValidCate(this);" value="기타"><label
-												for="checkbox01_6">기타</label>
-										</li>
 										
 									</ul>
 								</td>
@@ -161,9 +141,19 @@
 					
 					fnGetCategory();
 					
+					$('#detlCn').on('keyup', function() {
+				        //$('#detlCn').html("("+$(this).val().length+" / 100)");
+				 
+				        if($(this).val().length > 100) {
+				            $(this).val($(this).val().substring(0, 100));
+				            toastr["warning"]("검색내용 은(는) 100자 까지 입력 가능합니다.");
+				            //$('#test_cnt').html("(100 / 100)");
+				        }
+				    });
+					
 				});
 				
-				function fnGetCategory(){
+				function fnGetCategory(){ 
 					
 					var categoryUlObj = $('#categoryUl');
 					    categoryUlObj.html("");
@@ -173,7 +163,7 @@
 						      , "taskSe" : "CATE"
 						     };
 					var htmlTemp= '<li>'
-								+'<input type="checkbox" id="checkbox01_1" name="checkbox01" onClick="chkValidCate(this);" checked value="ALL">'
+								+'<input type="checkbox" id="checkbox01_1" name="catgrIdGrp" onClick="chkValidCate(this);" checked value="ALL">'
 								+'<label for="checkbox01_1">전체</label>'
 								+'</li>';
 						
@@ -191,7 +181,7 @@
 									console.log(idx + " " + val.cmmnCdNm);
 									//console.log("### rs.cmmmnCdNm=>>"+rs.cmmmnCdNm);
 					  	    		htmlTemp += '<li>'
-											+'<input type="checkbox" id="checkbox01_'+(idx+2)+'" name="checkbox01" onClick="chkValidCate(this);" value="'+val.cmmnCdNm+'">'
+											+'<input type="checkbox" id="checkbox01_'+(idx+2)+'" name="catgrIdGrp" onClick="chkValidCate(this);" checked value="'+val.cmmnCdNm+'">'
 											+'<label for="checkbox01_'+(idx+2)+'">'+val.cmmnCdNm+'</label>'
 											+'</li>';
 								});
@@ -266,12 +256,23 @@
 							title: '카테고리',
 							align: 'left',
 							name: 'catgrIdGrp',
-							width: 200
+							width: 350
 						},
 						{
 							title: '카탈로그명',
 							align: 'left',
 							name: 'catlgNm'
+						},
+						{
+							title: '사용자URL',
+							align: 'center',
+							name: 'type05',
+							width: 80,
+							formatter: function(value, rowData) {
+								var btnCy = 'gray';
+								value = '클릭복사'; 
+								return '<button type="button" id="'+rowData.catlgId+'" class="tb_btn '+ btnCy +'" onClick="fnCopyToClipboard(this);">' + value + '</button>';
+							}
 						},
 						{
 							title: '날짜',
@@ -337,23 +338,45 @@
 					visiblePages: 10
 				}); */
 				
+				// 클립보드 복사
+				function fnCopyToClipboard(obj) {
+					var val = "/client/catalog/viewCatalog/"+obj.id;
+					const t = document.createElement("textarea");
+					  document.body.appendChild(t);
+					  t.value = val;
+					  t.select();
+					  document.execCommand('copy');
+					  document.body.removeChild(t);
+					  
+					  toastr["info"]("["+val+"] 카달로그 사용자 주소가 복사되었습니다.");
+				}
+				
 				// 카테고리 체크
 				function chkValidCate(obj){
 					if( obj.id=="checkbox01_1" && obj.checked ){
 						//console.log("전체 체크");
-						$("input:checkbox[id='checkbox01_2']").prop("checked", false);
-						$("input:checkbox[id='checkbox01_3']").prop("checked", false);
-						$("input:checkbox[id='checkbox01_4']").prop("checked", false);
-						$("input:checkbox[id='checkbox01_5']").prop("checked", false);
-						$("input:checkbox[id='checkbox01_6']").prop("checked", false);
-					}else if( obj.id!="checkbox01_1" && obj.checked ){
+						$('input:checkbox[name="catgrIdGrp"]').each(function() {
+								$(this).prop("checked",true);
+							});
+						
+					}else if( obj.id != "checkbox01_1" && obj.checked ){
 						//console.log("카테고리 체크");
 						$("input:checkbox[id='checkbox01_1']").prop("checked", false);
 					}else{
 						//console.log("그외 체크");
-						$("input:checkbox[id='"+obj.id+"']").prop("checked", false).trigger('change');
+						if( obj.id=="checkbox01_1" ){
+							/*$('input:checkbox[name="catgrIdGrp"]').each(function() {
+								$(this).prop("checked",false);
+							});
+							*/
+							$("input:checkbox[id='checkbox01_1']").prop("checked", true);
+						}else{
+							$("input:checkbox[id='"+obj.id+"']").prop("checked", false);
+							$("input:checkbox[id='checkbox01_1']").prop("checked", false);
+						}
 					}
 				}
+				
 				
 				// 정렬기준
 				$("input:radio[id='radio01_1']").prop("checked", true);				

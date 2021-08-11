@@ -135,6 +135,77 @@
     <script>
 	    $(document).ready(function(){
 			fnSelectListCall();
+			
+			$('#searchMangUsrNm').on('keyup', function() {
+		        //$('#title').html("("+$(this).val().length+" / 100)");
+		 
+		        if($(this).val().length > 100) {
+		            $(this).val($(this).val().substring(0, 100));
+		            toastr["warning"]("검색내용 은 100자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		    });
+			
+			$('#mangDeptNm').on('keyup', function() {
+		        //$('#title').html("("+$(this).val().length+" / 100)");
+		 
+		        if($(this).val().length > 30) {
+		            $(this).val($(this).val().substring(0, 30));
+		            toastr["warning"]("부서명 은(는) 30자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		    });
+			$('#mangUsrNm').on('keyup', function() {
+		        //$('#title').html("("+$(this).val().length+" / 100)");
+		 
+		        if($(this).val().length > 30) {
+		            $(this).val($(this).val().substring(0, 30));
+		            toastr["warning"]("이름 은(는) 30자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		    });
+			$('#emailAddr').on('keyup', function() {
+		        //$('#title').html("("+$(this).val().length+" / 100)");
+		 		
+		        if (!(event.keyCode >=37 && event.keyCode<=40)) {
+	        		var inputVal=$(this).val(); 
+	        		$(this).val(inputVal.replace(/[^a-z0-9@_.\-]/gi,'')); 
+	        	} 
+		        
+		        if($(this).val().length > 30) {
+		            $(this).val($(this).val().substring(0, 30));
+		            toastr["warning"]("이메일 은(는) 30자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }		        
+		    });
+			$('#compTelNo').on('keyup', function() {
+		        //$('#title').html("("+$(this).val().length+" / 100)");
+		 		
+		        if (!(event.keyCode >=37 && event.keyCode<=40)) {
+	        		var inputVal=$(this).val(); 
+	        		$(this).val(inputVal.replace(/[^0-9\-]/gi,'')); 
+	        	}
+		        
+		        if($(this).val().length > 30) {
+		            $(this).val($(this).val().substring(0, 30));
+		            toastr["warning"]("회사전화 은(는) 20자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		    });
+			$('#phoneNo').on('keyup', function() {
+		        //$('#title').html("("+$(this).val().length+" / 100)");
+		 		if (!(event.keyCode >=37 && event.keyCode<=40)) {
+	        		var inputVal=$(this).val(); 
+	        		$(this).val(inputVal.replace(/[^0-9\-]/gi,'')); 
+	        	}
+		        if($(this).val().length > 30) {
+		            $(this).val($(this).val().substring(0, 30));
+		            toastr["warning"]("핸드폰 은(는) 20자 까지 입력 가능합니다.");
+		            //$('#test_cnt').html("(100 / 100)");
+		        }
+		    });
+			
+			
 		});
     
         // 목록

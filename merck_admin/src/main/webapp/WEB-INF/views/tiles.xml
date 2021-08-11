@@ -26,6 +26,9 @@
 	<definition name="/admin/*/*" extends="bodyLayout">
 		<put-attribute name="content" value="/WEB-INF/views/jsp/admin/{1}/{2}.jsp" />
 	</definition>
+	<definition name="/client/*/*" extends="bodyLayout">
+		<put-attribute name="content" value="/WEB-INF/views/jsp/client/{1}/{2}.jsp" />
+	</definition>
 	
 </tiles-definitions>
 

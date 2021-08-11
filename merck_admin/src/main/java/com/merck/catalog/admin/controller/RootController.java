@@ -17,5 +17,4 @@ public class RootController {
 	    logger.info("Start root.");
 		return "/rootpage";
 	}
-		
 }

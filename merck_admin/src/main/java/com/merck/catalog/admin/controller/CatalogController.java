@@ -112,9 +112,22 @@ public class CatalogController {
 	}
 	
 	@RequestMapping(value = "catalog_list", method = {RequestMethod.GET, RequestMethod.POST})
-	public String listPage() {
+	public ModelAndView listPage() {
 		logger.info("catalog_list page");
-		return "/admin/catalog/catalog_list";
+		
+		HashMap paramMap = new HashMap();
+	    paramMap.put("cmmnCdId", "CATE01");
+	    
+		// 카테고리 목록
+	    List<Map<String, Object>> categoryCmmnCdList = cmmnCdSerivce.selectCmmnCdList(paramMap);
+	    
+	    ModelAndView mav = new ModelAndView();
+	    mav.setViewName("/admin/catalog/catalog_list");
+	    //String rtnStr = "";
+	    //if(list.size() > 0) rtnStr = SoftLabHumUtils.converMapToJson(list.get(0));
+		mav.addObject("categoryCmmnCdList", categoryCmmnCdList);
+		
+		return mav;
 	}
 	
 	@RequestMapping(value = "catalog_write", method = {RequestMethod.GET, RequestMethod.POST})
