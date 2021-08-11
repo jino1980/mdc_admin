@@ -69,15 +69,15 @@
 		, A.UPDT_USR_ID /* 수정자ID varchar10 */
 		, convert(varchar, A.UPDT_DT, 102)  AS UPDT_DT /* 수정일시 datetime2 */
 		
-		from TB_CAB002D a
-		   , TB_CAC001D b
+		from TB_CAB002D A
+		   , TB_CAC001D B
 		where 1=1
-		and a.BOARD_ID = #{boardId}	
-		and a.BOARD_ID = b.BOARD_ID
-		and a.POST_ID = b.POST_ID
+		and A.BOARD_ID = #{boardId}	
+		and A.BOARD_ID = B.BOARD_ID
+		and A.POST_ID = B.POST_ID
 				]]>
 		<if test="pushRegNo !=null and pushRegNo !='' "> 
-		and b.PUSH_REG_NO = #{pushRegNo}
+		and B.PUSH_REG_NO = #{pushRegNo}
 		</if>
 		<if test="registBeginDt !=null and registBeginDt !='' "> 
         AND  FORMAT( A.REGIST_DT , 'yyyyMMdd' ) BETWEEN #{registBeginDt} AND #{registEndDt}

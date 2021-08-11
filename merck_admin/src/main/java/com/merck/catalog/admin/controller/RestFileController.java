@@ -78,11 +78,12 @@ public class RestFileController {
 		map.put("registUsrId", "SOFTLAB");
 		map.put("updtUsrId", "SOFTLAB");
 		
+		// 파일 delete
+		deleteUploadFiles(map);
+		
 		// 파일 insert / update
 		saveUploadedFiles(multipartFile, map);
 		
-		// 파일 delete
-		deleteUploadFiles(map);
 		
 		// 파입업로드 후처리 업무에 맞게 그룹아이디를 업무 테이블에 update 
 		String taskSe = (String)map.get("taskSe");

@@ -266,9 +266,11 @@ if( null == paramList || paramList.size() == 0 ) {
     <script>
     
 	    $(document).ready(function () {
-	    	  var $tableBody = $('#recipeTableBody');
+		      $("#div_load_image").hide();  
+		      
+		      var $tableBody = $('#recipeTableBody');
 	    	  var $menu = $('#menu');
-	    	    
+	    	  
 	    	  	$(document).on('click', 'button[name="btnAdd"]', function (e) { 
 	    	  	//$(document).on('click', '.recipe-table__add-row-btn', function (e) {
 	    	        var $el = $(e.currentTarget);

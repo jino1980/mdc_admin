@@ -173,7 +173,7 @@
 		<if test="imgFileId !=null and imgFileId !='' "> 
 		and A.IMG_FILE_ID = #{imgFileId}
 		</if>
-		ORDER BY A.SORT_SN
+		ORDER BY CASE WHEN A.IMG_FILE_GRP_ID LIKE 'HLP%' THEN A.IMG_FILE_ID ELSE CONVERT( VARCHAR , A.SORT_SN ) END , A.SORT_SN
 	</select>
 	
 	<select id="selectCatalogGrpList" parameterType="HashMap" resultType="paramMap">
@@ -210,49 +210,49 @@
     <select id="selectTaskBoardList" parameterType="HashMap" resultType="paramMap">
     <![CDATA[
     	/* com.merck.catalog.admin.dao.BoardCommon.selectTaskBoardList */
-		select 
-		  A.BOARD_ID /* 게시판ID varchar12 */
-		, A.POST_ID /* 게시글ID varchar10 */
+		SELECT 
+		  A.BOARD_ID /* 게시판ID VARCHAR12 */
+		, A.POST_ID /* 게시글ID VARCHAR10 */
 		, A.TITLE
-		, CASE WHEN LEN(A.TITLE) > 50 THEN CONCAT(LEFT(A.TITLE,50),'...') ELSE A.TITLE END AS TITLE_SIMPLE /* 제목 nvarchar1000 */
-		, A.CN /* 내용 nvarchar3000 */
-		, A.PASSWD /* 비밀번호 varchar5 */
-		, A.TASK_SE_CD /* 업무구분코드 varchar5 */
-		, A.CATGR_ID_GRP /* 카테고리ID그룹 nvarchar100 */
-		, A.CATLG_ID /* 카달로그ID varchar10 */
-		, A.IMG_FILE_GRP_ID /* 이미지파일그룹ID varchar8 */
-		, A.ATTCH_FILE_GRP_ID /* 첨부파일그룹ID varchar8 */
-		, A.HIDDN_YN /* 공개여부 varchar1 */
-		, A.REPLY_YN /* 댓글여부 varchar1 */
-		, A.DEL_YN /* 삭제여부 varchar1 */
-		, A.USE_YN /* 사용여부 varchar1 */
-		, A.REGIST_USR_ID /* 등록자ID varchar10 */
+		, CASE WHEN LEN(A.TITLE) > 50 THEN CONCAT(LEFT(A.TITLE,50),'...') ELSE A.TITLE END AS TITLE_SIMPLE /* 제목 NVARCHAR1000 */
+		, A.CN /* 내용 NVARCHAR3000 */
+		, A.PASSWD /* 비밀번호 VARCHAR5 */
+		, A.TASK_SE_CD /* 업무구분코드 VARCHAR5 */
+		, A.CATGR_ID_GRP /* 카테고리ID그룹 NVARCHAR100 */
+		, A.CATLG_ID /* 카달로그ID VARCHAR10 */
+		, A.IMG_FILE_GRP_ID /* 이미지파일그룹ID VARCHAR8 */
+		, A.ATTCH_FILE_GRP_ID /* 첨부파일그룹ID VARCHAR8 */
+		, A.HIDDN_YN /* 공개여부 VARCHAR1 */
+		, A.REPLY_YN /* 댓글여부 VARCHAR1 */
+		, A.DEL_YN /* 삭제여부 VARCHAR1 */
+		, A.USE_YN /* 사용여부 VARCHAR1 */
+		, A.REGIST_USR_ID /* 등록자ID VARCHAR10 */
 		
-		, b.PUSH_REG_NO
-		, b.CATLG_URL /* 카탈로그경로 nvarchar100 */
-		, b.PUSH_BEGIN_DT /* 발행시작일자 varchar12 */	
-		, b.PUSH_END_DT /* 발행종료일자 varchar12 */
+		, B.PUSH_REG_NO
+		, B.CATLG_URL /* 카탈로그경로 NVARCHAR100 */
+		, B.PUSH_BEGIN_DT /* 발행시작일자 VARCHAR12 */	
+		, B.PUSH_END_DT /* 발행종료일자 VARCHAR12 */
 		
-		, LEFT(b.PUSH_BEGIN_DT,4) + '-' +SUBSTRING(b.PUSH_BEGIN_DT,5,2) + '-' +SUBSTRING(b.PUSH_BEGIN_DT,7,2) + ' ' + SUBSTRING(b.PUSH_BEGIN_DT,9,2) + ':' + RIGHT(b.PUSH_BEGIN_DT,2) AS PUSH_BEGIN_DATE
-		, LEFT(b.PUSH_END_DT,4) + '-' +SUBSTRING(b.PUSH_END_DT,5,2) + '-' +SUBSTRING(b.PUSH_END_DT,7,2) + ' ' + SUBSTRING(b.PUSH_END_DT,9,2) + ':' + RIGHT(b.PUSH_END_DT,2) AS PUSH_END_DATE	
+		, LEFT(B.PUSH_BEGIN_DT,4) + '-' +SUBSTRING(B.PUSH_BEGIN_DT,5,2) + '-' +SUBSTRING(B.PUSH_BEGIN_DT,7,2) + ' ' + SUBSTRING(B.PUSH_BEGIN_DT,9,2) + ':' + RIGHT(B.PUSH_BEGIN_DT,2) AS PUSH_BEGIN_DATE
+		, LEFT(B.PUSH_END_DT,4) + '-' +SUBSTRING(B.PUSH_END_DT,5,2) + '-' +SUBSTRING(B.PUSH_END_DT,7,2) + ' ' + SUBSTRING(B.PUSH_END_DT,9,2) + ':' + RIGHT(B.PUSH_END_DT,2) AS PUSH_END_DATE	
 		
 		, A.REGIST_USR_ID
-		, convert(varchar, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 datetime2 */
-		, A.UPDT_USR_ID /* 수정자ID varchar10 */
-		, convert(varchar, A.UPDT_DT, 102)  AS UPDT_DTE /* 수정일시 datetime2 */
+		, CONVERT(VARCHAR, A.REGIST_DT, 102)  AS REG_DTE /* 등록일시 DATETIME2 */
+		, A.UPDT_USR_ID /* 수정자ID VARCHAR10 */
+		, CONVERT(VARCHAR, A.UPDT_DT, 102)  AS UPDT_DTE /* 수정일시 DATETIME2 */
 		
-		from TB_CAB002D a
-		   , TB_CAC001D b
-		where 1=1
-		and a.BOARD_ID = b.BOARD_ID 
-		and a.POST_ID = b.POST_ID
-		and a.BOARD_ID = #{boardId}
+		FROM TB_CAB002D A
+		   , TB_CAC001D B
+		WHERE 1=1
+		AND A.BOARD_ID = B.BOARD_ID 
+		AND A.POST_ID = B.POST_ID
+		AND A.BOARD_ID = #{boardId}
 				]]>
 	    <if test="postId !=null and postId !='' "> 
-		and b.POST_ID = #{postId}
+		and B.POST_ID = #{postId}
 		</if>
 		<if test="pushRegNo !=null and pushRegNo !='' "> 
-		and b.PUSH_REG_NO = #{pushRegNo}
+		and B.PUSH_REG_NO = #{pushRegNo}
 		</if>
 		<if test="registBeginDt !=null and registBeginDt !='' "> 
         AND  FORMAT( A.REGIST_DT , 'yyyyMMdd' ) BETWEEN #{registBeginDt} AND #{registEndDt}
@@ -298,18 +298,18 @@
 		, A.UPDT_USR_ID /* 수정자ID varchar10 */
 		, convert(varchar, A.UPDT_DT, 102)  AS UPDT_DTE /* 수정일시 datetime2 */
 		
-		from TB_CAB002D a
-		   , TB_CAB004D b
+		from TB_CAB002D A
+		   , TB_CAB004D B
 		where 1=1
-		and a.BOARD_ID = b.BOARD_ID 
-		and a.POST_ID = b.POST_ID
-		and a.BOARD_ID = #{boardId}
+		and A.BOARD_ID = B.BOARD_ID 
+		and A.POST_ID = B.POST_ID
+		and A.BOARD_ID = #{boardId}
 				]]>
 	    <if test="postId !=null and postId !='' "> 
-		and b.POST_ID = #{postId}
+		and B.POST_ID = #{postId}
 		</if>
 		<if test="mangRegNo !=null and mangRegNo !='' "> 
-		and b.MANG_REG_NO = #{mangRegNo}
+		and B.MANG_REG_NO = #{mangRegNo}
 		</if>
 		<if test="registBeginDt !=null and registBeginDt !='' "> 
         AND  FORMAT( A.REGIST_DT , 'yyyyMMdd' ) BETWEEN #{registBeginDt} AND #{registEndDt}
@@ -344,12 +344,12 @@
 		, A.UPDT_USR_ID /* 수정자ID varchar10 */
 		, convert(varchar, A.UPDT_DT, 102)  AS UPDT_DTE /* 수정일시 datetime2 */
 		
-		from TB_CAB002D a
+		from TB_CAB002D A
 		where 1=1
-		and a.BOARD_ID = #{boardId}
+		and A.BOARD_ID = #{boardId}
 				]]>
 	    <if test="postId !=null and postId !='' "> 
-		and a.POST_ID = #{postId}
+		and A.POST_ID = #{postId}
 		</if>
 		<if test="registBeginDt !=null and registBeginDt !='' "> 
         AND  FORMAT( A.REGIST_DT , 'yyyyMMdd' ) BETWEEN #{registBeginDt} AND #{registEndDt}

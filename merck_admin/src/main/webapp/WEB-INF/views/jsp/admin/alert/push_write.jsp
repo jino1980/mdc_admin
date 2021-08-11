@@ -249,11 +249,11 @@ request.setAttribute("categoryCmmnCdList", (SoftLabHumUtils.isNull(categoryCmmnC
 			}else{
 				//console.log("그외 체크");
 				if( obj.id=="checkbox01_1" ){
-					/*$('input:checkbox[name="catgrIdGrp"]').each(function() {
+					$('input:checkbox[name="catgrIdGrp"]').each(function() {
 						$(this).prop("checked",false);
 					});
-					*/
-					$("input:checkbox[id='checkbox01_1']").prop("checked", true);
+					
+					//$("input:checkbox[id='checkbox01_1']").prop("checked", true);
 				}else{
 					$("input:checkbox[id='"+obj.id+"']").prop("checked", false);
 					$("input:checkbox[id='checkbox01_1']").prop("checked", false);
@@ -307,6 +307,12 @@ request.setAttribute("categoryCmmnCdList", (SoftLabHumUtils.isNull(categoryCmmnC
 			      }
 
 			 }); 
+			if( isNull(catgrIdGrp)){
+				toastr["warning"]("카테고리를 하나 이상 선택하세요.");
+				$("input:checkbox[id='radio01_1']").focus();
+				return false;
+			}
+			
 			formData.catgrIdGrp = catgrIdGrp;
   			
   			if( isNull(pushBeginDt) == false ){

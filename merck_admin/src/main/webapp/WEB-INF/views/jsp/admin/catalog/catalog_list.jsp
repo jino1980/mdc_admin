@@ -365,11 +365,11 @@ List<Map<String,Object>> categoryCmmnCdList = (List<Map<String,Object>>)request.
 					}else{
 						//console.log("그외 체크");
 						if( obj.id=="checkbox01_1" ){
-							/*$('input:checkbox[name="catgrIdGrp"]').each(function() {
+							$('input:checkbox[name="catgrIdGrp"]').each(function() {
 								$(this).prop("checked",false);
 							});
-							*/
-							$("input:checkbox[id='checkbox01_1']").prop("checked", true);
+							
+							//$("input:checkbox[id='checkbox01_1']").prop("checked", true);
 						}else{
 							$("input:checkbox[id='"+obj.id+"']").prop("checked", false);
 							$("input:checkbox[id='checkbox01_1']").prop("checked", false);
@@ -396,7 +396,7 @@ List<Map<String,Object>> categoryCmmnCdList = (List<Map<String,Object>>)request.
 					var beginDte =nvl($("#datepicker-input1").val(),'');
 					var endDte =nvl($("#datepicker-input2").val(),'');
 					var catgrIdGrp = "";
-					$('input:checkbox[name="checkbox01"]').each(function() {
+					$('input:checkbox[name="catgrIdGrp"]').each(function() {
 
 					      //this.checked = true; //checked 처리
 
@@ -405,6 +405,12 @@ List<Map<String,Object>> categoryCmmnCdList = (List<Map<String,Object>>)request.
 					      }
 
 					 }); 
+					if( isNull(catgrIdGrp)){
+						toastr["warning"]("카테고리를 하나 이상 선택하세요.");
+						$("input:checkbox[id='radio01_1']").focus();
+						return false;
+					}
+						
 					var sortId = "";
 					$('input:radio[name="radio01"]').each(function() {
 					      if(this.checked ){//checked 처리된 항목의 값
@@ -412,7 +418,8 @@ List<Map<String,Object>> categoryCmmnCdList = (List<Map<String,Object>>)request.
 					      }
 
 					 }); 
-										
+								
+						
 					  console.log("beginDte=>>"+beginDte);					  
 					  console.log("endDte=>>"+endDte);
 					  console.log("catgrIdGrp=>>"+catgrIdGrp);

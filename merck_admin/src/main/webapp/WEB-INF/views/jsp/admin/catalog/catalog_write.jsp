@@ -840,11 +840,11 @@
 					}else{
 						//console.log("그외 체크");
 						if( obj.id=="checkbox01_1" ){
-							/*$('input:checkbox[name="catgrIdGrp"]').each(function() {
+							$('input:checkbox[name="catgrIdGrp"]').each(function() {
 								$(this).prop("checked",false);
 							});
-							*/
-							$("input:checkbox[id='checkbox01_1']").prop("checked", true);
+							
+							//$("input:checkbox[id='checkbox01_1']").prop("checked", true);
 						}else{
 							$("input:checkbox[id='"+obj.id+"']").prop("checked", false);
 							$("input:checkbox[id='checkbox01_1']").prop("checked", false);
@@ -867,6 +867,21 @@
 					console.log("## formJson=>>"+JSON.stringify(formData));
 					
 					// 필수체크
+					var catgrIdGrp = "";
+					$('input:checkbox[name="catgrIdGrp"]').each(function() {
+
+					      //this.checked = true; //checked 처리
+
+					      if(this.checked && this.value != "ALL"){//checked 처리된 항목의 값
+					            catgrIdGrp+=","+this.value;
+					      }
+
+					 }); 
+					if( isNull(catgrIdGrp)){
+						toastr["warning"]("카테고리를 하나 이상 선택하세요.");
+						$("input:checkbox[id='radio01_1']").focus();
+						return false;
+					}
 					if( nullCheckAll() == false) return false;
 					
 					// 이미지 1개이상 체크
@@ -969,6 +984,12 @@
 					      }
 
 					 }); 
+					if( isNull(catgrIdGrp)){
+						toastr["warning"]("카테고리를 하나 이상 선택하세요.");
+						$("input:checkbox[id='radio01_1']").focus();
+						return false;
+					}
+					
 					formData.catgrIdGrp = catgrIdGrp;
 					
 					console.log( JSON.stringify(formData) );
@@ -994,9 +1015,9 @@
 				  	    								  	    	
 				  	    	if(isImgFileUp && isPdfFileUp){
 					  	    	toastr["success"]("카달로그 내용이 저장 되었습니다.","카달로그 저장완료.");
+					  	    	$("#div_load_image").hide();
 				  	    		switchContent('/admin/catalog/viewCatalog/'+rs);
 				  	    	}
-				  	    	$("#div_load_image").hide();
 											  	    	
 				  	    },
 				  	    error: function (xhr, status, error) {
